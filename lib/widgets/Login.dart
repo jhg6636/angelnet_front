@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:backoffice_front/screens/LoginScreen.dart';
+import 'package:backoffice_front/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
-class LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController();
+class HomeScreenState extends State<HomeScreen> {
+  final _stringIdController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
@@ -20,15 +19,15 @@ class LoginScreenState extends State<LoginScreen> {
             Column(
               children: const <Widget>[
                 SizedBox(height: 16.0),
-                Text('BACKOFFICE'),
+                Text('RE:BACKOFFICE'),
               ],
             ),
             const SizedBox(height: 120.0),
             TextField(
-              controller: _usernameController,
+              controller: _stringIdController,
               decoration: const InputDecoration(
                 filled: true,
-                labelText: 'Username',
+                labelText: '아이디',
               ),
             ),
             const SizedBox(height: 12.0),
@@ -36,23 +35,24 @@ class LoginScreenState extends State<LoginScreen> {
               controller: _passwordController,
               decoration: const InputDecoration(
                 filled: true,
-                labelText: 'Password',
+                labelText: '비밀번호',
               ),
               obscureText: true,
             ),
             ButtonBar(
               children: <Widget>[
                 FilledButton(
-                  child: const Text('CANCEL'),
+                  child: const Text('로그인'),
                   onPressed: () {
-                    _usernameController.clear();
+                    _stringIdController.clear();
                     _passwordController.clear();
+                    // backend 로그인 로직
                   },
                 ),
                 TextButton(
-                  child: const Text('NEXT'),
+                  child: const Text('회원가입'),
                   onPressed: () {
-                    Navigator.pop(context);
+                    // 회원가입 화면
                   },
                 ),
               ],
@@ -63,13 +63,10 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<http.Response> loginApi(String username, String password) async {
-    final Map request = {"username": username, "password": password};
-    var body = json.encode(request);
-
-    return await http.Client.post(
-        "localhost:8080", headers: {'Content-type': 'application/json'},
-        body: body,
-        encoding: Encoding.getByName("UTF-8"))
-  }
+  // Future<http.Response> loginApi(String username, String password) async {
+  //   final Map request = {"username": username, "password": password};
+  //   var body = json.encode(request);
+  //
+  //   TODO()
+  // }
 }

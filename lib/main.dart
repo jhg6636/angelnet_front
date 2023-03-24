@@ -1,4 +1,4 @@
-import 'package:backoffice_front/screens/LoginScreen.dart';
+import 'package:backoffice_front/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,7 +26,7 @@ class BackofficeApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 }
