@@ -1,5 +1,6 @@
-import 'package:backoffice_front/screens/home_screen.dart';
+import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
   runApp(const BackofficeApp());
@@ -11,7 +12,7 @@ class BackofficeApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -23,7 +24,7 @@ class BackofficeApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       home: const HomeScreen(),

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class SignupScreen extends StatefulWidget {
+class ResetPasswordScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState

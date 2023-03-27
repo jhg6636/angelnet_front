@@ -1,8 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:backoffice_front/screens/home_screen.dart';
+import 'package:backoffice_front/assets/routes.dart';
+import 'package:backoffice_front/screens/common/home_screen.dart';
+import 'package:backoffice_front/screens/common/terms_of_use_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../screens/common/signup_screen.dart';
 
 class HomeScreenState extends State<HomeScreen> {
   final _stringIdController = TextEditingController();
@@ -12,8 +17,8 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 80.0),
             Column(
@@ -52,11 +57,25 @@ class HomeScreenState extends State<HomeScreen> {
                 TextButton(
                   child: const Text('회원가입'),
                   onPressed: () {
-                    // 회원가입 화면
+                    // Navigator.of(context).pushNamed(Routes.signUp);
+                    // 회원가입
+                    Get.to(TermsOfUseScreen());
                   },
                 ),
               ],
             ),
+            const SizedBox(height: 12.0),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  child: const Text('비밀번호 변경'),
+                  onPressed: () {
+                    // Navigator.of(context).pushNamed(Routes.resetPassword);
+                  },
+                ),
+              ],
+            )
           ],
         ),
       ),
