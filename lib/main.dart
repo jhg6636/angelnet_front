@@ -1,4 +1,7 @@
 import 'package:backoffice_front/screens/common/home_screen.dart';
+import 'package:backoffice_front/screens/startup/startup_screen.dart';
+import 'package:backoffice_front/widgets/startup/portfolio_details.dart';
+import 'package:backoffice_front/widgets/startup/startup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
@@ -13,7 +16,7 @@ class BackofficeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'RE:OFFICE ',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,8 +29,16 @@ class BackofficeApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.indigo,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const HomeScreen(),
+      home: StartupScreen(startup: Startup(
+          'name',
+          'ceoName',
+          CorporationRegistration(DateTime.now(), "urlurl"),
+          ShareholderList(DateTime.now(), 1, "urlurlurl"),
+          List.empty(),
+          List.empty(),
+          List.empty(),
+      ))
+      // home: const HomeScreen(),
     );
   }
 }

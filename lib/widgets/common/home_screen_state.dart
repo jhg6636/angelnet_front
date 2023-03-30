@@ -24,7 +24,7 @@ class HomeScreenState extends State<HomeScreen> {
             Column(
               children: const <Widget>[
                 SizedBox(height: 16.0),
-                Text('RE:BACKOFFICE'),
+                Text('RE:OFFICE'),
               ],
             ),
             const SizedBox(height: 120.0),

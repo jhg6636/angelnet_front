@@ -20,14 +20,12 @@ class SignUpScreenState extends State<SignUpScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 80.0),
-              Column(
-                children: const <Widget>[
-                  SizedBox(height: 16.0),
-                  Text('RE:BACKOFFICE'),
-                ],
+              const Center(
+                child: Text('RE:OFFICE'),
               ),
               const SizedBox(height: 120.0),
               TextField(
@@ -37,6 +35,10 @@ class SignUpScreenState extends State<SignUpScreen> {
                   labelText: '아이디',
                 ),
               ),
+              const Text(
+                "4~20자의 영문 소문자, 숫자로만 구성할 수 있습니다.",
+                textAlign: TextAlign.left,
+              ),
               const SizedBox(height: 12.0),
               TextField(
                 controller: _passwordController,
@@ -45,6 +47,10 @@ class SignUpScreenState extends State<SignUpScreen> {
                   labelText: '비밀번호',
                 ),
                 obscureText: true,
+              ),
+              const Text(
+                "4~20자의 영문 소문자, 숫자, 특수문자로만 구성할 수 있습니다",
+                textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12.0),
               TextField(
