@@ -1,26 +1,30 @@
 import 'dart:convert';
-import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class Fund {
 
-  final Long id;
+  final int id;
   final String name;
   final String startupName;
   final DateTime createdAt;
-  final Long cost;
+  final int cost;
 
-  Fund({required this.id, required this.name, required this.startupName, required this.createdAt, required this.cost});
+  Fund(
+      {required this.id,
+      required this.name,
+      required this.startupName,
+      required this.createdAt,
+      required this.cost});
 
   factory Fund.fromJson(Map<String, dynamic> json) {
     return Fund(
-      id: json['id'] as Long,
-      name: json['name'] as String,
-      startupName: json['startupName'] as String,
-      createdAt: json['createdAt'] as DateTime,
-      cost: json['cost'] as Long
-    );
+        id: json['id'] as int,
+        name: json['name'] as String,
+        startupName: json['startupName'] as String,
+        createdAt: json['createdAt'] as DateTime,
+        cost: json['cost'] as int);
   }
 
 }

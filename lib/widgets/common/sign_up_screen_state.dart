@@ -8,6 +8,10 @@ class SignUpScreenState extends State<SignUpScreen> {
   final _nameController = TextEditingController();
   final _registrationNumberFrontController = TextEditingController();
   final _registrationNumberBackController = TextEditingController();
+  final _birthYearController = TextEditingController();
+  final _birthMonthController = TextEditingController();
+  final _birthDayController = TextEditingController();
+  final _genderController = TextEditingController();
   final _stringIdController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordCheckController = TextEditingController();

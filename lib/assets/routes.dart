@@ -21,7 +21,7 @@ class Routes {
     home: (BuildContext context) => const HomeScreen(),
     signUp: (BuildContext context) => SignUpScreen(),
     myPage: (BuildContext context) => MyPageScreen(),
-    lp: (BuildContext context) => LpMyPage(),
+    // lp: (BuildContext context) => LpMyPage(),
     // startup: (BuildContext context) => const StartupScreen(startup: Startup,),
     admin: (BuildContext context) => AdminScreen(),
     resetPassword: (BuildContext context) => ResetPasswordScreen(),

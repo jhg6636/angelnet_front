@@ -1,9 +1,10 @@
+import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:backoffice_front/screens/lp/lp_mypage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'fund.dart';
+import '../../models/fund.dart';
 
 class FundCard extends StatelessWidget {
 
@@ -15,7 +16,7 @@ class FundCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          Get.to(const LpMyPage());
+          Get.to(const HomeScreen());
         },
         child: SizedBox(
             child: Column(
