@@ -1,7 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:html';
+
+import 'package:backoffice_front/widgets/startup/startup_basic_info.dart';
+import 'package:backoffice_front/widgets/startup/startup_calendar.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/startup/startup.dart';
+import '../../widgets/startup/startup_documents.dart';
 
 class StartupScreen extends StatelessWidget {
 
@@ -12,7 +16,7 @@ class StartupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 6,
+        length: 7,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black45,
@@ -21,6 +25,7 @@ class StartupScreen extends StatelessWidget {
             bottom: const TabBar(
               tabs: [
                 Tab(text: "기본 정보"),
+                Tab(text: "주요 일정"),
                 Tab(text: "법인등기부등본"),
                 Tab(text: "주주명부"),
                 Tab(text: "후속투자정보"),
@@ -31,14 +36,15 @@ class StartupScreen extends StatelessWidget {
               indicatorSize: TabBarIndicatorSize.tab,
             )
           ),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              Text("1"),
-              Text("2"),
-              Text("3"),
-              Text("4"),
-              Text("5"),
-              Text("6")
+              StartupBasicInfo(startup: startup),
+              const StartupCalendar(),
+              StartupDocuments(documents: startup.corporationRegistrations),
+              StartupDocuments(documents: startup.shareholderLists),
+              const Text("5"),
+              const Text("6"),
+              StartupDocuments(documents: startup.newsLetters)
             ],
           )
         )
