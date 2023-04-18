@@ -1,12 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:backoffice_front/main.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:backoffice_front/screens/common/terms_of_use_screen.dart';
+import 'package:backoffice_front/screens/lp/lp_mypage.dart';
+import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:backoffice_front/utils/StringUtils.dart';
+
+import '../lp/fund.dart';
 
 class HomeScreenState extends State<HomeScreen> {
   final _stringIdController = TextEditingController();
@@ -47,9 +50,25 @@ class HomeScreenState extends State<HomeScreen> {
               children: <Widget>[
                 FilledButton(
                   child: const Text('로그인'),
-                  onPressed: () {
+                  onPressed: () async {
                     try {
-                      loginApi(_stringIdController.text, _passwordController.text);
+                      loginApi(
+                          _stringIdController.text, _passwordController.text);
+                      String role = await checkRoleApi().obs.value;
+                      switch (role) {
+                        case "LP":
+                          List<Fund> funds = <Fund>[];
+                          Get.to(LpMyPage(funds: funds));
+                          break;
+                        case "ADMIN":
+                          List<Fund> funds = <Fund>[];
+                          Get.to(LpMyPage(funds: funds));
+                          break;
+                        case "STARTUP":
+                          List<Fund> funds = <Fund>[];
+                          Get.to(LpMyPage(funds: funds));
+                          break;
+                      }
                     } catch (e) {
                       print("Error: e");
                     }
@@ -85,18 +104,29 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Future<http.Response> loginApi(String stringId, String password) async {
-    final Map<String, dynamic> request = {"stringId": stringId, "password": password};
+    final Map<String, dynamic> request = {
+      "stringId": stringId,
+      "password": password
+    };
     var headers = {HttpHeaders.contentTypeHeader: "application/json"};
 
-    try {
-      var uri = StringUtils().stringToUri('login', request);
-      print(uri);
-      var response = await http.get(uri, headers: headers);
-      print(response.body);
-      return response;
-    } catch (e) {
-      print('Error: $e');
-    }
-    return Future(() => http.Response('', 404));
+    var uri = StringUtils().stringToUri('login', params: request);
+    var response = await http.get(uri, headers: headers);
+
+    var deviceId = await StringUtils().getDeviceId();
+
+    secureStorage.write(key: deviceId, value: response.body);
+    return response;
   }
+
+  Future<String> checkRoleApi() async {
+    var deviceId = await StringUtils().getDeviceId();
+    var token = await secureStorage.read(key: deviceId) ?? "";
+
+    var response = await http.get(StringUtils().stringToUri("/role"),
+        headers: StringUtils().header(token));
+
+    return response.body;
+  }
+
 }

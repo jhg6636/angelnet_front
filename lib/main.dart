@@ -4,8 +4,12 @@ import 'package:backoffice_front/screens/startup/startup_screen.dart';
 import 'package:backoffice_front/widgets/startup/portfolio_details.dart';
 import 'package:backoffice_front/widgets/startup/startup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
+const SERVER_IP = 'localhost:8080';
+const secureStorage = FlutterSecureStorage();
 
 void main() async {
   await initializeDateFormatting();
