@@ -6,5 +6,4 @@ class AdminScreen extends StatefulWidget {
     // TODO: implement createState
     throw UnimplementedError();
   }
-
 }

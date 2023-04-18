@@ -6,5 +6,4 @@ class ResetPasswordScreen extends StatefulWidget {
     // TODO: implement createState
     throw UnimplementedError();
   }
-
 }

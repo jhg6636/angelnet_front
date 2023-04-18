@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class Fund {
-
   final int id;
   final String name;
   final String startupName;
@@ -26,7 +25,6 @@ class Fund {
         createdAt: json['createdAt'] as DateTime,
         cost: json['cost'] as int);
   }
-
 }
 
 Future<List<Fund>> fetchMyFunds(http.Client client) async {

@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:backoffice_front/assets/routes.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:backoffice_front/screens/common/terms_of_use_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../screens/common/signup_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:backoffice_front/utils/StringUtils.dart';
 
 class HomeScreenState extends State<HomeScreen> {
   final _stringIdController = TextEditingController();
@@ -49,8 +48,11 @@ class HomeScreenState extends State<HomeScreen> {
                 FilledButton(
                   child: const Text('로그인'),
                   onPressed: () {
-                    _stringIdController.clear();
-                    _passwordController.clear();
+                    try {
+                      loginApi(_stringIdController.text, _passwordController.text);
+                    } catch (e) {
+                      print("Error: e");
+                    }
                     // backend 로그인 로직
                   },
                 ),
@@ -82,10 +84,19 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Future<http.Response> loginApi(String username, String password) async {
-  //   final Map request = {"username": username, "password": password};
-  //   var body = json.encode(request);
-  //
-  //   TODO()
-  // }
+  Future<http.Response> loginApi(String stringId, String password) async {
+    final Map<String, dynamic> request = {"stringId": stringId, "password": password};
+    var headers = {HttpHeaders.contentTypeHeader: "application/json"};
+
+    try {
+      var uri = StringUtils().stringToUri('login', request);
+      print(uri);
+      var response = await http.get(uri, headers: headers);
+      print(response.body);
+      return response;
+    } catch (e) {
+      print('Error: $e');
+    }
+    return Future(() => http.Response('', 404));
+  }
 }

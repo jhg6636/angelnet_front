@@ -2,7 +2,6 @@ import 'package:backoffice_front/widgets/startup/portfolio_details.dart';
 import 'package:flutter/cupertino.dart';
 
 class StartupDocuments extends StatelessWidget {
-
   final List<PortfolioDocument> documents;
 
   const StartupDocuments({super.key, required this.documents});
@@ -16,22 +15,18 @@ class StartupDocuments extends StatelessWidget {
       rows.add(document.toWidget() as Row);
     }
 
-    return Column(
-      children: rows
-    );
+    return Column(children: rows);
   }
 
   Widget getFirstRow(Type type) {
-    switch(type) {
+    switch (type) {
       case CorporationRegistration:
       case ShareholderList:
-        return Row(
-          children: const [
-            Text("등록 일시"),
-            Text("다운로드"),
-            Text("업로드"),
-          ]
-        );
+        return Row(children: const [
+          Text("등록 일시"),
+          Text("다운로드"),
+          Text("업로드"),
+        ]);
       case NewsLetter:
         return Row(
           children: const [
@@ -44,5 +39,4 @@ class StartupDocuments extends StatelessWidget {
         return Row();
     }
   }
-
 }

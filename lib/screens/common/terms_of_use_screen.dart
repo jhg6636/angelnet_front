@@ -59,13 +59,12 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
             Row(
               children: [
                 Checkbox(
-                  value: _isChecked,
-                  onChanged: (value) => {
-                    setState(() {
-                      _isChecked = value ?? false;
-                    })
-                  }
-                ),
+                    value: _isChecked,
+                    onChanged: (value) => {
+                          setState(() {
+                            _isChecked = value ?? false;
+                          })
+                        }),
                 const Text("위 약관에 동의합니다."),
               ],
             ),

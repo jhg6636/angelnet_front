@@ -5,18 +5,15 @@ import 'package:get/get.dart';
 import '../../screens/common/signup_screen.dart';
 
 class SignUpScreenState extends State<SignUpScreen> {
+  // TODO: 주소, 근무처, 명함첨부
+
   final _nameController = TextEditingController();
-  final _registrationNumberFrontController = TextEditingController();
-  final _registrationNumberBackController = TextEditingController();
-  final _birthYearController = TextEditingController();
-  final _birthMonthController = TextEditingController();
-  final _birthDayController = TextEditingController();
-  final _genderController = TextEditingController();
   final _stringIdController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordCheckController = TextEditingController();
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
+  final _recommenderController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,29 +71,6 @@ class SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               const SizedBox(height: 12.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _registrationNumberFrontController,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        labelText: '주민등록번호 앞자리',
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      child: TextField(
-                    controller: _registrationNumberBackController,
-                    decoration: const InputDecoration(
-                        filled: true, labelText: '주민등록번호 뒷자리'),
-                    obscureText: true,
-                  ))
-                ],
-              ),
-              const SizedBox(
-                height: 12.0,
-              ),
               TextField(
                 controller: _phoneController,
                 decoration:
@@ -128,6 +102,13 @@ class SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 12.0,
+              ),
+              TextField(
+                controller: _recommenderController,
+                decoration: const InputDecoration(labelText: '추천인'),
               ),
             ],
           )

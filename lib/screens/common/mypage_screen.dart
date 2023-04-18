@@ -6,5 +6,4 @@ class MyPageScreen extends StatefulWidget {
     // TODO: implement createState
     throw UnimplementedError();
   }
-
 }

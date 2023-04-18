@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 abstract class PortfolioDocument {
@@ -12,7 +11,6 @@ abstract class PortfolioDocument {
 
 /// 법인 등기부 등본 1건을 나타내는 클래스
 class CorporationRegistration implements PortfolioDocument {
-
   @override
   DateTime createdAt;
 
@@ -31,13 +29,10 @@ class CorporationRegistration implements PortfolioDocument {
       ],
     );
   }
-
 }
-
 
 /// 주주명부 1건을 나타내는 클래스
 class ShareholderList implements PortfolioDocument {
-
   @override
   final DateTime createdAt;
   @override
@@ -59,7 +54,6 @@ class ShareholderList implements PortfolioDocument {
 
 /// 후속투자 1건을 나타내는 클래스
 class FollowingInvestment {
-
   final int value;
   final String step;
   final DateTime date;
@@ -81,7 +75,6 @@ class FollowingInvestment {
 
 /// 재무제표 1건 (1년 혹은 1분기 단위) 나타내는 클래스
 class FinancialStatement {
-
   final int year;
   final int sales;
   final int businessProfits;
@@ -97,12 +90,10 @@ class FinancialStatement {
       ],
     );
   }
-
 }
 
 /// 뉴스레터 1건을 나타내는 클래스
 class NewsLetter implements PortfolioDocument {
-
   final String title;
   final String content;
   @override
@@ -122,5 +113,4 @@ class NewsLetter implements PortfolioDocument {
       ],
     );
   }
-
 }

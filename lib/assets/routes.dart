@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../screens/admin/admin_screen.dart';
 import '../screens/common/home_screen.dart';
-import '../screens/lp/lp_mypage.dart';
 import '../screens/common/mypage_screen.dart';
 import '../screens/common/reset_password_screen.dart';
-import '../screens/startup/startup_screen.dart';
 
 class Routes {
   static const String home = "/";
