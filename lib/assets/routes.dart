@@ -1,7 +1,7 @@
 import 'package:backoffice_front/screens/common/signup_screen.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../screens/admin/admin_screen.dart';
+import '../screens/admin/manage_user_screen.dart';
 import '../screens/common/home_screen.dart';
 import '../screens/common/mypage_screen.dart';
 import '../screens/common/reset_password_screen.dart';
@@ -21,7 +21,7 @@ class Routes {
     myPage: (BuildContext context) => MyPageScreen(),
     // lp: (BuildContext context) => LpMyPage(),
     // startup: (BuildContext context) => const StartupScreen(startup: Startup,),
-    admin: (BuildContext context) => AdminScreen(),
+    admin: (BuildContext context) => ManageUserScreen(),
     resetPassword: (BuildContext context) => ResetPasswordScreen(),
   };
 }

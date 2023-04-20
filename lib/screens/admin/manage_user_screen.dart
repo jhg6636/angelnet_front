@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class AdminScreen extends StatefulWidget {
+class ManageUserScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState

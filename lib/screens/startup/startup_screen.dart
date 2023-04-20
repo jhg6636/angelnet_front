@@ -42,6 +42,8 @@ class StartupScreen extends StatelessWidget {
                 const Text("6"),
                 StartupDocuments(documents: startup.newsLetters)
               ],
-            )));
+            )
+        )
+    );
   }
 }

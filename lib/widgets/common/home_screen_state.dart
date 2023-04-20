@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../lp/fund.dart';
+import '../../models/lp/fund.dart';
 
 class HomeScreenState extends State<HomeScreen> {
   final _stringIdController = TextEditingController();
@@ -57,16 +57,13 @@ class HomeScreenState extends State<HomeScreen> {
                       String role = await checkRoleApi().obs.value;
                       switch (role) {
                         case "LP":
-                          List<Fund> funds = <Fund>[];
-                          Get.to(LpMyPage(funds: funds));
+                          Get.to(const LpMyPage());
                           break;
                         case "ADMIN":
-                          List<Fund> funds = <Fund>[];
-                          Get.to(LpMyPage(funds: funds));
+                          Get.to(const LpMyPage());
                           break;
                         case "STARTUP":
-                          List<Fund> funds = <Fund>[];
-                          Get.to(LpMyPage(funds: funds));
+                          Get.to(const LpMyPage());
                           break;
                       }
                     } catch (e) {
@@ -80,7 +77,7 @@ class HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     // Navigator.of(context).pushNamed(Routes.signUp);
                     // 회원가입
-                    Get.to(TermsOfUseScreen());
+                    Get.to(const TermsOfUseScreen());
                   },
                 ),
               ],

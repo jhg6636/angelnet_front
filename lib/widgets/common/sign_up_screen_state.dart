@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:backoffice_front/screens/common/home_screen.dart';
@@ -133,12 +134,21 @@ class SignUpScreenState extends State<SignUpScreen> {
                   ),
                   FilledButton(
                     child: const Text('회원가입'),
-                    onPressed: () {
+                    onPressed: () async {
                       String? validityString = checkValidity();
+                      print(validityString);
                       if (validityString == null) {
-                        signInApi();
-                        Get.to(const HomeScreen());
-                        Get.deleteAll();
+                        try {
+                          var response = await signInApi();
+                          if (response.statusCode != 200) {
+                            print(jsonDecode(utf8.decode(response.bodyBytes)));
+                          } else {
+                            Get.to(const HomeScreen());
+                            Get.deleteAll();
+                          }
+                        } catch (e) {
+                          print("Error: $e");
+                        }
                       } else {
                         showDialog(context: context, builder: (context) {
                           return AlertDialog(
@@ -253,18 +263,21 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<http.Response> signInApi() async {
+    String? recommenderText = (_recommenderController.text == "") ? null : _recommenderController.text;
+
     final Map<String, dynamic> request = {
       "stringId": _stringIdController.text,
       "password": _passwordController.text,
       "name": _nameController.text,
       "phone": _phoneController.text,
       "email": _emailController.text,
-      "recommender": _recommenderController.text,
+      "recommender": recommenderText,
     };
     var headers = {HttpHeaders.contentTypeHeader: "application/json"};
 
     var uri = StringUtils().stringToUri('sign-in');
-    var response = await http.post(uri, headers: headers, body: request);
+    var response = await http.post(uri, headers: headers, body: jsonEncode(request));
+    print(response.statusCode);
     return response;
   }
 
