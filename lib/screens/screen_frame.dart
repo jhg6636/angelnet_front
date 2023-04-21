@@ -15,7 +15,7 @@ class ScreenFrame extends StatefulWidget {
 class ScreenFrameState extends State<ScreenFrame> {
   @override
   Widget build(BuildContext context) {
-    Widget drawer = widget.isAdmin ? const LeftSideDrawer() : AdminLeftSideDrawer();
+    Widget drawer = widget.isAdmin ? AdminLeftSideDrawer() : const LeftSideDrawer();
     return Scaffold(
       appBar: AppBar(
         title: const Text("RE:OFFICE"),

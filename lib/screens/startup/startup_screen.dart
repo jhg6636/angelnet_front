@@ -2,7 +2,7 @@ import 'package:backoffice_front/widgets/startup/startup_basic_info.dart';
 import 'package:backoffice_front/widgets/startup/startup_calendar.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/startup/startup.dart';
+import '../../models/startup/startup.dart';
 import '../../widgets/startup/startup_documents.dart';
 
 class StartupScreen extends StatelessWidget {

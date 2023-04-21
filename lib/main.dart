@@ -1,8 +1,4 @@
 import 'package:backoffice_front/screens/common/home_screen.dart';
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:backoffice_front/screens/startup/startup_screen.dart';
-import 'package:backoffice_front/widgets/startup/portfolio_details.dart';
-import 'package:backoffice_front/widgets/startup/startup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -22,10 +18,7 @@ class ReofficeApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      title: 'RE:OFFICE',
-      home: HomeScreen()
-    );
+    return const GetMaterialApp(title: 'RE:OFFICE', home: HomeScreen());
     // return GetMaterialApp(
     //     title: 'RE:OFFICE',
     //     home: ScreenFrame(

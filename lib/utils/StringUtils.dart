@@ -4,6 +4,7 @@ import 'package:backoffice_front/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class StringUtils {
 
@@ -16,7 +17,8 @@ class StringUtils {
     return Uri.http(SERVER_IP, apiName, params);
   }
 
-  Map<String, String> header(String token) {
+  Future<Map<String, String>> header() async {
+    var token = await secureStorage.read(key: await getDeviceId()) ?? "";
     return {
       HttpHeaders.authorizationHeader: "Bearer $token",
       HttpHeaders.contentTypeHeader: "application/json"

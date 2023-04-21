@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:backoffice_front/main.dart';
+import 'package:backoffice_front/screens/admin/manage_user_screen.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
+import 'package:backoffice_front/screens/common/not_developed_screen.dart';
 import 'package:backoffice_front/screens/common/terms_of_use_screen.dart';
 import 'package:backoffice_front/screens/lp/lp_mypage.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
@@ -60,10 +62,10 @@ class HomeScreenState extends State<HomeScreen> {
                           Get.to(const LpMyPage());
                           break;
                         case "ADMIN":
-                          Get.to(const LpMyPage());
+                          Get.to(const ManageUserScreen());
                           break;
                         case "STARTUP":
-                          Get.to(const LpMyPage());
+                          Get.to(const NotDevelopedScreen(isAdmin: false));
                           break;
                       }
                     } catch (e) {
@@ -90,6 +92,7 @@ class HomeScreenState extends State<HomeScreen> {
                   child: const Text('비밀번호 변경'),
                   onPressed: () {
                     // Navigator.of(context).pushNamed(Routes.resetPassword);
+                    Get.to(const NotDevelopedScreen(isAdmin: false));
                   },
                 ),
               ],
@@ -117,11 +120,8 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Future<String> checkRoleApi() async {
-    var deviceId = await StringUtils().getDeviceId();
-    var token = await secureStorage.read(key: deviceId) ?? "";
-
     var response = await http.get(StringUtils().stringToUri("/role"),
-        headers: StringUtils().header(token));
+        headers: await StringUtils().header());
 
     return response.body;
   }

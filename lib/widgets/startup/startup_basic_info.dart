@@ -1,4 +1,4 @@
-import 'package:backoffice_front/widgets/startup/startup.dart';
+import 'package:backoffice_front/models/startup/startup.dart';
 import 'package:flutter/material.dart';
 
 class StartupBasicInfo extends StatelessWidget {
