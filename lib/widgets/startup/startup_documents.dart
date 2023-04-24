@@ -1,13 +1,21 @@
+import 'package:backoffice_front/models/admin/user.dart';
+import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:backoffice_front/widgets/startup/portfolio_details.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'empty_document_page.dart';
+
 class StartupDocuments extends StatelessWidget {
   final List<PortfolioDocument> documents;
+  final bool isAdmin;
 
-  const StartupDocuments({super.key, required this.documents});
+  const StartupDocuments({super.key, required this.documents, required this.isAdmin});
 
   @override
   Widget build(BuildContext context) {
+    if (documents.isEmpty) {
+      return EmptyDocumentPage(isAdmin: isAdmin);
+    }
     List<Row> rows = List.empty(growable: true);
     rows.add(getFirstRow(documents.first.runtimeType) as Row);
 

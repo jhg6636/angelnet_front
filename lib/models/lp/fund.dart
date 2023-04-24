@@ -2,9 +2,13 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:backoffice_front/main.dart';
+import 'package:backoffice_front/models/startup/startup.dart';
+import 'package:backoffice_front/screens/startup/startup_screen.dart';
 import 'package:backoffice_front/utils/ListUtils.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
+import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class Fund {
@@ -39,7 +43,26 @@ class Fund {
         cells: [
           DataCell(Text(id.toString())),
           DataCell(Text(name)),
-          DataCell(Text(startupName)),
+          DataCell(
+              FutureBuilder<Startup>(
+                future: fetchStartup(startupName),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    print(snapshot.stackTrace);
+                    return WidgetUtils.errorPadding;
+                  } else {
+                    return TextButton(
+                        onPressed: () {
+                          Get.to(StartupScreen(startup: snapshot.data));
+                        },
+                        child: Text(startupName)
+                    );
+                  }
+                }
+              )
+              //Text(startupName)
+          ),
           DataCell(Text(createdAt.toString())),
           DataCell(Text(cost.toString())),
         ]

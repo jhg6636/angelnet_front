@@ -1,3 +1,4 @@
+import 'package:backoffice_front/models/admin/user.dart';
 import 'package:backoffice_front/widgets/startup/startup_basic_info.dart';
 import 'package:backoffice_front/widgets/startup/startup_calendar.dart';
 import 'package:flutter/material.dart';
@@ -32,16 +33,22 @@ class StartupScreen extends StatelessWidget {
                   indicatorColor: Colors.white70,
                   indicatorSize: TabBarIndicatorSize.tab,
                 )),
-            body: TabBarView(
-              children: [
-                StartupBasicInfo(startup: startup),
-                const StartupCalendar(),
-                StartupDocuments(documents: startup.corporationRegistrations),
-                StartupDocuments(documents: startup.shareholderLists),
-                const Text("5"),
-                const Text("6"),
-                StartupDocuments(documents: startup.newsLetters)
-              ],
+            body: FutureBuilder<String>(
+              future: checkRoleApi(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                bool isAdmin = !(snapshot.data == 'LP');
+                return TabBarView(
+                  children: [
+                    StartupBasicInfo(startup: startup),
+                    const StartupCalendar(),
+                    StartupDocuments(documents: startup.corporationRegistrations, isAdmin: isAdmin),
+                    StartupDocuments(documents: startup.shareholderLists, isAdmin: isAdmin),
+                    const Text("5"),
+                    const Text("6"),
+                    StartupDocuments(documents: startup.newsLetters, isAdmin: isAdmin)
+                  ],
+                );
+              }
             )
         )
     );

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../models/admin/user.dart';
 import '../../models/lp/fund.dart';
 
 class HomeScreenState extends State<HomeScreen> {
@@ -119,11 +120,6 @@ class HomeScreenState extends State<HomeScreen> {
     return response;
   }
 
-  Future<String> checkRoleApi() async {
-    var response = await http.get(StringUtils().stringToUri("/role"),
-        headers: await StringUtils().header());
 
-    return response.body;
-  }
 
 }

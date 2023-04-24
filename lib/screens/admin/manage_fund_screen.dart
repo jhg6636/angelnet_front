@@ -1,6 +1,9 @@
+import 'package:backoffice_front/models/startup/startup.dart';
 import 'package:backoffice_front/screens/admin/make_fund_popup.dart';
+import 'package:backoffice_front/screens/startup/startup_screen.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../models/lp/fund.dart';
 import '../screen_frame.dart';

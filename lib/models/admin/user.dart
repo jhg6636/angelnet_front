@@ -63,3 +63,10 @@ Future<List<User>> fetchUsers() async {
   var result = responseBody.map<User>((json) => User.fromJson(json)).toList();
   return result;
 }
+
+Future<String> checkRoleApi() async {
+  var response = await http.get(StringUtils().stringToUri("/role"),
+      headers: await StringUtils().header());
+
+  return response.body;
+}
