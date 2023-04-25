@@ -1,3 +1,4 @@
+import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:backoffice_front/widgets/admin/admin_left_side_drawer.dart';
 import 'package:backoffice_front/widgets/core/left_side_drawer.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +16,9 @@ class ScreenFrame extends StatefulWidget {
 class ScreenFrameState extends State<ScreenFrame> {
   @override
   Widget build(BuildContext context) {
-    Widget drawer = widget.isAdmin ? AdminLeftSideDrawer() : const LeftSideDrawer();
+    Widget drawer = widget.isAdmin ? const AdminLeftSideDrawer() : const LeftSideDrawer();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("RE:OFFICE"),
-        centerTitle: true,
-      ),
+      appBar: WidgetUtils().appBar,
       drawer: drawer,
       body: widget.main,
     );

@@ -18,7 +18,15 @@ class ReofficeApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(title: 'RE:OFFICE', home: HomeScreen());
+    return GetMaterialApp(
+      title: 'RE:OFFICE',
+      home: const HomeScreen(),
+      theme: ThemeData(
+        fontFamily: 'NotoSansKR',
+        primaryColor: Colors.black38,
+        primarySwatch: Colors.grey,
+      )
+    );
     // return GetMaterialApp(
     //     title: 'RE:OFFICE',
     //     home: ScreenFrame(

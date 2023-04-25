@@ -44,8 +44,6 @@ Future<Startup> fetchStartup(String name) async {
     headers: await StringUtils().header(),
   );
 
-  print(response.body);
-
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
 
   return Startup.fromJson(responseBody);

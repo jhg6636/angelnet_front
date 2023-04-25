@@ -31,7 +31,8 @@ class User {
         stringId: json['stringId'],
         name: json['name'],
         userLevel: json['userLevel'],
-        workPlace: "", // json['workPlace'],
+        workPlace: "",
+        // json['workPlace'],
         phone: json['phone'],
         email: json['email'],
         recommender: json['recommender'],
@@ -69,4 +70,13 @@ Future<String> checkRoleApi() async {
       headers: await StringUtils().header());
 
   return response.body;
+}
+
+Future<Map<String, dynamic>> getMyInfo() async {
+  var response = await http.get(
+      StringUtils().stringToUri("/my-info"),
+      headers: await StringUtils().header()
+  );
+
+  return jsonDecode(utf8.decode(response.bodyBytes));
 }

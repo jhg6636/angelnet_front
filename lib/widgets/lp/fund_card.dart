@@ -36,19 +36,72 @@ class FundCard extends StatelessWidget {
           );
           Get.to(nextPage);
         },
-        child: SizedBox(
-            child: Column(
-                children: [
-                  Text("No. ${fund.id}"),
-                  Row(children: [const Text("조합명"), Text(fund.name)]),
-                  Row(children: [const Text("투자기업"), Text(fund.startupName)]),
-                  Row(children: [
-                    const Text("결성일"),
-                    Text(DateFormat('yyyy-MM-dd').format(fund.createdAt))
-                  ]),
-                  Row(children: [const Text("투자액"), Text(fund.cost.toString())]),
-                ]
-            )
+        child: Flexible(
+          child: Container(
+              width: 400.0,
+              height: 240.0,
+              decoration: BoxDecoration(
+                border: Border.all(
+                    width: 1.0,
+                    color: Colors.blueAccent
+                ),
+                color: Colors.white54,
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "No. ${fund.id}",
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.blueGrey),
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "조합명",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+                            ),
+                            Text(fund.name)
+                          ]
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "투자기업",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+                            ),
+                            Text(fund.startupName)
+                          ]
+
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "결성일",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+                            ),
+                            Text(DateFormat('yyyy-MM-dd').format(fund.createdAt))
+                          ]
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "투자액",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+                            ),
+                            Text(fund.cost.toString())
+                          ]
+                      ),
+                    ]
+                ),
+              )
+          ),
         )
     );
   }

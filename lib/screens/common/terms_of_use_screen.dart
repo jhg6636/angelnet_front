@@ -1,5 +1,6 @@
 import 'package:backoffice_front/screens/common/signup_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
+import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,20 +21,28 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: WidgetUtils().appBar,
       body: SafeArea(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("약관 1"),
+                const SizedBox(height: 32.0),
+                const Text(
+                  "약관 1", style: WidgetUtils.h1, textAlign: TextAlign.start,),
                 FutureBuilder<String>(
                   future: text1,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<String> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.hasData) {
-                      return Expanded(
-                        child: SingleChildScrollView(
-                            child: SizedBox(
-                              child: Text(snapshot.data.toString()),
+                      return Flexible(
+                        child: Padding(
+                            padding: WidgetUtils.smallPadding,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all()
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Text(snapshot.data.toString()),
+                                )
                             )
                         ),
                       );
@@ -42,76 +51,83 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                     }
                   },
                 ),
-                const Text("약관 2"),
+                const Text(
+                  "약관 2", style: WidgetUtils.h1, textAlign: TextAlign.start,),
                 FutureBuilder<String>(
                   future: text2,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<String> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.hasData) {
                       return Expanded(
-                        child: SingleChildScrollView(
-                            child: SizedBox(
-                              child: Text(snapshot.data.toString()),
-                            )),
+                          child: Padding(
+                              padding: WidgetUtils.smallPadding,
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all()
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Text(snapshot.data.toString()),
+                                  )
+                              )
+                          )
                       );
                     } else {
-                      return const CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                     }
                   },
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                        value: _isChecked,
-                        onChanged: (value) =>
-                        {
-                          setState(() {
-                            _isChecked = value ?? false;
-                          })
-                        }),
-                    const Text("위 약관에 동의합니다."),
-                  ],
+                Padding(
+                  padding: WidgetUtils.smallPadding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Checkbox(
+                          value: _isChecked,
+                          onChanged: (value) =>
+                          {
+                            setState(() {
+                              _isChecked = value ?? false;
+                            })
+                          }),
+                      const Text("위 약관에 동의합니다."),
+                    ],
+                  ),
                 ),
-                ButtonBar(
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: const Text("돌아가기")
-                    ),
-                    FilledButton(
+                Padding(
+                  padding: WidgetUtils.smallPadding,
+                  child: ButtonBar(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text("돌아가기")),
+                      FilledButton(
                         onPressed: () {
                           if (_isChecked) {
                             Get.to(const SignUpScreen());
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                      title: const Text("약관에 동의해 주세요."),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("확인"))
+                                      ]);
+                                });
                           }
-                          else
-                            {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                        title: const Text("약관에 동의해 주세요."),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text("확인")
-                                          )
-                                        ]
-                                    );
-                                  }
-                              );
-                            }
                         },
-                      child: const Text("회원가입"),
-                    )
-                  ],
+                        child: const Text("회원가입"),
+                      )
+                    ],
+                  )
                 )
               ]
           )
-
       ),
     );
   }

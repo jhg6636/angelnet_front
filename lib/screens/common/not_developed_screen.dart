@@ -13,6 +13,7 @@ class NotDevelopedScreen extends StatelessWidget {
     return ScreenFrame(
         main: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text("개발 진행 중....."),
               SizedBox(height: 20.0,),

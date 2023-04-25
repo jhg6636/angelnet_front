@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:core';
 
-import 'package:backoffice_front/main.dart';
 import 'package:backoffice_front/models/startup/startup.dart';
 import 'package:backoffice_front/screens/startup/startup_screen.dart';
-import 'package:backoffice_front/utils/ListUtils.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -48,8 +47,6 @@ class Fund {
                 future: fetchStartup(startupName),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) {
-                    print(snapshot.error);
-                    print(snapshot.stackTrace);
                     return WidgetUtils.errorPadding;
                   } else {
                     return TextButton(
@@ -79,8 +76,13 @@ class Fund {
           DataCell(Text(cost.toString())),
           DataCell(
               ElevatedButton(
-                onPressed: () {
-                  joinFund(id);
+                onPressed: () async {
+                  var response = await joinFund(id);
+                  if (response.statusCode == 200) {
+                    Fluttertoast.showToast(msg: "조합에 참여하셨습니다. 마이페이지에서 확인해 보세요.");
+                  } else {
+                    Fluttertoast.showToast(msg: "조합에 참여하지 못했습니다.");
+                  }
                 },
                 child: const Text("조합 참여하기"),
               )
