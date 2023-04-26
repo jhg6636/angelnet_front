@@ -1,5 +1,5 @@
 import 'package:backoffice_front/models/admin/user.dart';
-import 'package:backoffice_front/screens/admin/make_user_form.dart';
+import 'package:backoffice_front/widgets/admin/make_user_form.dart';
 import 'package:backoffice_front/screens/screen_frame.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -133,7 +133,7 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                       builder: (BuildContext context) {
                         return const SizedBox(
                           height: 1000.0,
-                          child: MakeUserForm(isPopup: true,)
+                          child: MakeUserForm(isPopup: true, isEditing: false, stringId: null,)
                         );
                       }
                     );
@@ -153,15 +153,7 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                   } else if (snapshot.hasData == false) {
                     return const CircularProgressIndicator();
                   } else {
-                    return Column(
-                        children: [
-                          adminUserTable(snapshot.data ?? List.empty()),
-                          OutlinedButton(
-                              onPressed: () {},
-                              child: const Text("회원 생성")
-                          )
-                        ]
-                    );
+                    return adminUserTable(snapshot.data ?? List.empty());
                   }
                 }
             ),
@@ -184,6 +176,7 @@ DataTable adminUserTable(List<User> users) {
         DataColumn(label: Text("이메일")),
         DataColumn(label: Text("추천인")),
         DataColumn(label: Text("가입일")),
+        DataColumn(label: Text("정보 수정")),
       ],
       rows: users.map<DataRow>((user) => user.toDataRow()).toList(),
   );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,15 +9,17 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/StringUtils.dart';
-import '../common/home_screen.dart';
+import '../../screens/common/home_screen.dart';
 
 // todo 팝업일 때 회원 레벨 설정 및 스타트업일 경우 스타트업까지 같이 생성하기
 
 class MakeUserForm extends StatefulWidget {
 
   final bool isPopup;
+  final bool isEditing;
+  final String? stringId;
 
-  const MakeUserForm({super.key, required this.isPopup});
+  const MakeUserForm({super.key, required this.isPopup, required this.isEditing, required this.stringId});
 
   @override
   State<StatefulWidget> createState() => MakeUserFormState();
@@ -28,7 +31,7 @@ class MakeUserFormState extends State<MakeUserForm> {
   // TODO: 주소, 근무처, 명함첨부
 
   final _nameController = TextEditingController();
-  final _stringIdController = TextEditingController();
+  var _stringIdController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordCheckController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -36,19 +39,44 @@ class MakeUserFormState extends State<MakeUserForm> {
   final _recommenderController = TextEditingController();
   final _workspaceController = TextEditingController();
 
+  final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
+  String _userLevel = 'LP';
+
   @override
   Widget build(BuildContext context) {
+    _stringIdController = TextEditingController(text: widget.stringId);
     return SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            if (widget.isPopup) Wrap(
+              children: [
+                const SizedBox(width: 12.0,),
+                const Padding(padding: EdgeInsets.fromLTRB(0, 12, 12, 0), child: Text("권한")),
+                DropdownButton<String>(
+                  value: _userLevel,
+                  items: _userLevelList.map<DropdownMenuItem<String>>(
+                          (value) {
+                        return DropdownMenuItem<String>(value: value, child: Text(value));
+                      }
+                  ).toList(),
+                  onChanged: (Object? value) {
+                    setState(() {
+                      _userLevel = value as String;
+                    });
+                  },
+                )
+              ],
+            ),
             const SizedBox(height: 24.0),
             TextField(
               keyboardType: TextInputType.text,
               controller: _stringIdController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: '아이디',
+                enabled: !widget.isEditing,
               ),
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp("[a-z0-9]"))
@@ -148,7 +176,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                   },
                 ),
                 FilledButton(
-                  child: const Text('회원가입'),
+                  child: widget.isEditing ? const Text("수정하기") : const Text("회원가입"),
                   onPressed: () async {
                     String? validityString = checkValidity();
                     print(validityString);
@@ -158,7 +186,10 @@ class MakeUserFormState extends State<MakeUserForm> {
                         if (response.statusCode != 200) {
                           print(jsonDecode(utf8.decode(response.bodyBytes)));
                         } else {
-                          if (!widget.isPopup) {
+                          if (widget.isEditing) {
+                            Get.back();
+                          }
+                          else if (!widget.isPopup) {
                             Get.to(const HomeScreen());
                             Get.deleteAll();
                           } else {
@@ -217,6 +248,7 @@ class MakeUserFormState extends State<MakeUserForm> {
   }
 
   bool isValidStringId() {
+    if (widget.isEditing) return true;
     String stringId = _stringIdController.text;
     if (RegExp("^[a-z0-9]{4,20}\$").hasMatch(stringId)) {
       return true;

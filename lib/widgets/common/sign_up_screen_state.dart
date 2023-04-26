@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:backoffice_front/screens/admin/make_user_form.dart';
+import 'package:backoffice_front/widgets/admin/make_user_form.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class SignUpScreenState extends State<SignUpScreen> {
       body: const SafeArea(
         child: Padding(
           padding: WidgetUtils.smallPadding,
-          child: MakeUserForm(isPopup: false,)
+          child: MakeUserForm(isPopup: false, isEditing: false, stringId: null,)
         )
 
       ),

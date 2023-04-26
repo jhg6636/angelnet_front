@@ -1,6 +1,6 @@
 import 'package:backoffice_front/models/admin/user.dart';
+import 'package:backoffice_front/screens/common/edit_user_info_screen.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
-import 'package:backoffice_front/screens/common/not_developed_screen.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +25,9 @@ class CustomDrawerHeader extends StatelessWidget {
               } else {
                 return myInfoWidget(snapshot.data);
               }
-            }));
+            }
+        )
+    );
   }
 }
 
@@ -34,7 +36,8 @@ Widget myInfoWidget(Map<String, dynamic> myInfo) {
 
   switch (myInfo["level"]) {
     case "STARTUP":
-      text = const Text("스타트업",
+      text = const Text(
+          "스타트업",
           style: TextStyle(fontSize: 18.0, backgroundColor: Colors.green));
       break;
     case "ADMIN":
@@ -84,7 +87,7 @@ Widget myInfoWidget(Map<String, dynamic> myInfo) {
       ),
       TextButton.icon(
         onPressed: () {
-          Get.to(const NotDevelopedScreen(isAdmin: false));
+          Get.to(EditUserInfoScreen(stringId: myInfo["stringId"],));
         },
         icon: const Icon(
           Icons.edit,

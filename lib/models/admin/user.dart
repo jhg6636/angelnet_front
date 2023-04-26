@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:backoffice_front/main.dart';
+import 'package:backoffice_front/screens/common/edit_user_info_screen.dart';
+import 'package:backoffice_front/screens/common/signup_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class User {
@@ -49,6 +52,12 @@ class User {
       DataCell(Text(email)),
       DataCell(Text(recommender ?? "")),
       DataCell(Text(createdAt.toString())),
+      DataCell(OutlinedButton(
+        onPressed: () {
+          Get.to(const EditUserInfoScreen(stringId: null,));
+        },
+        child: const Text("수정"),
+      ))
     ]);
   }
 }

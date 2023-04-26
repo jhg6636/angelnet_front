@@ -21,6 +21,6 @@ class ScreenFrameState extends State<ScreenFrame> {
       appBar: WidgetUtils().appBar,
       drawer: drawer,
       body: widget.main,
-    );
+        );
   }
 }
