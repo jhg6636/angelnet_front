@@ -119,6 +119,10 @@ class HomeScreenState extends State<HomeScreen> {
 
     var uri = StringUtils().stringToUri('login', params: request);
     var response = await http.get(uri, headers: headers);
+    while (response.body.isBlank ?? true) {
+      print(response.body);
+      response = await http.get(uri, headers: headers);
+    }
 
     secureStorage.write(key: deviceId, value: response.body);
     return response;
@@ -150,7 +154,7 @@ class HomeScreenState extends State<HomeScreen> {
         );
       }
     } catch (e) {
-      print("Error: e");
+      print("Error: $e");
     }
   }
 
