@@ -40,6 +40,15 @@ class AdminLeftSideDrawer extends StatelessWidget {
                 Get.to(const NotDevelopedScreen(isAdmin: true));
               },
               child: const Text(
+                "그룹 관리",
+                style: WidgetUtils.drawerButtonStyle,
+              )
+          ),
+          TextButton(
+              onPressed: () {
+                Get.to(const NotDevelopedScreen(isAdmin: true));
+              },
+              child: const Text(
                   "공지사항 관리",
                 style: WidgetUtils.drawerButtonStyle,
               )

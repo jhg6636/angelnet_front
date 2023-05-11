@@ -14,7 +14,7 @@ class StringUtils {
   }
 
   Uri stringToUri(String apiName, {Map<String, dynamic>? params}) {
-    return Uri.http(SERVER_IP, apiName, params);
+    return Uri.http(serverIp, apiName, params);
   }
 
   Future<Map<String, String>> header() async {

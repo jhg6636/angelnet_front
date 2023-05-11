@@ -1,4 +1,5 @@
 import 'package:backoffice_front/models/admin/user.dart';
+import 'package:backoffice_front/widgets/startup/financial_statement_screen.dart';
 import 'package:backoffice_front/widgets/startup/startup_basic_info.dart';
 import 'package:backoffice_front/widgets/startup/startup_calendar.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class StartupScreen extends StatelessWidget {
                     StartupDocuments(documents: startup.corporationRegistrations, isAdmin: isAdmin),
                     StartupDocuments(documents: startup.shareholderLists, isAdmin: isAdmin),
                     const Text("5"),
-                    const Text("6"),
+                    FinancialStatementScreen(title: "재무제표", startupId: startup.id),
                     StartupDocuments(documents: startup.newsLetters, isAdmin: isAdmin)
                   ],
                 );

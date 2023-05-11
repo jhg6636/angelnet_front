@@ -24,8 +24,8 @@ class CorporationRegistration implements PortfolioDocument {
     return Row(
       children: [
         Text(createdAt.toString()),
-        Icon(Icons.download),
-        Icon(Icons.upload)
+        const Icon(Icons.download),
+        const Icon(Icons.upload)
       ],
     );
   }
@@ -45,8 +45,8 @@ class ShareholderList implements PortfolioDocument {
     return Row(
       children: [
         Text(createdAt.toString()),
-        Icon(Icons.download),
-        Icon(Icons.upload)
+        const Icon(Icons.download),
+        const Icon(Icons.upload)
       ],
     );
   }
@@ -90,6 +90,7 @@ class FinancialStatement {
       ],
     );
   }
+
 }
 
 /// 뉴스레터 1건을 나타내는 클래스
