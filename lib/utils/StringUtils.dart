@@ -51,4 +51,59 @@ class StringUtils {
     return deviceIdentifier;
   }
 
+
+  bool isValidStringId(String stringId) {
+    if (RegExp("^[a-z0-9]{4,20}\$").hasMatch(stringId)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isValidPassword(String password) {
+    if (RegExp("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[./,!@#\$%^&()+=-])[a-zA-Z0-9./,!@#\$%^&*()+=-]{4,20}\$").hasMatch(password)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool checkSamePassword(String password, String checkPassword) {
+    if (password == checkPassword) {
+      return true;
+    }
+
+    return false;
+  }
+
+  bool isValidName(String name) {
+    if (RegExp("^[가-힇]{2,}\$").hasMatch(name)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isValidPhone(String phone) {
+    if (RegExp("^[0-9]{10,11}\$").hasMatch(phone)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isValidEmail(String email) {
+    if (RegExp("^[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}@[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}.[a-zA-Z0-9./,!@#\$%^&*()+=-]{1,}\$").hasMatch(email)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isValidRecommender(String recommender) {
+    if (recommender == "") {
+      return true;
+    }
+    if (RegExp("^[가-힇]{2,}\$").hasMatch(recommender)) {
+      return true;
+    }
+
+    return false;
+  }
+
 }

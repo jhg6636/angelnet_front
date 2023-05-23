@@ -222,93 +222,30 @@ class MakeUserFormState extends State<MakeUserForm> {
   }
 
   String? checkValidity() {
-    if (!isValidStringId()) {
+    // if (!isValidStringId()) {
+    if (!(widget.isEditing || StringUtils().isValidStringId(_stringIdController.text))) {
       return "ID를 확인해 주세요";
     }
-    if (!isValidPassword()) {
+    if (!StringUtils().isValidPassword(_passwordController.text)) {
       return "PW를 확인해 주세요";
     }
-    if (!checkSamePassword()) {
+    if (!StringUtils().checkSamePassword(_passwordController.text, _passwordCheckController.text)) {
       return "비밀번호가 다릅니다.";
     }
-    if (!isValidName()) {
+    if (!StringUtils().isValidName(_nameController.text)) {
       return "이름을 확인해 주세요";
     }
-    if (!isValidPhone()) {
+    if (!StringUtils().isValidPhone(_phoneController.text)) {
       return "전화번호를 확인해 주세요";
     }
-    if (!isValidEmail()) {
+    if (!StringUtils().isValidEmail(_emailController.text)) {
       return "이메일을 확인해 주세요";
     }
-    if (!isValidRecommender()) {
+    if (!StringUtils().isValidRecommender(_recommenderController.text)) {
       return "추천인을 확인해 주세요";
     }
 
     return null;
-  }
-
-  bool isValidStringId() {
-    if (widget.isEditing) return true;
-    String stringId = _stringIdController.text;
-    if (RegExp("^[a-z0-9]{4,20}\$").hasMatch(stringId)) {
-      return true;
-    }
-    return false;
-  }
-
-  bool isValidPassword() {
-    String password = _passwordController.text;
-    if (RegExp("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[./,!@#\$%^&()+=-])[a-zA-Z0-9./,!@#\$%^&*()+=-]{4,20}\$").hasMatch(password)) {
-      return true;
-    }
-    return false;
-  }
-
-  bool checkSamePassword() {
-    String password = _passwordController.text;
-    String checkPassword = _passwordCheckController.text;
-
-    if (password == checkPassword) {
-      return true;
-    }
-
-    return false;
-  }
-
-  bool isValidName() {
-    String name = _nameController.text;
-    if (RegExp("^[가-힇]{2,}\$").hasMatch(name)) {
-      return true;
-    }
-    return false;
-  }
-
-  bool isValidPhone() {
-    String phone = _phoneController.text;
-    if (RegExp("^[0-9]{10,11}\$").hasMatch(phone)) {
-      return true;
-    }
-    return false;
-  }
-
-  bool isValidEmail() {
-    String email = _emailController.text;
-    if (RegExp("^[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}@[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}.[a-zA-Z0-9./,!@#\$%^&*()+=-]{1,}\$").hasMatch(email)) {
-      return true;
-    }
-    return false;
-  }
-
-  bool isValidRecommender() {
-    String recommender = _recommenderController.text;
-    if (recommender == "") {
-      return true;
-    }
-    if (RegExp("^[가-힇]{2,}\$").hasMatch(recommender)) {
-      return true;
-    }
-
-    return false;
   }
 
   Future<http.Response> signInApi() async {

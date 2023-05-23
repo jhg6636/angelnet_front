@@ -1,3 +1,5 @@
+import 'package:backoffice_front/screens/common/find_id_pw_select_screen.dart';
+import 'package:backoffice_front/screens/common/find_id_screen.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:backoffice_front/widgets/admin/editor.dart';
 import 'package:backoffice_front/widgets/core/business_card_and_signature_widget.dart';
@@ -20,17 +22,17 @@ class ReofficeApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return GetMaterialApp(
-    //   home: Editor()
-    // );
     return GetMaterialApp(
-      title: 'RE:OFFICE',
-      home: const HomeScreen(),
-      theme: ThemeData(
-        fontFamily: 'NotoSansKR',
-        primaryColor: Colors.black38,
-        primarySwatch: Colors.grey,
-      )
+      home: FindIdPwSelectScreen()
     );
+    // return GetMaterialApp(
+    //   title: 'RE:OFFICE',
+    //   home: const HomeScreen(),
+    //   theme: ThemeData(
+    //     fontFamily: 'NotoSansKR',
+    //     primaryColor: Colors.black38,
+    //     primarySwatch: Colors.grey,
+    //   )
+    // );
   }
 }
