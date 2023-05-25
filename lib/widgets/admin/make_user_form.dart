@@ -98,12 +98,13 @@ class MakeUserFormState extends State<MakeUserForm> {
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
               ],
+              enabled: !widget.isEditing,
             ),
-            const Text(
+            if (!widget.isEditing) const Text(
               "4~20자의 영문 소문자, 숫자, 특수문자(!@#\$%^&*()_+=?/)로만 구성할 수 있습니다",
               textAlign: TextAlign.left,
             ),
-            const SizedBox(height: 12.0),
+            if (!widget.isEditing) const SizedBox(height: 12.0),
             TextField(
               controller: _passwordCheckController,
               decoration: const InputDecoration(
@@ -115,6 +116,14 @@ class MakeUserFormState extends State<MakeUserForm> {
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
               ],
+              enabled: !widget.isEditing,
+            ),
+            if (widget.isEditing) const SizedBox(height: 12.0),
+            if (widget.isEditing) ElevatedButton(
+                onPressed: () {
+
+                },
+                child: const Text("비밀번호 변경")
             ),
             const SizedBox(height: 12.0),
             TextField(
@@ -148,6 +157,13 @@ class MakeUserFormState extends State<MakeUserForm> {
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp("[a-z0-9@.-_=+!@#\$%^&*()/,?]"))
               ],
+            ),
+            const SizedBox(
+              height: 12.0,
+            ),
+            TextField(
+              controller: _workspaceController,
+              decoration: const InputDecoration(labelText: '근무처'),
             ),
             const SizedBox(
               height: 12.0,
