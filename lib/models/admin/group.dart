@@ -37,7 +37,7 @@ class Group {
             child: Text(name),
           )
       ),
-      DataCell(Text(memberCount as String))
+      DataCell(Text(memberCount as String)),
     ]);
   }
 
@@ -51,4 +51,15 @@ Future<List<Group>> fetchAllGroups() async {
 
   return jsonDecode(utf8.decode(response.bodyBytes))
     .map<Group>((json) => Group.fromJson(json)).toList();
+}
+
+DataTable makeDataTable(List<Group> groups) {
+  return DataTable(
+      columns: const [
+        DataColumn(label: Text("번호")),
+        DataColumn(label: Text("그룹명")),
+        DataColumn(label: Text("그룹인원")),
+      ],
+      rows: groups.map<DataRow>((group) => group.toDataRow()).toList()
+  );
 }
