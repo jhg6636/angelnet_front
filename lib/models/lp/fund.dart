@@ -14,17 +14,28 @@ class Fund {
   int id;
   String name;
   String startupName;
+  String managerName;
   DateTime createdAt;
   String type;
+  DateTime? dissolvedAt;
+  double? margin;
   int cost;
+  String status;
 
   Fund(
-      {required this.id,
-      required this.name,
-      required this.startupName,
-      required this.createdAt,
-      required this.type,
-      required this.cost});
+      {
+        required this.id,
+        required this.name,
+        required this.startupName,
+        required this.managerName,
+        required this.createdAt,
+        required this.type,
+        required this.dissolvedAt,
+        required this.margin,
+        required this.cost,
+        required this.status,
+      }
+  );
 
   factory Fund.fromJson(Map<String, dynamic> json) {
     print(json);
@@ -32,9 +43,14 @@ class Fund {
         id: json['id'] as int,
         name: json['name'] as String,
         startupName: json['startupName'] as String,
+        managerName: "",
         createdAt: DateTime.parse(json['createdAt'] as String),
         type: "",
-        cost: json['cost'] as int);
+        dissolvedAt: null,
+        margin: null,
+        cost: json['cost'] as int,
+        status: "READY",
+    );
   }
 
   DataRow toDataRow() {
@@ -89,6 +105,18 @@ class Fund {
           ),
         ]
     );
+  }
+
+  DataRow toAllPortfolioRow() {
+    return DataRow(cells: [
+      DataCell(Text(name)),
+      DataCell(Text(startupName)),
+      DataCell(Text(managerName)),
+      DataCell(Text(createdAt.toString())),
+      DataCell(Text(type)),
+      DataCell(Text(dissolvedAt.toString())),
+      DataCell(Text(margin.toString())),
+    ]);
   }
 }
 
