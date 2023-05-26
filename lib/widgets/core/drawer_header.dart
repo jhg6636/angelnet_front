@@ -1,4 +1,4 @@
-import 'package:backoffice_front/models/admin/user.dart';
+import 'package:backoffice_front/models/common/user.dart';
 import 'package:backoffice_front/screens/common/edit_user_info_screen.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';

@@ -60,6 +60,14 @@ class User {
       ))
     ]);
   }
+
+  DataRow toGroupMemberDataRow() {
+    return DataRow(cells: [
+      DataCell(Text(name)),
+      DataCell(Text(phone)),
+      DataCell(Text(email)),
+    ]);
+  }
 }
 
 Future<List<User>> fetchUsers() async {

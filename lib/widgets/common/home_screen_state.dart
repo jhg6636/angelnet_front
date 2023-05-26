@@ -12,7 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../../models/admin/user.dart';
+import '../../models/common/user.dart';
 import '../../models/lp/fund.dart';
 
 class HomeScreenState extends State<HomeScreen> {

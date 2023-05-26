@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../common/user.dart';
+
 class Group {
 
   int id;
@@ -61,5 +63,26 @@ DataTable makeDataTable(List<Group> groups) {
         DataColumn(label: Text("그룹인원")),
       ],
       rows: groups.map<DataRow>((group) => group.toDataRow()).toList()
+  );
+}
+
+Future<List<User>> fetchUsersInGroup(int groupId) async {
+  var response = await http.get(
+      StringUtils().stringToUri("/group/members", params: {'groupId': groupId}),
+      headers: await StringUtils().header(),
+  );
+
+  return jsonDecode(utf8.decode(response.bodyBytes))
+      .map<User>((json) => User.fromJson(json)).toList();
+}
+
+DataTable makeGroupMemberDataTable(List<User> users) {
+  return DataTable(
+      columns: const [
+        DataColumn(label: Text("이름")),
+        DataColumn(label: Text("연락처")),
+        DataColumn(label: Text("이메일")),
+      ],
+      rows: users.map<DataRow>((user) => user.toGroupMemberDataRow()).toList()
   );
 }

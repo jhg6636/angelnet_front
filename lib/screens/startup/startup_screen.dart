@@ -1,4 +1,4 @@
-import 'package:backoffice_front/models/admin/user.dart';
+import 'package:backoffice_front/models/common/user.dart';
 import 'package:backoffice_front/widgets/startup/financial_statement_screen.dart';
 import 'package:backoffice_front/widgets/startup/startup_basic_info.dart';
 import 'package:backoffice_front/widgets/startup/startup_calendar.dart';

@@ -39,6 +39,12 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
                   }
                 }
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    // TODO 그룹 추가하는 팝업/다이얼로그 등 연결
+                  },
+                  child: const Text("그룹 추가")
+              )
             ],
           ),
         ),

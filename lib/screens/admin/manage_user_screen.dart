@@ -1,4 +1,4 @@
-import 'package:backoffice_front/models/admin/user.dart';
+import 'package:backoffice_front/models/common/user.dart';
 import 'package:backoffice_front/widgets/admin/make_user_form.dart';
 import 'package:backoffice_front/screens/screen_frame.dart';
 import 'package:flutter/cupertino.dart';

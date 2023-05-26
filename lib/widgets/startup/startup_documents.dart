@@ -1,4 +1,4 @@
-import 'package:backoffice_front/models/admin/user.dart';
+import 'package:backoffice_front/models/common/user.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:backoffice_front/widgets/startup/portfolio_details.dart';
 import 'package:flutter/cupertino.dart';
