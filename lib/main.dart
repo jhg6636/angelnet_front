@@ -22,17 +22,17 @@ class ReofficeApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: FindIdPwSelectScreen()
-    );
     // return GetMaterialApp(
-    //   title: 'RE:OFFICE',
-    //   home: const HomeScreen(),
-    //   theme: ThemeData(
-    //     fontFamily: 'NotoSansKR',
-    //     primaryColor: Colors.black38,
-    //     primarySwatch: Colors.grey,
-    //   )
+    //   home: FindIdPwSelectScreen()
     // );
+    return GetMaterialApp(
+      title: 'RE:OFFICE',
+      home: const HomeScreen(),
+      theme: ThemeData(
+        fontFamily: 'NotoSansKR',
+        primaryColor: Colors.black38,
+        primarySwatch: Colors.grey,
+      )
+    );
   }
 }
