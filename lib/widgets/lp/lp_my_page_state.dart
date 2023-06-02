@@ -1,3 +1,4 @@
+import 'package:backoffice_front/screens/lp/funding_fund_screen.dart';
 import 'package:backoffice_front/screens/lp/lp_mypage.dart';
 import 'package:backoffice_front/screens/screen_frame.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
@@ -19,13 +20,19 @@ class LpMyPageState extends State<LpMyPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    ElevatedButton(
+                        onPressed: () {
+                          Get.to(const FundingFundScreen());
+                        },
+                        child: const Text("모집 중인 조합 보러가기")
+                    ),
                     const Text(
                       "참여 중인 조합",
                       style: WidgetUtils.titleStyle,
                     ),
                     const SizedBox(height: 5.0,),
                     const Text(
-                      "*각 조합 클릭 시 해당 조합의 상세 페이지로 이동합니다.",
+                      "* 각 조합 클릭 시 해당 조합의 상세 페이지로 이동합니다.",
                       style: TextStyle(fontSize: 14.0, color: Colors.black38),
                     ),
                     const SizedBox(height: 10.0,),
@@ -54,6 +61,7 @@ class LpMyPageState extends State<LpMyPage> {
                               );
                             }
                           }),
+                      // todo 알림 관련 보이는 파트
                     )
                   ],
                 ),

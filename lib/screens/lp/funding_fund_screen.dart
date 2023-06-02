@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import '../../models/lp/fund.dart';
 
 class FundingFundScreen extends StatefulWidget {
+  const FundingFundScreen({super.key});
+
   @override
   State<StatefulWidget> createState() => FundingFundScreenState();
 }
@@ -36,7 +38,7 @@ class FundingFundScreenState extends State<FundingFundScreen> {
                       DataColumn(label: Text("조합 참여하기")),
                     ],
                     rows: snapshot.data
-                            ?.map<DataRow>((fund) => fund.toDataRowWithButton())
+                            ?.map<DataRow>((fund) => fund.toFundingFundDataRow())
                             .toList()
                         ?? List.empty()
                 );

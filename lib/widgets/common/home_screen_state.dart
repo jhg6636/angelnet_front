@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:backoffice_front/main.dart';
 import 'package:backoffice_front/screens/admin/manage_user_screen.dart';
+import 'package:backoffice_front/screens/common/find_id_pw_select_screen.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:backoffice_front/screens/common/not_developed_screen.dart';
 import 'package:backoffice_front/screens/common/terms_of_use_screen.dart';
@@ -80,7 +81,6 @@ class HomeScreenState extends State<HomeScreen> {
                   TextButton(
                     child: const Text('회원가입'),
                     onPressed: () {
-                      // Navigator.of(context).pushNamed(Routes.signUp);
                       // 회원가입
                       Get.to(const TermsOfUseScreen());
                     },
@@ -95,8 +95,7 @@ class HomeScreenState extends State<HomeScreen> {
                     child: const Text('ID/비밀번호 찾기'),
                     onPressed: () {
                       // Navigator.of(context).pushNamed(Routes.resetPassword);
-                      Get.to(const NotDevelopedScreen(isAdmin: false)); // todo drawer 안보여야함
-                      // todo id는 바로 알려주고, pw는 임의로 변경해서 이메일로 보내준다
+                      Get.to(const FindIdPwSelectScreen());
                     },
                   ),
                 ],

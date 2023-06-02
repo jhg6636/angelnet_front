@@ -72,13 +72,3 @@ Future<List<Post>> fetchAllPosts() async {
   return jsonDecode(utf8.decode(response.bodyBytes))
       .map<Post>((json) => Post.fromJson(json)).toList();
 }
-
-Future<List<Post>> fetchPostsInBulletin(int? bulletinId) async {
-  var response = await http.get(
-    StringUtils().stringToUri("/post", params: {'bulletinId': bulletinId}),
-    headers: await StringUtils().header(),
-  );
-
-  return jsonDecode(utf8.decode(response.bodyBytes))
-      .map<Post>((json) => Post.fromJson(json)).toList();
-}

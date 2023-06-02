@@ -78,11 +78,18 @@ class Fund {
           ),
           DataCell(Text(createdAt.toString())),
           DataCell(Text(cost.toString())),
+          DataCell(
+            FilledButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.edit),
+                label: const Text("수정")
+            )
+          )
         ]
     );
   }
 
-  DataRow toDataRowWithButton() {
+  DataRow toFundingFundDataRow() {
     return DataRow(
         cells: [
           DataCell(Text(id.toString())),
@@ -92,6 +99,7 @@ class Fund {
           DataCell(Text(cost.toString())),
           DataCell(
               ElevatedButton(
+                // todo 참여좌수 설정하는 부분 필요
                 onPressed: () async {
                   var response = await joinFund(id);
                   if (response.statusCode == 200) {

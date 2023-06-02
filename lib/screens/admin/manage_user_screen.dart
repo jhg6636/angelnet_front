@@ -121,7 +121,7 @@ class ManageUserScreenState extends State<ManageUserScreen> {
               children: [
                 FilledButton.icon(
                     onPressed: () {
-
+                      // todo 검색 기능
                     },
                     icon: const Icon(Icons.search),
                     label: const Text("검색"),
@@ -165,6 +165,7 @@ class ManageUserScreenState extends State<ManageUserScreen> {
 
 }
 
+// todo lastLogin 필요, 멤버 상세 페이지 연결 필요
 DataTable adminUserTable(List<User> users) {
   return DataTable(
       columns: const [

@@ -134,6 +134,8 @@ class ManageFundScreenState extends State<ManageFundScreen> {
                                     border: OutlineInputBorder(),
                                   ),
                                 )),
+                            // todo 조합 관련 파일 추가 (회사 소개, 고유 번호증)
+                            // todo 투자형태 / 조합 종목 추가
                             ButtonBar(
                                 alignment: MainAxisAlignment.center,
                                 children: [
@@ -189,6 +191,7 @@ DataTable adminFundTable(List<Fund> funds) {
     DataColumn(label: Text("조합명")),
     DataColumn(label: Text("투자종목")),
     DataColumn(label: Text("조합결성일")),
-    DataColumn(label: Text("금액"))
+    DataColumn(label: Text("금액")),
+    DataColumn(label: Text("조합 수정하기"))
   ], rows: funds.map<DataRow>((fund) => fund.toDataRow()).toList());
 }
