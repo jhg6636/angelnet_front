@@ -190,8 +190,11 @@ DataTable adminFundTable(List<Fund> funds) {
     DataColumn(label: Text("번호")),
     DataColumn(label: Text("조합명")),
     DataColumn(label: Text("투자종목")),
+    DataColumn(label: Text("총 결성금액")),
+    DataColumn(label: Text("현재 참여금액")),
+    DataColumn(label: Text("잔여 금액")),
+    DataColumn(label: Text("현재 참여 인원")),
     DataColumn(label: Text("조합결성일")),
-    DataColumn(label: Text("금액")),
-    DataColumn(label: Text("조합 수정하기"))
-  ], rows: funds.map<DataRow>((fund) => fund.toDataRow()).toList());
+    DataColumn(label: Text("상태"))
+  ], rows: funds.map<DataRow>((fund) => fund.toAdminDataRow()).toList());
 }

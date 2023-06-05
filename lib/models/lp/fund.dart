@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:backoffice_front/models/startup/startup.dart';
+import 'package:backoffice_front/screens/admin/fund_detail_screen.dart';
 import 'package:backoffice_front/screens/startup/startup_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
@@ -14,50 +15,69 @@ class Fund {
   int id;
   String name;
   String startupName;
+  String mainProduct;
   String managerName;
   DateTime createdAt;
   String type;
   DateTime? dissolvedAt;
   double? margin;
   int cost;
+  int costPerShare;
+  int currentFundedCost;
+  int currentMemberCount;
   String status;
+  DateTime payAt;
 
   Fund(
       {
         required this.id,
         required this.name,
         required this.startupName,
+        required this.mainProduct,
         required this.managerName,
         required this.createdAt,
         required this.type,
         required this.dissolvedAt,
         required this.margin,
         required this.cost,
+        required this.costPerShare,
+        required this.currentFundedCost,
+        required this.currentMemberCount,
         required this.status,
+        required this.payAt,
       }
   );
 
   factory Fund.fromJson(Map<String, dynamic> json) {
-    print(json);
     return Fund(
         id: json['id'] as int,
         name: json['name'] as String,
         startupName: json['startupName'] as String,
+        mainProduct: "",
         managerName: "",
         createdAt: DateTime.parse(json['createdAt'] as String),
         type: "",
         dissolvedAt: null,
         margin: null,
         cost: json['cost'] as int,
+        costPerShare: 0,
+        currentFundedCost: 0,
+        currentMemberCount: 0,
         status: "READY",
+        payAt: DateTime.now(),
     );
   }
 
-  DataRow toDataRow() {
+  DataRow toAdminDataRow() {
     return DataRow(
         cells: [
           DataCell(Text(id.toString())),
-          DataCell(Text(name)),
+          DataCell(TextButton(
+            onPressed: () {
+              Get.to(FundDetailAdminScreen(fund: this));
+            },
+            child: Text(name),
+          )),
           DataCell(
               FutureBuilder<Startup>(
                 future: fetchStartup(startupName),
@@ -74,17 +94,13 @@ class Fund {
                   }
                 }
               )
-              //Text(startupName)
           ),
-          DataCell(Text(createdAt.toString())),
           DataCell(Text(cost.toString())),
-          DataCell(
-            FilledButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.edit),
-                label: const Text("수정")
-            )
-          )
+          DataCell(Text(currentFundedCost.toString())),
+          DataCell(Text((cost-currentFundedCost).toString())),
+          DataCell(Text(currentMemberCount.toString())),
+          DataCell(Text(createdAt.toString())),
+          DataCell(Text(status)),
         ]
     );
   }
@@ -92,14 +108,15 @@ class Fund {
   DataRow toFundingFundDataRow() {
     return DataRow(
         cells: [
-          DataCell(Text(id.toString())),
           DataCell(Text(name)),
           DataCell(Text(startupName)),
-          DataCell(Text(createdAt.toString())),
+          DataCell(Text(mainProduct)),
           DataCell(Text(cost.toString())),
+          DataCell(Text((currentFundedCost/costPerShare).toString())),
+          DataCell(Text(((cost - currentFundedCost)/costPerShare).toString())),
+          DataCell(Text((49-currentMemberCount).toString())),
           DataCell(
-              ElevatedButton(
-                // todo 참여좌수 설정하는 부분 필요
+              ElevatedButton.icon(
                 onPressed: () async {
                   var response = await joinFund(id);
                   if (response.statusCode == 200) {
@@ -108,7 +125,8 @@ class Fund {
                     Fluttertoast.showToast(msg: "조합에 참여하지 못했습니다.");
                   }
                 },
-                child: const Text("조합 참여하기"),
+                icon: const Icon(Icons.search),
+                label: const Text("자세히 보기"),
               )
           ),
         ]
@@ -125,6 +143,25 @@ class Fund {
       DataCell(Text(dissolvedAt.toString())),
       DataCell(Text(margin.toString())),
     ]);
+  }
+
+  DataTable toBasicTable() {
+    return DataTable(
+        columns: const [
+          DataColumn(label: Text("")),
+          DataColumn(label: Text("내용")),
+        ],
+        rows: [
+          DataRow(cells: [const DataCell(Text("결성 금액")), DataCell(Text(cost.toString()))]),
+          DataRow(cells: [const DataCell(Text("1좌당 금액")), DataCell(Text(costPerShare.toString()))]),
+          DataRow(cells: [const DataCell(Text("투자 종목")), DataCell(Text(startupName))]),
+          DataRow(cells: [const DataCell(Text("투자 형태")), DataCell(Text(type))]),
+          DataRow(cells: [const DataCell(Text("상태")), DataCell(Text(status))]),
+          DataRow(cells: [const DataCell(Text("조합 결성일")), DataCell(Text(createdAt.toString()))]),
+          DataRow(cells: [const DataCell(Text("주금 납입일")), DataCell(Text(payAt.toString()))]),
+          DataRow(cells: [const DataCell(Text("담당자")), DataCell(Text(managerName))]),
+        ]
+    );
   }
 }
 

@@ -9,7 +9,7 @@ class WidgetUtils {
   );
 
   final appBar = AppBar(
-    title: const Text("RE:OFFICE", style: TextStyle(fontSize: 36.0, fontFamily: 'Sriracha'),),
+    title: const Text("AngelNet", style: TextStyle(fontSize: 36.0, fontFamily: 'Sriracha'),),
     centerTitle: true,
   );
 

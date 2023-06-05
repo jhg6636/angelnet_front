@@ -31,7 +31,7 @@ class HomeScreenState extends State<HomeScreen> {
                 children: const <Widget>[
                   SizedBox(height: 16.0),
                   Text(
-                    'RE:OFFICE',
+                    'AngelNet',
                     style: TextStyle(fontSize: 72.0, fontFamily: 'Sriracha'),
                   ),
                 ],
