@@ -10,6 +10,7 @@ class LimitedPartner {
 
   final int id;
   final String stringId;
+  final String fundName;
   final String name;
   final String phone;
   final int cost;
@@ -21,6 +22,7 @@ class LimitedPartner {
   LimitedPartner({
     required this.id,
     required this.stringId,
+    required this.fundName,
     required this.name,
     required this.phone,
     required this.cost,
@@ -34,6 +36,7 @@ class LimitedPartner {
     return LimitedPartner(
         id: json['id'] as int,
         stringId: json['stringId'] as String,
+        fundName: json['fundName'] as String,
         name: json['name'] as String,
         phone: json['phone'] as String,
         cost: json['cost'] as int,

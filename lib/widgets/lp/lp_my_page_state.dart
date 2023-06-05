@@ -1,3 +1,4 @@
+import 'package:backoffice_front/models/lp/limited_partner.dart';
 import 'package:backoffice_front/screens/lp/funding_fund_screen.dart';
 import 'package:backoffice_front/screens/lp/lp_mypage.dart';
 import 'package:backoffice_front/screens/screen_frame.dart';
@@ -43,21 +44,15 @@ class LpMyPageState extends State<LpMyPage> {
                           builder:
                               (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
                             if (snapshot.hasError) {
-                              print(snapshot.error);
-                              print(snapshot.stackTrace);
                               return WidgetUtils.errorPadding;
                             } else if (snapshot.hasData == false) {
                               return const CircularProgressIndicator();
                             } else {
-                              var children = <FundCard>[];
                               if (snapshot.data?.isEmpty ?? true) {
                                 return const Text("참여 중인 조합이 없습니다.");
                               }
-                              for (var fund in snapshot.data ?? List.empty()) {
-                                children.add(FundCard(fund: fund));
-                              }
-                              return Row(
-                                children: children,
+                              return Wrap(
+                                children: (snapshot.data ?? List.empty()).map<FundCard>((fund) => FundCard(fund: fund,)).toList(),
                               );
                             }
                           }),
@@ -80,4 +75,17 @@ class LpMyPageState extends State<LpMyPage> {
 
     return result;
   }
+}
+
+DataRow toMyPageRow(int index, Fund fund, LimitedPartner lp) {
+  return DataRow(cells: [
+    DataCell(Text(index.toString())),
+    DataCell(Text(fund.name)),
+    DataCell(Text(fund.startupName)),
+    DataCell(Text(fund.cost.toString())),
+    DataCell(Text(fund.createdAt.toString())),
+    DataCell(Text(fund.dissolvedAt.toString() ?? "")),
+    DataCell(Text(fund.margin.toString() ?? "")),
+    DataCell(Text(""))
+  ]);
 }
