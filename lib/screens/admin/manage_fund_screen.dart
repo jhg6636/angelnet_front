@@ -27,6 +27,7 @@ class ManageFundScreenState extends State<ManageFundScreen> {
     "FUNDING",
     "COMPLETE"
   ];
+
   final List<String> _selectedFundStatuses = [];
 
   Future<List<Fund>> funds = fetchAllFunds();

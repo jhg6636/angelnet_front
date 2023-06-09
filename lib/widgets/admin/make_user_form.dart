@@ -79,11 +79,11 @@ class MakeUserFormState extends State<MakeUserForm> {
                 enabled: !widget.isEditing,
               ),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[a-z0-9]"))
+                FilteringTextInputFormatter.allow(RegExp("[a-z0-9ㄱ-ㅎ가-힣ㅏ-ㅣ]"))
               ],
             ),
             const Text(
-              "4~20자의 영문 소문자, 숫자로만 구성할 수 있습니다.",
+              "3~20자의 영문 소문자, 숫자, 한글로만 구성할 수 있습니다.",
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: 12.0),

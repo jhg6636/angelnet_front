@@ -17,6 +17,7 @@ class User {
   String email;
   String? recommender;
   DateTime createdAt;
+  DateTime lastLoginAt;
 
   User({
     required this.stringId,
@@ -27,6 +28,7 @@ class User {
     required this.email,
     required this.recommender,
     required this.createdAt,
+    required this.lastLoginAt,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -39,7 +41,9 @@ class User {
         phone: json['phone'],
         email: json['email'],
         recommender: json['recommender'],
-        createdAt: DateTime.parse(json['createdAt']));
+        createdAt: DateTime.parse(json['createdAt']),
+        lastLoginAt: DateTime.now(),
+    );
   }
 
   DataRow toDataRow() {
@@ -47,10 +51,11 @@ class User {
       DataCell(Text(stringId)),
       DataCell(Text(name)),
       DataCell(Text(userLevel)),
-      DataCell(Text(workPlace ?? "")),
       DataCell(Text(phone)),
       DataCell(Text(email)),
       DataCell(Text(recommender ?? "")),
+      DataCell(Text(lastLoginAt.toString())),
+      DataCell(Text(workPlace ?? "")),
       DataCell(Text(createdAt.toString())),
       DataCell(OutlinedButton(
         onPressed: () {
