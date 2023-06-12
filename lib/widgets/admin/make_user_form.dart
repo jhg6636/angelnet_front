@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:backoffice_front/models/common/user.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -120,8 +121,64 @@ class MakeUserFormState extends State<MakeUserForm> {
             ),
             if (widget.isEditing) const SizedBox(height: 12.0),
             if (widget.isEditing) ElevatedButton(
-                onPressed: () {
-
+                onPressed: () async {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: _passwordController,
+                                decoration: const InputDecoration(
+                                  labelText: '비밀번호',
+                                ),
+                                obscureText: true,
+                                autocorrect: false,
+                                enableSuggestions: false,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
+                                ],
+                              ),
+                              if (!widget.isEditing) const Text(
+                                "4~20자의 영문 소문자, 숫자, 특수문자(!@#\$%^&*()_+=?/)로만 구성할 수 있습니다",
+                                textAlign: TextAlign.left,
+                              ),
+                              if (!widget.isEditing) const SizedBox(height: 12.0),
+                              TextField(
+                                controller: _passwordCheckController,
+                                decoration: const InputDecoration(
+                                  labelText: '비밀번호 확인',
+                                ),
+                                obscureText: true,
+                                autocorrect: false,
+                                enableSuggestions: false,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
+                                ],
+                              ),
+                              ButtonBar(
+                                children: [
+                                  FilledButton(
+                                    onPressed: () async {
+                                      var response = await changePassword(_passwordController.text);
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("변경하기")
+                                  ),
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("취소하기")
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                  );
                 },
                 child: const Text("비밀번호 변경")
             ),
@@ -277,7 +334,7 @@ class MakeUserFormState extends State<MakeUserForm> {
     };
     var headers = {HttpHeaders.contentTypeHeader: "application/json"};
 
-    var uri = StringUtils().stringToUri('sign-in');
+    var uri = StringUtils().stringToUri('/sign-in');
     var response = await http.post(uri, headers: headers, body: jsonEncode(request));
     print(response.statusCode);
     return response;

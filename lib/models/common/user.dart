@@ -102,3 +102,13 @@ Future<Map<String, dynamic>> getMyInfo() async {
 
   return jsonDecode(utf8.decode(response.bodyBytes));
 }
+
+Future<http.Response> changePassword(String newPassword) async {
+  var response = await http.post(
+    StringUtils().stringToUri("/change-pw"),
+    body: {"newPassword": newPassword},
+    headers: await StringUtils().header()
+  );
+
+  return jsonDecode(utf8.decode(response.bodyBytes));
+}

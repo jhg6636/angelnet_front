@@ -3,6 +3,7 @@ import 'dart:core';
 
 import 'package:backoffice_front/models/startup/startup.dart';
 import 'package:backoffice_front/screens/admin/fund_detail_screen.dart';
+import 'package:backoffice_front/screens/lp/fund_detail_lp_screen.dart';
 import 'package:backoffice_front/screens/startup/startup_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
@@ -117,13 +118,14 @@ class Fund {
           DataCell(Text((49-currentMemberCount).toString())),
           DataCell(
               ElevatedButton.icon(
-                onPressed: () async {
-                  var response = await joinFund(id);
-                  if (response.statusCode == 200) {
-                    Fluttertoast.showToast(msg: "조합에 참여하셨습니다. 마이페이지에서 확인해 보세요.");
-                  } else {
-                    Fluttertoast.showToast(msg: "조합에 참여하지 못했습니다.");
-                  }
+                onPressed: () {
+                  Get.to(FundDetailLpScreen(fund: this));
+                  // var response = await joinFund(id);
+                  // if (response.statusCode == 200) {
+                  //   Fluttertoast.showToast(msg: "조합에 참여하셨습니다. 마이페이지에서 확인해 보세요.");
+                  // } else {
+                  //   Fluttertoast.showToast(msg: "조합에 참여하지 못했습니다.");
+                  // }
                 },
                 icon: const Icon(Icons.search),
                 label: const Text("자세히 보기"),
@@ -191,7 +193,7 @@ Future<List<Fund>> fetchAllFunds() async {
 
 Future<List<Fund>> searchFunds(String status) async {
   var response = await http.get(
-    StringUtils().stringToUri('lp/fund'),
+    StringUtils().stringToUri('/lp/fund'),
     headers: await StringUtils().header(),
   );
 
@@ -200,10 +202,10 @@ Future<List<Fund>> searchFunds(String status) async {
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }
 
-Future<http.Response> joinFund(int fundId) async {
+Future<http.Response> joinFund(int fundId, int stockCount) async {
   return await http.post(
     StringUtils().stringToUri('lp/fund'),
     headers: await StringUtils().header(),
-    body: {"fundId": fundId.toString()},
+    body: jsonEncode({"fundId": fundId.toString(), "stockCount": stockCount}),
   );
 }

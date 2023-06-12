@@ -116,7 +116,7 @@ class HomeScreenState extends State<HomeScreen> {
       HttpHeaders.contentTypeHeader: "application/json"
     };
 
-    var uri = StringUtils().stringToUri('login', params: request);
+    var uri = StringUtils().stringToUri('/login', params: request);
     var response = await http.get(uri, headers: headers);
     while (response.body.isBlank ?? true) {
       print(response.body);
