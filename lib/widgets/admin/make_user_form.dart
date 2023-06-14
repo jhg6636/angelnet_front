@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:backoffice_front/models/common/user.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,9 +18,9 @@ class MakeUserForm extends StatefulWidget {
 
   final bool isPopup;
   final bool isEditing;
-  final String? stringId;
+  final User? user;
 
-  const MakeUserForm({super.key, required this.isPopup, required this.isEditing, required this.stringId});
+  const MakeUserForm({super.key, required this.isPopup, required this.isEditing, required this.user});
 
   @override
   State<StatefulWidget> createState() => MakeUserFormState();
@@ -31,21 +31,26 @@ class MakeUserFormState extends State<MakeUserForm> {
 
   // TODO: 주소, 근무처, 명함첨부
 
-  final _nameController = TextEditingController();
+  var _nameController = TextEditingController();
   var _stringIdController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordCheckController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _recommenderController = TextEditingController();
-  final _workspaceController = TextEditingController();
+  var _phoneController = TextEditingController();
+  var _emailController = TextEditingController();
+  var _recommenderController = TextEditingController();
+  var _workspaceController = TextEditingController();
 
   final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
   String _userLevel = 'LP';
 
   @override
   Widget build(BuildContext context) {
-    _stringIdController = TextEditingController(text: widget.stringId);
+    _stringIdController = TextEditingController(text: widget.user?.stringId);
+    _nameController = TextEditingController(text: widget.user?.name);
+    _phoneController = TextEditingController(text: widget.user?.phone);
+    _emailController = TextEditingController(text: widget.user?.email);
+    _recommenderController = TextEditingController(text: widget.user?.recommender);
+    _workspaceController = TextEditingController(text: widget.user?.workplace);
     return SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -102,7 +107,8 @@ class MakeUserFormState extends State<MakeUserForm> {
               enabled: !widget.isEditing,
             ),
             if (!widget.isEditing) const Text(
-              "4~20자의 영문 소문자, 숫자, 특수문자(!@#\$%^&*()_+=?/)로만 구성할 수 있습니다",
+              // "4~20자의 영문 소문자, 숫자, 특수문자(!@#\$%^&*()_+=?/) 가 모두 포함되어야 합니다",
+              "4~20자로 구성해 주세요. 특수문자는 ! @ # \$ % ^ & * ( ) _ + = ? / 만 가능합니다",
               textAlign: TextAlign.left,
             ),
             if (!widget.isEditing) const SizedBox(height: 12.0),
@@ -162,7 +168,13 @@ class MakeUserFormState extends State<MakeUserForm> {
                                   FilledButton(
                                     onPressed: () async {
                                       var response = await changePassword(_stringIdController.text, _passwordController.text);
-                                      Navigator.pop(context);
+                                      if (response.statusCode == 200) {
+                                        Fluttertoast.showToast(msg: "비밀번호가 변경되었습니다.");
+                                        Navigator.pop(context);
+                                        Get.back();
+                                      } else {
+                                        Fluttertoast.showToast(msg: "다시 시도해 주세요.");
+                                      }
                                     },
                                     child: const Text("변경하기")
                                   ),

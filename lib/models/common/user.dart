@@ -13,7 +13,7 @@ class User {
   String stringId;
   String name;
   String userLevel;
-  String? workPlace;
+  String? workplace;
   String phone;
   String email;
   String? recommender;
@@ -24,7 +24,7 @@ class User {
     required this.stringId,
     required this.name,
     required this.userLevel,
-    required this.workPlace,
+    required this.workplace,
     required this.phone,
     required this.email,
     required this.recommender,
@@ -36,14 +36,31 @@ class User {
     return User(
         stringId: json['stringId'],
         name: json['name'],
-        userLevel: json['userLevel'],
-        workPlace: "",
-        // json['workPlace'],
+        userLevel: json['level'],
+        workplace: json['workplace'],
         phone: json['phone'],
         email: json['email'],
         recommender: json['recommender'],
         createdAt: DateTime.parse(json['createdAt']),
         lastLoginAt: DateTime.now(),
+    );
+  }
+
+  factory User.fromMyInfoJson(Map<String, dynamic> json) {
+    print(json);
+    print(json['stringId']);
+    print(json['name']);
+    print(json['level']);
+    return User(
+      stringId: json['stringId'],
+      name: json['name'],
+      userLevel: json['level'],
+      workplace: json['workplace'],
+      phone: json['phone'],
+      email: json['email'],
+      recommender: json['recommender'],
+      createdAt: DateTime.now(), // garbage
+      lastLoginAt: DateTime.now(), // garbage
     );
   }
 
@@ -56,11 +73,11 @@ class User {
       DataCell(Text(email)),
       DataCell(Text(recommender ?? "")),
       DataCell(Text(lastLoginAt.toString())),
-      DataCell(Text(workPlace ?? "")),
+      DataCell(Text(workplace ?? "")),
       DataCell(Text(createdAt.toString())),
       DataCell(OutlinedButton(
         onPressed: () {
-          Get.to(const EditUserInfoScreen(stringId: null,));
+          Get.to(EditUserInfoScreen(user: this,));
         },
         child: const Text("수정"),
       ))
@@ -76,12 +93,41 @@ class User {
   }
 }
 
-Future<List<User>> fetchUsers() async {
+Future<List<User>> fetchUsers({
+  String? name,
+  String? stringId,
+  String? phone,
+  String? recommender,
+  List<String>? levels,
+}) async {
+  Map<String, dynamic> params = {};
+  if (name != null) {
+    params['name'] = name;
+  }
+  if (stringId != null) {
+    params['stringId'] = stringId;
+  }
+  if (phone != null) {
+    params['phone'] = phone;
+  }
+  if (recommender != null) {
+    params['recommender'] = recommender;
+  }
+  if (levels != null) {
+    params['levels'] = levels;
+  }
   var response = await http.get(
-      StringUtils().stringToUri('/admin/users'),
+      StringUtils().stringToUri('/admin/users',
+          params: params,
+      ),
       headers: await StringUtils().header()
   );
 
+  print(StringUtils().stringToUri('/admin/users',
+      params: {'name': name, 'stringId': stringId, 'phone': phone, 'levels': levels}
+  ),);
+  print(response.statusCode);
+  print(response.body);
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
 
   var result = responseBody.map<User>((json) => User.fromJson(json)).toList();
@@ -107,11 +153,11 @@ Future<Map<String, dynamic>> getMyInfo() async {
 Future<http.Response> changePassword(String stringId, String newPassword) async {
   var response = await http.post(
     StringUtils().stringToUri("/change-password"),
-    body: {"stringId": stringId, "newPassword": newPassword},
+    body: jsonEncode({"stringId": stringId, "newPassword": newPassword}),
     headers: await StringUtils().header()
   );
 
-  return jsonDecode(utf8.decode(response.bodyBytes));
+  return response;
 }
 
 Future<http.Response> signInApi(

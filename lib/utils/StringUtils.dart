@@ -53,14 +53,15 @@ class StringUtils {
 
 
   bool isValidStringId(String stringId) {
-    if (RegExp("^[a-z0-9]{4,20}\$").hasMatch(stringId)) {
+    if (RegExp("^[a-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{3,20}\$").hasMatch(stringId)) {
       return true;
     }
     return false;
   }
 
   bool isValidPassword(String password) {
-    if (RegExp("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[./,!@#\$%^&()+=-])[a-zA-Z0-9./,!@#\$%^&*()+=-]{4,20}\$").hasMatch(password)) {
+    // if (RegExp("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[./,!@#\$%^&()+=-])[a-zA-Z0-9./,!@#\$%^&*()+=-]{4,20}\$").hasMatch(password)) {
+    if (RegExp("^[a-zA-Z0-9./,!@#\$%^&*()+=-]{4,20}\$").hasMatch(password)) {
       return true;
     }
     return false;

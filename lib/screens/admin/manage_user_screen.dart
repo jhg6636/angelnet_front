@@ -1,6 +1,7 @@
 import 'package:backoffice_front/models/common/user.dart';
 import 'package:backoffice_front/widgets/admin/make_user_form.dart';
 import 'package:backoffice_front/screens/screen_frame.dart';
+import 'package:cross_scroll/cross_scroll.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -122,6 +123,9 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                 FilledButton.icon(
                     onPressed: () {
                       // todo 검색 기능
+                      setState(() {
+                        users = fetchUsers();
+                      });
                     },
                     icon: const Icon(Icons.search),
                     label: const Text("검색"),
@@ -133,7 +137,7 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                       builder: (BuildContext context) {
                         return const SizedBox(
                           height: 1000.0,
-                          child: MakeUserForm(isPopup: true, isEditing: false, stringId: null,)
+                          child: MakeUserForm(isPopup: true, isEditing: false, user: null,)
                         );
                       }
                     );
@@ -153,7 +157,22 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                   } else if (snapshot.hasData == false) {
                     return const CircularProgressIndicator();
                   } else {
-                    return adminUserTable(snapshot.data ?? List.empty());
+                    ScrollController vertical = ScrollController();
+                    ScrollController horizontal = ScrollController();
+                    return Scrollbar(
+                        controller: vertical,
+                        child: SingleChildScrollView(
+                          controller: vertical,
+                          child: Scrollbar(
+                            controller: horizontal,
+                            child: SingleChildScrollView(
+                              controller: horizontal,
+                              scrollDirection: Axis.horizontal,
+                              child: adminUserTable(snapshot.data ?? List.empty()),
+                            ),
+                          )
+                        )
+                    );
                   }
                 }
             ),

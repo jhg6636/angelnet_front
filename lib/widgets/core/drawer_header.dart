@@ -91,7 +91,7 @@ Widget myInfoWidget(Map<String, dynamic> myInfo) {
       ),
       TextButton.icon(
         onPressed: () {
-          Get.to(EditUserInfoScreen(stringId: myInfo["stringId"],));
+          Get.to(EditUserInfoScreen(user: User.fromMyInfoJson(myInfo)));
         },
         icon: const Icon(
           Icons.edit,

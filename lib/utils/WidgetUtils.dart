@@ -23,4 +23,14 @@ class WidgetUtils {
 
   static const titleStyle = TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold);
 
+  Widget futureBuilderWidget(AsyncSnapshot<dynamic> snapshot, Widget widget) {
+    if (snapshot.hasError) {
+      return errorPadding;
+    } else if (!snapshot.hasData) {
+      return const CircularProgressIndicator();
+    } else {
+      return widget;
+    }
+  }
+
 }

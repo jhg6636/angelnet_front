@@ -23,7 +23,7 @@ class SignUpScreenState extends State<SignUpScreen> {
       body: const SafeArea(
         child: Padding(
           padding: WidgetUtils.smallPadding,
-          child: MakeUserForm(isPopup: false, isEditing: false, stringId: null,)
+          child: MakeUserForm(isPopup: false, isEditing: false, user: null,)
         )
 
       ),
