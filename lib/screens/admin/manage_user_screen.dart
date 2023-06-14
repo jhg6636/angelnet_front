@@ -15,6 +15,7 @@ class ManageUserScreen extends StatefulWidget {
 }
 
 class ManageUserScreenState extends State<ManageUserScreen> {
+  Future<List<User>> users = fetchUsers();
 
   final _stringIdController = TextEditingController();
   final _nameController = TextEditingController();
@@ -26,7 +27,6 @@ class ManageUserScreenState extends State<ManageUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var users = fetchUsers();
     return ScreenFrame(
         main: Column(
           children: [
@@ -145,6 +145,22 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                   icon: const Icon(Icons.add),
                   label: const Text("신규 회원 추가"),
                 ),
+                FilledButton(
+                  onPressed: () {
+                    setState(() {
+                      users = fetchUsers(sort: "LAST_LOGIN");
+                    });
+                  },
+                  child: const Text("최근 로그인 순 정렬"),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    setState(() {
+                      users = fetchUsers();
+                    });
+                  },
+                  child: const Text("최근 가입 순 정렬"),
+                )
               ],
             ),
             FutureBuilder<List<User>>(

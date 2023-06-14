@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:backoffice_front/main.dart';
 import 'package:backoffice_front/screens/common/edit_user_info_screen.dart';
-import 'package:backoffice_front/screens/common/signup_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,15 +41,11 @@ class User {
         email: json['email'],
         recommender: json['recommender'],
         createdAt: DateTime.parse(json['createdAt']),
-        lastLoginAt: DateTime.now(),
+        lastLoginAt: DateTime.parse(json['lastLoginAt']),
     );
   }
 
   factory User.fromMyInfoJson(Map<String, dynamic> json) {
-    print(json);
-    print(json['stringId']);
-    print(json['name']);
-    print(json['level']);
     return User(
       stringId: json['stringId'],
       name: json['name'],
@@ -94,13 +89,14 @@ class User {
 }
 
 Future<List<User>> fetchUsers({
+  String sort = "CREATE",
   String? name,
   String? stringId,
   String? phone,
   String? recommender,
   List<String>? levels,
 }) async {
-  Map<String, dynamic> params = {};
+  Map<String, dynamic> params = {'sortBy': sort};
   if (name != null) {
     params['name'] = name;
   }
@@ -122,12 +118,6 @@ Future<List<User>> fetchUsers({
       ),
       headers: await StringUtils().header()
   );
-
-  print(StringUtils().stringToUri('/admin/users',
-      params: {'name': name, 'stringId': stringId, 'phone': phone, 'levels': levels}
-  ),);
-  print(response.statusCode);
-  print(response.body);
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
 
   var result = responseBody.map<User>((json) => User.fromJson(json)).toList();
@@ -182,7 +172,6 @@ Future<http.Response> signInApi(
 
   var uri = StringUtils().stringToUri('/sign-in');
   var response = await http.post(uri, headers: headers, body: jsonEncode(request));
-  print(response.statusCode);
   return response;
 }
 
@@ -199,7 +188,6 @@ Future<http.Response> loginApi(String stringId, String password) async {
   var uri = StringUtils().stringToUri('/login', params: request);
   var response = await http.get(uri, headers: headers);
   while (response.body.isBlank ?? true) {
-    print(response.body);
     response = await http.get(uri, headers: headers);
   }
 
