@@ -161,7 +161,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                                 children: [
                                   FilledButton(
                                     onPressed: () async {
-                                      var response = await changePassword(_passwordController.text);
+                                      var response = await changePassword(_stringIdController.text, _passwordController.text);
                                       Navigator.pop(context);
                                     },
                                     child: const Text("변경하기")
@@ -255,7 +255,14 @@ class MakeUserFormState extends State<MakeUserForm> {
                     print(validityString);
                     if (validityString == null) {
                       try {
-                        var response = await signInApi();
+                        var response = await signInApi(
+                          _stringIdController.text,
+                          _passwordController.text,
+                          _nameController.text,
+                          _phoneController.text,
+                          _emailController.text,
+                          _recommenderController.text,
+                        );
                         if (response.statusCode != 200) {
                           print(jsonDecode(utf8.decode(response.bodyBytes)));
                         } else {
@@ -319,25 +326,6 @@ class MakeUserFormState extends State<MakeUserForm> {
     }
 
     return null;
-  }
-
-  Future<http.Response> signInApi() async {
-    String? recommenderText = (_recommenderController.text == "") ? null : _recommenderController.text;
-
-    final Map<String, dynamic> request = {
-      "stringId": _stringIdController.text,
-      "password": _passwordController.text,
-      "name": _nameController.text,
-      "phone": _phoneController.text,
-      "email": _emailController.text,
-      "recommender": recommenderText,
-    };
-    var headers = {HttpHeaders.contentTypeHeader: "application/json"};
-
-    var uri = StringUtils().stringToUri('/sign-in');
-    var response = await http.post(uri, headers: headers, body: jsonEncode(request));
-    print(response.statusCode);
-    return response;
   }
 
 }

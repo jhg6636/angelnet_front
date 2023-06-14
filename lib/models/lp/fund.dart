@@ -165,6 +165,12 @@ class Fund {
         ]
     );
   }
+
+  String toJson() {
+    return jsonEncode({
+    });
+  }
+
 }
 
 Future<List<Fund>> fetchMyFunds() async {
@@ -206,6 +212,44 @@ Future<http.Response> joinFund(int fundId, int stockCount) async {
   return await http.post(
     StringUtils().stringToUri('lp/fund'),
     headers: await StringUtils().header(),
-    body: jsonEncode({"fundId": fundId.toString(), "stockCount": stockCount}),
+    body: jsonEncode({"fundId": fundId.toString(), "stockCounts": stockCount}),
+  );
+}
+
+Future<http.Response> unjoinFund(int fundId, int? userId) async {
+  return await http.delete(
+    StringUtils().stringToUri('lp/fund', params: {"fundId": fundId, "userId": userId}),
+    headers: await StringUtils().header(),
+  );
+}
+
+Future<http.Response> checkDeposit(int lpId) async {
+  return await http.post(
+    StringUtils().stringToUri('admin/deposit'),
+    headers: await StringUtils().header(),
+    body: jsonEncode({"lpId": lpId})
+  );
+}
+
+Future<http.Response> uncheckDeposit(int lpId) async {
+  return await http.delete(
+    StringUtils().stringToUri('admin/deposit', params: {"lpId": lpId}),
+    headers: await StringUtils().header(),
+  );
+}
+
+Future<http.Response> makeFund(Fund fund) async {
+  return await http.post(
+    StringUtils().stringToUri('admin/fund'),
+    headers: await StringUtils().header(),
+    body: fund.toJson(),
+  );
+}
+
+Future<http.Response> editFund(Fund fund) async {
+  return await http.put(
+    StringUtils().stringToUri('admin/fund'),
+    headers: await StringUtils().header(),
+    body: fund.toJson(),
   );
 }

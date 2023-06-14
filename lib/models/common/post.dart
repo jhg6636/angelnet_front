@@ -72,3 +72,20 @@ Future<List<Post>> fetchAllPosts() async {
   return jsonDecode(utf8.decode(response.bodyBytes))
       .map<Post>((json) => Post.fromJson(json)).toList();
 }
+
+Future<http.Response> makePost(int bulletinId, String title, String body) async {
+  return await http.post(
+    StringUtils().stringToUri('post'),
+    headers: await StringUtils().header(),
+    body: {'bulletinId': bulletinId, 'title': title, 'body': body}
+  );
+}
+
+Future<Post> fetchOnePost(int postId) async {
+  var response = await http.get(
+    StringUtils().stringToUri('post/full', params: {'postId': postId}),
+    headers: await StringUtils().header(),
+  );
+
+  return Post.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+}

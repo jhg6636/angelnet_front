@@ -28,3 +28,11 @@ Future<List<Bulletin>> fetchAllBulletins() async {
   return jsonDecode(utf8.decode(response.bodyBytes))
       .map<Bulletin>((json) => Bulletin.fromJson(json)).toList();
 }
+
+Future<http.Response> makeBulletin(String name) async {
+  return await http.post(
+    StringUtils().stringToUri('bulletin'),
+    headers: await StringUtils().header(),
+    body: {'name': name}
+  );
+}

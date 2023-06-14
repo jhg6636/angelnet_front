@@ -15,16 +15,6 @@ import 'package:http/http.dart' as http;
 import '../../utils/StringUtils.dart';
 
 class SignUpScreenState extends State<SignUpScreen> {
-  // TODO: 주소, 근무처, 명함첨부
-
-  final _nameController = TextEditingController();
-  final _stringIdController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _passwordCheckController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _recommenderController = TextEditingController();
-  final _workspaceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

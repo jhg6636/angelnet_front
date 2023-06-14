@@ -106,27 +106,6 @@ class HomeScreenState extends State<HomeScreen> {
       );
   }
 
-  Future<http.Response> loginApi(String stringId, String password) async {
-    var deviceId = await StringUtils().getDeviceId();
-    final Map<String, dynamic> request = {
-      "stringId": stringId,
-      "password": password
-    };
-    var headers = {
-      HttpHeaders.contentTypeHeader: "application/json"
-    };
-
-    var uri = StringUtils().stringToUri('/login', params: request);
-    var response = await http.get(uri, headers: headers);
-    while (response.body.isBlank ?? true) {
-      print(response.body);
-      response = await http.get(uri, headers: headers);
-    }
-
-    secureStorage.write(key: deviceId, value: response.body);
-    return response;
-  }
-
   void tryLogin() async {
     try {
       var response = await loginApi(

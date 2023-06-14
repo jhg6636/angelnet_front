@@ -86,3 +86,33 @@ DataTable makeGroupMemberDataTable(List<User> users) {
       rows: users.map<DataRow>((user) => user.toGroupMemberDataRow()).toList()
   );
 }
+
+Future<http.Response> addGroupMember(int groupId, List<int> userIds) async {
+  return await http.post(
+    StringUtils().stringToUri("admin/group/member"),
+    headers: await StringUtils().header(),
+    body: jsonEncode({'groupId': groupId, 'userIds': userIds})
+  );
+}
+
+Future<http.Response> deleteGroupMember(int userGroupId) async {
+  return await http.delete(
+    StringUtils().stringToUri('admin/group/member', params: {'userGroupId': userGroupId}),
+    headers: await StringUtils().header(),
+  );
+}
+
+Future<http.Response> makeGroup(String name) async {
+  return await http.post(
+    StringUtils().stringToUri('admin/group'),
+    headers: await StringUtils().header(),
+    body: {'name': name}
+  );
+}
+
+Future<http.Response> deleteGroup(int groupId) async {
+  return await http.delete(
+    StringUtils().stringToUri('admin/group', params: {'groupId': groupId}),
+    headers: await StringUtils().header(),
+  );
+}

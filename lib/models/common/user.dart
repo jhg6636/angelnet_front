@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:backoffice_front/main.dart';
 import 'package:backoffice_front/screens/common/edit_user_info_screen.dart';
@@ -103,11 +104,78 @@ Future<Map<String, dynamic>> getMyInfo() async {
   return jsonDecode(utf8.decode(response.bodyBytes));
 }
 
-Future<http.Response> changePassword(String newPassword) async {
+Future<http.Response> changePassword(String stringId, String newPassword) async {
   var response = await http.post(
-    StringUtils().stringToUri("/change-pw"),
-    body: {"newPassword": newPassword},
+    StringUtils().stringToUri("/change-password"),
+    body: {"stringId": stringId, "newPassword": newPassword},
     headers: await StringUtils().header()
+  );
+
+  return jsonDecode(utf8.decode(response.bodyBytes));
+}
+
+Future<http.Response> signInApi(
+    String stringId,
+    String password,
+    String name,
+    String phone,
+    String email,
+    String recommender
+    ) async {
+  String? recommenderText = (recommender == "") ? null : recommender;
+
+  final Map<String, dynamic> request = {
+    "stringId": stringId,
+    "password": password,
+    "name": name,
+    "phone": phone,
+    "email": email,
+    "recommender": recommenderText,
+  };
+  var headers = {HttpHeaders.contentTypeHeader: "application/json"};
+
+  var uri = StringUtils().stringToUri('/sign-in');
+  var response = await http.post(uri, headers: headers, body: jsonEncode(request));
+  print(response.statusCode);
+  return response;
+}
+
+Future<http.Response> loginApi(String stringId, String password) async {
+  var deviceId = await StringUtils().getDeviceId();
+  final Map<String, dynamic> request = {
+    "stringId": stringId,
+    "password": password
+  };
+  var headers = {
+    HttpHeaders.contentTypeHeader: "application/json"
+  };
+
+  var uri = StringUtils().stringToUri('/login', params: request);
+  var response = await http.get(uri, headers: headers);
+  while (response.body.isBlank ?? true) {
+    print(response.body);
+    response = await http.get(uri, headers: headers);
+  }
+
+  secureStorage.write(key: deviceId, value: response.body);
+  return response;
+}
+
+Future<String> findIdApi(String name, String email) async {
+  var response = await http.post(
+      StringUtils().stringToUri("/find-id"),
+      body: {"name": name, "email": email},
+      headers: await StringUtils().header()
+  );
+
+  return jsonDecode(utf8.decode(response.bodyBytes));
+}
+
+Future<String> findPwApi(String name, String email) async {
+  var response = await http.post(
+      StringUtils().stringToUri("/find-pw"),
+      body: {"name": name, "email": email},
+      headers: await StringUtils().header()
   );
 
   return jsonDecode(utf8.decode(response.bodyBytes));
