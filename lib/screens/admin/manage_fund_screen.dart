@@ -170,13 +170,30 @@ class ManageFundScreenState extends State<ManageFundScreen> {
             future: funds,
             builder:
                 (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
-              if (snapshot.hasError) {
-                return WidgetUtils.errorPadding;
-              } else if (snapshot.hasData == false) {
-                return const CircularProgressIndicator();
-              } else {
-                return adminFundTable(snapshot.data ?? List.empty());
-              }
+                  ScrollController vertical = ScrollController();
+                  ScrollController horizontal = ScrollController();
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    print(snapshot.stackTrace);
+                    return WidgetUtils.errorPadding;
+                  } else if (snapshot.hasData == false) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return Scrollbar(
+                      controller: vertical,
+                      child: SingleChildScrollView(
+                        controller: vertical,
+                        child: Scrollbar(
+                          controller: horizontal,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            controller: horizontal,
+                            child: adminFundTable(snapshot.data ?? List.empty()),
+                          ),
+                        ),
+                      )
+                    );
+                  }
             },
           ),
         ],

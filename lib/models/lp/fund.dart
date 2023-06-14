@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class Fund {
   int id;
@@ -26,6 +27,9 @@ class Fund {
   int costPerShare;
   int currentFundedCost;
   int currentMemberCount;
+  int minimumShare;
+  int totalShare;
+  int totalMember;
   String status;
   DateTime payAt;
 
@@ -44,6 +48,9 @@ class Fund {
         required this.costPerShare,
         required this.currentFundedCost,
         required this.currentMemberCount,
+        required this.totalMember,
+        required this.minimumShare,
+        required this.totalShare,
         required this.status,
         required this.payAt,
       }
@@ -53,7 +60,7 @@ class Fund {
     return Fund(
         id: json['id'] as int,
         name: json['name'] as String,
-        startupName: json['startupName'] as String,
+        startupName: "",
         mainProduct: "",
         managerName: "",
         createdAt: DateTime.parse(json['createdAt'] as String),
@@ -66,6 +73,9 @@ class Fund {
         currentMemberCount: 0,
         status: "READY",
         payAt: DateTime.now(),
+        totalMember: 0,
+        minimumShare: 0,
+        totalShare: 0,
     );
   }
 
@@ -79,28 +89,28 @@ class Fund {
             },
             child: Text(name),
           )),
-          DataCell(
-              FutureBuilder<Startup>(
-                future: fetchStartup(startupName),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasError) {
-                    return WidgetUtils.errorPadding;
-                  } else {
-                    return TextButton(
-                        onPressed: () {
-                          Get.to(StartupScreen(startup: snapshot.data));
-                        },
-                        child: Text(startupName)
-                    );
-                  }
-                }
-              )
+          DataCell(Text(startupName)
+              // FutureBuilder<Startup>(
+              //   future: fetchStartup(startupName),
+              //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+              //     if (snapshot.hasError) {
+              //       return WidgetUtils.errorPadding;
+              //     } else {
+              //       return TextButton(
+              //           onPressed: () {
+              //             Get.to(StartupScreen(startup: snapshot.data));
+              //           },
+              //           child: Text(startupName)
+              //       );
+              //     }
+              //   }
+              // )
           ),
           DataCell(Text(cost.toString())),
           DataCell(Text(currentFundedCost.toString())),
           DataCell(Text((cost-currentFundedCost).toString())),
           DataCell(Text(currentMemberCount.toString())),
-          DataCell(Text(createdAt.toString())),
+          DataCell(Text(DateFormat('yyyy-MM-dd').format(createdAt))),
           DataCell(Text(status)),
         ]
     );
