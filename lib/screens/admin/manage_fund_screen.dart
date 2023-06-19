@@ -111,53 +111,6 @@ class ManageFundScreenState extends State<ManageFundScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return const FundForm(isMaking: true, fund: null);
-                        // return Column(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        //   children: [
-                        //     const Text(
-                        //       "조합 생성하기",
-                        //       style: WidgetUtils.h1,
-                        //     ),
-                        //     SizedBox(
-                        //       width: 500.0,
-                        //       child: TextField(
-                        //         controller: _nameMakeController,
-                        //         decoration: const InputDecoration(
-                        //           labelText: '조합명',
-                        //           border: OutlineInputBorder(),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     SizedBox(
-                        //         width: 500.0,
-                        //         child: TextField(
-                        //           controller: _startupNameMakeController,
-                        //           decoration: const InputDecoration(
-                        //             labelText: '투자종목',
-                        //             border: OutlineInputBorder(),
-                        //           ),
-                        //         )),
-                        //     // todo 조합 관련 파일 추가 (회사 소개, 고유 번호증)
-                        //     // todo 투자형태 / 조합 종목 추가
-                        //     ButtonBar(
-                        //         alignment: MainAxisAlignment.center,
-                        //         children: [
-                        //           TextButton(
-                        //               onPressed: () {
-                        //                 Navigator.pop(context);
-                        //               },
-                        //               child: const Text("취소")),
-                        //           ElevatedButton(
-                        //               onPressed: () {
-                        //                 Navigator.pop(context);
-                        //                 // todo 실제 생성하는 부분
-                        //                 Fluttertoast.showToast(
-                        //                     msg: "조합이 생성되었습니다.");
-                        //               },
-                        //               child: const Text("생성"))
-                        //         ])
-                        //   ],
-                        // );
                       });
                   setState(() {
                     funds = fetchAllFunds();

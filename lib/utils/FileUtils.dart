@@ -10,6 +10,10 @@ class FileUtils {
     return await FilePicker.platform.pickFiles(type: FileType.image);
   }
 
+  Future<FilePickerResult?> pickAnyFile() async {
+    return await FilePicker.platform.pickFiles(type: FileType.any);
+  }
+
   void downloadFile(String url) {
     html.AnchorElement anchorElement = html.AnchorElement(href: url);
     anchorElement.download = url;

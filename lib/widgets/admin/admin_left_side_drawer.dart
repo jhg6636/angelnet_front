@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../screens/admin/manage_fund_screen.dart';
+import '../../screens/admin/manage_group_screen.dart';
 
 class AdminLeftSideDrawer extends StatelessWidget {
   const AdminLeftSideDrawer({super.key});
@@ -37,7 +38,7 @@ class AdminLeftSideDrawer extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                Get.to(const NotDevelopedScreen(isAdmin: true));
+                Get.to(ManageGroupScreen());
               },
               child: const Text(
                 "그룹 관리",

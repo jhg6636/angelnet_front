@@ -33,6 +33,8 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
                 future: fetchAllGroups(),
                 builder: (BuildContext context, AsyncSnapshot<List<Group>> snapshot) {
                   if (snapshot.hasError) {
+                    print(snapshot.error);
+                    print(snapshot.stackTrace);
                     return WidgetUtils.errorPadding;
                   } else if (snapshot.hasData == false) {
                     return const CircularProgressIndicator();
@@ -50,7 +52,13 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
                           return SingleChildScrollView(
                             child: Column(
                               children: [
-                                TextField(controller: _groupNameController,),
+                                TextField(
+                                  controller: _groupNameController,
+                                  decoration: const InputDecoration(
+                                    labelText: "그룹명",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
                                 ButtonBar(
                                   children: [
                                     TextButton(
@@ -60,8 +68,9 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
                                         child: const Text("취소하기")
                                     ),
                                     ElevatedButton(
-                                        onPressed: () {
-                                          // todo 그룹 추가하는 api
+                                        onPressed: () async {
+                                          await makeGroup(_groupNameController.text);
+                                          Navigator.pop(context);
                                         },
                                         child: const Text("추가하기")
                                     )

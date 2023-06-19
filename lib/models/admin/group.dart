@@ -51,8 +51,9 @@ Future<List<Group>> fetchAllGroups() async {
     headers: await StringUtils().header(),
   );
 
-  return jsonDecode(utf8.decode(response.bodyBytes))
-    .map<Group>((json) => Group.fromJson(json)).toList();
+  return (jsonDecode(utf8.decode(response.bodyBytes)) as List)
+    .map<Group>((json) => Group.fromJson(json))
+    .toList();
 }
 
 DataTable makeDataTable(List<Group> groups) {

@@ -32,14 +32,34 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
                     children: [
                       OutlinedButton.icon(
                         onPressed: () {
-                        // TODO 확인용 팝업 -> 그룹 삭제하는 API 연결
+                          deleteGroup(widget.group.id);
                         },
                         icon: const Icon(Icons.delete),
                         label: const Text("그룹 삭제"),
                       ),
                       OutlinedButton.icon(
                         onPressed: () {
+                          TextEditingController nameController = TextEditingController();
                         // TODO 변경 팝업 -> API 연결
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Column(
+                                  children: [
+                                    TextField(
+                                      controller: nameController,
+                                      decoration: const InputDecoration(labelText: "그룹명"),
+                                    ),
+                                    FilledButton(
+                                        onPressed: () {
+
+                                        },
+                                        child: const Text("변경하기")
+                                    )
+                                  ],
+                                );
+                              }
+                          );
                         },
                         icon: const Icon(Icons.edit),
                         label: const Text("그룹명 변경")
@@ -53,7 +73,7 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
                   const Text("멤버 보기"),
                   ElevatedButton(
                       onPressed: () {
-                        // todo 그룹에 멤버 추가하는 기능
+                        addGroupMember(0, [0]);
                       },
                       child: const Text("멤버 추가")
                   )

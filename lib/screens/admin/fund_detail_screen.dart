@@ -1,8 +1,10 @@
 import 'package:backoffice_front/models/lp/fund.dart';
 import 'package:backoffice_front/models/lp/limited_partner.dart';
 import 'package:backoffice_front/screens/screen_frame.dart';
+import 'package:backoffice_front/widgets/lp/fund_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../utils/WidgetUtils.dart';
 
@@ -28,6 +30,12 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
             children: [
               const Text("기본 정보"),
               widget.fund.toBasicTable(),
+              FilledButton(
+                onPressed: () {
+                  Get.to(FundForm(isMaking: false, fund: widget.fund));
+                },
+                child: const Text("정보 수정하기")
+              ),
               const Text("조합 참여자"),
               FutureBuilder(
                 future: fetchLps(widget.fund.id), 

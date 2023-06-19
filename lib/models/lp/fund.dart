@@ -32,6 +32,8 @@ class Fund {
   int totalMember;
   String status;
   DateTime payAt;
+  int value;
+  String recommenderOrGroupName;
 
   Fund(
       {
@@ -53,6 +55,8 @@ class Fund {
         required this.totalShare,
         required this.status,
         required this.payAt,
+        required this.value,
+        required this.recommenderOrGroupName,
       }
   );
 
@@ -76,6 +80,8 @@ class Fund {
         totalMember: 0,
         minimumShare: 0,
         totalShare: 0,
+        value: 0,
+        recommenderOrGroupName: "",
     );
   }
 
@@ -176,8 +182,9 @@ class Fund {
     );
   }
 
-  String toJson() {
+  String toPostRequest() {
     return jsonEncode({
+
     });
   }
 
@@ -252,7 +259,7 @@ Future<http.Response> makeFund(Fund fund) async {
   return await http.post(
     StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
-    body: fund.toJson(),
+    body: fund.toPostRequest(),
   );
 }
 
@@ -260,6 +267,6 @@ Future<http.Response> editFund(Fund fund) async {
   return await http.put(
     StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
-    body: fund.toJson(),
+    body: fund.toPostRequest(),
   );
 }

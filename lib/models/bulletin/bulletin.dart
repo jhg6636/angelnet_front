@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import '../../utils/StringUtils.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +17,21 @@ class Bulletin {
     return Bulletin(
       id: json["id"] as int,
       name: json["name"] as String,
+    );
+  }
+
+  DataRow toDataRow() {
+    return DataRow(
+        cells: [
+          DataCell(Text(id as String)),
+          DataCell(TextButton(
+            onPressed: () {
+              // Get.to();
+            },
+            child: Text(name),
+          )),
+          const DataCell(Text("0")),
+        ]
     );
   }
 

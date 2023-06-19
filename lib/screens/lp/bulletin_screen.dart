@@ -1,4 +1,4 @@
-import 'package:backoffice_front/models/common/bulletin.dart';
+import 'package:backoffice_front/models/bulletin/bulletin.dart';
 import 'package:backoffice_front/models/common/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
