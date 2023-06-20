@@ -11,7 +11,9 @@ class Bulletin {
   final int id;
   final String name;
 
-  const Bulletin({required this.id, required this.name});
+  bool checked;
+
+  Bulletin({required this.id, required this.name, this.checked = false});
 
   factory Bulletin.fromJson(Map<String, dynamic> json) {
     return Bulletin(
@@ -31,7 +33,26 @@ class Bulletin {
             child: Text(name),
           )),
           const DataCell(Text("0")),
-        ]
+        ],
+    );
+  }
+
+  DataRow toDataRowWithCheckbox() {
+    return DataRow(
+      cells: [
+        DataCell(Text(id as String)),
+        DataCell(TextButton(
+          onPressed: () {
+            // Get.to();
+          },
+          child: Text(name),
+        )),
+        const DataCell(Text("0")),
+      ],
+      selected: checked,
+      onSelectChanged: (selected) {
+        checked = selected ?? false;
+      }
     );
   }
 

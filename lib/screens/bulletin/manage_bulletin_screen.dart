@@ -1,3 +1,4 @@
+import 'package:backoffice_front/widgets/bulletin/post_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,47 @@ class ManageBulletinScreenState extends State<ManageBulletinScreen> {
                     );
                   }
               ),
+              FilledButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      final bulletinNameController = TextEditingController();
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: bulletinNameController,
+                              decoration: const InputDecoration(
+                                labelText: "게시판명",
+                                border: OutlineInputBorder()
+                              ),
+                            ),
+                            ButtonBar(
+                              // todo ButtonBar 추상화
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("취소하기")
+                                ),
+                                FilledButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("생성하기")
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    }
+                  );
+                },
+                child: const Text("생성하기")
+              )
             ],
           ),
         ),

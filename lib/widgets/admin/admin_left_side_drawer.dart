@@ -1,4 +1,5 @@
 import 'package:backoffice_front/screens/admin/manage_user_screen.dart';
+import 'package:backoffice_front/screens/bulletin/manage_bulletin_screen.dart';
 import 'package:backoffice_front/screens/common/not_developed_screen.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:backoffice_front/widgets/core/drawer_header.dart';
@@ -47,7 +48,8 @@ class AdminLeftSideDrawer extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                Get.to(const NotDevelopedScreen(isAdmin: true));
+                // Get.to(const NotDevelopedScreen(isAdmin: true));
+                Get.to(const ManageBulletinScreen());
               },
               child: const Text(
                   "공지사항 관리",
