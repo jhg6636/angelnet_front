@@ -81,7 +81,7 @@ class FundCard extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 24.0),
                             ),
                             Text(
-                                DateFormat('yyyy-MM-dd').format(fund.createdAt))
+                                DateFormat('yyyy-MM-dd').format(fund.startAt))
                           ]),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

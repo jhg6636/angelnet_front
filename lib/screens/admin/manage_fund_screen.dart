@@ -20,8 +20,6 @@ class ManageFundScreen extends StatefulWidget {
 class ManageFundScreenState extends State<ManageFundScreen> {
   final _nameSearchController = TextEditingController();
   final _startupNameSearchController = TextEditingController();
-  final _nameMakeController = TextEditingController();
-  final _startupNameMakeController = TextEditingController();
 
   final List<String> _fundStatusFilterOptions = [
     "READY",

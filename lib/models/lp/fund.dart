@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:typed_data';
 
 import 'package:backoffice_front/models/startup/startup.dart';
 import 'package:backoffice_front/screens/admin/fund_detail_screen.dart';
@@ -19,7 +20,7 @@ class Fund {
   String startupName;
   String mainProduct;
   String managerName;
-  DateTime createdAt;
+  DateTime startAt;
   String type;
   DateTime? dissolvedAt;
   double? margin;
@@ -33,7 +34,13 @@ class Fund {
   String status;
   DateTime payAt;
   int value;
-  String recommenderOrGroupName;
+  String? recommender;
+  String? groupName;
+  String? memo;
+  String? irUrl;
+  String? fundIdDocumentUrl;
+  String? ruleUrl;
+  String? etcUrl;
 
   Fund(
       {
@@ -42,7 +49,7 @@ class Fund {
         required this.startupName,
         required this.mainProduct,
         required this.managerName,
-        required this.createdAt,
+        required this.startAt,
         required this.type,
         required this.dissolvedAt,
         required this.margin,
@@ -56,7 +63,13 @@ class Fund {
         required this.status,
         required this.payAt,
         required this.value,
-        required this.recommenderOrGroupName,
+        required this.recommender,
+        required this.groupName,
+        required this.memo,
+        required this.irUrl,
+        required this.fundIdDocumentUrl,
+        required this.ruleUrl,
+        required this.etcUrl,
       }
   );
 
@@ -67,7 +80,7 @@ class Fund {
         startupName: "",
         mainProduct: "",
         managerName: "",
-        createdAt: DateTime.parse(json['createdAt'] as String),
+        startAt: DateTime.parse(json['createdAt'] as String),
         type: "",
         dissolvedAt: null,
         margin: null,
@@ -81,7 +94,13 @@ class Fund {
         minimumShare: 0,
         totalShare: 0,
         value: 0,
-        recommenderOrGroupName: "",
+        recommender: "",
+        groupName: "",
+        memo: "",
+        irUrl: null,
+        fundIdDocumentUrl: null,
+        ruleUrl: null,
+        etcUrl: null,
     );
   }
 
@@ -95,28 +114,12 @@ class Fund {
             },
             child: Text(name),
           )),
-          DataCell(Text(startupName)
-              // FutureBuilder<Startup>(
-              //   future: fetchStartup(startupName),
-              //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-              //     if (snapshot.hasError) {
-              //       return WidgetUtils.errorPadding;
-              //     } else {
-              //       return TextButton(
-              //           onPressed: () {
-              //             Get.to(StartupScreen(startup: snapshot.data));
-              //           },
-              //           child: Text(startupName)
-              //       );
-              //     }
-              //   }
-              // )
-          ),
+          DataCell(Text(startupName)),
           DataCell(Text(cost.toString())),
           DataCell(Text(currentFundedCost.toString())),
           DataCell(Text((cost-currentFundedCost).toString())),
           DataCell(Text(currentMemberCount.toString())),
-          DataCell(Text(DateFormat('yyyy-MM-dd').format(createdAt))),
+          DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt))),
           DataCell(Text(status)),
         ]
     );
@@ -136,12 +139,6 @@ class Fund {
               ElevatedButton.icon(
                 onPressed: () {
                   Get.to(FundDetailLpScreen(fund: this));
-                  // var response = await joinFund(id);
-                  // if (response.statusCode == 200) {
-                  //   Fluttertoast.showToast(msg: "조합에 참여하셨습니다. 마이페이지에서 확인해 보세요.");
-                  // } else {
-                  //   Fluttertoast.showToast(msg: "조합에 참여하지 못했습니다.");
-                  // }
                 },
                 icon: const Icon(Icons.search),
                 label: const Text("자세히 보기"),
@@ -156,7 +153,7 @@ class Fund {
       DataCell(Text(name)),
       DataCell(Text(startupName)),
       DataCell(Text(managerName)),
-      DataCell(Text(createdAt.toString())),
+      DataCell(Text(startAt.toString())),
       DataCell(Text(type)),
       DataCell(Text(dissolvedAt.toString())),
       DataCell(Text(margin.toString())),
@@ -175,7 +172,7 @@ class Fund {
           DataRow(cells: [const DataCell(Text("투자 종목")), DataCell(Text(startupName))]),
           DataRow(cells: [const DataCell(Text("투자 형태")), DataCell(Text(type))]),
           DataRow(cells: [const DataCell(Text("상태")), DataCell(Text(status))]),
-          DataRow(cells: [const DataCell(Text("조합 결성일")), DataCell(Text(createdAt.toString()))]),
+          DataRow(cells: [const DataCell(Text("조합 결성일")), DataCell(Text(startAt.toString()))]),
           DataRow(cells: [const DataCell(Text("주금 납입일")), DataCell(Text(payAt.toString()))]),
           DataRow(cells: [const DataCell(Text("담당자")), DataCell(Text(managerName))]),
         ]
@@ -184,7 +181,23 @@ class Fund {
 
   String toPostRequest() {
     return jsonEncode({
-
+      'name': name,
+      'startupName': startupName,
+      'mainProduct': mainProduct,
+      'managerName': managerName,
+      'type': type,
+      'cost': cost,
+      'costPerShare': costPerShare,
+      'minimumShare': minimumShare,
+      'totalShare': totalShare,
+      'totalMember': totalMember,
+      'status': status,
+      'startAt': startAt,
+      'payAt': payAt,
+      'value': value,
+      'recommender': recommender,
+      'groupName': groupName,
+      'memo': memo
     });
   }
 
@@ -204,7 +217,7 @@ Future<List<Fund>> fetchMyFunds() async {
 
 Future<List<Fund>> fetchAllFunds() async {
   var response = await http.get(
-    StringUtils().stringToUri('admin/funds'),
+    StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
   );
 
@@ -268,5 +281,13 @@ Future<http.Response> editFund(Fund fund) async {
     StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
     body: fund.toPostRequest(),
+  );
+}
+
+Future<http.Response> postFundDocument(Uint8List bytes, String ext) async {
+  return await http.post(
+    StringUtils().stringToUri('admin/fund/document'),
+    headers: await StringUtils().header(),
+    body: jsonEncode({"file": bytes, "ext": ext})
   );
 }

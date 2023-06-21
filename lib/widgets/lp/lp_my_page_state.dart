@@ -83,7 +83,7 @@ DataRow toMyPageRow(int index, Fund fund, LimitedPartner lp) {
     DataCell(Text(fund.name)),
     DataCell(Text(fund.startupName)),
     DataCell(Text(fund.cost.toString())),
-    DataCell(Text(fund.createdAt.toString())),
+    DataCell(Text(fund.startAt.toString())),
     DataCell(Text(fund.dissolvedAt.toString() ?? "")),
     DataCell(Text(fund.margin.toString() ?? "")),
     DataCell(Text(""))

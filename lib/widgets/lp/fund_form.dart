@@ -1,3 +1,4 @@
+import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/lp/fund.dart';
@@ -33,9 +34,10 @@ class FundFormState extends State<FundForm> {
 
   @override
   Widget build(BuildContext context) {
-    final recommenderOrGroupNameController = TextEditingController(text: widget.fund?.recommenderOrGroupName);
+    final recommenderController = TextEditingController(text: widget.fund?.recommender);
+    final groupNameController = TextEditingController(text: widget.fund?.groupName);
     final nameController = TextEditingController(text: widget.fund?.name);
-    final createDateController = TextEditingController(text: widget.fund?.createdAt.toString());
+    final createDateController = TextEditingController(text: widget.fund?.startAt.toString());
     final startupNameController = TextEditingController(text: widget.fund?.startupName);
     final mainProductController = TextEditingController(text: widget.fund?.mainProduct);
     final typeController = TextEditingController(text: widget.fund?.type);
@@ -52,28 +54,44 @@ class FundFormState extends State<FundForm> {
     final memoController = TextEditingController(); // todo html로 대체
     return SingleChildScrollView(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          DropdownButton(
-              items: _fundStateList
-                  .map<DropdownMenuItem>(
-                      (value) => DropdownMenuItem(
+          Wrap(
+            children: [
+              const Text("조합 상태"),
+              DropdownButton(
+                  items: _fundStateList
+                      .map<DropdownMenuItem>(
+                          (value) => DropdownMenuItem(
                           value: value,
                           child: Text(value)
                       )
                   )
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedFundState = value;
-                });
-              }),
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedFundState = value;
+                    });
+                  }),
+            ],
+          ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
-            controller: recommenderOrGroupNameController,
+            controller: recommenderController,
             decoration: const InputDecoration(
-                labelText: "추천인 or 그룹명 ()",
+                labelText: "추천인",
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
+          TextField(
+            controller: groupNameController,
+            decoration: const InputDecoration(
+                labelText: "그룹명",
+                border: OutlineInputBorder()
+            ),
+          ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: nameController,
             decoration: const InputDecoration(
@@ -81,6 +99,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: createDateController,
             decoration: const InputDecoration(
@@ -88,6 +107,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: startupNameController,
             decoration: const InputDecoration(
@@ -95,6 +115,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: mainProductController,
             decoration: const InputDecoration(
@@ -102,6 +123,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: typeController,
             decoration: const InputDecoration(
@@ -109,6 +131,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: payDateController,
             decoration: const InputDecoration(
@@ -116,6 +139,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: managerController,
             decoration: const InputDecoration(
@@ -123,6 +147,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: totalCostController,
             decoration: const InputDecoration(
@@ -130,6 +155,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: totalMemberController,
             decoration: const InputDecoration(
@@ -137,6 +163,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: valueController,
             decoration: const InputDecoration(
@@ -144,6 +171,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             // todo 콤마 자동으로 찍히게
             controller: costPerShareController,
@@ -152,6 +180,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: minimumShareController,
             decoration: const InputDecoration(
@@ -159,6 +188,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: totalShareController,
             decoration: const InputDecoration(
@@ -166,6 +196,7 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: memoController,
             decoration: const InputDecoration(
@@ -173,7 +204,19 @@ class FundFormState extends State<FundForm> {
                 border: OutlineInputBorder()
             ),
           ),
+          const Padding(padding: WidgetUtils.smallPadding,),
           // todo FilePickers
+          Wrap(
+            children: [
+              const Text("회사 소개서"),
+              FilledButton(
+                onPressed: () {
+
+                },
+                child: const Text("업로드")
+              )
+            ],
+          ),
           ButtonBar(
             children: [
               TextButton(
@@ -192,7 +235,7 @@ class FundFormState extends State<FundForm> {
                       startupName: startupNameController.text,
                       mainProduct: mainProductController.text,
                       managerName: managerController.text,
-                      createdAt: DateTime.parse(createDateController.text),
+                      startAt: DateTime.parse(createDateController.text),
                       type: typeController.text,
                       dissolvedAt: null,
                       margin: null,
@@ -206,7 +249,13 @@ class FundFormState extends State<FundForm> {
                       status: selectedFundState,
                       payAt: DateTime.parse(payDateController.text),
                       value: valueController.text as int,
-                      recommenderOrGroupName: recommenderOrGroupNameController.text,
+                      recommender: recommenderController.text,
+                      groupName: groupNameController.text,
+                      memo: "",
+                      irUrl: null,
+                      fundIdDocumentUrl: null,
+                      ruleUrl: null,
+                      etcUrl: null
                     )
                   );
                   Navigator.pop(context);
