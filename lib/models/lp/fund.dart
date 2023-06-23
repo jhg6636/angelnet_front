@@ -184,7 +184,7 @@ class Fund {
       'name': name,
       'startupName': startupName,
       'mainProduct': mainProduct,
-      'managerName': managerName,
+      'manager': managerName,
       'type': type,
       'cost': cost,
       'costPerShare': costPerShare,

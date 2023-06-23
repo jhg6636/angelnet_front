@@ -131,6 +131,12 @@ Future<String> checkRoleApi() async {
   return response.body;
 }
 
+Future<bool> checkStringId(String stringId) async {
+  var response = await http.get(StringUtils().stringToUri("/check-id", params: {"stringId": stringId}));
+
+  return response.body as bool;
+}
+
 Future<Map<String, dynamic>> getMyInfo() async {
   var response = await http.get(
       StringUtils().stringToUri("/my-info"),

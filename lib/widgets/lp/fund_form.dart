@@ -217,6 +217,50 @@ class FundFormState extends State<FundForm> {
               )
             ],
           ),
+          Wrap(
+            children: [
+              const Text("회사 소개서"),
+              FilledButton(
+                  onPressed: () {
+
+                  },
+                  child: const Text("업로드")
+              )
+            ],
+          ),
+          Wrap(
+            children: [
+              const Text("조합 등록증"),
+              FilledButton(
+                  onPressed: () {
+
+                  },
+                  child: const Text("업로드")
+              )
+            ],
+          ),
+          Wrap(
+            children: [
+              const Text("규정"),
+              FilledButton(
+                  onPressed: () {
+
+                  },
+                  child: const Text("업로드")
+              )
+            ],
+          ),
+          Wrap(
+            children: [
+              const Text("기타"),
+              FilledButton(
+                  onPressed: () {
+
+                  },
+                  child: const Text("업로드")
+              )
+            ],
+          ),
           ButtonBar(
             children: [
               TextButton(

@@ -42,6 +42,7 @@ class MakeUserFormState extends State<MakeUserForm> {
 
   final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
   String _userLevel = 'LP';
+  bool notDuplicated = false;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +84,17 @@ class MakeUserFormState extends State<MakeUserForm> {
               decoration: InputDecoration(
                 labelText: '아이디',
                 enabled: !widget.isEditing,
+                suffixIcon: FilledButton(
+                  onPressed: () async {
+                    notDuplicated = await checkStringId(_stringIdController.text);
+                    if (notDuplicated) {
+                      Fluttertoast.showToast(msg: "사용 가능한 아이디입니다!");
+                    } else {
+                      Fluttertoast.showToast(msg: "중복 아이디입니다. 다른 아이디를 입력해 주세요.");
+                    }
+                  },
+                  child: const Text("중복 확인"),
+                )
               ),
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp("[a-z0-9ㄱ-ㅎ가-힣ㅏ-ㅣ]"))
@@ -200,9 +212,6 @@ class MakeUserFormState extends State<MakeUserForm> {
               decoration: const InputDecoration(
                 labelText: '이름',
               ),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[ㄱ-ㅎ가-힇ㆍᆢ]"))
-              ],
             ),
             const SizedBox(height: 12.0),
             TextField(
@@ -279,9 +288,11 @@ class MakeUserFormState extends State<MakeUserForm> {
                           print(jsonDecode(utf8.decode(response.bodyBytes)));
                         } else {
                           if (widget.isEditing) {
+                            Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
                             Get.back();
                           }
                           else if (!widget.isPopup) {
+                            Fluttertoast.showToast(msg: "회원가입이 완료되었습니다.");
                             Get.to(const HomeScreen());
                             Get.deleteAll();
                           } else {
