@@ -77,22 +77,6 @@ class FundFormState extends State<FundForm> {
           ),
           const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
-            controller: recommenderController,
-            decoration: const InputDecoration(
-                labelText: "추천인",
-                border: OutlineInputBorder()
-            ),
-          ),
-          const Padding(padding: WidgetUtils.smallPadding,),
-          TextField(
-            controller: groupNameController,
-            decoration: const InputDecoration(
-                labelText: "그룹명",
-                border: OutlineInputBorder()
-            ),
-          ),
-          const Padding(padding: WidgetUtils.smallPadding,),
-          TextField(
             controller: nameController,
             decoration: const InputDecoration(
                 labelText: "조합명",
@@ -205,6 +189,22 @@ class FundFormState extends State<FundForm> {
             ),
           ),
           const Padding(padding: WidgetUtils.smallPadding,),
+          const Padding(padding: WidgetUtils.smallPadding,),
+          TextField(
+            controller: recommenderController,
+            decoration: const InputDecoration(
+                labelText: "추천인",
+                border: OutlineInputBorder()
+            ),
+          ),
+          const Padding(padding: WidgetUtils.smallPadding,),
+          TextField(
+            controller: groupNameController,
+            decoration: const InputDecoration(
+                labelText: "그룹명",
+                border: OutlineInputBorder()
+            ),
+          ),
           // todo FilePickers
           Wrap(
             children: [
@@ -304,7 +304,7 @@ class FundFormState extends State<FundForm> {
                   );
                   Navigator.pop(context);
                 },
-                child: const Text("생성하기")
+                child: widget.isMaking ? const Text("생성하기") : const Text("수정하기")
               )
             ],
           )

@@ -10,7 +10,6 @@ class LimitedPartner {
 
   final int id;
   final String stringId;
-  final String fundName;
   final String name;
   final String phone;
   final int cost;
@@ -22,7 +21,6 @@ class LimitedPartner {
   LimitedPartner({
     required this.id,
     required this.stringId,
-    required this.fundName,
     required this.name,
     required this.phone,
     required this.cost,
@@ -34,16 +32,15 @@ class LimitedPartner {
 
   factory LimitedPartner.fromJson(Map<String, dynamic> json) {
     return LimitedPartner(
-        id: json['id'] as int,
+        id: json['lpId'] as int,
         stringId: json['stringId'] as String,
-        fundName: json['fundName'] as String,
         name: json['name'] as String,
         phone: json['phone'] as String,
         cost: json['cost'] as int,
-        stockCount: json['stockCount'] as int,
-        locUrl: json['locUrl'] as String,
-        taxDeductionUrl: json['taxDeductionUrl'] as String,
-        depositAt: json['depositAt'] as DateTime,
+        stockCount: json['stocks'] as int,
+        locUrl: json['locUrl'],
+        taxDeductionUrl: json['taxDeductionUrl'],
+        depositAt: json['depositAt'],
     );
   }
 
@@ -109,13 +106,14 @@ class LimitedPartner {
 
 }
 
-Future<List<LimitedPartner>> fetchLps(int fundId) async {
+Future<List<LimitedPartner>> fetchLpInFund(int fundId) async {
   var response = await http.get(
-    StringUtils().stringToUri('lp/fund', params: {'fundId': fundId}),
+    StringUtils().stringToUri('admin/lp-in-fund', params: {"fundId": fundId.toString()}),
     headers: await StringUtils().header(),
   );
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+  print(responseBody);
 
   return responseBody.map<LimitedPartner>((json) => LimitedPartner.fromJson(json)).toList();
 }

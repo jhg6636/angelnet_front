@@ -32,34 +32,40 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
               widget.fund.toBasicTable(),
               FilledButton(
                 onPressed: () {
-                  Get.to(FundForm(isMaking: false, fund: widget.fund));
+                  showModalBottomSheet(context: context, builder: (BuildContext context) {
+                    return FundForm(isMaking: false, fund: widget.fund);
+                  });
                 },
                 child: const Text("정보 수정하기")
               ),
               const Text("조합 참여자"),
               FutureBuilder(
-                future: fetchLps(widget.fund.id), 
+                future: fetchLpInFund(widget.fund.id),
                 builder: (BuildContext context, AsyncSnapshot<List<LimitedPartner>> snapshot) {
                   if (snapshot.hasError) {
+                    print(snapshot.error);
+                    print(snapshot.stackTrace);
                     return WidgetUtils.errorPadding;
                   } else if (snapshot.hasData == false) {
                     return const CircularProgressIndicator();
                   } else {
                     int index = snapshot.data?.length ?? 0;
-                    return DataTable(
-                        columns: const [
-                          DataColumn(label: Text("번호")),
-                          DataColumn(label: Text("아이디")),
-                          DataColumn(label: Text("이름")),
-                          DataColumn(label: Text("연락처")),
-                          DataColumn(label: Text("참여 금액")),
-                          DataColumn(label: Text("참여 좌수")),
-                          DataColumn(label: Text("출자증서")),
-                          DataColumn(label: Text("소득공제")),
-                          DataColumn(label: Text("입금일자")),
-                          DataColumn(label: Text("삭제"))
-                        ],
-                        rows: (snapshot.data ?? List.empty()).map<DataRow>((lp) => lp.toDataRow(index--)).toList()
+                    return WidgetUtils().wrapAsDualScrollWidget(
+                        DataTable(
+                            columns: const [
+                              DataColumn(label: Text("번호")),
+                              DataColumn(label: Text("아이디")),
+                              DataColumn(label: Text("이름")),
+                              DataColumn(label: Text("연락처")),
+                              DataColumn(label: Text("참여 금액")),
+                              DataColumn(label: Text("참여 좌수")),
+                              DataColumn(label: Text("출자증서")),
+                              DataColumn(label: Text("소득공제")),
+                              DataColumn(label: Text("입금일자")),
+                              DataColumn(label: Text("삭제"))
+                            ],
+                            rows: (snapshot.data ?? List.empty()).map<DataRow>((lp) => lp.toDataRow(index--)).toList()
+                        )
                     );
                   }
                 }

@@ -33,4 +33,23 @@ class WidgetUtils {
     }
   }
 
+  Widget wrapAsDualScrollWidget(Widget widget) {
+    final vertical = ScrollController();
+    final horizontal = ScrollController();
+    return Scrollbar(
+        controller: vertical,
+        child: SingleChildScrollView(
+          controller: vertical,
+          child: Scrollbar(
+            controller: horizontal,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              controller: horizontal,
+              child: widget,
+            ),
+          ),
+        )
+    );
+  }
+
 }

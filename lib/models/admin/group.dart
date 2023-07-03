@@ -47,9 +47,11 @@ class Group {
 
 Future<List<Group>> fetchAllGroups() async {
   var response = await http.get(
-    StringUtils().stringToUri("/group"),
+    StringUtils().stringToUri("/admin/group"),
     headers: await StringUtils().header(),
   );
+
+  print(jsonDecode(utf8.decode(response.bodyBytes)));
 
   return (jsonDecode(utf8.decode(response.bodyBytes)) as List)
     .map<Group>((json) => Group.fromJson(json))
