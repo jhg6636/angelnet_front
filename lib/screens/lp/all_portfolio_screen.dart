@@ -1,4 +1,4 @@
-import 'package:backoffice_front/models/lp/fund.dart';
+import 'package:backoffice_front/models/fund/fund.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/WidgetUtils.dart';

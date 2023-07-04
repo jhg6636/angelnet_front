@@ -3,7 +3,7 @@ import 'package:backoffice_front/widgets/lp/fund_form.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../models/lp/fund.dart';
+import '../../models/fund/fund.dart';
 import '../screen_frame.dart';
 
 /* todo 조합 형태 관련 부분 추가

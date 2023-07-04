@@ -1,4 +1,4 @@
-import 'package:backoffice_front/models/lp/fund.dart';
+import 'package:backoffice_front/models/fund/fund.dart';
 import 'package:backoffice_front/models/lp/limited_partner.dart';
 import 'package:backoffice_front/screens/screen_frame.dart';
 import 'package:backoffice_front/widgets/lp/fund_form.dart';
@@ -35,6 +35,7 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                   showModalBottomSheet(context: context, builder: (BuildContext context) {
                     return FundForm(isMaking: false, fund: widget.fund);
                   });
+                  setState(() {});
                 },
                 child: const Text("정보 수정하기")
               ),

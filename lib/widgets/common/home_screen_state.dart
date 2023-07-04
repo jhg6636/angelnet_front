@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../models/common/user.dart';
-import '../../models/lp/fund.dart';
+import '../../models/fund/fund.dart';
 
 class HomeScreenState extends State<HomeScreen> {
   final _stringIdController = TextEditingController();

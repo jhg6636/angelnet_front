@@ -7,7 +7,7 @@ import 'package:backoffice_front/widgets/lp/fund_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../models/lp/fund.dart';
+import '../../models/fund/fund.dart';
 
 class LpMyPageState extends State<LpMyPage> {
   Future<List<Fund>> funds = fetchMyFunds();

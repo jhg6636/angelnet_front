@@ -12,8 +12,6 @@ import 'package:http/http.dart' as http;
 import '../../utils/StringUtils.dart';
 import '../../screens/common/home_screen.dart';
 
-// todo 팝업일 때 회원 레벨 설정 및 스타트업일 경우 스타트업까지 같이 생성하기
-
 class MakeUserForm extends StatefulWidget {
 
   final bool isPopup;

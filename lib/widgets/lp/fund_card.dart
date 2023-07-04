@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../models/lp/fund.dart';
+import '../../models/fund/fund.dart';
 
 class FundCard extends StatelessWidget {
   final Fund fund;

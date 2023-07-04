@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-import '../../models/lp/fund.dart';
+import '../../models/fund/fund.dart';
 
 class FundDetailLpScreen extends StatefulWidget {
 

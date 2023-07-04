@@ -3,7 +3,7 @@ import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/lp/fund.dart';
+import '../../models/fund/fund.dart';
 
 class FundingFundScreen extends StatefulWidget {
   const FundingFundScreen({super.key});

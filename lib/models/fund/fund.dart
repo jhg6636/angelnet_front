@@ -14,6 +14,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
+import 'fund_status.dart';
+import 'fund_type.dart';
+
 class Fund {
   int id;
   String name;
@@ -21,7 +24,7 @@ class Fund {
   String mainProduct;
   String managerName;
   DateTime startAt;
-  String type;
+  FundType type;
   DateTime? dissolvedAt;
   double? margin;
   int cost;
@@ -31,7 +34,7 @@ class Fund {
   int minimumShare;
   int totalShare;
   int totalMember;
-  String status;
+  FundStatus status;
   DateTime payAt;
   int value;
   String? recommender;
@@ -77,27 +80,26 @@ class Fund {
     return Fund(
         id: json['id'] as int,
         name: json['name'] as String,
-        startupName: "",
-        mainProduct: "",
-        managerName: "",
+        startupName: json['startupName'] as String,
+        mainProduct: json['mainProduct'] as String,
+        managerName: json['manager'] as String,
         startAt: DateTime.parse(json['startAt'] as String),
-        // startAt: DateTime.now(),
-        type: "",
+        type: FundType.fromEnglish(json['type']),
         dissolvedAt: null,
         margin: null,
         cost: json['cost'] as int,
-        costPerShare: 0,
-        currentFundedCost: 0,
-        currentMemberCount: 0,
-        status: "READY",
+        costPerShare: json['costPerShare'] as int,
+        currentFundedCost: json['currentFundedCost'] as int,
+        currentMemberCount: json['currentMemberCount'] as int,
+        status: FundStatus.fromEnglish(json['status']),
         payAt: DateTime.now(),
-        totalMember: 0,
-        minimumShare: 0,
-        totalShare: 0,
-        value: 0,
-        recommender: "",
-        groupName: "",
-        memo: "",
+        totalMember: json['totalMember'] as int,
+        minimumShare: json['minimumShare'] as int,
+        totalShare: json['totalShare'] as int,
+        value: json['value'] as int,
+        recommender: json['recommender'] as String?,
+        groupName: json['groupName'] as String?,
+        memo: json['memo'] as String?,
         irUrl: null,
         fundIdDocumentUrl: null,
         ruleUrl: null,
@@ -121,7 +123,7 @@ class Fund {
           DataCell(Text((cost-currentFundedCost).toString())),
           DataCell(Text(currentMemberCount.toString())),
           DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt))),
-          DataCell(Text(status)),
+          DataCell(Text(status.korean)),
         ]
     );
   }
@@ -155,7 +157,7 @@ class Fund {
       DataCell(Text(startupName)),
       DataCell(Text(managerName)),
       DataCell(Text(startAt.toString())),
-      DataCell(Text(type)),
+      DataCell(Text(type.korean)),
       DataCell(Text(dissolvedAt.toString())),
       DataCell(Text(margin.toString())),
     ]);
@@ -171,10 +173,10 @@ class Fund {
           DataRow(cells: [const DataCell(Text("결성 금액")), DataCell(Text(cost.toString()))]),
           DataRow(cells: [const DataCell(Text("1좌당 금액")), DataCell(Text(costPerShare.toString()))]),
           DataRow(cells: [const DataCell(Text("투자 종목")), DataCell(Text(startupName))]),
-          DataRow(cells: [const DataCell(Text("투자 형태")), DataCell(Text(type))]),
-          DataRow(cells: [const DataCell(Text("상태")), DataCell(Text(status))]),
-          DataRow(cells: [const DataCell(Text("조합 결성일")), DataCell(Text(startAt.toString()))]),
-          DataRow(cells: [const DataCell(Text("주금 납입일")), DataCell(Text(payAt.toString()))]),
+          DataRow(cells: [const DataCell(Text("투자 형태")), DataCell(Text(type.korean))]),
+          DataRow(cells: [const DataCell(Text("상태")), DataCell(Text(status.korean))]),
+          DataRow(cells: [const DataCell(Text("조합 결성일")), DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt)))]),
+          DataRow(cells: [const DataCell(Text("주금 납입일")), DataCell(Text(DateFormat('yyyy-MM-dd').format(payAt)))]),
           DataRow(cells: [const DataCell(Text("담당자")), DataCell(Text(managerName))]),
         ]
     );
@@ -182,23 +184,24 @@ class Fund {
 
   String toPostRequest() {
     return jsonEncode({
+      'fundId': id,
       'name': name,
       'startupName': startupName,
       'mainProduct': mainProduct,
       'manager': managerName,
-      'type': type,
+      'type': type.english,
       'cost': cost,
       'costPerShare': costPerShare,
       'minimumShare': minimumShare,
       'totalShare': totalShare,
       'totalMember': totalMember,
-      'status': status,
-      'startAt': startAt,
-      'payAt': payAt,
+      'startAt': DateFormat('yyyy-MM-dd').format(startAt),
+      'payAt': DateFormat('yyyy-MM-dd').format(payAt),
       'value': value,
       'recommender': recommender,
       'groupName': groupName,
-      'memo': memo
+      'memo': memo,
+      'status': status.english,
     });
   }
 
@@ -270,6 +273,7 @@ Future<http.Response> uncheckDeposit(int lpId) async {
 }
 
 Future<http.Response> makeFund(Fund fund) async {
+  print(fund.toPostRequest());
   return await http.post(
     StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
@@ -278,6 +282,7 @@ Future<http.Response> makeFund(Fund fund) async {
 }
 
 Future<http.Response> editFund(Fund fund) async {
+  print(fund.toPostRequest());
   return await http.put(
     StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
