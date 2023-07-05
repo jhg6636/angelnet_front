@@ -2,14 +2,10 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-import 'package:backoffice_front/models/startup/startup.dart';
 import 'package:backoffice_front/screens/admin/fund_detail_screen.dart';
 import 'package:backoffice_front/screens/lp/fund_detail_lp_screen.dart';
-import 'package:backoffice_front/screens/startup/startup_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -140,7 +136,7 @@ class Fund {
           DataCell(Text(cost.toString())),
           DataCell(Text((currentFundedCost/costPerShare).toString())),
           DataCell(Text(((cost - currentFundedCost)/costPerShare).toString())),
-          DataCell(Text((49-currentMemberCount).toString())),
+          DataCell(Text((totalMember-currentMemberCount).toString())),
           DataCell(
               ElevatedButton.icon(
                 onPressed: () {
@@ -170,7 +166,7 @@ class Fund {
     return DataTable(
         columns: const [
           DataColumn(label: Text("")),
-          DataColumn(label: Text("내용")),
+          DataColumn(label: Text("")),
         ],
         rows: [
           DataRow(cells: [const DataCell(Text("결성 금액")), DataCell(Text(cost.toString()))]),
@@ -217,6 +213,8 @@ Future<List<Fund>> fetchMyFunds() async {
   );
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+
+  print(responseBody);
 
   var result = responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
   return result;

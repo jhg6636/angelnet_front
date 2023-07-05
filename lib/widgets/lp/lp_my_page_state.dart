@@ -44,6 +44,8 @@ class LpMyPageState extends State<LpMyPage> {
                           builder:
                               (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
                             if (snapshot.hasError) {
+                              print(snapshot.error);
+                              print(snapshot.stackTrace);
                               return WidgetUtils.errorPadding;
                             } else if (snapshot.hasData == false) {
                               return const CircularProgressIndicator();

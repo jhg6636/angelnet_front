@@ -209,7 +209,6 @@ class FundFormState extends State<FundForm> {
             ),
           ),
           const Padding(padding: WidgetUtils.smallPadding,),
-          const Padding(padding: WidgetUtils.smallPadding,),
           TextField(
             controller: recommenderController,
             decoration: const InputDecoration(
