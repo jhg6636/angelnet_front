@@ -21,6 +21,8 @@ class FundDetailAdminScreen extends StatefulWidget {
 
 class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
 
+  late bool isFunding = widget.fund.isFunding;
+
   @override
   Widget build(BuildContext context) {
     return ScreenFrame(
@@ -28,7 +30,19 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("기본 정보"),
+              Text(widget.fund.name, style: WidgetUtils.titleStyle),
+              Wrap(
+                children: [
+                  const Text("조합원 모집 상태"),
+                  Switch(value: isFunding, onChanged: (value) async {
+                    await changeIsFunding(widget.fund, value);
+                    setState(() {
+                      isFunding = value;
+                    });
+                  })
+                ],
+              ),
+              const Text("기본 정보", style: WidgetUtils.h1),
               widget.fund.toBasicTable(),
               FilledButton(
                 onPressed: () {
@@ -39,7 +53,7 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                 },
                 child: const Text("정보 수정하기")
               ),
-              const Text("조합 참여자"),
+              const Text("조합 참여자", style: WidgetUtils.h1),
               FutureBuilder(
                 future: fetchLpInFund(widget.fund.id),
                 builder: (BuildContext context, AsyncSnapshot<List<LimitedPartner>> snapshot) {

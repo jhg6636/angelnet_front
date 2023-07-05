@@ -44,6 +44,7 @@ class Fund {
   String? fundIdDocumentUrl;
   String? ruleUrl;
   String? etcUrl;
+  bool isFunding;
 
   Fund(
       {
@@ -73,6 +74,7 @@ class Fund {
         required this.fundIdDocumentUrl,
         required this.ruleUrl,
         required this.etcUrl,
+        required this.isFunding,
       }
   );
 
@@ -104,6 +106,7 @@ class Fund {
         fundIdDocumentUrl: null,
         ruleUrl: null,
         etcUrl: null,
+        isFunding: true,
     );
   }
 
@@ -226,18 +229,20 @@ Future<List<Fund>> fetchAllFunds() async {
   );
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
-  print(responseBody);
 
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }
 
-Future<List<Fund>> searchFunds(String status) async {
+Future<List<Fund>> searchFunds() async {
   var response = await http.get(
     StringUtils().stringToUri('/lp/fund'),
     headers: await StringUtils().header(),
   );
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+  print(response.statusCode);
+  print(response.body);
+  print(response.reasonPhrase);
 
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }
@@ -295,5 +300,13 @@ Future<http.Response> postFundDocument(Uint8List bytes, String ext) async {
     StringUtils().stringToUri('admin/fund/document'),
     headers: await StringUtils().header(),
     body: jsonEncode({"file": bytes, "ext": ext})
+  );
+}
+
+Future<http.Response> changeIsFunding(Fund fund, bool isFunding) async {
+  return await http.put(
+    StringUtils().stringToUri('admin/is-funding'),
+    headers: await StringUtils().header(),
+    body: jsonEncode({"fundId": fund.id, "isFunding": isFunding})
   );
 }

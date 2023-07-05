@@ -317,7 +317,8 @@ class FundFormState extends State<FundForm> {
                       irUrl: null,
                       fundIdDocumentUrl: null,
                       ruleUrl: null,
-                      etcUrl: null
+                      etcUrl: null,
+                      isFunding: true,
                   );
                   if (widget.isMaking) {
                     var response = await makeFund(fund);

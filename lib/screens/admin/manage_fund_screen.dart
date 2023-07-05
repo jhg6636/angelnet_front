@@ -6,10 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../models/fund/fund.dart';
 import '../screen_frame.dart';
 
-/* todo 조합 형태 관련 부분 추가
- *
- */
-
 class ManageFundScreen extends StatefulWidget {
   const ManageFundScreen({super.key});
 
@@ -29,10 +25,11 @@ class ManageFundScreenState extends State<ManageFundScreen> {
 
   final List<String> _selectedFundStatuses = [];
 
-  Future<List<Fund>> funds = fetchAllFunds();
+  late Future<List<Fund>> funds;
 
   @override
   Widget build(BuildContext context) {
+    funds = fetchAllFunds();
     return ScreenFrame(
       main: Column(
         mainAxisAlignment: MainAxisAlignment.start,

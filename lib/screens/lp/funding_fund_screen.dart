@@ -15,11 +15,11 @@ class FundingFundScreen extends StatefulWidget {
 class FundingFundScreenState extends State<FundingFundScreen> {
   @override
   Widget build(BuildContext context) {
-    Future<List<Fund>> funds = searchFunds("FUNDING");
+    Future<List<Fund>> funds = searchFunds();
 
     return ScreenFrame(
-        main: SingleChildScrollView(
-          child: Column(
+      main: WidgetUtils().wrapAsDualScrollWidget(
+          Column(
             children: [
               fundStatusFlow(),
               FutureBuilder<List<Fund>>(
@@ -27,6 +27,8 @@ class FundingFundScreenState extends State<FundingFundScreen> {
                 builder:
                     (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
                   if (snapshot.hasError) {
+                    print(snapshot.error);
+                    print(snapshot.stackTrace);
                     return WidgetUtils.errorPadding;
                   } else if (snapshot.hasData == false) {
                     return const CircularProgressIndicator();
@@ -52,8 +54,8 @@ class FundingFundScreenState extends State<FundingFundScreen> {
               ),
             ],
           )
-        ),
-        isAdmin: false
+      ),
+      isAdmin: false
     );
   }
 }
