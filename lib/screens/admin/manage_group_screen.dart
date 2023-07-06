@@ -2,6 +2,7 @@ import 'package:backoffice_front/screens/screen_frame.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../models/admin/group.dart';
@@ -45,7 +46,6 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    // TODO 그룹 추가하는 팝업/다이얼로그 등 연결
                     showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
@@ -69,8 +69,14 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
                                     ),
                                     ElevatedButton(
                                         onPressed: () async {
-                                          await makeGroup(_groupNameController.text);
-                                          Navigator.pop(context);
+                                          var response = await makeGroup(_groupNameController.text);
+                                          if (response.statusCode == 200) {
+                                            Fluttertoast.showToast(msg: "그룹이 생성되었습니다.");
+                                            Navigator.pop(context);
+                                          } else {
+                                            Fluttertoast.showToast(msg: "그룹이 생성되지 않았습니다. 관리자에게 문의해 주세요.");
+                                          }
+                                          print(response.body);
                                         },
                                         child: const Text("추가하기")
                                     )

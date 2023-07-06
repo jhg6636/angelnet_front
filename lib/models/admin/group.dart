@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:backoffice_front/screens/admin/group_detail_screen.dart';
 import 'package:backoffice_front/screens/common/not_developed_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
@@ -30,16 +31,16 @@ class Group {
 
   DataRow toDataRow() {
     return DataRow(cells: [
-      DataCell(Text(id as String)),
+      DataCell(Text(id.toString())),
       DataCell(
           TextButton(
             onPressed: () {
-              Get.to(const NotDevelopedScreen(isAdmin: true));
+              Get.to(GroupDetailScreen(group: this));
             },
             child: Text(name),
           )
       ),
-      DataCell(Text(memberCount as String)),
+      DataCell(Text(memberCount.toString())),
     ]);
   }
 
@@ -71,9 +72,11 @@ DataTable makeDataTable(List<Group> groups) {
 
 Future<List<User>> fetchUsersInGroup(int groupId) async {
   var response = await http.get(
-      StringUtils().stringToUri("/group/members", params: {'groupId': groupId}),
+      StringUtils().stringToUri("/admin/group/member", params: {"groupId": groupId.toString()}),
       headers: await StringUtils().header(),
   );
+
+  print(response.body);
 
   return jsonDecode(utf8.decode(response.bodyBytes))
       .map<User>((json) => User.fromJson(json)).toList();
@@ -83,6 +86,7 @@ DataTable makeGroupMemberDataTable(List<User> users) {
   return DataTable(
       columns: const [
         DataColumn(label: Text("이름")),
+        DataColumn(label: Text("아이디")),
         DataColumn(label: Text("연락처")),
         DataColumn(label: Text("이메일")),
       ],
@@ -109,7 +113,7 @@ Future<http.Response> makeGroup(String name) async {
   return await http.post(
     StringUtils().stringToUri('admin/group'),
     headers: await StringUtils().header(),
-    body: {'name': name}
+    body: name
   );
 }
 

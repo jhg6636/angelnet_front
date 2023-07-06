@@ -19,15 +19,20 @@ class GroupDetailScreen extends StatefulWidget {
 
 class GroupDetailScreenState extends State<GroupDetailScreen> {
 
+  late Future<List<User>> users;
+
   @override
   Widget build(BuildContext context) {
+    users = fetchUsersInGroup(widget.group.id);
+
     return ScreenFrame(
         main: SingleChildScrollView(
           child: Column(
             children: [
               Wrap(
+                alignment: WrapAlignment.center,
                 children: [
-                  Text(widget.group.name),
+                  Text("${widget.group.name} 그룹", style: WidgetUtils.titleStyle,),
                   ButtonBar(
                     children: [
                       OutlinedButton.icon(
@@ -70,19 +75,50 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
               ),
               Wrap(
                 children: [
-                  const Text("멤버 보기"),
+                  const Text("멤버 보기", style: WidgetUtils.h1,),
                   ElevatedButton(
                       onPressed: () {
-                        addGroupMember(0, [0]);
+                        showModalBottomSheet(context: context, builder: (context) {
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                FutureBuilder(
+                                  future: users,
+                                  builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                                    return const CircularProgressIndicator();
+                                  }
+                                ),
+                                ButtonBar(
+                                  children: [
+                                    OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("취소하기")
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("저장하기")
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
+                          );
+                        });
                       },
-                      child: const Text("멤버 추가")
+                      child: const Text("멤버 편집")
                   )
                 ],
               ),
               FutureBuilder(
-                  future: fetchUsersInGroup(widget.group.id),
+                  future: users,
                   builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
                     if (snapshot.hasError) {
+                      print(snapshot.error);
+                      print(snapshot.stackTrace);
                       return WidgetUtils.errorPadding;
                     } else if (snapshot.hasData == false) {
                       return const CircularProgressIndicator();
