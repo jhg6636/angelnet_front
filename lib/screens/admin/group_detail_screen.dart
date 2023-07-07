@@ -1,4 +1,5 @@
 import 'package:backoffice_front/screens/screen_frame.dart';
+import 'package:backoffice_front/widgets/admin/group_edit_member_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -56,10 +57,10 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
                                       decoration: const InputDecoration(labelText: "그룹명"),
                                     ),
                                     FilledButton(
-                                        onPressed: () {
+                                      onPressed: () {
 
-                                        },
-                                        child: const Text("변경하기")
+                                      },
+                                      child: const Text("변경하기")
                                     )
                                   ],
                                 );
@@ -77,55 +78,30 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
                 children: [
                   const Text("멤버 보기", style: WidgetUtils.h1,),
                   ElevatedButton(
-                      onPressed: () {
-                        showModalBottomSheet(context: context, builder: (context) {
-                          return SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                FutureBuilder(
-                                  future: users,
-                                  builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-                                    return const CircularProgressIndicator();
-                                  }
-                                ),
-                                ButtonBar(
-                                  children: [
-                                    OutlinedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("취소하기")
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("저장하기")
-                                    )
-                                  ],
-                                )
-                              ],
-                            )
-                          );
-                        });
-                      },
-                      child: const Text("멤버 편집")
+                    onPressed: () {
+                      showModalBottomSheet(context: context, builder: (context) {
+                        return SingleChildScrollView(
+                          child: GroupEditMemberWidget(groupId: widget.group.id),
+                        );
+                      });
+                    },
+                    child: const Text("멤버 편집")
                   )
                 ],
               ),
               FutureBuilder(
-                  future: users,
-                  builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-                    if (snapshot.hasError) {
-                      print(snapshot.error);
-                      print(snapshot.stackTrace);
-                      return WidgetUtils.errorPadding;
-                    } else if (snapshot.hasData == false) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      return makeGroupMemberDataTable(snapshot.data ?? List.empty());
-                    }
+                future: users,
+                builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    print(snapshot.stackTrace);
+                    return WidgetUtils.errorPadding;
+                  } else if (snapshot.hasData == false) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return makeGroupMemberDataTable(snapshot.data ?? List.empty());
                   }
+                }
               ),
             ],
           ),

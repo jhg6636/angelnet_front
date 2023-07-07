@@ -94,11 +94,11 @@ DataTable makeGroupMemberDataTable(List<User> users) {
   );
 }
 
-Future<http.Response> addGroupMember(int groupId, List<int> userIds) async {
+Future<http.Response> addGroupMember(int groupId, List<String> stringIds) async {
   return await http.post(
     StringUtils().stringToUri("admin/group/member"),
     headers: await StringUtils().header(),
-    body: jsonEncode({'groupId': groupId, 'userIds': userIds})
+    body: jsonEncode({'groupId': groupId, 'stringIds': stringIds})
   );
 }
 
