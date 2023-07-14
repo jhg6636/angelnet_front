@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 import '../../models/admin/group.dart';
 import '../../models/common/user.dart';
@@ -39,11 +42,23 @@ class GroupEditMemberWidgetState extends State<GroupEditMemberWidget> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  var response = await addGroupMember(widget.groupId, addingMembers.map<String>((user) => user.stringId).toList());
+                  var memberResponse = await fetchUsersInGroup(widget.groupId);
+                  print(addingMembers
+                      .where((user) => !user.isContainedIn(memberResponse))
+                      .map<String>((user) => user.stringId).toList());
+                  var response = await addGroupMember(
+                      widget.groupId,
+                      addingMembers
+                        .where((user) => !user.isContainedIn(memberResponse))
+                        .map<String>((user) => user.stringId).toList()
+                  );
                   if (response.statusCode == 200) {
                     Fluttertoast.showToast(msg: "멤버가 추가되었습니다.");
                     Navigator.pop(context);
+                  } else if (jsonDecode(response.body)["exception"] == "org.springframework.dao.DataIntegrityViolationException") {
+                    Fluttertoast.showToast(msg: "이미 그룹에 존재하는 멤버가 있습니다. 해당 멤버를 제외하고 멤버를 다시 추가해 주세요.", timeInSecForIosWeb: 5);
                   } else {
+                    print(response.body);
                     Fluttertoast.showToast(msg: "오류가 발생했습니다. 관리자에게 문의해주세요.");
                   }
                 },
@@ -100,7 +115,7 @@ class GroupEditMemberWidgetState extends State<GroupEditMemberWidget> {
                         cells: [
                           DataCell(OutlinedButton(
                             onPressed: () {
-                              if (!addingMembers.contains(user)) {
+                              if (!user.isContainedIn(addingMembers)) {
                                 addingMembers.add(user);
                               }
                               setState(() {});
@@ -118,22 +133,6 @@ class GroupEditMemberWidgetState extends State<GroupEditMemberWidget> {
               }
             }
           ),
-          ButtonBar(
-            children: [
-              OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("취소하기")
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("저장하기")
-              )
-            ],
-          )
         ],
       ),
     );

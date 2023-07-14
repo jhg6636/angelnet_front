@@ -88,6 +88,11 @@ class User {
     ]);
   }
 
+  bool isContainedIn(List<User> users) {
+    var userIds = users.map<String>((user) => user.stringId).toList();
+    return userIds.contains(stringId);
+  }
+
 }
 
 Future<List<User>> fetchUsers({

@@ -99,7 +99,7 @@ class MakeUserFormState extends State<MakeUserForm> {
               ],
             ),
             const Text(
-              "3~20자의 영문 소문자, 숫자, 한글로만 구성할 수 있습니다.",
+              "2~20자의 영문 소문자, 숫자, 한글로만 구성할 수 있습니다.",
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: 12.0),

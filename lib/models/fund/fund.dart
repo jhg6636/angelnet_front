@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-import 'package:backoffice_front/screens/admin/fund_detail_screen.dart';
+import 'package:backoffice_front/screens/admin/fund_detail_admin_screen.dart';
 import 'package:backoffice_front/screens/lp/fund_detail_lp_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
