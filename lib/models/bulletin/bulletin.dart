@@ -1,19 +1,29 @@
 import 'dart:convert';
 
+import 'package:backoffice_front/screens/bulletin/bulletin_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../utils/StringUtils.dart';
 import 'package:http/http.dart' as http;
 
-class Bulletin {
+import '../../utils/StringUtils.dart';
 
+class Bulletin {
   final int id;
   final String name;
+  final String tag;
+  int postCount;
 
-  bool checked;
+  bool isOpened;
 
-  Bulletin({required this.id, required this.name, this.checked = false});
+  Bulletin(
+    {
+      required this.id,
+      required this.name,
+      this.tag = 'ALL',
+      this.postCount = 0,
+      this.isOpened = true
+    }
+  );
 
   factory Bulletin.fromJson(Map<String, dynamic> json) {
     return Bulletin(
@@ -24,38 +34,18 @@ class Bulletin {
 
   DataRow toDataRow() {
     return DataRow(
-        cells: [
-          DataCell(Text(id as String)),
-          DataCell(TextButton(
-            onPressed: () {
-              // Get.to();
-            },
-            child: Text(name),
-          )),
-          const DataCell(Text("0")),
-        ],
-    );
-  }
-
-  DataRow toDataRowWithCheckbox() {
-    return DataRow(
       cells: [
-        DataCell(Text(id as String)),
+        DataCell(Text(id.toString())),
         DataCell(TextButton(
           onPressed: () {
-            // Get.to();
+            Get.to(BulletinDetailScreen(bulletin: this));
           },
           child: Text(name),
         )),
-        const DataCell(Text("0")),
+        DataCell(Text(postCount.toString())),
       ],
-      selected: checked,
-      onSelectChanged: (selected) {
-        checked = selected ?? false;
-      }
     );
   }
-
 }
 
 Future<List<Bulletin>> fetchAllBulletins() async {
@@ -69,9 +59,6 @@ Future<List<Bulletin>> fetchAllBulletins() async {
 }
 
 Future<http.Response> makeBulletin(String name) async {
-  return await http.post(
-    StringUtils().stringToUri('bulletin'),
-    headers: await StringUtils().header(),
-    body: {'name': name}
-  );
+  return await http.post(StringUtils().stringToUri('bulletin'),
+      headers: await StringUtils().header(), body: name);
 }

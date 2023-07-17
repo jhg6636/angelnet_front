@@ -29,6 +29,8 @@ class ManageBulletinScreenState extends State<ManageBulletinScreen> {
                   future: bulletins,
                   builder: (BuildContext context, AsyncSnapshot<List<Bulletin>> snapshot) {
                     if (snapshot.hasError) {
+                      print(snapshot.error);
+                      print(snapshot.stackTrace);
                       return WidgetUtils.errorPadding;
                     } else if (!snapshot.hasData) {
                       return const CircularProgressIndicator();
@@ -69,7 +71,8 @@ class ManageBulletinScreenState extends State<ManageBulletinScreen> {
                                   child: const Text("취소하기")
                                 ),
                                 FilledButton(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      var response = await makeBulletin(bulletinNameController.text);
                                       Navigator.pop(context);
                                     },
                                     child: const Text("생성하기")

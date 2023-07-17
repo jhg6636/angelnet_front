@@ -52,12 +52,12 @@ class Post {
     );
   }
 
-  DataRow toDataRow(int index) {
+  DataRow toDataRow() {
     return DataRow(cells: [
-      DataCell(Text(index as String)),
+      DataCell(Text(id.toString())),
       DataCell(TextButton(onPressed: () { Get.to(toPostScreen()); }, child: Text(title),)),
       DataCell(Text(writer)),
-      DataCell(Text(createdAt as String)),
+      DataCell(Text(createdAt.toString())),
     ]);
   }
 
@@ -88,4 +88,13 @@ Future<Post> fetchOnePost(int postId) async {
   );
 
   return Post.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+}
+
+Future<List<Post>> fetchPostsInBulletin(int bulletinId) async {
+  var response = await http.get(
+    StringUtils().stringToUri('post', params: {'bulletinId': bulletinId}),
+    headers: await StringUtils().header(),
+  );
+
+  return jsonDecode(utf8.decode(response.bodyBytes)).map<Post>((json) => Post.fromJson(json));
 }

@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
-class Editor extends StatelessWidget {
+class HtmlEditor extends StatelessWidget {
 
   final _controller = QuillEditorController();
 
-  Editor({super.key});
+  HtmlEditor({super.key});
 
   @override
   Widget build(BuildContext context) {
