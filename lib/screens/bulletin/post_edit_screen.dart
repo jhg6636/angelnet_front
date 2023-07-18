@@ -1,3 +1,4 @@
+import 'package:backoffice_front/models/bulletin/bulletin.dart';
 import 'package:backoffice_front/models/common/user.dart';
 import 'package:backoffice_front/screens/screen_frame.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
@@ -10,10 +11,10 @@ import '../../models/common/post.dart';
 
 class PostEditScreen extends StatefulWidget {
 
-  Post? post;
-  bool isEditing;
+  final Post? post;
+  final bool isEditing;
 
-  PostEditScreen({super.key, required this.isEditing, this.post});
+  const PostEditScreen({super.key, required this.isEditing, this.post});
 
   @override
   State<StatefulWidget> createState() => PostEditScreenState();
@@ -22,20 +23,66 @@ class PostEditScreen extends StatefulWidget {
 
 class PostEditScreenState extends State<PostEditScreen> {
 
-  TextEditingController titleController = TextEditingController();
-  HtmlEditor htmlEditor = HtmlEditor();
+  late TextEditingController titleController = TextEditingController(text: widget.post?.title);
+  late HtmlEditor htmlEditor = HtmlEditor(body: widget.post?.body,);
+  Future<List<Bulletin>> bulletins = fetchAllBulletins();
+  Bulletin? selectedBulletin = null;
 
   @override
   Widget build(BuildContext context) {
+    print(widget.post?.body);
     return ScreenFrame(
       main: SingleChildScrollView(
         child: Column(
           children: [
-            // todo 게시판 선택 dropdown, 제목, 작성자 (자동 생성), 본문
             Wrap(
               children: [
+                ButtonBar(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text("취소하기")
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          if (widget.isEditing) {
+
+                          } else {
+                            await makePost(selectedBulletin!.id, titleController.text, htmlEditor.controller.document.toPlainText());
+                            Get.back();
+                          }
+                        },
+                        child: const Text("저장하기")
+                    )
+                  ],
+                ),
                 const Text("게시판 선택"),
-                DropdownButton(items: [], onChanged: (item) {})
+                FutureBuilder(
+                  future: bulletins,
+                  builder: (BuildContext context, AsyncSnapshot<List<Bulletin>> snapshot) {
+                    if (snapshot.hasError) {
+                      return WidgetUtils.errorPadding;
+                    } else if (!snapshot.hasData) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return DropdownButton(
+                        value: selectedBulletin,
+                        items: snapshot.data!.map<DropdownMenuItem>((bulletin) =>
+                          DropdownMenuItem(
+                            value: bulletin,
+                            child: Text(bulletin.name)
+                          )
+                        ).toList(),
+                        onChanged: (value) {
+                          selectedBulletin = value;
+                          setState(() {});
+                        }
+                      );
+                    }
+                  }
+                )
               ],
             ),
             Wrap(
@@ -45,6 +92,7 @@ class PostEditScreenState extends State<PostEditScreen> {
               ],
             ),
             Wrap(
+              alignment: WrapAlignment.spaceBetween,
               children: [
                 const Text("작성자"),
                 FutureBuilder(
@@ -62,22 +110,6 @@ class PostEditScreenState extends State<PostEditScreen> {
               ],
             ),
             htmlEditor,
-            ButtonBar(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: const Text("취소하기")
-                ),
-                ElevatedButton(
-                  onPressed: () {
-
-                  },
-                  child: const Text("저장하기")
-                )
-              ],
-            )
           ],
         ),
       ),

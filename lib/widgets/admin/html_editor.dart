@@ -1,29 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quill_html_editor/quill_html_editor.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 class HtmlEditor extends StatelessWidget {
 
-  final _controller = QuillEditorController();
+  final controller = QuillController.basic();
+  String? body;
 
-  HtmlEditor({super.key});
+  HtmlEditor({super.key, this.body});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          body: Column(
-            children: [
-              ToolBar(controller: _controller),
-              Flexible(
-                  child: QuillHtmlEditor(
-                    controller: _controller,
-                    minHeight: 1000.0,
-                  )
+    controller.document = Document().insert(0, body);
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SingleChildScrollView(
+              child: QuillEditor.basic(
+                controller: controller, readOnly: false,
               )
-            ],
           )
-        )
+        ],
+      )
     );
   }
 

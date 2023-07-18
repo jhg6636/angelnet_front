@@ -6,6 +6,7 @@ import 'package:backoffice_front/widgets/core/drawer_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../screens/lp/bulletin_screen.dart';
 import '../../screens/lp/funding_fund_screen.dart';
 
 class LeftSideDrawer extends StatelessWidget {
@@ -30,7 +31,7 @@ class LeftSideDrawer extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                Get.to(FundingFundScreen());
+                Get.to(const FundingFundScreen());
               },
               child: const Text(
                   "모집 중인 조합 보기",
@@ -39,7 +40,7 @@ class LeftSideDrawer extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                Get.to(const NotDevelopedScreen(isAdmin: false));
+                Get.to(const BulletinScreen());
               },
               child: const Text(
                   "공지사항",

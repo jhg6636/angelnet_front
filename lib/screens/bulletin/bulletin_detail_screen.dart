@@ -11,8 +11,9 @@ import '../../models/common/post.dart';
 class BulletinDetailScreen extends StatefulWidget {
 
   final Bulletin bulletin;
+  final bool isAdmin;
 
-  const BulletinDetailScreen({super.key, required this.bulletin});
+  const BulletinDetailScreen({super.key, required this.bulletin, required this.isAdmin});
 
   @override
   State<StatefulWidget> createState() => BulletinDetailScreenState();
@@ -30,7 +31,7 @@ class BulletinDetailScreenState extends State<BulletinDetailScreen> {
         child: Column(
           children: [
             Text(widget.bulletin.name, style: WidgetUtils.titleStyle,),
-            Wrap(
+            if (widget.isAdmin) Wrap(
               children: [
                 const Text("게시판 개방 상태"),
                 Switch(value: isOpened, onChanged: (value) async {
@@ -42,7 +43,7 @@ class BulletinDetailScreenState extends State<BulletinDetailScreen> {
               ],
             ),
             const Text("게시글 목록", style: WidgetUtils.h1,),
-            FilledButton(
+            if (widget.isAdmin) FilledButton(
               onPressed: () {
                 Get.to(PostEditScreen(isEditing: false,));
               },
@@ -65,7 +66,7 @@ class BulletinDetailScreenState extends State<BulletinDetailScreen> {
                       DataColumn(label: Text("작성자")),
                       DataColumn(label: Text("작성일시")),
                     ],
-                    rows: snapshot.data!.map<DataRow>((post) => post.toDataRow()).toList(),
+                    rows: snapshot.data!.map<DataRow>((post) => post.toDataRow(widget.isAdmin)).toList(),
                   );
                 }
               }

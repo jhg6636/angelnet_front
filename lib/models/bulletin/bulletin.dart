@@ -32,18 +32,32 @@ class Bulletin {
     );
   }
 
-  DataRow toDataRow() {
+  DataRow toAdminDataRow() {
     return DataRow(
       cells: [
         DataCell(Text(id.toString())),
         DataCell(TextButton(
           onPressed: () {
-            Get.to(BulletinDetailScreen(bulletin: this));
+            Get.to(BulletinDetailScreen(bulletin: this, isAdmin: true));
           },
           child: Text(name),
         )),
         DataCell(Text(postCount.toString())),
       ],
+    );
+  }
+
+  DataRow toLpDataRow() {
+    return DataRow(
+      cells: [
+        DataCell(TextButton(
+          onPressed: () {
+            Get.to(BulletinDetailScreen(bulletin: this, isAdmin: false,));
+          },
+          child: Text(name),
+        )),
+        DataCell(Text(postCount.toString())),
+      ]
     );
   }
 }

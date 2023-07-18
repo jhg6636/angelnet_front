@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:backoffice_front/screens/screen_frame.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
+import '../../screens/bulletin/post_edit_screen.dart';
 
 class Post {
 
@@ -34,28 +37,41 @@ class Post {
       bulletinId: json["bulletinId"] as int,
       title: json["title"] as String,
       writer: json["writer"] as String,
-      createdAt: json["createdAt"] as DateTime,
+      createdAt: DateTime.parse(json["createdAt"]),
       body: json["body"] as String,
     );
   }
 
-  Widget toPostScreen() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const BackButton(),
-          Wrap(children: [const Text("제목"), Text(title)]),
-          Wrap(children: [const Text("작성자"), Text(writer)]),
-          Html(data: body),
-        ],
-      )
+  Widget toPostScreen(bool isAdmin) {
+    return ScreenFrame(
+      main: SingleChildScrollView(
+          child: Column(
+            children: [
+              ButtonBar(
+                children: [
+                  const BackButton(),
+                  if (isAdmin) ElevatedButton(
+                    onPressed: () {
+                      Get.to(PostEditScreen(post: this, isEditing: true));
+                    },
+                    child: const Text("수정하기"),
+                  )
+                ],
+              ),
+              Wrap(children: [const Text("제목"), Text(title)]),
+              Wrap(children: [const Text("작성자"), Text(writer)]),
+              Html(data: body),
+            ],
+          )
+      ),
+      isAdmin: true
     );
   }
 
-  DataRow toDataRow() {
+  DataRow toDataRow(bool isAdmin) {
     return DataRow(cells: [
       DataCell(Text(id.toString())),
-      DataCell(TextButton(onPressed: () { Get.to(toPostScreen()); }, child: Text(title),)),
+      DataCell(TextButton(onPressed: () { Get.to(toPostScreen(isAdmin)); }, child: Text(title),)),
       DataCell(Text(writer)),
       DataCell(Text(createdAt.toString())),
     ]);
@@ -77,7 +93,7 @@ Future<http.Response> makePost(int bulletinId, String title, String body) async 
   return await http.post(
     StringUtils().stringToUri('post'),
     headers: await StringUtils().header(),
-    body: {'bulletinId': bulletinId, 'title': title, 'body': body}
+    body: jsonEncode({'bulletinId': bulletinId, 'title': title, 'body': body})
   );
 }
 
@@ -92,9 +108,9 @@ Future<Post> fetchOnePost(int postId) async {
 
 Future<List<Post>> fetchPostsInBulletin(int bulletinId) async {
   var response = await http.get(
-    StringUtils().stringToUri('post', params: {'bulletinId': bulletinId}),
+    StringUtils().stringToUri('post', params: {'bulletinId': bulletinId.toString()}),
     headers: await StringUtils().header(),
   );
 
-  return jsonDecode(utf8.decode(response.bodyBytes)).map<Post>((json) => Post.fromJson(json));
+  return jsonDecode(utf8.decode(response.bodyBytes)).map<Post>((json) => Post.fromJson(json)).toList();
 }

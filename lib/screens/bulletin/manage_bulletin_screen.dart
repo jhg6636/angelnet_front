@@ -1,4 +1,3 @@
-import 'package:backoffice_front/widgets/bulletin/post_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +40,7 @@ class ManageBulletinScreenState extends State<ManageBulletinScreen> {
                         DataColumn(label: Text("게시판")),
                         DataColumn(label: Text("게시글 수")),
                       ],
-                      rows: snapshot.data!.map<DataRow>((bulletin) => bulletin.toDataRow()).toList(),
+                      rows: snapshot.data!.map<DataRow>((bulletin) => bulletin.toAdminDataRow()).toList(),
                     );
                   }
               ),
