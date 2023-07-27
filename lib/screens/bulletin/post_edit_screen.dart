@@ -1,8 +1,8 @@
-import 'package:backoffice_front/models/bulletin/bulletin.dart';
-import 'package:backoffice_front/models/common/user.dart';
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
-import 'package:backoffice_front/widgets/admin/html_editor.dart';
+import 'package:angelnet/models/bulletin/bulletin.dart';
+import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/admin/html_editor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,11 +1,10 @@
-import 'package:backoffice_front/models/common/user.dart';
-import 'package:backoffice_front/widgets/admin/make_user_form.dart';
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:cross_scroll/cross_scroll.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/common/user.dart';
 import '../../utils/WidgetUtils.dart';
+import '../../widgets/admin/make_user_form.dart';
+import '../screen_frame.dart';
 
 class ManageUserScreen extends StatefulWidget {
   const ManageUserScreen({super.key});

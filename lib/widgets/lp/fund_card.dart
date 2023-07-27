@@ -1,4 +1,4 @@
-import 'package:backoffice_front/screens/lp/fund_detail_lp_screen.dart';
+import 'package:angelnet/screens/lp/fund_detail_lp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

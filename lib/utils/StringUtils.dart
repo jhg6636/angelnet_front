@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:backoffice_front/main.dart';
+import 'package:angelnet/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';

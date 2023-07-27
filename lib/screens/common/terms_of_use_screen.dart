@@ -1,6 +1,6 @@
-import 'package:backoffice_front/screens/common/signup_screen.dart';
-import 'package:backoffice_front/utils/StringUtils.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
+import 'package:angelnet/screens/common/signup_screen.dart';
+import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

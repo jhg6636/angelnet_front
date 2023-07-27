@@ -1,4 +1,4 @@
-import 'package:backoffice_front/models/fund/fund.dart';
+import 'package:angelnet/models/fund/fund.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/WidgetUtils.dart';

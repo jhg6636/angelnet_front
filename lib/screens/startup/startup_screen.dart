@@ -1,8 +1,8 @@
-import 'package:backoffice_front/models/common/user.dart';
-import 'package:backoffice_front/screens/common/not_developed_screen.dart';
-import 'package:backoffice_front/widgets/startup/financial_statement_screen.dart';
-import 'package:backoffice_front/widgets/startup/startup_basic_info.dart';
-import 'package:backoffice_front/widgets/startup/startup_calendar.dart';
+import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/common/not_developed_screen.dart';
+import 'package:angelnet/widgets/startup/financial_statement_screen.dart';
+import 'package:angelnet/widgets/startup/startup_basic_info.dart';
+import 'package:angelnet/widgets/startup/startup_calendar.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/startup/startup.dart';

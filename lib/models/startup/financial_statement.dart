@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../../utils/StringUtils.dart';
 
 class FinancialStatement {
   final int year;

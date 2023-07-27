@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:backoffice_front/widgets/admin/make_user_form.dart';
-import 'package:backoffice_front/screens/common/home_screen.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/admin/make_user_form.dart';
+import 'package:angelnet/screens/common/home_screen.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

@@ -1,9 +1,9 @@
-import 'package:backoffice_front/models/lp/limited_partner.dart';
-import 'package:backoffice_front/screens/lp/funding_fund_screen.dart';
-import 'package:backoffice_front/screens/lp/lp_mypage.dart';
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
-import 'package:backoffice_front/widgets/lp/fund_card.dart';
+import 'package:angelnet/models/lp/limited_partner.dart';
+import 'package:angelnet/screens/lp/funding_fund_screen.dart';
+import 'package:angelnet/screens/lp/lp_mypage.dart';
+import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/lp/fund_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

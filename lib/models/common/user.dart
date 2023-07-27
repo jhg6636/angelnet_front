@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:backoffice_front/main.dart';
-import 'package:backoffice_front/screens/common/edit_user_info_screen.dart';
-import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
+import '../../main.dart';
+import '../../screens/common/edit_user_info_screen.dart';
+import '../../utils/StringUtils.dart';
 
 class User {
   String stringId;
@@ -190,6 +191,7 @@ Future<http.Response> signInApi(
 
 Future<http.Response> loginApi(String stringId, String password) async {
   var deviceId = await StringUtils().getDeviceId();
+  print(deviceId);
   final Map<String, dynamic> request = {
     "stringId": stringId,
     "password": password
@@ -204,7 +206,10 @@ Future<http.Response> loginApi(String stringId, String password) async {
     response = await http.get(uri, headers: headers);
   }
 
-  secureStorage.write(key: deviceId, value: response.body);
+  print(response.body);
+
+  await secureStorage.write(key: deviceId, value: response.body);
+  print(await secureStorage.containsKey(key: deviceId));
   return response;
 }
 

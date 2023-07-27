@@ -1,6 +1,6 @@
-import 'package:backoffice_front/utils/WidgetUtils.dart';
-import 'package:backoffice_front/widgets/admin/admin_left_side_drawer.dart';
-import 'package:backoffice_front/widgets/core/left_side_drawer.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/admin/admin_left_side_drawer.dart';
+import 'package:angelnet/widgets/core/left_side_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ScreenFrame extends StatefulWidget {

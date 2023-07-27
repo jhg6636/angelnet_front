@@ -1,5 +1,5 @@
-import 'package:backoffice_front/screens/common/not_developed_screen.dart';
-import 'package:backoffice_front/screens/screen_frame.dart';
+import 'package:angelnet/screens/common/not_developed_screen.dart';
+import 'package:angelnet/screens/screen_frame.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';

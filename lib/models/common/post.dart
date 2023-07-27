@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:html';
 
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -10,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../screens/bulletin/post_edit_screen.dart';
+import '../../screens/screen_frame.dart';
+import '../../utils/StringUtils.dart';
 
 class Post {
 

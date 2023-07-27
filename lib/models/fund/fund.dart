@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-import 'package:backoffice_front/screens/admin/fund_detail_admin_screen.dart';
-import 'package:backoffice_front/screens/lp/fund_detail_lp_screen.dart';
-import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
+import '../../screens/admin/fund_detail_admin_screen.dart';
+import '../../screens/lp/fund_detail_lp_screen.dart';
+import '../../utils/StringUtils.dart';
 import 'fund_status.dart';
 import 'fund_type.dart';
 

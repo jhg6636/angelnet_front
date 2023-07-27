@@ -1,6 +1,6 @@
-import 'package:backoffice_front/models/common/user.dart';
-import 'package:backoffice_front/utils/StringUtils.dart';
-import 'package:backoffice_front/widgets/startup/portfolio_details.dart';
+import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/widgets/startup/portfolio_details.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'empty_document_page.dart';

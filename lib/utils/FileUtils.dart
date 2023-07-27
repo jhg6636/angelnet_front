@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:html' as html;
 
 import 'package:file_picker/file_picker.dart';
 
@@ -15,9 +14,9 @@ class FileUtils {
   }
 
   void downloadFile(String url) {
-    html.AnchorElement anchorElement = html.AnchorElement(href: url);
-    anchorElement.download = url;
-    anchorElement.click();
+    // html.AnchorElement anchorElement = html.AnchorElement(href: url);
+    // anchorElement.download = url;
+    // anchorElement.click();
   }
 
 }

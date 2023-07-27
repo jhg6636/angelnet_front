@@ -1,6 +1,6 @@
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
-import 'package:backoffice_front/widgets/admin/make_user_form.dart';
+import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/admin/make_user_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

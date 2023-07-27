@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:backoffice_front/utils/StringUtils.dart';
-import 'package:backoffice_front/widgets/startup/portfolio_details.dart';
 import 'package:http/http.dart' as http;
+
+import '../../utils/StringUtils.dart';
+import '../../widgets/startup/portfolio_details.dart';
 
 class Startup {
   final int id;

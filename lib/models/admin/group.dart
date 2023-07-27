@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:backoffice_front/screens/admin/group_detail_screen.dart';
-import 'package:backoffice_front/screens/common/not_developed_screen.dart';
-import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../screens/admin/group_detail_screen.dart';
+import '../../utils/StringUtils.dart';
 import '../common/user.dart';
 
 class Group {

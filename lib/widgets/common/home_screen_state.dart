@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:backoffice_front/main.dart';
-import 'package:backoffice_front/screens/admin/manage_user_screen.dart';
-import 'package:backoffice_front/screens/common/find_id_pw_select_screen.dart';
-import 'package:backoffice_front/screens/common/home_screen.dart';
-import 'package:backoffice_front/screens/common/not_developed_screen.dart';
-import 'package:backoffice_front/screens/common/terms_of_use_screen.dart';
-import 'package:backoffice_front/screens/lp/lp_mypage.dart';
-import 'package:backoffice_front/utils/StringUtils.dart';
+import 'package:angelnet/main.dart';
+import 'package:angelnet/screens/admin/manage_user_screen.dart';
+import 'package:angelnet/screens/common/find_id_pw_select_screen.dart';
+import 'package:angelnet/screens/common/home_screen.dart';
+import 'package:angelnet/screens/common/not_developed_screen.dart';
+import 'package:angelnet/screens/common/terms_of_use_screen.dart';
+import 'package:angelnet/screens/lp/lp_mypage.dart';
+import 'package:angelnet/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -24,84 +24,86 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: const <Widget>[
-                  SizedBox(height: 16.0),
-                  Text(
-                    'AngelNet',
-                    style: TextStyle(fontSize: 72.0, fontFamily: 'Sriracha'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 50.0),
-              SizedBox(
-                width: 350.0,
-                child: TextField(
-                  controller: _stringIdController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '아이디',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20.0)
-                  ),
-                  textInputAction: TextInputAction.go,
-                  onSubmitted: (_) async {
-                    tryLogin();
-                  },
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Column(
+                  children: <Widget>[
+                    SizedBox(height: 16.0),
+                    Text(
+                      'AngelNet',
+                      style: TextStyle(fontSize: 72.0, fontFamily: 'Sriracha'),
+                    ),
+                  ],
                 ),
-              ),
+                const SizedBox(height: 50.0),
+                SizedBox(
+                  width: 350.0,
+                  child: TextField(
+                    controller: _stringIdController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: '아이디',
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20.0)
+                    ),
+                    textInputAction: TextInputAction.go,
+                    onSubmitted: (_) async {
+                      tryLogin();
+                    },
+                  ),
+                ),
 
-              const SizedBox(height: 12.0),
-              SizedBox(
-                width: 350.0,
-                child: TextField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '비밀번호',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20.0)
+                const SizedBox(height: 12.0),
+                SizedBox(
+                  width: 350.0,
+                  child: TextField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: '비밀번호',
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20.0)
+                    ),
+                    obscureText: true,
+                    textInputAction: TextInputAction.go,
+                    onSubmitted: (_) async {
+                      tryLogin();
+                    },
                   ),
-                  obscureText: true,
-                  textInputAction: TextInputAction.go,
-                  onSubmitted: (_) async {
-                    tryLogin();
-                  },
                 ),
-              ),
-              const SizedBox(height: 20.0,),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FilledButton(
-                    onPressed: tryLogin,
-                    child: const Text('로그인'),
-                  ),
-                  TextButton(
-                    child: const Text('회원가입'),
-                    onPressed: () {
-                      // 회원가입
-                      Get.to(const TermsOfUseScreen());
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    child: const Text('ID/비밀번호 찾기'),
-                    onPressed: () {
-                      // Navigator.of(context).pushNamed(Routes.resetPassword);
-                      Get.to(const FindIdPwSelectScreen());
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
+                const SizedBox(height: 20.0,),
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    FilledButton(
+                      onPressed: tryLogin,
+                      child: const Text('로그인'),
+                    ),
+                    TextButton(
+                      child: const Text('회원가입'),
+                      onPressed: () {
+                        // 회원가입
+                        Get.to(const TermsOfUseScreen());
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12.0),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      child: const Text('ID/비밀번호 찾기'),
+                      onPressed: () {
+                        // Navigator.of(context).pushNamed(Routes.resetPassword);
+                        Get.to(const FindIdPwSelectScreen());
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
         ),
       );
   }

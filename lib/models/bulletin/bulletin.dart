@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:backoffice_front/screens/bulletin/bulletin_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../screens/bulletin/bulletin_detail_screen.dart';
 import '../../utils/StringUtils.dart';
 
 class Bulletin {

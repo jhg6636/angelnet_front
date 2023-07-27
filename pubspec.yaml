@@ -1,5 +1,5 @@
-name: backoffice_front
-description: reventures backoffice frontend project
+name: angelnet
+description: reventures angelnet frontend project
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -50,6 +50,9 @@ dependencies:
   webview_flutter: ^4.2.1
   flutter_pdfview: ^1.2.7
   cross_scroll: ^0.0.75
+  firebase_core: ^2.8.0
+  firebase_messaging: ^14.3.0
+  flutter_local_notifications: ^13.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,12 +1,12 @@
-import 'package:backoffice_front/models/bulletin/bulletin.dart';
-import 'package:backoffice_front/screens/bulletin/post_edit_screen.dart';
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
+import 'package:angelnet/screens/bulletin/post_edit_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/bulletin/bulletin.dart';
 import '../../models/common/post.dart';
+import '../../utils/WidgetUtils.dart';
+import '../screen_frame.dart';
 
 class BulletinDetailScreen extends StatefulWidget {
 
@@ -45,7 +45,7 @@ class BulletinDetailScreenState extends State<BulletinDetailScreen> {
             const Text("게시글 목록", style: WidgetUtils.h1,),
             if (widget.isAdmin) FilledButton(
               onPressed: () {
-                Get.to(PostEditScreen(isEditing: false,));
+                Get.to(const PostEditScreen(isEditing: false,));
               },
               child: const Text("작성하기")
             ),

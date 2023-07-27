@@ -1,5 +1,5 @@
-import 'package:backoffice_front/screens/common/not_developed_screen.dart';
-import 'package:backoffice_front/screens/common/reset_pw_screen.dart';
+import 'package:angelnet/screens/common/not_developed_screen.dart';
+import 'package:angelnet/screens/common/reset_pw_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

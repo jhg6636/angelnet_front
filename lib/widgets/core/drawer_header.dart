@@ -1,9 +1,9 @@
-import 'package:backoffice_front/models/common/user.dart';
-import 'package:backoffice_front/screens/common/edit_user_info_screen.dart';
-import 'package:backoffice_front/screens/common/home_screen.dart';
-import 'package:backoffice_front/utils/StringUtils.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
-import 'package:backoffice_front/widgets/core/business_card_and_signature_widget.dart';
+import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/common/edit_user_info_screen.dart';
+import 'package:angelnet/screens/common/home_screen.dart';
+import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/core/business_card_and_signature_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

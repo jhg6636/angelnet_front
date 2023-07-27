@@ -1,9 +1,9 @@
-import 'package:backoffice_front/utils/WidgetUtils.dart';
-import 'package:backoffice_front/widgets/lp/fund_form.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../models/fund/fund.dart';
+import '../../utils/WidgetUtils.dart';
+import '../../widgets/lp/fund_form.dart';
 import '../screen_frame.dart';
 
 class ManageFundScreen extends StatefulWidget {

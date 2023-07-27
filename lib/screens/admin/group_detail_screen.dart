@@ -1,11 +1,11 @@
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:backoffice_front/widgets/admin/group_edit_member_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/admin/group.dart';
 import '../../models/common/user.dart';
 import '../../utils/WidgetUtils.dart';
+import '../../widgets/admin/group_edit_member_widget.dart';
+import '../screen_frame.dart';
 
 class GroupDetailScreen extends StatefulWidget {
 

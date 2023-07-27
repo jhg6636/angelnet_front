@@ -1,8 +1,8 @@
-import 'package:backoffice_front/screens/admin/manage_user_screen.dart';
-import 'package:backoffice_front/screens/bulletin/manage_bulletin_screen.dart';
-import 'package:backoffice_front/screens/common/not_developed_screen.dart';
-import 'package:backoffice_front/utils/WidgetUtils.dart';
-import 'package:backoffice_front/widgets/core/drawer_header.dart';
+import 'package:angelnet/screens/admin/manage_user_screen.dart';
+import 'package:angelnet/screens/bulletin/manage_bulletin_screen.dart';
+import 'package:angelnet/screens/common/not_developed_screen.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/core/drawer_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

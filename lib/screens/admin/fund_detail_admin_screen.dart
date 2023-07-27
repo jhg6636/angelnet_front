@@ -1,12 +1,12 @@
-import 'package:backoffice_front/models/fund/fund.dart';
-import 'package:backoffice_front/models/lp/limited_partner.dart';
-import 'package:backoffice_front/screens/screen_frame.dart';
-import 'package:backoffice_front/widgets/lp/fund_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/fund/fund.dart';
+import '../../models/lp/limited_partner.dart';
 import '../../utils/WidgetUtils.dart';
+import '../../widgets/lp/fund_form.dart';
+import '../screen_frame.dart';
 
 class FundDetailAdminScreen extends StatefulWidget {
 
