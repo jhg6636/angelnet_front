@@ -14,11 +14,12 @@ class StringUtils {
   }
 
   Uri stringToUri(String apiName, {Map<String, dynamic>? params}) {
-    return Uri.http(serverIp, apiName, params);
+    return Uri.http(serverAddress, apiName, params);
   }
 
   Future<Map<String, String>> header() async {
-    var token = await secureStorage.read(key: await getDeviceId()) ?? "";
+    // var token = await secureStorage.read(key: await getDeviceId()) ?? "";
+    var token = storage[await getDeviceId()] ?? "";
     return {
       HttpHeaders.authorizationHeader: "Bearer $token",
       HttpHeaders.contentTypeHeader: "application/json"

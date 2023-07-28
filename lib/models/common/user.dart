@@ -208,8 +208,9 @@ Future<http.Response> loginApi(String stringId, String password) async {
 
   print(response.body);
 
-  await secureStorage.write(key: deviceId, value: response.body);
-  print(await secureStorage.containsKey(key: deviceId));
+  // await secureStorage.write(key: deviceId, value: response.body);
+  storage[deviceId] = response.body;
+  // print(await secureStorage.containsKey(key: deviceId));
   return response;
 }
 
