@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 class WidgetUtils {
 
+  static const mobileWidth = 900;
+
   static const errorPadding = Padding(
     padding: EdgeInsets.all(8.0),
     child: Text("무엇인가 잘못됨"),
@@ -50,6 +52,10 @@ class WidgetUtils {
           ),
         )
     );
+  }
+
+  bool isMobile(BuildContext context) {
+    return MediaQuery.of(context).size.width < mobileWidth;
   }
 
 }

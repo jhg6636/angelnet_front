@@ -13,10 +13,8 @@ class TermsOfUseScreen extends StatefulWidget {
 
 class TermsOfUseScreenState extends State<TermsOfUseScreen> {
   bool _isChecked = false;
-  Future<String> text1 =
-  StringUtils().loadText("lib/assets/texts/terms_of_use_1.txt");
-  Future<String> text2 =
-  StringUtils().loadText("lib/assets/texts/terms_of_use_2.txt");
+  Future<String> text1 = StringUtils().loadText("lib/assets/texts/terms_of_use_1.txt");
+  Future<String> text2 = StringUtils().loadText("lib/assets/texts/terms_of_use_2.txt");
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,8 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
               children: [
                 const SizedBox(height: 32.0),
                 const Text(
-                  "약관 1", style: WidgetUtils.h1, textAlign: TextAlign.start,),
+                  "약관 1", style: WidgetUtils.h1, textAlign: TextAlign.start,
+                ),
                 FutureBuilder<String>(
                   future: text1,
                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -52,7 +51,8 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                   },
                 ),
                 const Text(
-                  "약관 2", style: WidgetUtils.h1, textAlign: TextAlign.start,),
+                  "약관 2", style: WidgetUtils.h1, textAlign: TextAlign.start,
+                ),
                 FutureBuilder<String>(
                   future: text2,
                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -100,7 +100,8 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                           onPressed: () {
                             Get.back();
                           },
-                          child: const Text("돌아가기")),
+                          child: const Text("돌아가기")
+                      ),
                       FilledButton(
                         onPressed: () {
                           if (_isChecked) {
