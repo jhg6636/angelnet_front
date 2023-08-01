@@ -1,18 +1,22 @@
 
 import 'package:angelnet/screens/common/home_screen.dart';
 import 'package:angelnet/utils/NotificationUtils.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'firebase_options.dart';
 
-const serverAddress = '2ead-115-91-133-187.ngrok-free.app';
+// const serverAddress = 'localhost:8080';
+const serverAddress = '172.18.0.43:8080';
 const secureStorage = FlutterSecureStorage();
 var storage = {};
 
 void main() async {
   await initializeDateFormatting();
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // String? firebaseToken = await fcmSetting();
   // print(firebaseToken);
   runApp(const AngelnetApp());

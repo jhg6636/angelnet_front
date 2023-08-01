@@ -1,21 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:angelnet/firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
 
 Future<String?> fcmSetting() async {
-  // await Firebase.initializeApp(options: FirebaseOptions.current)
-  await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: 'AIzaSyDJfuOJwJMo1vWA_UmapTFTKOlSNRh0OR8',
-          appId: '1:807437189527:web:73f6b2c161df35396044d2',
-          messagingSenderId: '807437189527',
-          projectId: 'angelnet-bcded'
-      )
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey: 'AIzaSyDJfuOJwJMo1vWA_UmapTFTKOlSNRh0OR8',
+  //         appId: '1:807437189527:web:73f6b2c161df35396044d2',
+  //         messagingSenderId: '807437189527',
+  //         projectId: 'angelnet-bcded'
+  //     )
+  // );
   
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -45,10 +46,8 @@ Future<String?> fcmSetting() async {
 
   FirebaseMessaging.onMessage.listen((remoteMessage) {
     RemoteNotification? notification = remoteMessage.notification;
-    AndroidNotification? android = notification?.android;
-    AppleNotification? apple = notification?.apple;
 
-    if (notification != null && apple != null) {
+    if (notification != null) {
       plugin.show(
           notification.hashCode,
           notification.title,

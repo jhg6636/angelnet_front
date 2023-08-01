@@ -22,7 +22,7 @@ class StringUtils {
     var token = storage[await getDeviceId()] ?? "";
     return {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      HttpHeaders.contentTypeHeader: "application/json"
+      HttpHeaders.contentTypeHeader: "application/json",
     };
   }
 
