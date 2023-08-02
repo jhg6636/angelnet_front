@@ -26,12 +26,13 @@ class HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("아이디"),
+                const SizedBox(width: 60, child: Text("아이디")),
+                const SizedBox(width: 12),
                 SizedBox(width: 400, child: TextField(
                   controller: _stringIdController,
                   decoration: const InputDecoration(
@@ -47,11 +48,13 @@ class HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("비밀번호"),
+                const SizedBox(width: 60, child: Text("비밀번호")),
+                const SizedBox(width: 12),
                 SizedBox(width: 400, child: TextField(
                   controller: _passwordController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
+                    constraints: BoxConstraints.tightForFinite()
                   ),
                   obscureText: true,
                   textInputAction: TextInputAction.go,
@@ -75,12 +78,10 @@ class HomeScreenState extends State<HomeScreen> {
     var idSaveCheckbox = Row(
       children: [
         const SizedBox(
-          width: 120,
-          height: 24,
+          width: 80,
         ),
         SizedBox(
           width: 24,
-          height: 24,
           child: Checkbox(
             value: idSaveChecked,
             onChanged: (bool? value) {
@@ -91,19 +92,19 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         SizedBox(
             width: 120,
-            height: 24,
             child: InkWell(
               onTap: () {
                 idSaveChecked = !idSaveChecked;
                 setState(() {});
               },
-              child: const Text("아이디 저장"),
+              child: const Text("  아이디 저장"),
             )
         ),
       ]
     );
 
     var buttonBlock = Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,14 +136,15 @@ class HomeScreenState extends State<HomeScreen> {
           scrollDirection: Axis.horizontal,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(height: 50.0),
-                SizedBox(width: 640, height: 400, child: loginBlock),
+                SizedBox(width: 640, child: loginBlock),
                 const SizedBox(height: 12.0),
-                SizedBox(width: 640, height: 24, child: idSaveCheckbox),
+                SizedBox(width: 640, child: idSaveCheckbox),
                 const SizedBox(height: 12.0),
-                buttonBlock,
+                SizedBox(width: 640, child: buttonBlock),
               ]
             ),
           ),

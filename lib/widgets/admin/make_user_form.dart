@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/common/reset_pw_screen.dart';
+import 'package:angelnet/widgets/user/sign_up_process_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,6 +58,7 @@ class MakeUserFormState extends State<MakeUserForm> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            (widget.isEditing) ? const Text("회원정보") : const Text("회원가입"),
             if (widget.isPopup) Wrap(
               children: [
                 const SizedBox(width: 12.0,),
@@ -75,134 +78,174 @@ class MakeUserFormState extends State<MakeUserForm> {
                 )
               ],
             ),
+            if (!widget.isEditing) signUpProcessWidget(2),
             const SizedBox(height: 24.0),
-            TextField(
-              keyboardType: TextInputType.text,
-              controller: _stringIdController,
-              decoration: InputDecoration(
-                labelText: '아이디',
-                enabled: !widget.isEditing,
-                suffixIcon: FilledButton(
-                  onPressed: () async {
-                    notDuplicated = await checkStringId(_stringIdController.text);
-                    if (notDuplicated) {
-                      Fluttertoast.showToast(msg: "사용 가능한 아이디입니다!");
-                    } else {
-                      Fluttertoast.showToast(msg: "중복 아이디입니다. 다른 아이디를 입력해 주세요.");
-                    }
-                  },
-                  child: const Text("중복 확인"),
-                )
-              ),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[a-z0-9ㄱ-ㅎ가-힣ㅏ-ㅣ]"))
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.circle, size: 12.0,), Text("  기본정보")
+                  ],
+                ), Text("* 표시 항목은 필수 입력사항입니다.")
               ],
             ),
-            const Text(
-              "2~20자의 영문 소문자, 숫자, 한글로만 구성할 수 있습니다.",
-              textAlign: TextAlign.left,
-            ),
-            const SizedBox(height: 12.0),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: '비밀번호',
-              ),
-              obscureText: true,
-              autocorrect: false,
-              enableSuggestions: false,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
-              ],
-              enabled: !widget.isEditing,
-            ),
-            if (!widget.isEditing) const Text(
-              // "4~20자의 영문 소문자, 숫자, 특수문자(!@#\$%^&*()_+=?/) 가 모두 포함되어야 합니다",
-              "4~20자로 구성해 주세요. 특수문자는 ! @ # \$ % ^ & * ( ) _ + = ? / 만 가능합니다",
-              textAlign: TextAlign.left,
-            ),
-            if (!widget.isEditing) const SizedBox(height: 12.0),
-            TextField(
-              controller: _passwordCheckController,
-              decoration: const InputDecoration(
-                labelText: '비밀번호 확인',
-              ),
-              obscureText: true,
-              autocorrect: false,
-              enableSuggestions: false,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
-              ],
-              enabled: !widget.isEditing,
-            ),
-            if (widget.isEditing) const SizedBox(height: 12.0),
-            if (widget.isEditing) ElevatedButton(
-                onPressed: () async {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              TextField(
-                                controller: _passwordController,
-                                decoration: const InputDecoration(
-                                  labelText: '비밀번호',
-                                ),
-                                obscureText: true,
-                                autocorrect: false,
-                                enableSuggestions: false,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
-                                ],
-                              ),
-                              if (!widget.isEditing) const Text(
-                                "4~20자의 영문 소문자, 숫자, 특수문자(!@#\$%^&*()_+=?/)로만 구성할 수 있습니다",
-                                textAlign: TextAlign.left,
-                              ),
-                              if (!widget.isEditing) const SizedBox(height: 12.0),
-                              TextField(
-                                controller: _passwordCheckController,
-                                decoration: const InputDecoration(
-                                  labelText: '비밀번호 확인',
-                                ),
-                                obscureText: true,
-                                autocorrect: false,
-                                enableSuggestions: false,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
-                                ],
-                              ),
-                              ButtonBar(
-                                children: [
-                                  FilledButton(
-                                    onPressed: () async {
-                                      var response = await changePassword(_stringIdController.text, _passwordController.text);
-                                      if (response.statusCode == 200) {
-                                        Fluttertoast.showToast(msg: "비밀번호가 변경되었습니다.");
-                                        Navigator.pop(context);
-                                        Get.back();
-                                      } else {
-                                        Fluttertoast.showToast(msg: "다시 시도해 주세요.");
-                                      }
-                                    },
-                                    child: const Text("변경하기")
-                                  ),
-                                  OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("취소하기")
-                                  )
-                                ],
-                              )
+            const Divider(),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 180,
+                  child: Text("* 아이디"),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 300,
+                          child: TextField(
+                            keyboardType: TextInputType.text,
+                            controller: _stringIdController,
+                            decoration: InputDecoration(
+                              enabled: !widget.isEditing,
+                              border: const OutlineInputBorder()
+                            ),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(RegExp("[a-z0-9ㄱ-ㅎ가-힣ㅏ-ㅣ]"))
                             ],
                           ),
-                        );
-                      }
-                  );
-                },
-                child: const Text("비밀번호 변경")
+                        ),
+                        FilledButton(
+                          onPressed: () async {
+                            notDuplicated = await checkStringId(_stringIdController.text);
+                            if (notDuplicated) {
+                              Fluttertoast.showToast(msg: "사용 가능한 아이디입니다!");
+                            } else {
+                              Fluttertoast.showToast(msg: "중복 아이디입니다. 다른 아이디를 입력해 주세요.");
+                            }
+                          },
+                          child: const Text("중복 확인"),
+                        )
+                      ],
+                    ),
+                    const Text(
+                      "2~20자리 이하 영문 소문자, 숫자, 한글 조합",
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 12.0),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 180,
+                  child: Text("* 비밀번호"),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    (widget.isEditing) ?
+                      FilledButton(
+                        onPressed: () {
+                          Get.to(const ResetPwScreen());
+                        },
+                        child: const Text("비밀번호 재설정")
+                      )
+                    : SizedBox(
+                        width: 300,
+                        child: TextField(
+                          keyboardType: TextInputType.text,
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                              enabled: !widget.isEditing,
+                              border: const OutlineInputBorder()
+                          ),
+                          obscureText: true,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
+                          ],
+                        ),
+                      ),
+                    const Text(
+                      "4~20자의 영문 (대소문자 구분), 숫자, 특수문자(!@#\$%^&*()_+=?/) 조합",
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                )
+              ],
+            ),
+            if (!widget.isEditing) const SizedBox(height: 12.0),
+            if (!widget.isEditing) Row(
+              children: [
+                const SizedBox(
+                  width: 180,
+                  child: Text("* 비밀번호 재확인"),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      child: TextField(
+                        controller: _passwordCheckController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder()
+                        ),
+                        obscureText: true,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 180,
+                  child: Text("* 이름"),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder()
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 180,
+                  child: Text("* 이메일"),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      child: TextField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder()
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
             const SizedBox(height: 12.0),
             TextField(
