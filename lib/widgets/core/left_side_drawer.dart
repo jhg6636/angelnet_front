@@ -4,7 +4,7 @@ import 'package:angelnet/widgets/core/drawer_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../screens/lp/bulletin_screen.dart';
+import '../../screens/bulletin/bulletin_screen.dart';
 import '../../screens/lp/funding_fund_screen.dart';
 import '../../screens/not_developed_screen.dart';
 
