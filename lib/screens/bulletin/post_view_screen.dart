@@ -1,4 +1,3 @@
-import 'package:angelnet/screens/common/not_developed_screen.dart';
 import 'package:angelnet/screens/screen_frame.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 import '../../models/common/post.dart';
+import '../not_developed_screen.dart';
 
 class PostViewScreen extends StatelessWidget {
 

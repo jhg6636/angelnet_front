@@ -1,12 +1,13 @@
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
-import 'package:angelnet/screens/common/find_id_pw_select_screen.dart';
-import 'package:angelnet/screens/common/not_developed_screen.dart';
-import 'package:angelnet/screens/common/terms_of_use_screen.dart';
 import 'package:angelnet/screens/lp/lp_mypage.dart';
+import 'package:angelnet/screens/user/terms_of_use_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+
+import 'find_id_pw_select_screen.dart';
+import '../not_developed_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

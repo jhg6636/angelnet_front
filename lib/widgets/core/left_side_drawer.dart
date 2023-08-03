@@ -1,5 +1,3 @@
-import 'package:angelnet/screens/common/home_screen.dart';
-import 'package:angelnet/screens/common/not_developed_screen.dart';
 import 'package:angelnet/screens/lp/lp_mypage.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/drawer_header.dart';
@@ -8,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../screens/lp/bulletin_screen.dart';
 import '../../screens/lp/funding_fund_screen.dart';
+import '../../screens/not_developed_screen.dart';
 
 class LeftSideDrawer extends StatelessWidget {
   const LeftSideDrawer({super.key});

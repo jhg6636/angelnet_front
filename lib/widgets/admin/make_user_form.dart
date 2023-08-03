@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:angelnet/models/common/user.dart';
-import 'package:angelnet/screens/common/reset_pw_screen.dart';
+import 'package:angelnet/screens/user/sign_up_welcome_screen.dart';
 import 'package:angelnet/widgets/user/sign_up_process_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../screens/user/home_screen.dart';
+import '../../screens/user/reset_pw_screen.dart';
 import '../../utils/StringUtils.dart';
-import '../../screens/common/home_screen.dart';
 
 class MakeUserForm extends StatefulWidget {
 
@@ -208,6 +209,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                 )
               ],
             ),
+            const SizedBox(height: 12.0),
             Row(
               children: [
                 const SizedBox(
@@ -225,6 +227,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                 ),
               ],
             ),
+            const SizedBox(height: 12.0),
             Row(
               children: [
                 const SizedBox(
@@ -247,55 +250,77 @@ class MakeUserFormState extends State<MakeUserForm> {
                 )
               ],
             ),
+            // todo 주소 입력
             const SizedBox(height: 12.0),
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: '이름',
-              ),
-            ),
-            const SizedBox(height: 12.0),
-            TextField(
-              controller: _phoneController,
-              decoration:
-              const InputDecoration(labelText: '전화번호'),
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly
+            Row(
+              children: [
+                const SizedBox(
+                  width: 180,
+                  child: Text("* 연락처"),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      child: TextField(
+                        controller: _phoneController,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder()
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                    const Text(
+                      "대쉬(-) 없이 숫자만 입력하세요.",
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                )
               ],
             ),
-            const Text(
-              "대쉬(-) 없이 숫자만 입력하세요.",
-              textAlign: TextAlign.left,
-            ),
-            const SizedBox(
-              height: 12.0,
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: '이메일'),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[a-z0-9@.-_=+!@#\$%^&*()/,?]"))
+            const SizedBox(height: 24.0),
+            const Row(
+              children: [
+                Icon(Icons.circle, size: 12.0,), Text("  추가정보 입력")
               ],
             ),
-            const SizedBox(
-              height: 12.0,
-            ),
-            TextField(
-              controller: _workspaceController,
-              decoration: const InputDecoration(labelText: '근무처'),
-            ),
-            const SizedBox(
-              height: 12.0,
-            ),
-            TextField(
-              controller: _recommenderController,
-              decoration: const InputDecoration(labelText: '추천인'),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[ㄱ-ㅎ가-힇ㆍᆢ]"))
+            const Divider(),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 180,
+                  child: Text("추천인"),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: _recommenderController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder()
+                    ),
+                  ),
+                ),
               ],
             ),
-            const SizedBox(
-                height: 12.0
+            Row(
+              children: [
+                const SizedBox(
+                  width: 180,
+                  child: Text("근무처"),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: _workspaceController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder()
+                    ),
+                  ),
+                ),
+              ],
             ),
             ButtonBar(
               alignment: MainAxisAlignment.center,
@@ -311,50 +336,51 @@ class MakeUserFormState extends State<MakeUserForm> {
                   },
                 ),
                 FilledButton(
-                  child: widget.isEditing ? const Text("수정하기") : const Text("회원가입"),
+                  child: widget.isEditing ? const Text("수정하기") : const Text("다음단계"),
                   onPressed: () async {
                     String? validityString = checkValidity();
                     print(validityString);
-                    if (validityString == null) {
-                      try {
-                        var response = await signInApi(
-                          _stringIdController.text,
-                          _passwordController.text,
-                          _nameController.text,
-                          _phoneController.text,
-                          _emailController.text,
-                          _recommenderController.text,
-                        );
-                        if (response.statusCode != 200) {
-                          print(jsonDecode(utf8.decode(response.bodyBytes)));
-                        } else {
-                          if (widget.isEditing) {
-                            Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
-                            Get.back();
-                          }
-                          else if (!widget.isPopup) {
-                            Fluttertoast.showToast(msg: "회원가입이 완료되었습니다.");
-                            Get.to(const HomeScreen());
-                            Get.deleteAll();
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        }
-                      } catch (e) {
-                        print("Error: $e");
-                      }
-                    } else {
-                      showDialog(context: context, builder: (context) {
-                        return AlertDialog(
-                          title: Text(validityString),
-                          actions: [
-                            TextButton(onPressed: () {
-                              Navigator.of(context).pop();
-                            }, child: const Text("OK"))
-                          ],
-                        );
-                      });
-                    }
+                    Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                    // if (validityString == null) {
+                    //   // try {
+                    //   //   var response = await signInApi(
+                    //   //     _stringIdController.text,
+                    //   //     _passwordController.text,
+                    //   //     _nameController.text,
+                    //   //     _phoneController.text,
+                    //   //     _emailController.text,
+                    //   //     _recommenderController.text,
+                    //   //   );
+                    //   //   if (response.statusCode != 200) {
+                    //   //     print(jsonDecode(utf8.decode(response.bodyBytes)));
+                    //   //   } else {
+                    //   //     if (widget.isEditing) {
+                    //   //       Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
+                    //   //       Get.back();
+                    //   //     }
+                    //   //     else if (!widget.isPopup) {
+                    //   //       Fluttertoast.showToast(msg: "회원가입이 완료되었습니다.");
+                    //   //       Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                    //   //       Get.deleteAll();
+                    //   //     } else {
+                    //   //       Navigator.pop(context);
+                    //   //     }
+                    //   //   }
+                    //   // } catch (e) {
+                    //   //   print("Error: $e");
+                    //   // }
+                    // } else {
+                    //   showDialog(context: context, builder: (context) {
+                    //     return AlertDialog(
+                    //       title: Text(validityString),
+                    //       actions: [
+                    //         TextButton(onPressed: () {
+                    //           Navigator.of(context).pop();
+                    //         }, child: const Text("OK"))
+                    //       ],
+                    //     );
+                    //   });
+                    // }
                   },
                 ),
               ],

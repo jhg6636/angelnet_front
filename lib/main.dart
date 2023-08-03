@@ -1,5 +1,5 @@
 
-import 'package:angelnet/screens/common/home_screen.dart';
+import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/NotificationUtils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

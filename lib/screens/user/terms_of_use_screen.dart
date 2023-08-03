@@ -1,4 +1,4 @@
-import 'package:angelnet/screens/common/signup_screen.dart';
+import 'package:angelnet/screens/user/signup_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/user/sign_up_process_widget.dart';

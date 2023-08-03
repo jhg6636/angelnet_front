@@ -1,6 +1,4 @@
 import 'package:angelnet/models/common/user.dart';
-import 'package:angelnet/screens/common/edit_user_info_screen.dart';
-import 'package:angelnet/screens/common/home_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/business_card_and_signature_widget.dart';
@@ -8,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../main.dart';
+import '../../screens/user/edit_user_info_screen.dart';
+import '../../screens/user/home_screen.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
   const CustomDrawerHeader({super.key});

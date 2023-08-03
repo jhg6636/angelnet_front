@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../main.dart';
-import '../../screens/common/edit_user_info_screen.dart';
+import '../../screens/user/edit_user_info_screen.dart';
 import '../../utils/StringUtils.dart';
 
 class User {

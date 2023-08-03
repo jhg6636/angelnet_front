@@ -91,7 +91,7 @@ class StringUtils {
   }
 
   bool isValidEmail(String email) {
-    if (RegExp("^[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}@[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}.[a-zA-Z0-9./,!@#\$%^&*()+=-]{1,}\$").hasMatch(email)) {
+    if (RegExp("^[a-zA-Z0-9ㄱ-ㅎ가-힣./,!#\$%^&*()+=-]{1,}@[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}.[a-zA-Z0-9./,!@#\$%^&*()+=-]{1,}\$").hasMatch(email)) {
       return true;
     }
     return false;

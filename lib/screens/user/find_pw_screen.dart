@@ -1,5 +1,4 @@
-import 'package:angelnet/screens/common/not_developed_screen.dart';
-import 'package:angelnet/screens/common/reset_pw_screen.dart';
+import 'package:angelnet/screens/user/reset_pw_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,7 +67,7 @@ class FindPwScreenState extends State<FindPwScreen> {
             ),
             if (_buttonClicked) FilledButton(
                 onPressed: () {
-                  Get.to(ResetPwScreen());
+                  Get.to(const ResetPwScreen());
                 },
                 child: const Text("인증하기")
             ),

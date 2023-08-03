@@ -1,5 +1,4 @@
 import 'package:angelnet/models/common/user.dart';
-import 'package:angelnet/screens/common/not_developed_screen.dart';
 import 'package:angelnet/widgets/startup/financial_statement_screen.dart';
 import 'package:angelnet/widgets/startup/startup_basic_info.dart';
 import 'package:angelnet/widgets/startup/startup_calendar.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/startup/startup.dart';
 import '../../widgets/startup/startup_documents.dart';
+import '../not_developed_screen.dart';
 
 class StartupScreen extends StatelessWidget {
   final Startup startup;
