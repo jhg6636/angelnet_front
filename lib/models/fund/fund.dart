@@ -81,7 +81,7 @@ class Fund {
         startupName: json['startupName'] as String,
         mainProduct: json['mainProduct'] as String,
         managerName: json['manager'] as String,
-        startAt: DateTime.parse(json['startAt'] as String),
+        startAt: DateTime.parse(json['startAt']),
         type: FundType.fromEnglish(json['type']),
         dissolvedAt: null,
         margin: null,
@@ -239,8 +239,8 @@ Future<List<Fund>> searchFunds() async {
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
   print(response.statusCode);
-  print(response.body);
-  print(response.reasonPhrase);
+  // print(response.body);
+  print(responseBody);
 
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }
