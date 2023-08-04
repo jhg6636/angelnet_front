@@ -1,18 +1,15 @@
-import 'package:angelnet/screens/user/id_inform_screen.dart';
+import 'package:angelnet/screens/user/find_pw_screen.dart';
+import 'package:angelnet/screens/user/home_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FindIdScreen extends StatefulWidget {
-  const FindIdScreen({super.key});
+class IdInformScreen extends StatelessWidget {
 
-  @override
-  State<StatefulWidget> createState() => FindIdScreenState();
-}
+  final String name;
+  final String id;
 
-class FindIdScreenState extends State<FindIdScreen> {
-  final _nameController = TextEditingController();
-  // final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
+  const IdInformScreen({super.key, required this.name, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +18,6 @@ class FindIdScreenState extends State<FindIdScreen> {
             alignment: Alignment.center,
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text("아이디 찾기"),
@@ -30,7 +26,7 @@ class FindIdScreenState extends State<FindIdScreen> {
                     width: 900,
                     height: 450,
                     decoration: BoxDecoration(
-                      border: Border.all()
+                        border: Border.all()
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -44,10 +40,7 @@ class FindIdScreenState extends State<FindIdScreen> {
                             ),
                             SizedBox(
                               width: 240,
-                              child: TextField(
-                                controller: _nameController,
-                                decoration: const InputDecoration(),
-                              ),
+                              child: Text(name),
                             )
                           ],
                         ),
@@ -56,25 +49,31 @@ class FindIdScreenState extends State<FindIdScreen> {
                             const SizedBox(width: 50,),
                             const SizedBox(
                               width: 80,
-                              child: Text("연락처"),
+                              child: Text("ID"),
                             ),
                             SizedBox(
                               width: 240,
-                              child: TextField(
-                                controller: _phoneController,
-                                decoration: const InputDecoration(),
-                              ),
+                              child: Text(id),
                             )
                           ],
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: FilledButton(
-                            onPressed: () {
-                              Get.to(IdInformScreen(name: _nameController.text, id: 'IDIDIDIDID'));
-                            },
-                            child: const Text("아이디 찾기"),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            FilledButton(
+                              onPressed: () {
+                                Get.to(const HomeScreen());
+                              },
+                              child: const Text("로그인"),
+                            ),
+                            SizedBox(width: 50,),
+                            FilledButton(
+                              onPressed: () {
+                                Get.to(const FindPwScreen());
+                              },
+                              child: const Text("비밀번호 찾기"),
+                            ),
+                          ]
                         )
                       ],
                     ),
@@ -85,4 +84,5 @@ class FindIdScreenState extends State<FindIdScreen> {
         )
     );
   }
+
 }

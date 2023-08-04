@@ -151,7 +151,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                     (widget.isEditing) ?
                       FilledButton(
                         onPressed: () {
-                          Get.to(const ResetPwScreen());
+                          Get.to(ResetPwScreen(username: _nameController.text,));
                         },
                         child: const Text("비밀번호 재설정")
                       )

@@ -133,22 +133,24 @@ class HomeScreenState extends State<HomeScreen> {
     );
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Align(
+        child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(height: 50.0),
-                SizedBox(width: 640, child: loginBlock),
-                const SizedBox(height: 12.0),
-                SizedBox(width: 640, child: idSaveCheckbox),
-                const SizedBox(height: 12.0),
-                SizedBox(width: 640, child: buttonBlock),
-              ]
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(height: 50.0),
+                  SizedBox(width: 640, child: loginBlock),
+                  const SizedBox(height: 12.0),
+                  SizedBox(width: 640, child: idSaveCheckbox),
+                  const SizedBox(height: 12.0),
+                  SizedBox(width: 640, child: buttonBlock),
+                ]
             ),
           ),
+        ),
       )
     );
   }
