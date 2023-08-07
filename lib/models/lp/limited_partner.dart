@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:angelnet/models/fund/fund.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/FileUtils.dart';
 import '../../utils/StringUtils.dart';
+import '../fund/fund_status.dart';
 
 class LimitedPartner {
 
@@ -17,6 +19,9 @@ class LimitedPartner {
   final String? locUrl;
   final String? taxDeductionUrl;
   final DateTime? depositAt;
+  final String fundName;
+  final String startupName;
+  final FundStatus fundStatus;
 
   LimitedPartner({
     required this.id,
@@ -28,6 +33,9 @@ class LimitedPartner {
     required this.locUrl,
     required this.taxDeductionUrl,
     required this.depositAt,
+    required this.fundName,
+    required this.startupName,
+    required this.fundStatus,
   });
 
   factory LimitedPartner.fromJson(Map<String, dynamic> json) {
@@ -41,6 +49,9 @@ class LimitedPartner {
         locUrl: json['locUrl'],
         taxDeductionUrl: json['taxDeductionUrl'],
         depositAt: json['depositAt'],
+        fundName: "fundName",
+        startupName: "startupName",
+        fundStatus: FundStatus.accepting,
     );
   }
 
@@ -100,6 +111,18 @@ class LimitedPartner {
                 child: const Text("삭제"),
               )
           ),
+        ]
+    );
+  }
+
+  DataRow toJoinedFundRow(int index) {
+    return DataRow(
+        cells: [
+          DataCell(Text(index.toString())),
+          DataCell(Text(name)),
+          DataCell(Text(startupName)),
+          DataCell(Text(cost.toString())),
+          DataCell(Text(fundStatus.korean)),
         ]
     );
   }

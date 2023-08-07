@@ -29,29 +29,42 @@ class HomeScreenState extends State<HomeScreen> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 43,
+                      height: 20,
+                      padding: const EdgeInsets.fromLTRB(65, 0, 0, 0),
+                      child: const Text(
+                        "아이디",
+                        style: TextStyle(
+                          fontFamily: "Pretendard",
+                          fontSize: 17.0,
+                        ),
+                      )
+                    ),
+                    Container(
+                      width: 400,
+                      height: 60,
+                      padding: const EdgeInsets.fromLTRB(65, 6, 65, 30),
+                      child: TextField(
+                        controller: _stringIdController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        textInputAction: TextInputAction.go,
+                        onSubmitted: (_) async {
+                          tryLogin();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(width: 60, child: Text("아이디")),
-                const SizedBox(width: 12),
-                SizedBox(width: 400, child: TextField(
-                  controller: _stringIdController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  textInputAction: TextInputAction.go,
-                  onSubmitted: (_) async {
-                    tryLogin();
-                  },
-                ),)
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(width: 60, child: Text("비밀번호")),
-                const SizedBox(width: 12),
-                SizedBox(width: 400, child: TextField(
+                SizedBox(width: 400, height: 60, child: TextField(
                   controller: _passwordController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -132,26 +145,43 @@ class HomeScreenState extends State<HomeScreen> {
       ],
     );
 
-    return Scaffold(
-      body: Align(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage('lib/assets/images/home_screen_image.png')
+        )
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Align(
           child: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: 50.0),
-                  SizedBox(width: 640, child: loginBlock),
-                  const SizedBox(height: 12.0),
-                  SizedBox(width: 640, child: idSaveCheckbox),
-                  const SizedBox(height: 12.0),
-                  SizedBox(width: 640, child: buttonBlock),
-                ]
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              child: Container(
+                width: 530,
+                height: 680,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFFF),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    const SizedBox(height: 50.0),
+                    SizedBox(width: 640, child: loginBlock),
+                    const SizedBox(height: 12.0),
+                    SizedBox(width: 640, child: idSaveCheckbox),
+                    const SizedBox(height: 12.0),
+                    SizedBox(width: 640, child: buttonBlock),
+                  ]
+                ),
+              )
             ),
           ),
-        ),
-      )
+        )
+      ),
     );
   }
 

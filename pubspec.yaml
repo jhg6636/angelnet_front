@@ -81,11 +81,15 @@ flutter:
   assets:
     - lib/assets/texts/
     - lib/assets/fonts/
+    - lib/assets/images/home_screen_image.png
 
   fonts:
     - family: Sriracha
       fonts:
         - asset: lib/assets/fonts/Sriracha-Regular.ttf
+    - family: Pretendard
+      fonts:
+        - asset: lib/assets/fonts/PretendardVariable.ttf
 
     - family: NotoSansKR
       fonts:

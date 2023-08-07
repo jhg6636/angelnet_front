@@ -1,4 +1,5 @@
 import 'package:angelnet/models/lp/limited_partner.dart';
+import 'package:angelnet/screens/not_developed_screen.dart';
 import 'package:angelnet/screens/screen_frame.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/lp/fund_card.dart';
@@ -23,6 +24,48 @@ class LpMyPageState extends State<LpMyPage> {
 
   @override
   Widget build(BuildContext context) {
+    var topBox = Container(
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        border: Border.all(),
+        borderRadius: const BorderRadius.all(Radius.circular(4.0))
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text("username", style: WidgetUtils.h1,),
+              Text("  님"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                  onPressed: () {},
+                  child: const Text("서류제출")
+              ),
+              TextButton(
+                  onPressed: () {},
+                  child: const Text("회원정보")
+              ),
+              IconButton(
+                  onPressed: () {},
+                  icon: Badge(
+                    label: Text(33.toString()),
+                    child: const Icon(Icons.notifications),
+                  )
+              )
+            ],
+          )
+        ],
+      )
+    );
+
+
+
     return ScreenFrame(
         main: Scaffold(
             body: Center(
@@ -30,22 +73,20 @@ class LpMyPageState extends State<LpMyPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      ElevatedButton(
-                          onPressed: () {
-                            Get.to(const FundingFundScreen());
-                          },
-                          child: const Text("모집 중인 조합 보러가기")
-                      ),
-                      const Text(
-                        "참여 중인 조합",
-                        style: WidgetUtils.titleStyle,
+                      topBox,
+                      const Row(
+                        children: [
+                          Text(
+                            "참여 중인 조합",
+                            style: WidgetUtils.titleStyle,
+                          ),
+                          Text(
+                            "조합명 클릭 시, 참여중인 조합의 상세페이지로 이동할 수 있습니다.",
+                            style: TextStyle(fontSize: 14.0, color: Colors.black38),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 5.0,),
-                      const Text(
-                        "* 각 조합 클릭 시 해당 조합의 상세 페이지로 이동합니다.",
-                        style: TextStyle(fontSize: 14.0, color: Colors.black38),
-                      ),
-                      const SizedBox(height: 10.0,),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: FutureBuilder<List<Fund>>(
@@ -60,11 +101,35 @@ class LpMyPageState extends State<LpMyPage> {
                                 return const CircularProgressIndicator();
                               } else {
                                 if (snapshot.data?.isEmpty ?? true) {
-                                  return const Text("참여 중인 조합이 없습니다.");
+                                  return Column(
+                                    children: [
+                                      const Text("참여 중인 조합이 없습니다."),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Get.to(const FundingFundScreen());
+                                          },
+                                          child: const Text("모집 중인 조합 보러가기")
+                                      ),
+                                    ],
+                                  );
                                 }
-                                return Wrap(
-                                  children: (snapshot.data ?? List.empty()).map<FundCard>((fund) => FundCard(fund: fund,)).toList(),
-                                );
+                                var idx = 1;
+                                return const NotDevelopedScreen(isAdmin: false);
+                                // return DataTable(
+                                //   columns: const [
+                                //     DataColumn(label: Text("번호")),
+                                //     DataColumn(label: Text("조합명")),
+                                //     DataColumn(label: Text("투자기업")),
+                                //     DataColumn(label: Text("참여금액")),
+                                //     DataColumn(label: Text("진행상태")),
+                                //   ],
+                                //   rows: snapshot.data!.map<DataRow>((fund) {
+                                //     fund.
+                                //   })
+                                // );
+                                // return Wrap(
+                                //   children: (snapshot.data ?? List.empty()).map<FundCard>((fund) => FundCard(fund: fund,)).toList(),
+                                // );
                               }
                             }),
                         // todo 알림 관련 보이는 파트
