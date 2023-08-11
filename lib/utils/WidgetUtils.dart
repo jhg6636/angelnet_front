@@ -2,6 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/**
+ * 프리텐다드 글꼴
+ * 100 : Thin
+ * 200 : Extralight
+ * 300 : Light
+ * 400 : Regular
+ * 500 : Medium
+ * 600 : Semibold
+ * 700 : Bold
+ * 800 : Extrabold
+ * 900 : Black
+ */
+
 class WidgetUtils {
 
   static const mobileWidth = 900;
@@ -15,6 +28,8 @@ class WidgetUtils {
     title: const Text("AngelNet", style: TextStyle(fontSize: 36.0, fontFamily: 'Sriracha'),),
     centerTitle: true,
   );
+
+  static const pretendard = TextStyle(fontFamily: "Pretendard", fontSize: 17.0, fontWeight: FontWeight.w400);
 
   static const h1 = TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500);
 

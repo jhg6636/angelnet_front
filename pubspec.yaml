@@ -82,6 +82,8 @@ flutter:
     - lib/assets/texts/
     - lib/assets/fonts/
     - lib/assets/images/home_screen_image.png
+    - lib/assets/images/logo.png
+    - lib/assets/images/white_logo.png
 
   fonts:
     - family: Sriracha
