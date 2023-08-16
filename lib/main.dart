@@ -1,6 +1,8 @@
 
+import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/NotificationUtils.dart';
+import 'package:angelnet/widgets/core/breadcrumb.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -28,17 +30,20 @@ class AngelnetApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return GetMaterialApp(
-    //   home: FindIdPwSelectScreen()
-    // );
     return GetMaterialApp(
-      title: '엔젤넷',
-      home: const HomeScreen(),
+      home: Scaffold(
+        body: ScreenFrameV2(main: Text("hello"), isAdmin: false, crumbs: ["1차 메뉴"],),
+      ),
       theme: ThemeData(
-        fontFamily: 'NotoSansKR',
-        primaryColor: Colors.black38,
-        primarySwatch: Colors.grey,
-      )
+        fontFamily: 'Pretendard',
+      ),
     );
+    // return GetMaterialApp(
+    //   title: '엔젤넷',
+    //   home: const HomeScreen(),
+    //   theme: ThemeData(
+    //     fontFamily: 'Pretendard',
+    //   )
+    // );
   }
 }
