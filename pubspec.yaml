@@ -95,7 +95,24 @@ flutter:
         - asset: lib/assets/fonts/Sriracha-Regular.ttf
     - family: Pretendard
       fonts:
-        - asset: lib/assets/fonts/PretendardVariable.ttf
+        - asset: lib/assets/fonts/Pretendard/Pretendard-Thin.ttf
+          weight: 100
+        - asset: lib/assets/fonts/Pretendard/Pretendard-ExtraLight.ttf
+          weight: 200
+        - asset: lib/assets/fonts/Pretendard/Pretendard-Light.ttf
+          weight: 300
+        - asset: lib/assets/fonts/Pretendard/Pretendard-Regular.ttf
+          weight: 400
+        - asset: lib/assets/fonts/Pretendard/Pretendard-Medium.ttf
+          weight: 500
+        - asset: lib/assets/fonts/Pretendard/Pretendard-SemiBold.ttf
+          weight: 600
+        - asset: lib/assets/fonts/Pretendard/Pretendard-Bold.ttf
+          weight: 700
+        - asset: lib/assets/fonts/Pretendard/Pretendard-ExtraBold.ttf
+          weight: 800
+        - asset: lib/assets/fonts/Pretendard/Pretendard-Black.ttf
+          weight: 900
 
     - family: NotoSansKR
       fonts:
