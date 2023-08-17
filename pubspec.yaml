@@ -57,6 +57,7 @@ dependencies:
   flutter_breadcrumb: ^1.0.1
   share_plus: ^7.1.0
   printing: ^5.11.0
+  remixicon: ^1.0.0
 
 dev_dependencies:
   flutter_test:

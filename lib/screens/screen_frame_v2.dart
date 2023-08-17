@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:angelnet/models/common/user.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:printing/printing.dart';
+import 'package:remixicon/remixicon.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ScreenFrameV2 extends StatefulWidget {
@@ -136,16 +138,90 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                   ),
                 ),
                 Container(
+                    height: 23,
                     margin: const EdgeInsets.fromLTRB(58, 0, 0, 0),
-                    child: Text("결성중인 조합")
+                    child: const Text("결성중인 조합",
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                ),
+                Container(
+                    height: 23,
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: const Text("게시판",
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                ),
+                Container(
+                    height: 23,
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: const Text("전체 포트폴리오",
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
                 )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                // todo 이거로 변경
+                // FutureBuilder(
+                //   future: getMyInfo(),
+                //   builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                //     if (snapshot.hasData && !snapshot.hasError) {
+                //       return snapshot.data!['name'];
+                //     }
+                //   },
+                // )
+                Container(
+                    height: 23,
+                    margin: const EdgeInsets.fromLTRB(58, 0, 0, 0),
+                    child: const Text("플랜아이",
+                      style: TextStyle(
+                        color: Color(0xff000000),
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    )
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                  // child: const Icon(Icons.arrow_drop_down, color: Color(0xff000000)),
+                  child: Transform(
+                    transform: Matrix4.diagonal3Values(1.5, 1.0, 1.0),
+                    child: const Text("▾",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    )
+                  )
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(37, 0, 80, 0),
+                  child: const Badge(
+                    backgroundColor: Colors.transparent,
+                    offset: Offset(9, -9),
+                    label: Icon(Icons.circle, color: Color(0xff0361f9), size: 6), // todo 알림 없으면 null
+                    child: Icon(Remix.notification_2_line, size: 24, color: Color(0xff333333),),
+                  ),
+                )
+
               ],
             )
           ],
         ),
-        Divider(color: Color(0xffdddddd),),
+        const Divider(color: Color(0xffdddddd),),
         Container(
-          padding: EdgeInsets.fromLTRB(320, 67, 321, 0),
+          padding: const EdgeInsets.fromLTRB(320, 67, 321, 0),
           child: breadCrumbRow(widget.crumbs),
         )
       ],
