@@ -37,7 +37,8 @@ class MakeUserFormState extends State<MakeUserForm> {
   final _passwordController = TextEditingController();
   final _passwordCheckController = TextEditingController();
   var _phoneController = TextEditingController();
-  var _emailController = TextEditingController();
+  var _emailFrontController = TextEditingController();
+  var _emailBackController = TextEditingController();
   var _recommenderController = TextEditingController();
   var _workspaceController = TextEditingController();
 
@@ -50,182 +51,370 @@ class MakeUserFormState extends State<MakeUserForm> {
     _stringIdController = TextEditingController(text: widget.user?.stringId);
     _nameController = TextEditingController(text: widget.user?.name);
     _phoneController = TextEditingController(text: widget.user?.phone);
-    _emailController = TextEditingController(text: widget.user?.email);
+    _emailFrontController = TextEditingController(text: widget.user?.email.split("@")[0]);
+    _emailBackController = TextEditingController(text: widget.user?.email.split("@")[1]);
     _recommenderController = TextEditingController(text: widget.user?.recommender);
     _workspaceController = TextEditingController(text: widget.user?.workplace);
-    return SingleChildScrollView(
+    return Container(
+        margin: EdgeInsets.fromLTRB(0, 100, 0, 0),
+        padding: EdgeInsets.symmetric(horizontal: 320),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            (widget.isEditing) ? const Text("회원정보") : const Text("회원가입"),
-            if (widget.isPopup) Wrap(
-              children: [
-                const SizedBox(width: 12.0,),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 12, 12, 0), child: Text("권한")),
-                DropdownButton<String>(
-                  value: _userLevel,
-                  items: _userLevelList.map<DropdownMenuItem<String>>(
-                          (value) {
-                        return DropdownMenuItem<String>(value: value, child: Text(value));
-                      }
-                  ).toList(),
-                  onChanged: (Object? value) {
-                    setState(() {
-                      _userLevel = value as String;
-                    });
-                  },
-                )
-              ],
-            ),
-            if (!widget.isEditing) signUpProcessWidget(2),
-            const SizedBox(height: 24.0),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.circle, size: 12.0,), Text("  기본정보")
-                  ],
-                ), Text("* 표시 항목은 필수 입력사항입니다.")
-              ],
-            ),
-            const Divider(),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 180,
-                  child: Text("* 아이디"),
+            (widget.isEditing) ?
+              const Text("회원정보") :
+              const Text("회원가입",
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Pretendard",
+                  color: Color(0xff111111)
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 300,
-                          child: TextField(
-                            keyboardType: TextInputType.text,
-                            controller: _stringIdController,
-                            decoration: InputDecoration(
-                              enabled: !widget.isEditing,
-                              border: const OutlineInputBorder()
+              ),
+            // if (widget.isPopup) Wrap(
+            //   children: [
+            //     const SizedBox(width: 12.0,),
+            //     const Padding(padding: EdgeInsets.fromLTRB(0, 12, 12, 0), child: Text("권한")),
+            //     DropdownButton<String>(
+            //       value: _userLevel,
+            //       items: _userLevelList.map<DropdownMenuItem<String>>(
+            //               (value) {
+            //             return DropdownMenuItem<String>(value: value, child: Text(value));
+            //           }
+            //       ).toList(),
+            //       onChanged: (Object? value) {
+            //         setState(() {
+            //           _userLevel = value as String;
+            //         });
+            //       },
+            //     )
+            //   ],
+            // ),
+            if (!widget.isEditing) signUpProcessWidget(2),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text("기본정보",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "Pretendard",
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff333333),
+                      letterSpacing: -0.2
+                    ),
+                  ),
+                  Text("* 표시 항목은 필수 입력사항입니다.",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: "Pretendard",
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xff555555),
+                      letterSpacing: -0.15
+                    ),
+                  )
+                ],
+              )
+            ),
+            const Divider(thickness: 2, color: Color(0xff555555),),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                  child: const Text("*",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: "Pretendard",
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xff4d87ef)
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                  child: const Text("아이디",
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontFamily: "Pretendard",
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff333333),
+                        letterSpacing: -0.17
+                    ),
+                  )
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 263,
+                            height: 38,
+                            child: TextField(
+                              textAlignVertical: TextAlignVertical.bottom,
+                              keyboardType: TextInputType.text,
+                              controller: _stringIdController,
+                              decoration: InputDecoration(
+                                  hintText: "아이디를 입력하세요",
+                                  hintStyle: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color(0xff999999),
+                                    fontFamily: "Pretendard",
+                                    letterSpacing: -0.15
+                                  ),
+                                  enabled: !widget.isEditing,
+                                  border: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                    borderSide: BorderSide(color: Color(0xffdddddd))
+                                  )
+                              ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp("[a-z0-9ㄱ-ㅎ가-힣ㅏ-ㅣ]"))
+                              ],
                             ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp("[a-z0-9ㄱ-ㅎ가-힣ㅏ-ㅣ]"))
-                            ],
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                            child: FilledButton(
+                              style: FilledButton.styleFrom(
+                                fixedSize: Size(90, 38),
+                                backgroundColor: const Color(0xff6c6f81),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(2.0))
+                                )
+                              ),
+                              onPressed: () async {
+                                notDuplicated = await checkStringId(_stringIdController.text);
+                                if (notDuplicated) {
+                                  Fluttertoast.showToast(msg: "사용 가능한 아이디입니다!");
+                                } else {
+                                  Fluttertoast.showToast(msg: "중복 아이디입니다. 다른 아이디를 입력해 주세요.");
+                                }
+                              },
+                              child: const Text("중복확인"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: const Text(
+                          "* 2~20자리 이하 한글, 영문 소문자, 숫자 조합",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: "Pretendard",
+                              fontWeight: FontWeight.w300,
+                              color: Color(0xff555555),
+                              letterSpacing: -0.15
                           ),
                         ),
-                        FilledButton(
-                          onPressed: () async {
-                            notDuplicated = await checkStringId(_stringIdController.text);
-                            if (notDuplicated) {
-                              Fluttertoast.showToast(msg: "사용 가능한 아이디입니다!");
-                            } else {
-                              Fluttertoast.showToast(msg: "중복 아이디입니다. 다른 아이디를 입력해 주세요.");
-                            }
-                          },
-                          child: const Text("중복 확인"),
-                        )
-                      ],
-                    ),
-                    const Text(
-                      "2~20자리 이하 영문 소문자, 숫자, 한글 조합",
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
-            const SizedBox(height: 12.0),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 11, 0, 0),
+              child: const Divider(color: Color(0xffdddddd),)
+            ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  width: 180,
-                  child: Text("* 비밀번호"),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                  child: const Text("*",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Pretendard",
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff4d87ef)
+                    ),
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    (widget.isEditing) ?
-                      FilledButton(
-                        onPressed: () {
-                          Get.to(ResetPwScreen(username: _nameController.text,));
-                        },
-                        child: const Text("비밀번호 재설정")
-                      )
-                    : SizedBox(
-                        width: 300,
+                Container(
+                    margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                    child: const Text("비밀번호",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff333333),
+                          letterSpacing: -0.17
+                      ),
+                    )
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(98, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 263,
+                        height: 38,
                         child: TextField(
+                          textAlignVertical: TextAlignVertical.bottom,
                           keyboardType: TextInputType.text,
                           controller: _passwordController,
                           decoration: InputDecoration(
+                              hintText: "비밀번호를 입력하세요",
+                              hintStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w300,
+                                  color: Color(0xff999999),
+                                  fontFamily: "Pretendard",
+                                  letterSpacing: -0.15
+                              ),
                               enabled: !widget.isEditing,
-                              border: const OutlineInputBorder()
+                              border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                  borderSide: BorderSide(color: Color(0xffdddddd))
+                              )
                           ),
                           obscureText: true,
                           autocorrect: false,
                           enableSuggestions: false,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
+                            inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
                           ],
                         ),
                       ),
-                    const Text(
-                      "4~20자의 영문 (대소문자 구분), 숫자, 특수문자(!@#\$%^&*()_+=?/) 조합",
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
-                )
-              ],
-            ),
-            if (!widget.isEditing) const SizedBox(height: 12.0),
-            if (!widget.isEditing) Row(
-              children: [
-                const SizedBox(
-                  width: 180,
-                  child: Text("* 비밀번호 재확인"),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      child: TextField(
-                        controller: _passwordCheckController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder()
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: const Text(
+                          "4~20자의 영문 (대소문자 구분), 숫자, 특수문자(!@#\$%^&*()_+=?/) 조합",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: "Pretendard",
+                              fontWeight: FontWeight.w300,
+                              color: Color(0xff555555),
+                              letterSpacing: -0.15
+                          ),
                         ),
-                        obscureText: true,
-                        autocorrect: false,
-                        enableSuggestions: false,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
-                        ],
-                      ),
-                    ),
-                  ],
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
-            const SizedBox(height: 12.0),
+            Container(
+                margin: const EdgeInsets.fromLTRB(0, 11, 0, 0),
+                child: const Divider(color: Color(0xffdddddd),)
+            ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  width: 180,
-                  child: Text("* 이름"),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                  child: const Text("*",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Pretendard",
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff4d87ef)
+                    ),
+                  ),
                 ),
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder()
+                Container(
+                    margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                    child: const Text("비밀번호 재확인",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff333333),
+                          letterSpacing: -0.17
+                      ),
+                    )
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                  child: SizedBox(
+                    width: 263,
+                    height: 38,
+                    child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
+                      keyboardType: TextInputType.text,
+                      controller: _passwordCheckController,
+                      decoration: InputDecoration(
+                          enabled: !widget.isEditing,
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          )
+                      ),
+                      obscureText: true,
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9!@#\$%^&*()_+=?/]"))
+                      ],
                     ),
                   ),
                 ),
               ],
+            ),
+            Container(
+                margin: const EdgeInsets.fromLTRB(0, 11, 0, 0),
+                child: const Divider(color: Color(0xffdddddd),)
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                  child: const Text("*",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Pretendard",
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff4d87ef)
+                    ),
+                  ),
+                ),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                    child: const Text("이름",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff333333),
+                          letterSpacing: -0.17
+                      ),
+                    )
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(127, 0, 0, 0),
+                  child: SizedBox(
+                    width: 263,
+                    height: 38,
+                    child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
+                      keyboardType: TextInputType.text,
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                          enabled: !widget.isEditing,
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          )
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+                margin: const EdgeInsets.fromLTRB(0, 11, 0, 0),
+                child: const Divider(color: Color(0xffdddddd),)
             ),
             const SizedBox(height: 12.0),
             Row(
@@ -240,7 +429,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                     SizedBox(
                       width: 300,
                       child: TextField(
-                        controller: _emailController,
+                        controller: _emailFrontController,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder()
                         ),
@@ -408,7 +597,7 @@ class MakeUserFormState extends State<MakeUserForm> {
     if (!StringUtils().isValidPhone(_phoneController.text)) {
       return "전화번호를 확인해 주세요";
     }
-    if (!StringUtils().isValidEmail(_emailController.text)) {
+    if (!StringUtils().isValidEmail(_emailFrontController.text)) {
       return "이메일을 확인해 주세요";
     }
     if (!StringUtils().isValidRecommender(_recommenderController.text)) {

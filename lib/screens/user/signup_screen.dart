@@ -15,14 +15,24 @@ class SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils().appBar,
-      body: const SafeArea(
-          child: Padding(
-              padding: WidgetUtils.smallPadding,
-              child: MakeUserForm(isPopup: false, isEditing: false, user: null,)
-          )
-
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        shadowColor: Colors.transparent,
+        title: Container(
+          width: 154,
+          height: 52,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/images/logo.png'),
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
       ),
+      body: const SingleChildScrollView(
+        child: MakeUserForm(isPopup: false, isEditing: false, user: null,)
+      )
     );
   }
 

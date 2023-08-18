@@ -1,6 +1,7 @@
 
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
+import 'package:angelnet/screens/user/signup_screen.dart';
 import 'package:angelnet/screens/user/terms_of_use_screen.dart';
 import 'package:angelnet/utils/NotificationUtils.dart';
 import 'package:angelnet/widgets/core/breadcrumb.dart';
@@ -31,17 +32,17 @@ class AngelnetApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: Scaffold(
-        body: ScreenFrameV2(main: Text("hello"), isAdmin: false, crumbs: ["1차 메뉴"],),
-      ),
-      theme: ThemeData(
-        fontFamily: 'Pretendard',
-      ),
-    );
-    // return const GetMaterialApp(
-    //   home: TermsOfUseScreen()
+    // return GetMaterialApp(
+    //   home: Scaffold(
+    //     body: ScreenFrameV2(main: Text("hello"), isAdmin: false, crumbs: ["1차 메뉴"],),
+    //   ),
+    //   theme: ThemeData(
+    //     fontFamily: 'Pretendard',
+    //   ),
     // );
+    return const GetMaterialApp(
+      home: SignUpScreen()
+    );
     // return GetMaterialApp(
     //   title: '엔젤넷',
     //   home: const HomeScreen(),
