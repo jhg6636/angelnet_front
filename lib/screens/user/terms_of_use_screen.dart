@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:angelnet/screens/user/signup_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
@@ -13,21 +15,37 @@ class TermsOfUseScreen extends StatefulWidget {
 }
 
 class TermsOfUseScreenState extends State<TermsOfUseScreen> {
-  bool _isChecked1 = false;
-  bool _isChecked2 = false;
+  int id1 = 1;
+  int id2 = 1;
+  bool allChecked = false;
   Future<String> text1 = StringUtils().loadText("lib/assets/texts/terms_of_use_1.txt");
   Future<String> text2 = StringUtils().loadText("lib/assets/texts/terms_of_use_2.txt");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        shadowColor: Colors.transparent,
+        title: Container(
+          width: 154,
+          height: 52,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/images/logo.png'),
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.fromLTRB(320, 0, 320, 0),
+          margin: const EdgeInsets.fromLTRB(320, 50, 320, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("회원가입",
+              const Text("회원가입",
                 style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 50,
@@ -35,162 +53,446 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                     letterSpacing: -1,
                     color: Color(0xff111111)
                 ),
+              ),
+              Container(
+                height: 145,
+                margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 35, 0, 34),
+                decoration: const BoxDecoration(
+                  color: Color(0xfff7faff),
+                  border: Border(
+                    top: BorderSide(
+                      color: Color(0xff1173f9),
+                      width: 5
+                    )
+                  )
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          width: 38,
+                          height: 38,
+                          margin: const EdgeInsets.fromLTRB(0, 0, 5, 12),
+                          decoration: const BoxDecoration(
+                            color: Color(0xff1badfb),
+                            shape: BoxShape.circle
+                          ),
+                          child: const Center(
+                            child: Text("01",
+                              style: TextStyle(
+                                  fontFamily: "Pretendard",
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16
+                              ),
+                            ),
+                          )
+                        ),
+                        const Text("약관동의",
+                          style: TextStyle(
+                            fontFamily: "Pretendard",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            letterSpacing: -0.18
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        for (int i=0; i<30; i++) Container(
+                          width: 3,
+                          height: 3,
+                          margin: const EdgeInsets.fromLTRB(0, 0, 5, 31),
+                          decoration: const BoxDecoration(
+                            color: Color(0xffb7b7b7),
+                            shape: BoxShape.circle
+                          ),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                            width: 38,
+                            height: 38,
+                            margin: const EdgeInsets.fromLTRB(0, 0, 5, 12),
+                            decoration: const BoxDecoration(
+                                color: Color(0xffc6d4eb),
+                                shape: BoxShape.circle
+                            ),
+                            child: const Center(
+                              child: Text("02",
+                                style: TextStyle(
+                                    fontFamily: "Pretendard",
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16
+                                ),
+                              ),
+                            )
+                        ),
+                        const Text("정보입력",
+                          style: TextStyle(
+                              fontFamily: "Pretendard",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              letterSpacing: -0.18
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        for (int i=0; i<30; i++) Container(
+                          width: 3,
+                          height: 3,
+                          margin: const EdgeInsets.fromLTRB(0, 0, 5, 31),
+                          decoration: const BoxDecoration(
+                              color: Color(0xffb7b7b7),
+                              shape: BoxShape.circle
+                          ),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                            width: 38,
+                            height: 38,
+                            margin: const EdgeInsets.fromLTRB(0, 0, 5, 12),
+                            decoration: const BoxDecoration(
+                                color: Color(0xffc6d4eb),
+                                shape: BoxShape.circle
+                            ),
+                            child: const Center(
+                              child: Text("03",
+                                style: TextStyle(
+                                    fontFamily: "Pretendard",
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16
+                                ),
+                              ),
+                            )
+                        ),
+                        const Text("가입완료",
+                          style: TextStyle(
+                              fontFamily: "Pretendard",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              letterSpacing: -0.18
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                // child: Text("준비중"),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                child: const Text("이용약관",
+                  style: TextStyle(
+                    fontSize: 26,
+                    letterSpacing: -0.26,
+                    fontFamily: "Pretendard",
+                    fontWeight: FontWeight.w600
+                  ),
+                ),
+              ),
+              Container(
+                height: 314,
+                margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color(0xffdddddd),
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(4.0))
+                ),
+                child: FutureBuilder<String>(
+                  future: text1,
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return Flexible(
+                        child: Padding(
+                            padding: WidgetUtils.smallPadding,
+                            child: SingleChildScrollView(
+                              child: Text(snapshot.data ?? ""),
+                            )
+                        ),
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 14, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Radio(
+                      activeColor: Color(0xff505050),
+                      splashRadius: 1,
+                      value: 2,
+                      groupValue: id1,
+                      onChanged: (value) {
+                        setState(() {
+                          id1 = 2;
+                          if (id2 == 2) {
+                            allChecked = true;
+                          }
+                        });
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(6, 0, 22, 0),
+                      child: Text("동의",
+                        style: TextStyle(
+                          color: Color(0xff555555),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Pretendard",
+                          fontSize: 17,
+                          letterSpacing: -0.17
+                        ),
+                      ),
+                    ),
+                    Radio(
+                      activeColor: Color(0xff505050),
+                      splashRadius: 1,
+                      value: 1,
+                      groupValue: id1,
+                      onChanged: (value) {
+                        setState(() {
+                          id1 = 1;
+                          allChecked = false;
+                        });
+                      },
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                      child: const Text("동의하지 않음",
+                        style: TextStyle(
+                            color: Color(0xff555555),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Pretendard",
+                            fontSize: 17,
+                            letterSpacing: -0.17
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 22, 0, 0),
+                child: const Text("개인정보 수집·이용안내",
+                  style: TextStyle(
+                      fontSize: 26,
+                      letterSpacing: -0.26,
+                      fontFamily: "Pretendard",
+                      fontWeight: FontWeight.w600
+                  ),
+                ),
+              ),
+              Container(
+                height: 314,
+                margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xffdddddd),
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(4.0))
+                ),
+                child: FutureBuilder<String>(
+                  future: text2,
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return Flexible(
+                        child: Padding(
+                            padding: WidgetUtils.smallPadding,
+                            child: SingleChildScrollView(
+                              child: Text(snapshot.data ?? ""),
+                            )
+                        ),
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 14, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Radio(
+                      activeColor: Color(0xff505050),
+                      splashRadius: 1,
+                      value: 2,
+                      groupValue: id2,
+                      onChanged: (value) {
+                        setState(() {
+                          id2 = 2;
+                          if (id1 == 2) {
+                            allChecked = true;
+                          }
+                        });
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(6, 0, 22, 0),
+                      child: Text("동의",
+                        style: TextStyle(
+                            color: Color(0xff555555),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Pretendard",
+                            fontSize: 17,
+                            letterSpacing: -0.17
+                        ),
+                      ),
+                    ),
+                    Radio(
+                      activeColor: Color(0xff505050),
+                      splashRadius: 1,
+                      value: 1,
+                      groupValue: id2,
+                      onChanged: (value) {
+                        setState(() {
+                          id2 = 1;
+                          allChecked = false;
+                        });
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(6, 0, 0, 0),
+                      child: Text("동의하지 않음",
+                        style: TextStyle(
+                            color: Color(0xff555555),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Pretendard",
+                            fontSize: 17,
+                            letterSpacing: -0.17
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                height: 94,
+                margin: EdgeInsets.fromLTRB(0, 32, 0, 0),
+                decoration: BoxDecoration(
+                  color: Color(0xfff8f8fa),
+                  borderRadius: BorderRadius.circular(4.0)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: allChecked,
+                      onChanged: (val) {
+                        setState(() {
+                          allChecked = val ?? false;
+                          if (allChecked == true) {
+                            id1 = 2;
+                            id2 = 2;
+                          } else {
+                            id1 = 1;
+                            id2 = 1;
+                          }
+                        });
+                      }
+                    ),
+                    const Text("약관 및 개인정보 수집·이용에 전체 동의합니다.",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: "Pretendard",
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.18
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                child: ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        fixedSize: Size(120, 50),
+                        side: const BorderSide(color: Color(0xff222222), width: 2.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)
+                        ),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: const Text("취소",
+                        style: TextStyle(
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                          color: Color(0xff222222),
+                          letterSpacing: -0.34
+                        )
+                      )
+                    ),
+                    OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Color(0xff222222),
+                          fixedSize: Size(120, 50),
+                          side: const BorderSide(color: Color(0xff222222), width: 2.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0)
+                          ),
+                        ),
+                        onPressed: () {
+                          if (allChecked) {
+                            Get.to(const SignUpScreen());
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                      title: const Text("약관에 동의해 주세요."),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("확인"))
+                                      ]);
+                                });
+                          }
+                        },
+                        child: const Text("다음단계",
+                          style: TextStyle(
+                            fontFamily: "Pretendard",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            color: Color(0xffffffff),
+                            letterSpacing: -0.34
+                          )
+                        )
+                    )
+                  ],
+                ),
               )
             ],
           ),
         ),
       ),
     );
-    // return Scaffold(
-    //   appBar: WidgetUtils().appBar,
-    //   body: SafeArea(
-    //       child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             signUpProcessWidget(1),
-    //             const Text(
-    //               "회원가입", style: WidgetUtils.titleStyle, textAlign: TextAlign.start,
-    //             ),
-    //             const SizedBox(height: 32.0),
-    //             const Text(
-    //               "이용약관", style: WidgetUtils.h1, textAlign: TextAlign.start,
-    //             ),
-    //             FutureBuilder<String>(
-    //               future: text1,
-    //               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-    //                 if (snapshot.hasData) {
-    //                   return Flexible(
-    //                     child: Padding(
-    //                         padding: WidgetUtils.smallPadding,
-    //                         child: Container(
-    //                             decoration: BoxDecoration(
-    //                                 border: Border.all()
-    //                             ),
-    //                             child: SingleChildScrollView(
-    //                               child: Text(snapshot.data.toString()),
-    //                             )
-    //                         )
-    //                     ),
-    //                   );
-    //                 } else {
-    //                   return const CircularProgressIndicator();
-    //                 }
-    //               },
-    //             ),
-    //             Padding(
-    //               padding: WidgetUtils.smallPadding,
-    //               child: Row(
-    //                 mainAxisAlignment: MainAxisAlignment.end,
-    //                 children: [
-    //                   Checkbox(
-    //                       value: _isChecked1,
-    //                       onChanged: (value) =>
-    //                       {
-    //                         setState(() {
-    //                           _isChecked1 = value ?? false;
-    //                         })
-    //                       }),
-    //                   InkWell(
-    //                     onTap: () {
-    //                       setState(() {
-    //                         _isChecked1 = !_isChecked1;
-    //                       });
-    //                     },
-    //                     child: const Text("위 이용약관에 동의합니다."),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //             const Text(
-    //               "개인정보 취급 방침", style: WidgetUtils.h1, textAlign: TextAlign.start,
-    //             ),
-    //             FutureBuilder<String>(
-    //               future: text2,
-    //               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-    //                 if (snapshot.hasData) {
-    //                   return Expanded(
-    //                       child: Padding(
-    //                           padding: WidgetUtils.smallPadding,
-    //                           child: Container(
-    //                               decoration: BoxDecoration(
-    //                                   border: Border.all()
-    //                               ),
-    //                               child: SingleChildScrollView(
-    //                                 child: Text(snapshot.data.toString()),
-    //                               )
-    //                           )
-    //                       )
-    //                   );
-    //                 } else {
-    //                 return const CircularProgressIndicator();
-    //                 }
-    //               },
-    //             ),
-    //             Padding(
-    //               padding: WidgetUtils.smallPadding,
-    //               child: Row(
-    //                 mainAxisAlignment: MainAxisAlignment.end,
-    //                 children: [
-    //                   Checkbox(
-    //                       value: _isChecked2,
-    //                       onChanged: (value) =>
-    //                       {
-    //                         setState(() {
-    //                           _isChecked2 = value ?? false;
-    //                         })
-    //                       }),
-    //                   InkWell(
-    //                     onTap: () {
-    //                       {
-    //                         setState(() {
-    //                           _isChecked2 = !_isChecked2;
-    //                         });
-    //                       }
-    //                     },
-    //                     child: const Text("위의 개인정보 취급 방침에 동의합니다."),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //             Padding(
-    //               padding: WidgetUtils.smallPadding,
-    //               child: ButtonBar(
-    //                 children: [
-    //                   TextButton(
-    //                       onPressed: () {
-    //                         Get.back();
-    //                       },
-    //                       child: const Text("돌아가기")
-    //                   ),
-    //                   FilledButton(
-    //                     onPressed: () {
-    //                       if (_isChecked1 && _isChecked2) {
-    //                         Get.to(const SignUpScreen());
-    //                       } else {
-    //                         showDialog(
-    //                             context: context,
-    //                             builder: (context) {
-    //                               return AlertDialog(
-    //                                   title: const Text("약관에 동의해 주세요."),
-    //                                   actions: [
-    //                                     TextButton(
-    //                                         onPressed: () {
-    //                                           Navigator.of(context).pop();
-    //                                         },
-    //                                         child: const Text("확인"))
-    //                                   ]);
-    //                             });
-    //                       }
-    //                     },
-    //                     child: const Text("회원가입"),
-    //                   )
-    //                 ],
-    //               )
-    //             )
-    //           ]
-    //       )
-    //   ),
-    // );
   }
 
 }
