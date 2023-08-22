@@ -1,3 +1,4 @@
+import 'package:backoffice_front/screens/admin/manage_notification_screen.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
 import 'package:backoffice_front/screens/common/not_developed_screen.dart';
 import 'package:backoffice_front/screens/lp/lp_mypage.dart';

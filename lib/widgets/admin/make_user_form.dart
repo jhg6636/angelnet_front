@@ -267,53 +267,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                     }
                   },
                 ),
-                FilledButton(
-                  child: widget.isEditing ? const Text("수정하기") : const Text("회원가입"),
-                  onPressed: () async {
-                    String? validityString = checkValidity();
-                    print(validityString);
-                    if (validityString == null) {
-                      try {
-                        var response = await signInApi(
-                          _stringIdController.text,
-                          _passwordController.text,
-                          _nameController.text,
-                          _phoneController.text,
-                          _emailController.text,
-                          _recommenderController.text,
-                        );
-                        if (response.statusCode != 200) {
-                          print(jsonDecode(utf8.decode(response.bodyBytes)));
-                        } else {
-                          if (widget.isEditing) {
-                            Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
-                            Get.back();
-                          }
-                          else if (!widget.isPopup) {
-                            Fluttertoast.showToast(msg: "회원가입이 완료되었습니다.");
-                            Get.to(const HomeScreen());
-                            Get.deleteAll();
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        }
-                      } catch (e) {
-                        print("Error: $e");
-                      }
-                    } else {
-                      showDialog(context: context, builder: (context) {
-                        return AlertDialog(
-                          title: Text(validityString),
-                          actions: [
-                            TextButton(onPressed: () {
-                              Navigator.of(context).pop();
-                            }, child: const Text("OK"))
-                          ],
-                        );
-                      });
-                    }
-                  },
-                ),
+
               ],
             ),
 

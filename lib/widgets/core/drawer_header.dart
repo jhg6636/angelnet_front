@@ -1,6 +1,8 @@
 import 'package:backoffice_front/models/common/user.dart';
+import 'package:backoffice_front/screens/admin/manage_notification_screen.dart';
 import 'package:backoffice_front/screens/common/edit_user_info_screen.dart';
 import 'package:backoffice_front/screens/common/home_screen.dart';
+import 'package:backoffice_front/screens/lp/manage_lp_notification_screen.dart';
 import 'package:backoffice_front/utils/StringUtils.dart';
 import 'package:backoffice_front/utils/WidgetUtils.dart';
 import 'package:backoffice_front/widgets/core/business_card_and_signature_widget.dart';
@@ -11,6 +13,7 @@ import '../../main.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
   const CustomDrawerHeader({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +139,29 @@ Widget myInfoWidget(Map<String, dynamic> myInfo) {
             size: 24.0,
             color: Colors.black,
           ),
+      ),
+      const SizedBox(height: 10.0),
+      TextButton.icon(
+        onPressed: () {
+          switch (myInfo["level"]){
+            case "ADMIN":
+              Get.to(ManageNotificationScreen());
+              break;
+            case "LP":
+              Get.to(ManageLpNotificationScreen());
+              break;
+          }
+
+        },
+        label: const Text(
+          "알림",
+          style: TextStyle(color: Colors.black, fontSize: 20.0),
+        ),
+        icon: const Icon(
+          Icons.notifications,
+          size: 24.0,
+          color: Colors.black,
+        ),
       ),
       const SizedBox(height: 20.0,),
     ],

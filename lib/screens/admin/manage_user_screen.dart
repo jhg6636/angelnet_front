@@ -28,171 +28,173 @@ class ManageUserScreenState extends State<ManageUserScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenFrame(
-        main: Column(
-          children: [
-            const SizedBox(height: 36.0),
-            const Text(
-              "회원 관리",
-              style: WidgetUtils.titleStyle,
-            ),
-            const SizedBox(height: 36.0),
-            Wrap(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: 350.0,
-                    child: TextField(
-                      controller: _stringIdController,
-                      decoration: const InputDecoration(
-                        labelText: "아이디",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  )
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: 350.0,
-                    child: TextField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(
-                        labelText: "이름",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  )
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: 350.0,
-                    child: TextField(
-                      controller: _workplaceController,
-                      decoration: const InputDecoration(
-                        labelText: "근무처",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  )
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: 350.0,
-                    child: TextField(
-                      controller: _recommenderController,
-                      decoration: const InputDecoration(
-                        labelText: "추천인",
-                        border: OutlineInputBorder(),
+        main: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 36.0),
+              const Text(
+                "회원 관리",
+                style: WidgetUtils.titleStyle,
+              ),
+              const SizedBox(height: 36.0),
+              Wrap(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      width: 350.0,
+                      child: TextField(
+                        controller: _stringIdController,
+                        decoration: const InputDecoration(
+                          labelText: "아이디",
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     )
-                  )
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text("권한 (복수 선택 가능)")
-                ),
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.end,
-                    children: _userLevelFilterOptions.map((option) {
-                      return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: FilterChip(
-                              label: Text(option),
-                              selected: _selectedUserLevels.contains(option),
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  if (selected) {
-                                    _selectedUserLevels.add(option);
-                                  } else {
-                                    _selectedUserLevels.remove(option);
-                                  }
-                                });
-                              }
-                          )
-                      );
-                    }).toList()
-                ),
-              ],
-            ),
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: [
-                FilledButton.icon(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      width: 350.0,
+                      child: TextField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          labelText: "이름",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      width: 350.0,
+                      child: TextField(
+                        controller: _workplaceController,
+                        decoration: const InputDecoration(
+                          labelText: "근무처",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      width: 350.0,
+                      child: TextField(
+                        controller: _recommenderController,
+                        decoration: const InputDecoration(
+                          labelText: "추천인",
+                          border: OutlineInputBorder(),
+                        ),
+                      )
+                    )
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text("권한 (복수 선택 가능)")
+                  ),
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.end,
+                      children: _userLevelFilterOptions.map((option) {
+                        return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: FilterChip(
+                                label: Text(option),
+                                selected: _selectedUserLevels.contains(option),
+                                onSelected: (bool selected) {
+                                  setState(() {
+                                    if (selected) {
+                                      _selectedUserLevels.add(option);
+                                    } else {
+                                      _selectedUserLevels.remove(option);
+                                    }
+                                  });
+                                }
+                            )
+                        );
+                      }).toList()
+                  ),
+                ],
+              ),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  FilledButton.icon(
+                      onPressed: () {
+                        // todo 검색 기능
+                        setState(() {
+                          users = fetchUsers();
+                        });
+                      },
+                      icon: const Icon(Icons.search),
+                      label: const Text("검색"),
+                  ),
+                  FilledButton.icon(
                     onPressed: () {
-                      // todo 검색 기능
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const SizedBox(
+                            height: 1000.0,
+                            child: MakeUserForm(isPopup: true, isEditing: false, user: null,)
+                          );
+                        }
+                      );
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text("신규 회원 추가"),
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      setState(() {
+                        users = fetchUsers(sort: "LAST_LOGIN");
+                      });
+                    },
+                    child: const Text("최근 로그인 순 정렬"),
+                  ),
+                  FilledButton(
+                    onPressed: () {
                       setState(() {
                         users = fetchUsers();
                       });
                     },
-                    icon: const Icon(Icons.search),
-                    label: const Text("검색"),
-                ),
-                FilledButton.icon(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const SizedBox(
-                          height: 1000.0,
-                          child: MakeUserForm(isPopup: true, isEditing: false, user: null,)
-                        );
-                      }
-                    );
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text("신규 회원 추가"),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    setState(() {
-                      users = fetchUsers(sort: "LAST_LOGIN");
-                    });
-                  },
-                  child: const Text("최근 로그인 순 정렬"),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    setState(() {
-                      users = fetchUsers();
-                    });
-                  },
-                  child: const Text("최근 가입 순 정렬"),
-                )
-              ],
-            ),
-            FutureBuilder<List<User>>(
-                future: users,
-                builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-                  if (snapshot.hasError) {
-                    print(snapshot.error);
-                    print(snapshot.stackTrace);
-                    return WidgetUtils.errorPadding;
-                  } else if (snapshot.hasData == false) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    ScrollController vertical = ScrollController();
-                    ScrollController horizontal = ScrollController();
-                    return Scrollbar(
-                        controller: vertical,
-                        child: SingleChildScrollView(
+                    child: const Text("최근 가입 순 정렬"),
+                  )
+                ],
+              ),
+              FutureBuilder<List<User>>(
+                  future: users,
+                  builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                      print(snapshot.stackTrace);
+                      return WidgetUtils.errorPadding;
+                    } else if (snapshot.hasData == false) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      ScrollController vertical = ScrollController();
+                      ScrollController horizontal = ScrollController();
+                      return Scrollbar(
                           controller: vertical,
-                          child: Scrollbar(
-                            controller: horizontal,
-                            child: SingleChildScrollView(
+                          child: SingleChildScrollView(
+                            controller: vertical,
+                            child: Scrollbar(
                               controller: horizontal,
-                              scrollDirection: Axis.horizontal,
-                              child: adminUserTable(snapshot.data ?? List.empty()),
-                            ),
+                              child: SingleChildScrollView(
+                                controller: horizontal,
+                                scrollDirection: Axis.horizontal,
+                                child: adminUserTable(snapshot.data ?? List.empty()),
+                              ),
+                            )
                           )
-                        )
-                    );
+                      );
+                    }
                   }
-                }
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
         isAdmin: true
     );
