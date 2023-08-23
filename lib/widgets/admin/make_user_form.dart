@@ -41,6 +41,9 @@ class MakeUserFormState extends State<MakeUserForm> {
   var _emailBackController = TextEditingController();
   var _recommenderController = TextEditingController();
   var _workspaceController = TextEditingController();
+  var _zipCodeController = TextEditingController();
+  var _addressMainController = TextEditingController();
+  var _addressDetailController = TextEditingController();
 
   final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
   String _userLevel = 'LP';
@@ -198,7 +201,15 @@ class MakeUserFormState extends State<MakeUserForm> {
                                   Fluttertoast.showToast(msg: "중복 아이디입니다. 다른 아이디를 입력해 주세요.");
                                 }
                               },
-                              child: const Text("중복확인"),
+                              child: const Text("중복확인",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: StringUtils.pretendard,
+                                  color: Colors.white,
+                                  letterSpacing: -0.32
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -221,10 +232,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                 )
               ],
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-              child: const Divider(color: Color(0xffdddddd),)
-            ),
+            const Divider(color: Color(0xffdddddd),),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -304,10 +312,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                 )
               ],
             ),
-            Container(
-                margin: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: const Divider(color: Color(0xffdddddd),)
-            ),
+            const Divider(color: Color(0xffdddddd),),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -361,10 +366,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                 ),
               ],
             ),
-            Container(
-                margin: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: const Divider(color: Color(0xffdddddd),)
-            ),
+            const Divider(color: Color(0xffdddddd),),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -412,167 +414,470 @@ class MakeUserFormState extends State<MakeUserForm> {
                 ),
               ],
             ),
+            const Divider(color: Color(0xffdddddd),),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                  child: const Text("*",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Pretendard",
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff4d87ef)
+                    ),
+                  ),
+                ),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                    child: const Text("이메일",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff333333),
+                          letterSpacing: -0.17
+                      ),
+                    )
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
+                  child: SizedBox(
+                    width: 164,
+                    height: 38,
+                    child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
+                      keyboardType: TextInputType.text,
+                      controller: _emailFrontController,
+                      decoration: InputDecoration(
+                          enabled: !widget.isEditing,
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          )
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(6, 10, 6, 0),
+                  child: const Text("@",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: StringUtils.pretendard,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xff767676)
+                    )
+                  ),
+                ),
+                SizedBox(
+                  width: 164,
+                  height: 38,
+                  child: TextField(
+                    textAlignVertical: TextAlignVertical.top,
+                    keyboardType: TextInputType.text,
+                    controller: _emailBackController,
+                    decoration: InputDecoration(
+                        enabled: !widget.isEditing,
+                        border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        )
+                    ),
+                  ),
+                ),
+                // todo 드롭다운메뉴
+              ],
+            ),
+            const Divider(color: Color(0xffdddddd),),
+            // Row(
+            //   children: [
+            //     Container(
+            //       margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+            //       child: const Text("*",
+            //         style: TextStyle(
+            //             fontSize: 15,
+            //             fontFamily: StringUtils.pretendard,
+            //             fontWeight: FontWeight.w400,
+            //             color: Color(0xff4d87ef)
+            //         ),
+            //       ),
+            //     ),
+            //     Container(
+            //         margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+            //         child: const Text("주소",
+            //           style: TextStyle(
+            //               fontSize: 17,
+            //               fontFamily: StringUtils.pretendard,
+            //               fontWeight: FontWeight.w500,
+            //               color: Color(0xff333333),
+            //               letterSpacing: -0.17
+            //           ),
+            //         )
+            //     ),
+                    /**
+                     * 주소는 정책상 일단 폐기
+                     */
+            //     Container(
+            //       margin: const EdgeInsets.fromLTRB(127, 0, 0, 0),
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Row(
+            //             children: [
+            //               SizedBox(
+            //                 width: 164,
+            //                 height: 38,
+            //                 child: TextField(
+            //                   textAlignVertical: TextAlignVertical.bottom,
+            //                   keyboardType: TextInputType.text,
+            //                   controller: _zipCodeController,
+            //                   decoration: const InputDecoration(
+            //                     disabledBorder: OutlineInputBorder(
+            //                       borderRadius: BorderRadius.all(Radius.circular(2.0)),
+            //                       borderSide: BorderSide(color: Color(0xff999999))
+            //                     ),
+            //                     hintText: "우편번호",
+            //                     hintStyle: TextStyle(
+            //                       fontSize: 15,
+            //                       fontWeight: FontWeight.w300,
+            //                       color: Color(0xff999999),
+            //                       fontFamily: "Pretendard",
+            //                       letterSpacing: -0.15
+            //                     ),
+            //                     enabled: false,
+            //                     border: OutlineInputBorder(
+            //                       borderRadius: BorderRadius.all(Radius.circular(2.0)),
+            //                       borderSide: BorderSide(color: Color(0xffdddddd))
+            //                     )
+            //                   ),
+            //                 ),
+            //               ),
+            //               Container(
+            //                 margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+            //                 child: FilledButton(
+            //                   style: FilledButton.styleFrom(
+            //                       fixedSize: const Size(100, 38),
+            //                       backgroundColor: const Color(0xff6c6f81),
+            //                       shape: const RoundedRectangleBorder(
+            //                           borderRadius: BorderRadius.all(Radius.circular(2.0))
+            //                       )
+            //                   ),
+            //                   onPressed: () async {
+            //                     // todo 카카오 도로명검색
+            //                   },
+            //                   child: const Text("도로명검색",
+            //                     style: TextStyle(
+            //                       fontSize: 15,
+            //                       fontWeight: FontWeight.w500,
+            //                       fontFamily: StringUtils.pretendard,
+            //                       color: Colors.white,
+            //                       letterSpacing: -0.32
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //           Container(
+            //             width: 523,
+            //             height: 38,
+            //             margin: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+            //             child: TextField(
+            //               textAlignVertical: TextAlignVertical.bottom,
+            //               keyboardType: TextInputType.text,
+            //               controller: _addressMainController,
+            //               decoration: const InputDecoration(
+            //                   hintText: "시군구주소",
+            //                   hintStyle: TextStyle(
+            //                       fontSize: 15,
+            //                       fontWeight: FontWeight.w300,
+            //                       color: Color(0xff999999),
+            //                       fontFamily: "Pretendard",
+            //                       letterSpacing: -0.15
+            //                   ),
+            //                   enabled: false,
+            //                   border: OutlineInputBorder(
+            //                       borderRadius: BorderRadius.all(Radius.circular(2.0)),
+            //                       borderSide: BorderSide(color: Color(0xffdddddd))
+            //                   ),
+            //                   disabledBorder: OutlineInputBorder(
+            //                       borderRadius: BorderRadius.all(Radius.circular(2.0)),
+            //                       borderSide: BorderSide(color: Color(0xff999999))
+            //                   ),
+            //               ),
+            //             ),
+            //           ),
+            //           SizedBox(
+            //             width: 523,
+            //             height: 38,
+            //             child: TextField(
+            //               textAlignVertical: TextAlignVertical.bottom,
+            //               keyboardType: TextInputType.text,
+            //               controller: _addressDetailController,
+            //               decoration: InputDecoration(
+            //                   enabled: !widget.isEditing,
+            //                   border: const OutlineInputBorder(
+            //                       borderRadius: BorderRadius.all(Radius.circular(2.0)),
+            //                       borderSide: BorderSide(color: Color(0xffdddddd))
+            //                   ),
+            //                   hintText: "상세주소",
+            //                   hintStyle: const TextStyle(
+            //                       fontSize: 15,
+            //                       fontWeight: FontWeight.w300,
+            //                       color: Color(0xff999999),
+            //                       fontFamily: "Pretendard",
+            //                       letterSpacing: -0.15
+            //                   ),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       )
+            //     )
+            //   ],
+            // ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                  child: const Text("*",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Pretendard",
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff4d87ef)
+                    ),
+                  ),
+                ),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                    child: const Text("연락처",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff333333),
+                          letterSpacing: -0.17
+                      ),
+                    )
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
+                  child: SizedBox(
+                    width: 263,
+                    height: 38,
+                    child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
+                      keyboardType: TextInputType.text,
+                      controller: _phoneController,
+                      decoration: InputDecoration(
+                          enabled: !widget.isEditing,
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          )
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Divider(color: Color(0xffdddddd),),
             Container(
-                margin: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: const Divider(color: Color(0xffdddddd),)
-            ),
-            const SizedBox(height: 12.0),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 180,
-                  child: Text("* 이메일"),
+              margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+              child: const Text("추가정보 입력",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: "Pretendard",
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff333333),
+                    letterSpacing: -0.2
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      child: TextField(
-                        controller: _emailFrontController,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder()
-                        ),
+              ),
+            ),
+            const Divider(thickness: 2, color: Color(0xff555555),),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    margin: const EdgeInsets.fromLTRB(19, 9, 0, 0),
+                    child: const Text("추천인",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff333333),
+                          letterSpacing: -0.17
                       ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            // todo 주소 입력
-            const SizedBox(height: 12.0),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 180,
-                  child: Text("* 연락처"),
+                    )
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      child: TextField(
-                        controller: _phoneController,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder()
-                        ),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
+                Container(
+                  margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
+                  child: SizedBox(
+                    width: 263,
+                    height: 38,
+                    child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
+                      keyboardType: TextInputType.text,
+                      controller: _recommenderController,
+                      decoration: InputDecoration(
+                          enabled: !widget.isEditing,
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          )
                       ),
-                    ),
-                    const Text(
-                      "대쉬(-) 없이 숫자만 입력하세요.",
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
-                )
-              ],
-            ),
-            const SizedBox(height: 24.0),
-            const Row(
-              children: [
-                Icon(Icons.circle, size: 12.0,), Text("  추가정보 입력")
-              ],
-            ),
-            const Divider(),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 180,
-                  child: Text("추천인"),
-                ),
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    controller: _recommenderController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder()
                     ),
                   ),
                 ),
               ],
             ),
+            const Divider(color: Color(0xffdddddd),),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  width: 180,
-                  child: Text("근무처"),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(19, 9, 0, 0),
+                    child: const Text("근무처",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff333333),
+                          letterSpacing: -0.17
+                      ),
+                    )
                 ),
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    controller: _workspaceController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder()
+                Container(
+                  margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
+                  child: SizedBox(
+                    width: 263,
+                    height: 38,
+                    child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
+                      keyboardType: TextInputType.text,
+                      controller: _workspaceController,
+                      decoration: InputDecoration(
+                          enabled: !widget.isEditing,
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          )
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextButton(
-                  child: const Text('취소'),
-                  onPressed: () {
-                    if (!widget.isPopup) {
-                      Get.back();
-                    } else {
-                      Navigator.pop(context);
-                    }
-                  },
-                ),
-                FilledButton(
-                  child: widget.isEditing ? const Text("수정하기") : const Text("다음단계"),
-                  onPressed: () async {
-                    String? validityString = checkValidity();
-                    print(validityString);
-                    Get.to(SignUpWelcomeScreen(userName: _nameController.text));
-                    // if (validityString == null) {
-                    //   // try {
-                    //   //   var response = await signInApi(
-                    //   //     _stringIdController.text,
-                    //   //     _passwordController.text,
-                    //   //     _nameController.text,
-                    //   //     _phoneController.text,
-                    //   //     _emailController.text,
-                    //   //     _recommenderController.text,
-                    //   //   );
-                    //   //   if (response.statusCode != 200) {
-                    //   //     print(jsonDecode(utf8.decode(response.bodyBytes)));
-                    //   //   } else {
-                    //   //     if (widget.isEditing) {
-                    //   //       Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
-                    //   //       Get.back();
-                    //   //     }
-                    //   //     else if (!widget.isPopup) {
-                    //   //       Fluttertoast.showToast(msg: "회원가입이 완료되었습니다.");
-                    //   //       Get.to(SignUpWelcomeScreen(userName: _nameController.text));
-                    //   //       Get.deleteAll();
-                    //   //     } else {
-                    //   //       Navigator.pop(context);
-                    //   //     }
-                    //   //   }
-                    //   // } catch (e) {
-                    //   //   print("Error: $e");
-                    //   // }
-                    // } else {
-                    //   showDialog(context: context, builder: (context) {
-                    //     return AlertDialog(
-                    //       title: Text(validityString),
-                    //       actions: [
-                    //         TextButton(onPressed: () {
-                    //           Navigator.of(context).pop();
-                    //         }, child: const Text("OK"))
-                    //       ],
-                    //     );
-                    //   });
-                    // }
-                  },
-                ),
-              ],
+            const Divider(color: Color(0xffdddddd),),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+              child: ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        fixedSize: const Size(120, 50),
+                        side: const BorderSide(color: Color(0xff222222), width: 2.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)
+                        ),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: const Text("취소",
+                          style: TextStyle(
+                              fontFamily: "Pretendard",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                              color: Color(0xff222222),
+                              letterSpacing: -0.34
+                          )
+                      )
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Color(0xff222222),
+                      fixedSize: Size(120, 50),
+                      side: const BorderSide(color: Color(0xff222222), width: 2.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)
+                      ),
+                    ),
+                    onPressed: () async {
+                      String? validityString = checkValidity();
+                      print(validityString);
+                      Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                      // if (validityString == null) {
+                      //   // try {
+                      //   //   var response = await signInApi(
+                      //   //     _stringIdController.text,
+                      //   //     _passwordController.text,
+                      //   //     _nameController.text,
+                      //   //     _phoneController.text,
+                      //   //     _emailController.text,
+                      //   //     _recommenderController.text,
+                      //   //   );
+                      //   //   if (response.statusCode != 200) {
+                      //   //     print(jsonDecode(utf8.decode(response.bodyBytes)));
+                      //   //   } else {
+                      //   //     if (widget.isEditing) {
+                      //   //       Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
+                      //   //       Get.back();
+                      //   //     }
+                      //   //     else if (!widget.isPopup) {
+                      //   //       Fluttertoast.showToast(msg: "회원가입이 완료되었습니다.");
+                      //   //       Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                      //   //       Get.deleteAll();
+                      //   //     } else {
+                      //   //       Navigator.pop(context);
+                      //   //     }
+                      //   //   }
+                      //   // } catch (e) {
+                      //   //   print("Error: $e");
+                      //   // }
+                      // } else {
+                      //   showDialog(context: context, builder: (context) {
+                      //     return AlertDialog(
+                      //       title: Text(validityString),
+                      //       actions: [
+                      //         TextButton(onPressed: () {
+                      //           Navigator.of(context).pop();
+                      //         }, child: const Text("OK"))
+                      //       ],
+                      //     );
+                      //   });
+                      // }
+                    },
+                    child: widget.isEditing ?
+                      const Text("수정하기",
+                          style: TextStyle(
+                              fontFamily: "Pretendard",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                              color: Color(0xffffffff),
+                              letterSpacing: -0.34
+                          )
+                      ) :
+                      const Text("다음단계",
+                          style: TextStyle(
+                              fontFamily: "Pretendard",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                              color: Color(0xffffffff),
+                              letterSpacing: -0.34
+                          )
+                      ),
+                  ),
+                ],
+              )
             ),
 
           ],

@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 
 class StringUtils {
 
+  static const pretendard = "Pretendard";
+
   Future<String> loadText(String path) async {
     Future<String> future = rootBundle.loadString(path);
     return future;
