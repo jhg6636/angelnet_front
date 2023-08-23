@@ -1,6 +1,7 @@
 
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
+import 'package:angelnet/screens/user/sign_up_welcome_screen.dart';
 import 'package:angelnet/screens/user/signup_screen.dart';
 import 'package:angelnet/screens/user/terms_of_use_screen.dart';
 import 'package:angelnet/utils/NotificationUtils.dart';
@@ -40,8 +41,8 @@ class AngelnetApp extends StatelessWidget {
     //     fontFamily: 'Pretendard',
     //   ),
     // );
-    return const GetMaterialApp(
-      home: SignUpScreen()
+    return GetMaterialApp(
+      home: SignUpWelcomeScreen(userName: "정현규"),
     );
     // return GetMaterialApp(
     //   title: '엔젤넷',
