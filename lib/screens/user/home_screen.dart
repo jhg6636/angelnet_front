@@ -171,7 +171,9 @@ class HomeScreenState extends State<HomeScreen> {
           width: 400,
           height: 60,
           child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                var response = tryLogin();
+                Get.to(LpMyPage());
                 // todo 로그인 시도 -> 성공 실패 시 각각 Action
               },
               style: ElevatedButton.styleFrom(
