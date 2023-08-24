@@ -1,4 +1,5 @@
 
+import 'package:angelnet/screens/lp/lp_mypage.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/screens/user/find_id_pw_select_screen.dart';
 import 'package:angelnet/screens/user/find_id_screen.dart';
@@ -45,7 +46,7 @@ class AngelnetApp extends StatelessWidget {
     //   ),
     // );
     return const GetMaterialApp(
-      home: FindPwScreen(),
+      home: LpMyPage(),
     );
     // return GetMaterialApp(
     //   title: '엔젤넷',

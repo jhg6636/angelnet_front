@@ -62,22 +62,27 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
       children: [
         BreadCrumb(
             divider: const Icon(Icons.chevron_right, color: Color(0xff767676), size: 16,),
-            items: [BreadCrumbItem(content: Container(
-              width: 34,
-              height: 34,
-              decoration: const BoxDecoration(
-                color: Color(0xff0361f9),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.home_filled, size: 16, color: Colors.white,),
-            ))]
+            items: [
+              BreadCrumbItem(
+                  content: Container(
+                    width: 34,
+                    height: 34,
+                    decoration: const BoxDecoration(
+                      color: Color(0xff0361f9),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Remix.home_5_fill, size: 16, color: Colors.white,),
+                  )
+              )
+            ]
                 + crumbs.sublist(0, crumbs.length - 1).map<BreadCrumbItem>(
                         (value) => BreadCrumbItem(
                         content: Text(value,
                           style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15,
-                              color: Color(0xff767676)
+                              color: Color(0xff767676),
+                              letterSpacing: -0.45
                           ),
                         )
                     )
@@ -86,6 +91,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                   fontWeight: FontWeight.w600,
                   fontSize: 15,
                   color: Color(0xff111111),
+                  letterSpacing: -0.45
                 )))]
         ),
         Row(
@@ -96,7 +102,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                   Share.share("text");
                 },
                 splashRadius: 16.0,
-                icon: const Icon(Icons.share_outlined, size: 24, color: Color(0xff999999),)
+                icon: const Icon(Remix.share_line, size: 24, color: Color(0xff999999),)
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
@@ -105,7 +111,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                     await printPage();
                   },
                   splashRadius: 16.0,
-                  icon: const Icon(Icons.print_outlined, size: 24, color: Color(0xff999999),)
+                  icon: const Icon(Remix.printer_line, size: 24, color: Color(0xff999999),)
               ),
             )
           ],

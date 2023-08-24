@@ -1,6 +1,7 @@
 import 'package:angelnet/models/lp/limited_partner.dart';
 import 'package:angelnet/screens/not_developed_screen.dart';
 import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/lp/fund_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 
 import '../../models/fund/fund.dart';
 import '../../widgets/lp/lp_my_page_state.dart';
+import '../screen_frame_v2.dart';
 import 'funding_fund_screen.dart';
 
 class LpMyPage extends StatefulWidget {
@@ -64,82 +66,30 @@ class LpMyPageState extends State<LpMyPage> {
       )
     );
 
-
-
-    return ScreenFrame(
+    return ScreenFrameV2(
         main: Scaffold(
             body: Center(
                 child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      topBox,
-                      const Row(
-                        children: [
-                          Text(
-                            "참여 중인 조합",
-                            style: WidgetUtils.titleStyle,
-                          ),
-                          Text(
-                            "조합명 클릭 시, 참여중인 조합의 상세페이지로 이동할 수 있습니다.",
-                            style: TextStyle(fontSize: 14.0, color: Colors.black38),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5.0,),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: FutureBuilder<List<Fund>>(
-                            future: funds,
-                            builder:
-                                (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
-                              if (snapshot.hasError) {
-                                print(snapshot.error);
-                                print(snapshot.stackTrace);
-                                return WidgetUtils.errorPadding;
-                              } else if (snapshot.hasData == false) {
-                                return const CircularProgressIndicator();
-                              } else {
-                                if (snapshot.data?.isEmpty ?? true) {
-                                  return Column(
-                                    children: [
-                                      const Text("참여 중인 조합이 없습니다."),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Get.to(const FundingFundScreen());
-                                          },
-                                          child: const Text("모집 중인 조합 보러가기")
-                                      ),
-                                    ],
-                                  );
-                                }
-                                var idx = 1;
-                                return const NotDevelopedScreen(isAdmin: false);
-                                // return DataTable(
-                                //   columns: const [
-                                //     DataColumn(label: Text("번호")),
-                                //     DataColumn(label: Text("조합명")),
-                                //     DataColumn(label: Text("투자기업")),
-                                //     DataColumn(label: Text("참여금액")),
-                                //     DataColumn(label: Text("진행상태")),
-                                //   ],
-                                //   rows: snapshot.data!.map<DataRow>((fund) {
-                                //     fund.
-                                //   })
-                                // );
-                                // return Wrap(
-                                //   children: (snapshot.data ?? List.empty()).map<FundCard>((fund) => FundCard(fund: fund,)).toList(),
-                                // );
-                              }
-                            }),
-                        // todo 알림 관련 보이는 파트
-                      )
-                    ],
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 320),
+                    child: Column(
+                      children: [
+                        const Text("마이페이지",
+                          style: TextStyle(
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: StringUtils.pretendard,
+                            color: Color(0xff111111)
+                          )
+                        )
+                      ],
+                    ),
                   ),
                 )
             )
         ),
-        isAdmin: false
+        isAdmin: false, crumbs: const ["마이페이지"],
     );
   }
 
