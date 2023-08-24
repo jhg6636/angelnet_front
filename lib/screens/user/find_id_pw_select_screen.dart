@@ -124,8 +124,8 @@ class FindIdPwSelectScreenState extends State<FindIdPwSelectScreen> with TickerP
                             alignment: Alignment.center,
                             width: 480,
                             height: 240,
-                            decoration: BoxDecoration(
-                                border: Border.all()
+                            decoration: ShapeDecoration(
+                              shape: Border()
                             ),
                             child: const Text("아이디 찾기")
                         )

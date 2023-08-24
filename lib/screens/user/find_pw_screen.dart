@@ -1,8 +1,12 @@
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/screens/user/reset_pw_screen.dart';
+import 'package:angelnet/utils/StringUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import 'find_id_screen.dart';
 
 class FindPwScreen extends StatefulWidget {
   const FindPwScreen({super.key});
@@ -23,129 +27,484 @@ class FindPwScreenState extends State<FindPwScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          title: Container(
+            width: 154,
+            height: 52,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('lib/assets/images/logo.png'),
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
         body: Align(
-            alignment: Alignment.center,
+            alignment: Alignment.topCenter,
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("비밀번호 찾기"),
-                  const SizedBox(height: 120.0,),
-                  Container(
-                    width: 900,
-                    height: 450,
-                    decoration: BoxDecoration(
-                        border: Border.all()
-                    ),
+                child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 320),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Row(
-                          children: [
-                            SizedBox(width: 50,),
-                            Text("가입 당시 입력한 이름 / ID / 이메일을 입력하시면, 이메일을 통하여 인증 완료 후, 비밀번호를 재설정 하실 수 있습니다.")
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const SizedBox(width: 50,),
-                            const SizedBox(
-                              width: 80,
-                              child: Text("이름"),
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("아이디/비밀번호 찾기",
+                              style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Pretendard",
+                                  color: Color(0xff111111))),
+                          Container(
+                              margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                      child: InkWell(
+                                          onTap: () {
+                                            Get.to(const FindIdScreen());
+                                          },
+                                          child: Container(
+                                                  width: 640,
+                                                  height: 62,
+                                                  decoration: const BoxDecoration(
+                                                      color: Color(0xfff9f9f9),
+                                                      border: Border(
+                                                        bottom: BorderSide(color: Color(0xff1173f9), width: 2),)
+                                                  ),
+                                                  child: const Center(
+                                                    child: Text("아이디 찾기",
+                                                      style: TextStyle(
+                                                          fontFamily: StringUtils.pretendard,
+                                                          fontSize: 17,
+                                                          fontWeight: FontWeight.w400,
+                                                          color: Color(0xff282728),
+                                                          letterSpacing: -0.17
+                                                      ),
+                                                    ),
+                                                  )
+                                              )
+                                          )
+                                  ),
+                                  Flexible(
+                                      child: InkWell(
+                                        onTap: () {
+                                          Get.to(const FindPwScreen());
+                                        },
+                                        child: ClipPath(
+                                          clipper: CustomBorderClipper(),
+                                          child: Container(
+                                              width: 640,
+                                              height: 62,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  border: Border(
+                                                    top: BorderSide(color: Color(0xff1173f9), width: 2),
+                                                    left: BorderSide(color: Color(0xff1173f9), width: 2),
+                                                    right: BorderSide(color: Color(0xff1173f9), width: 2)
+                                                  )
+                                              ),
+                                              child: const Center(
+                                                child: Text("비밀번호 찾기",
+                                                  style: TextStyle(
+                                                      fontFamily: StringUtils.pretendard,
+                                                      fontSize: 17,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Color(0xff1173f9),
+                                                      letterSpacing: -0.17
+                                                  ),
+                                                ),
+                                              )
+                                          ),
+                                        ),
+                                      )
+                                  )
+                                ],
+                              )
+                          ),
+                          Container(
+                              margin: const EdgeInsets.fromLTRB(0, 38, 0, 10),
+                              child: const Text("가입 당시 입력한 이름 / ID / 이메일을 입력하시면, 이메일을 통하여 인증 완료 후, 비밀번호를 재설정 하실 수 있습니다.",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 16,
+                                  fontFamily: StringUtils.pretendard,
+                                  letterSpacing: -0.16,
+                                  color: Color(0xff333333),
+                                ),
+                              )
+                          ),
+                          const Divider(thickness: 2, color: Color(0xff2b2b2b),),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                                  child: const Text("이름",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: StringUtils.pretendard,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: -0.17,
+                                      color: Color(0xff333333),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(127, 0, 0, 0),
+                                  child: SizedBox(
+                                    width: 263,
+                                    height: 38,
+                                    child: TextField(
+                                      textAlignVertical: TextAlignVertical.top,
+                                      keyboardType: TextInputType.text,
+                                      controller: _nameController,
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                              borderSide: BorderSide(color: Color(0xffdddddd))
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: 240,
-                              child: TextField(
-                                controller: _nameController,
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const SizedBox(width: 50,),
-                            const SizedBox(
-                              width: 80,
-                              child: Text("ID"),
+                          ),
+                          const Divider(color: Color(0xffdddddd),),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                                  child: const Text("ID",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: StringUtils.pretendard,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: -0.17,
+                                      color: Color(0xff333333),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                                  child: SizedBox(
+                                    width: 263,
+                                    height: 38,
+                                    child: TextField(
+                                      textAlignVertical: TextAlignVertical.top,
+                                      keyboardType: TextInputType.text,
+                                      controller: _idController,
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                              borderSide: BorderSide(color: Color(0xffdddddd))
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: 240,
-                              child: TextField(
-                                controller: _idController,
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const SizedBox(width: 50,),
-                            const SizedBox(
-                              width: 80,
-                              child: Text("이메일"),
-                            ),
-                            SizedBox(
-                              width: 240,
-                              child: TextField(
-                                controller: _emailController,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10.0,
-                            ),
-                            (_buttonClicked)
-                                ? FilledButton(onPressed: () {}, child: const Text("재전송"))
-                                : FilledButton(
+                          ),
+                          const Divider(color: Color(0xffdddddd),),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                                  child: const Text("이메일",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: StringUtils.pretendard,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: -0.17,
+                                      color: Color(0xff333333),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
+                                  child: SizedBox(
+                                    width: 263,
+                                    height: 38,
+                                    child: TextField(
+                                      textAlignVertical: TextAlignVertical.top,
+                                      keyboardType: TextInputType.text,
+                                      controller: _emailController,
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                              borderSide: BorderSide(color: Color(0xffdddddd))
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                                  child: FilledButton(
+                                    style: FilledButton.styleFrom(
+                                        fixedSize: Size(118, 38),
+                                        backgroundColor: const Color(0xff6c6f81),
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(2.0))
+                                        )
+                                    ),
                                     onPressed: () {
                                       setState(() {
                                         _buttonClicked = true;
                                       });
                                     },
-                                    child: const Text("인증번호 전송")
+                                    child: const Text("인증번호 전송",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: StringUtils.pretendard,
+                                          color: Colors.white,
+                                          letterSpacing: -0.32
+                                      ),
+                                    ),
                                   ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const SizedBox(width: 50,),
-                            const SizedBox(
-                              width: 80,
-                              child: Text("인증번호"),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: 240,
-                              child: TextField(
-                                controller: _codeController,
-                                enabled: _buttonClicked,
-                              ),
+                          ),
+                          const Divider(color: Color(0xffdddddd),),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                                  child: const Text("인증번호",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: StringUtils.pretendard,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: -0.17,
+                                      color: Color(0xff333333),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(97, 0, 0, 0),
+                                  child: SizedBox(
+                                    width: 263,
+                                    height: 38,
+                                    child: TextField(
+                                      textAlignVertical: TextAlignVertical.top,
+                                      keyboardType: TextInputType.text,
+                                      controller: _codeController,
+                                      decoration: InputDecoration(
+                                        enabled: _buttonClicked,
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                              borderSide: BorderSide(color: Color(0xffdddddd))
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ]
-                        ),
-                        ButtonBar(
+                          ),
+                          const Divider(color: Color(0xffdddddd),),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                        child: ButtonBar(
                           alignment: MainAxisAlignment.center,
-                          children: [
-                            FilledButton(
+                          children: <Widget>[
+                            OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  fixedSize: const Size(120, 50),
+                                  side: const BorderSide(color: Color(0xff222222), width: 2.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0)
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: const Text("취소",
+                                    style: TextStyle(
+                                        fontFamily: "Pretendard",
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 17,
+                                        color: Color(0xff222222),
+                                        letterSpacing: -0.34
+                                    )
+                                )
+                            ),
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Color(0xff222222),
+                                fixedSize: Size(120, 50),
+                                side: const BorderSide(color: Color(0xff222222), width: 2.0),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0)
+                                ),
+                              ),
                               onPressed: () {
                                 Get.to(ResetPwScreen(username: _nameController.text));
                               },
-                              child: const Text("확인")
-                            ),
-                            OutlinedButton(
-                              onPressed: () {
-                                Get.to(const HomeScreen());
-                              },
-                              child: const Text("취소")
+                              child: Text("확인",
+                                  style: TextStyle(
+                                      fontFamily: "Pretendard",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 17,
+                                      color: Color(0xffffffff),
+                                      letterSpacing: -0.34
+                                  )
+                              )
                             ),
                           ],
                         )
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                    )
+                  ]
+                )
             )
-        )
+        ))
     );
+    // return Scaffold(
+    //     body: Align(
+    //         alignment: Alignment.center,
+    //         child: SingleChildScrollView(
+    //           child: Column(
+    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               const Text("비밀번호 찾기"),
+    //               const SizedBox(height: 120.0,),
+    //               Container(
+    //                 width: 900,
+    //                 height: 450,
+    //                 decoration: BoxDecoration(
+    //                     border: Border.all()
+    //                 ),
+    //                 child: Column(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   children: [
+    //                     const Row(
+    //                       children: [
+    //                         SizedBox(width: 50,),
+    //                         Text("가입 당시 입력한 이름 / ID / 이메일을 입력하시면, 이메일을 통하여 인증 완료 후, 비밀번호를 재설정 하실 수 있습니다.")
+    //                       ],
+    //                     ),
+    //                     Row(
+    //                       children: [
+    //                         const SizedBox(width: 50,),
+    //                         const SizedBox(
+    //                           width: 80,
+    //                           child: Text("이름"),
+    //                         ),
+    //                         SizedBox(
+    //                           width: 240,
+    //                           child: TextField(
+    //                             controller: _nameController,
+    //                           ),
+    //                         )
+    //                       ],
+    //                     ),
+    //                     Row(
+    //                       children: [
+    //                         const SizedBox(width: 50,),
+    //                         const SizedBox(
+    //                           width: 80,
+    //                           child: Text("ID"),
+    //                         ),
+    //                         SizedBox(
+    //                           width: 240,
+    //                           child: TextField(
+    //                             controller: _idController,
+    //                           ),
+    //                         )
+    //                       ],
+    //                     ),
+    //                     Row(
+    //                       children: [
+    //                         const SizedBox(width: 50,),
+    //                         const SizedBox(
+    //                           width: 80,
+    //                           child: Text("이메일"),
+    //                         ),
+    //                         SizedBox(
+    //                           width: 240,
+    //                           child: TextField(
+    //                             controller: _emailController,
+    //                           ),
+    //                         ),
+    //                         const SizedBox(
+    //                           width: 10.0,
+    //                         ),
+    //                         (_buttonClicked)
+    //                             ? FilledButton(onPressed: () {}, child: const Text("재전송"))
+    //                             : FilledButton(
+    //                                 onPressed: () {
+    //                                   setState(() {
+    //                                     _buttonClicked = true;
+    //                                   });
+    //                                 },
+    //                                 child: const Text("인증번호 전송")
+    //                               ),
+    //                       ],
+    //                     ),
+    //                     Row(
+    //                       children: [
+    //                         const SizedBox(width: 50,),
+    //                         const SizedBox(
+    //                           width: 80,
+    //                           child: Text("인증번호"),
+    //                         ),
+    //                         SizedBox(
+    //                           width: 240,
+    //                           child: TextField(
+    //                             controller: _codeController,
+    //                             enabled: _buttonClicked,
+    //                           ),
+    //                         ),
+    //                       ]
+    //                     ),
+    //                     ButtonBar(
+    //                       alignment: MainAxisAlignment.center,
+    //                       children: [
+    //                         FilledButton(
+    //                           onPressed: () {
+    //                             Get.to(ResetPwScreen(username: _nameController.text));
+    //                           },
+    //                           child: const Text("확인")
+    //                         ),
+    //                         OutlinedButton(
+    //                           onPressed: () {
+    //                             Get.to(const HomeScreen());
+    //                           },
+    //                           child: const Text("취소")
+    //                         ),
+    //                       ],
+    //                     )
+    //                   ],
+    //                 ),
+    //               )
+    //             ],
+    //           ),
+    //         )
+    //     )
+    // );
   }
 
 }

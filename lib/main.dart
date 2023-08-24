@@ -1,6 +1,8 @@
 
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/screens/user/find_id_pw_select_screen.dart';
+import 'package:angelnet/screens/user/find_id_screen.dart';
+import 'package:angelnet/screens/user/find_pw_screen.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/screens/user/sign_up_welcome_screen.dart';
 import 'package:angelnet/screens/user/signup_screen.dart';
@@ -42,8 +44,8 @@ class AngelnetApp extends StatelessWidget {
     //     fontFamily: 'Pretendard',
     //   ),
     // );
-    return GetMaterialApp(
-      home: const FindIdPwSelectScreen(),
+    return const GetMaterialApp(
+      home: FindPwScreen(),
     );
     // return GetMaterialApp(
     //   title: '엔젤넷',
