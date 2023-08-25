@@ -242,8 +242,9 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
       appBar: (!widget.isAdmin) ? lpAppBar() : AppBar(title: const Text("angelnet"),),
       body: RepaintBoundary(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: widget.main),
+            widget.main,
             WidgetUtils.fnb
           ]
         )

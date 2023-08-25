@@ -67,27 +67,35 @@ class LpMyPageState extends State<LpMyPage> {
     );
 
     return ScreenFrameV2(
-        main: Scaffold(
-            body: Center(
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-                    padding: const EdgeInsets.symmetric(horizontal: 320),
-                    child: Column(
-                      children: [
-                        const Text("마이페이지",
-                          style: TextStyle(
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: StringUtils.pretendard,
-                            color: Color(0xff111111)
-                          )
-                        )
-                      ],
-                    ),
-                  ),
+        main: Container(
+          margin: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+          padding: const EdgeInsets.symmetric(horizontal: 320),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("마이페이지",
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: StringUtils.pretendard,
+                  color: Color(0xff111111)
                 )
-            )
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 29, 0, 0),
+                height: 90,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xff00ade2), Color(0xff006ce8)],
+                    begin: FractionalOffset.centerLeft,
+                    end: FractionalOffset.centerRight,
+                    transform: GradientRotation(1.81514)
+                  ),
+                  borderRadius: BorderRadius.circular(5)
+                ),
+              )
+            ],
+          ),
         ),
         isAdmin: false, crumbs: const ["마이페이지"],
     );
