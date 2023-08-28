@@ -268,7 +268,7 @@ class LpMyPageState extends State<LpMyPage> {
                             shape: BoxShape.circle,
                             color: Color(0xff00958f),
                           ),
-                          child: const Icon(Icons.check, size: 18, color: Colors.white,),
+                          child: const Icon(Remix.check_fill, size: 18, color: Colors.white,),
                         ),
                         Container(
                           margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
