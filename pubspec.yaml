@@ -58,6 +58,7 @@ dependencies:
   share_plus: ^7.1.0
   printing: ^5.11.0
   remixicon: ^1.0.0
+  dotted_border: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -121,7 +122,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
   }
 
   AppBar lpAppBar() => AppBar(
-    toolbarHeight: 201,
+    toolbarHeight: 100,
     backgroundColor: Colors.white,
     foregroundColor: Colors.white,
     shadowColor: Colors.transparent,
@@ -130,6 +131,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               children: [
@@ -145,35 +147,35 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                   ),
                 ),
                 Container(
-                    height: 23,
                     margin: const EdgeInsets.fromLTRB(58, 0, 0, 0),
                     child: const Text("결성중인 조합",
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
+                        fontFamily: StringUtils.pretendard,
                       ),
                     )
                 ),
                 Container(
-                    height: 23,
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: const Text("게시판",
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
+                        fontFamily: StringUtils.pretendard,
                       ),
                     )
                 ),
                 Container(
-                    height: 23,
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: const Text("전체 포트폴리오",
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
+                        fontFamily: StringUtils.pretendard,
                       ),
                     )
                 )
@@ -192,13 +194,13 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                 //   },
                 // )
                 Container(
-                    height: 23,
                     margin: const EdgeInsets.fromLTRB(58, 0, 0, 0),
                     child: const Text("플랜아이",
                       style: TextStyle(
                         color: Color(0xff000000),
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
+                        fontFamily: StringUtils.pretendard,
                       ),
                     )
                 ),
@@ -227,10 +229,6 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
           ],
         ),
         const Divider(color: Color(0xffdddddd),),
-        Container(
-          padding: const EdgeInsets.fromLTRB(320, 67, 321, 0),
-          child: breadCrumbRow(widget.crumbs),
-        )
       ],
     )
   );
@@ -241,12 +239,19 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
       backgroundColor: Colors.white,
       appBar: (!widget.isAdmin) ? lpAppBar() : AppBar(title: const Text("angelnet"),),
       body: RepaintBoundary(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            widget.main,
-            WidgetUtils.fnb
-          ]
+        child: SingleChildScrollView(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(320, 67, 321, 24),
+                  child: breadCrumbRow(widget.crumbs),
+                ),
+                widget.main,
+                const SizedBox(height: 100,),
+                WidgetUtils.fnb
+              ]
+          ),
         )
       )
     );
