@@ -9,7 +9,8 @@ class JoinedFundScreen extends StatefulWidget {
 
   // todo fund 추가 + enum class 도입하여 문구 및 step 자동화
 
-  const JoinedFundScreen({super.key});
+  final bool isRunning; // todo fundStatus로 관리하기
+  const JoinedFundScreen({super.key, required this.isRunning});
 
   @override
   State<StatefulWidget> createState() => JoinedFundScreenState();
@@ -121,11 +122,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 )
               ),
-              Container(
+              if (!widget.isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: fundStatusWidget(5),
               ),
-              Container(
+              if (!widget.isRunning) Container(
                 height: 83,
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: DottedBorder(
@@ -159,7 +160,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   )
                 )
               ),
-              Container(
+              if (!widget.isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -195,7 +196,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
               ),
               Container(
                   margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
-                  padding: const EdgeInsets.fromLTRB(19, 0, 746, 0),
+                  padding: const EdgeInsets.fromLTRB(19, 0, 636, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,23 +227,127 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                                     )
                                 ),
                               )
+                          ),
+                          FilledButton(
+                              style: FilledButton.styleFrom(
+                                backgroundColor: const Color(0xff6c6f81),
+                                foregroundColor: const Color(0xff6c6f81),
+                                fixedSize: const Size(90, 38),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
+                              ),
+                              onPressed: () {},
+                              child: const Text("파일찾기",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  fontFamily: StringUtils.pretendard,
+                                  letterSpacing: -0.32,
+                                  color: Colors.white,
+                                ),
+                              )
                           )
                         ],
                       ),
-                      FilledButton(
-                        onPressed: () {},
-                        child: Text("파일찾기",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: StringUtils.pretendard,
-                            letterSpacing: -0.32,
-                            color: Colors.white,
-                          ),
-                        )
-                      )
                     ],
                   )
+              ),
+              if (!widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
+                child: const Divider(thickness: 1, color: Color(0xffdddddd),),
+              ),
+              if (!widget.isRunning) Container(
+                  margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(19, 0, 636, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text("등기부등본",
+                        style: TextStyle(
+                            fontFamily: StringUtils.pretendard,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff333333),
+                            letterSpacing: -0.17
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                              width: 263,
+                              height: 38,
+                              margin: const EdgeInsets.fromLTRB(0, 0, 6, 0),
+                              child: TextField(
+                                controller: fileNameController1,
+                                decoration: InputDecoration(
+                                    enabled: false,
+                                    border: OutlineInputBorder(
+                                        borderSide: const BorderSide(color: Color(0xffdddddd)),
+                                        borderRadius: BorderRadius.circular(2)
+                                    )
+                                ),
+                              )
+                          ),
+                          FilledButton(
+                              style: FilledButton.styleFrom(
+                                  backgroundColor: const Color(0xff6c6f81),
+                                  foregroundColor: const Color(0xff6c6f81),
+                                  fixedSize: const Size(90, 38),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
+                              ),
+                              onPressed: () {},
+                              child: const Text("파일찾기",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  fontFamily: StringUtils.pretendard,
+                                  letterSpacing: -0.32,
+                                  color: Colors.white,
+                                ),
+                              )
+                          )
+                        ],
+                      ),
+                    ],
+                  )
+              ),
+              if (!widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
+                child: const Divider(thickness: 1, color: Color(0xffdddddd),),
+              ),
+              if (!widget.isRunning) Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xff222222),
+                    foregroundColor: const Color(0xff222222),
+                    fixedSize: const Size(120, 50),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
+                  ),
+                  onPressed: () {},
+                  child: const Text("서류 등록",
+                    style: TextStyle(
+                      fontFamily: StringUtils.pretendard,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -0.34,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                child: const Text("투자정보",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    fontFamily: StringUtils.pretendard,
+
+                  ),
+                )
               )
             ],
           )

@@ -47,7 +47,7 @@ class AngelnetApp extends StatelessWidget {
     //   ),
     // );
     return const GetMaterialApp(
-      home: JoinedFundScreen(),
+      home: JoinedFundScreen(isRunning: false,),
     );
     // return GetMaterialApp(
     //   title: '엔젤넷',
