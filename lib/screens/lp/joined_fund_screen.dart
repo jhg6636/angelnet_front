@@ -160,7 +160,369 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   )
                 )
               ),
-              if (!widget.isRunning) Container(
+
+              if (widget.isRunning) Container(
+                  margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  child: const Text("투자정보",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      fontFamily: StringUtils.pretendard,
+                      letterSpacing: -0.2,
+                    ),
+                  )
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                child: const Divider(thickness: 2, color: Color(0xff333333),),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text("조합명",
+                      style: TextStyle(
+                          fontFamily: StringUtils.pretendard,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.17,
+                          color: Color(0xff333333)
+                      ),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
+                        child: const Text("리벤처스 테크 이노베이션 투자조합 6호",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.15,
+                              color: Color(0xff555555)
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                child: const Divider(color: Color(0xffdddddd),),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text("투자기업",
+                      style: TextStyle(
+                          fontFamily: StringUtils.pretendard,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.17,
+                          color: Color(0xff333333)
+                      ),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(98, 0, 0, 0),
+                        child: const Text("(주)플랜아이",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.15,
+                              color: Color(0xff555555)
+                          ),
+                        )
+                    ),
+                    if (widget.isRunning) Container(
+                      margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                      child: const Divider(color: Color(0xffdddddd),),
+                    )
+                  ],
+                ),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                child: const Divider(color: Color(0xffdddddd),),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text("투자 좌수",
+                      style: TextStyle(
+                          fontFamily: StringUtils.pretendard,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.17,
+                          color: Color(0xff333333)
+                      ),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(94, 0, 0, 0),
+                        child: const Text("15 좌",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.15,
+                              color: Color(0xff555555)
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                child: const Divider(color: Color(0xffdddddd),),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text("투자 금액",
+                      style: TextStyle(
+                          fontFamily: StringUtils.pretendard,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.17,
+                          color: Color(0xff333333)
+                      ),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(94, 0, 0, 0),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("60,000,000",
+                              style: TextStyle(
+                                  fontFamily: StringUtils.pretendard,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: -0.15,
+                                  color: Color(0xff111111)
+                              ),
+                            ),
+                            Text("원",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 15,
+                                  fontFamily: StringUtils.pretendard,
+                                  letterSpacing: -0.15,
+                                  color: Color(0xff555555)
+                              ),
+                            )
+                          ],
+                        )
+                    )
+                  ],
+                ),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                child: const Divider(color: Color(0xffdddddd),),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 41, 0, 0),
+                child: Row(
+                  children: [
+                    const Text("출자증서 발급",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          fontFamily: StringUtils.pretendard,
+                          letterSpacing: -0.2,
+                          color: Color(0xff333333)
+                      ),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                        child: const Text("출자증서를 다운로드 하실 수 있습니다.",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.15,
+                              color: Color(0xff555555)
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
+              if (widget.isRunning) Container(
+                margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                child: const Divider(thickness: 2, color: Color(0xff555555),),
+              ),
+              if (widget.isRunning) Container(
+                  padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      const Text("출자증서",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                          fontFamily: StringUtils.pretendard,
+                          letterSpacing: -0.17,
+                          color: Color(0xff333333),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(98, 0, 0, 0),
+                        child: FilledButton(
+                            style: FilledButton.styleFrom(
+                                fixedSize: const Size(164, 38),
+                                foregroundColor: const Color(0xff6c6f81),
+                                backgroundColor: const Color(0xff6c6f81),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
+                            ),
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Remix.download_2_line, size: 16, color: Colors.white,),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                                  child: const Text("출자증서 다운로드",
+                                    style: TextStyle(
+                                        fontFamily: StringUtils.pretendard,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: -0.32,
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                        ),
+                      )
+                    ],
+                  )
+              ),
+              if (widget.isRunning) const Divider(color: Color(0xffdddddd),),
+              if (widget.isRunning) Container(
+                  margin: const EdgeInsets.fromLTRB(0, 41, 0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const Text("공지사항",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                  fontFamily: StringUtils.pretendard,
+                                  letterSpacing: -0.2,
+                                  color: Color(0xff333333)
+                              )
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(17, 0, 0, 0),
+                            child: const Text("참여하고 있는 조합의 최신 공지사항입니다.",
+                              style: TextStyle(
+                                  fontFamily: StringUtils.pretendard,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: -0.15,
+                                  color: Color(0xff555555)
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("더보기",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                                fontFamily: StringUtils.pretendard,
+                                letterSpacing: -0.15,
+                                color: Color(0xff555555),
+                              ),
+                            ),
+                            Icon(Remix.arrow_right_s_line, color: Color(0xff555555), size: 15,)
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+              ),
+              if (widget.isRunning) Container(
+                  width: 1280,
+                  margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
+                  child: DataTable(
+                    // todo 정렬
+                    // todo headingRow 아래 border 조정
+                    // todo 이미지 있을 시 표시 / 새 글 표시
+                    headingTextStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: StringUtils.pretendard,
+                      letterSpacing: -0.16,
+                      color: Color(0xff222222),
+                    ),
+                    dataTextStyle: const TextStyle(
+                        fontFamily: StringUtils.pretendard,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        letterSpacing: -0.16,
+                        color: Color(0xff757575)
+                    ),
+                    border: const TableBorder(
+                      top: BorderSide(color: Color(0xff333333), width: 2),
+                      bottom: BorderSide(color: Color(0xffe6e6e6)),
+                      horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+                    ),
+                    columns: const [
+                      DataColumn(label: Center(child: Text("번호"))),
+                      DataColumn(label: Center(child: Text("제목"))),
+                      DataColumn(label: Center(child: Text("작성자"))),
+                      DataColumn(label: Center(child: Text("작성일"))),
+                      DataColumn(label: Center(child: Text("첨부파일"))),
+                    ],
+                    rows: const [
+                      DataRow(
+                          cells: [
+                            DataCell(Text("101")),
+                            DataCell(Text("홈페이지 이용과 관련하여 필수적인 공지사항을 안내드립니다.")),
+                            DataCell(Text("관리자")),
+                            DataCell(Text("2023-03-03")),
+                            DataCell(Text("DOC")),
+                          ]
+                      ),
+                      DataRow(
+                          cells: [
+                            DataCell(Text("101")),
+                            DataCell(Text("인기있는 게시글 입니다.")),
+                            DataCell(Text("최고관리자")),
+                            DataCell(Text("2023-03-03")),
+                            DataCell(Text("PDF")),
+                          ]
+                      )
+                    ],
+                  )
+              ),
+              Container(
                 margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -191,7 +553,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.fromLTRB(0, 18, 0, 0),
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(thickness: 2, color: Color(0xff555555),),
               ),
               Container(
@@ -251,11 +613,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ],
                   )
               ),
-              if (!widget.isRunning) Container(
+              Container(
                 margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                 child: const Divider(thickness: 1, color: Color(0xffdddddd),),
               ),
-              if (!widget.isRunning) Container(
+              Container(
                   margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                   padding: const EdgeInsets.fromLTRB(19, 0, 636, 0),
                   child: Row(
@@ -312,7 +674,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ],
                   )
               ),
-              if (!widget.isRunning) Container(
+              Container(
                 margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                 child: const Divider(thickness: 1, color: Color(0xffdddddd),),
               ),
@@ -338,17 +700,6 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ),
                 )
               ),
-              if (widget.isRunning) Container(
-                margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                child: const Text("투자정보",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                    fontFamily: StringUtils.pretendard,
-
-                  ),
-                )
-              )
             ],
           )
       ),
