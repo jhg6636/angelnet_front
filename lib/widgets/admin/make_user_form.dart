@@ -59,14 +59,21 @@ class MakeUserFormState extends State<MakeUserForm> {
     _recommenderController = TextEditingController(text: widget.user?.recommender);
     _workspaceController = TextEditingController(text: widget.user?.workplace);
     return Container(
-        margin: EdgeInsets.fromLTRB(0, 100, 0, 0),
-        padding: EdgeInsets.symmetric(horizontal: 320),
+        margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
+        padding: const EdgeInsets.symmetric(horizontal: 320),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             (widget.isEditing) ?
-              const Text("회원정보") :
+              const Text("회원정보",
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Pretendard",
+                  color: Color(0xff111111)
+                ),
+              ) :
               const Text("회원가입",
                 style: TextStyle(
                   fontSize: 50,
@@ -126,7 +133,7 @@ class MakeUserFormState extends State<MakeUserForm> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                if (!widget.isEditing) Container(
                   margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                   child: const Text("*",
                     style: TextStyle(
@@ -138,7 +145,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                  margin: EdgeInsets.fromLTRB((widget.isEditing) ? 21 : 0, 9, 0, 0),
                   child: const Text("아이디",
                     style: TextStyle(
                         fontSize: 17,
@@ -156,10 +163,18 @@ class MakeUserFormState extends State<MakeUserForm> {
                     children: [
                       Row(
                         children: [
-                          SizedBox(
+                          Container(
                             width: 263,
                             height: 38,
+                            color: (widget.isEditing)? const Color(0xfff2f2f2) : Colors.white,
                             child: TextField(
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 15,
+                                fontFamily: StringUtils.pretendard,
+                                color: Color(0xff555555),
+                                letterSpacing: -0.15,
+                              ),
                               textAlignVertical: TextAlignVertical.bottom,
                               keyboardType: TextInputType.text,
                               controller: _stringIdController,
@@ -173,9 +188,21 @@ class MakeUserFormState extends State<MakeUserForm> {
                                     letterSpacing: -0.15
                                   ),
                                   enabled: !widget.isEditing,
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                      borderSide: BorderSide(color: Color(0xffdddddd))
+                                  ),
                                   border: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                                    borderSide: BorderSide(color: Color(0xffdddddd))
+                                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                      borderSide: BorderSide(color: Color(0xffdddddd))
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                      borderSide: BorderSide(color: Color(0xffdddddd))
+                                  ),
+                                  disabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                      borderSide: BorderSide(color: Color(0xffdddddd))
                                   )
                               ),
                               inputFormatters: [
@@ -183,11 +210,11 @@ class MakeUserFormState extends State<MakeUserForm> {
                               ],
                             ),
                           ),
-                          Container(
+                          if (!widget.isEditing) Container(
                             margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
                             child: FilledButton(
                               style: FilledButton.styleFrom(
-                                fixedSize: Size(90, 38),
+                                fixedSize: const Size(90, 38),
                                 backgroundColor: const Color(0xff6c6f81),
                                 shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(2.0))
@@ -214,7 +241,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                           ),
                         ],
                       ),
-                      Container(
+                      if (!widget.isEditing) Container(
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: const Text(
                           "* 2~20자리 이하 한글, 영문 소문자, 숫자 조합",
@@ -236,7 +263,7 @@ class MakeUserFormState extends State<MakeUserForm> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                if (!widget.isEditing) Container(
                   margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                   child: const Text("*",
                     style: TextStyle(
@@ -248,7 +275,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                   ),
                 ),
                 Container(
-                    margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                    margin: EdgeInsets.fromLTRB((widget.isEditing) ? 20 : 0, 9, 0, 0),
                     child: const Text("비밀번호",
                       style: TextStyle(
                           fontSize: 17,
@@ -261,7 +288,26 @@ class MakeUserFormState extends State<MakeUserForm> {
                 ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(98, 0, 0, 0),
-                  child: Column(
+                  child: (widget.isEditing) ? FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xff6c6f81),
+                      foregroundColor: const Color(0xff6c6f81),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+                      fixedSize: const Size(128, 38),
+                      padding: EdgeInsets.zero
+                    ),
+                    onPressed: () {},
+                    child: const Text("비밀번호 재설정",
+                      style: TextStyle(
+                        fontFamily: StringUtils.pretendard,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -0.32,
+                        color: Colors.white,
+                      ),
+                    )
+                  )
+                      : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
@@ -281,10 +327,18 @@ class MakeUserFormState extends State<MakeUserForm> {
                                   letterSpacing: -0.15
                               ),
                               enabled: !widget.isEditing,
+                              enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                  borderSide: BorderSide(color: Color(0xffdddddd))
+                              ),
                               border: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(2.0)),
                                   borderSide: BorderSide(color: Color(0xffdddddd))
-                              )
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                  borderSide: BorderSide(color: Color(0xffdddddd))
+                              ),
                           ),
                           obscureText: true,
                           autocorrect: false,
@@ -312,8 +366,8 @@ class MakeUserFormState extends State<MakeUserForm> {
                 )
               ],
             ),
-            const Divider(color: Color(0xffdddddd),),
-            Row(
+            if (!widget.isEditing) const Divider(color: Color(0xffdddddd),),
+            if (!widget.isEditing) Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -350,10 +404,18 @@ class MakeUserFormState extends State<MakeUserForm> {
                       controller: _passwordCheckController,
                       decoration: InputDecoration(
                           enabled: !widget.isEditing,
+                          enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          ),
                           border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(2.0)),
                               borderSide: BorderSide(color: Color(0xffdddddd))
-                          )
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          ),
                       ),
                       obscureText: true,
                       autocorrect: false,
@@ -399,15 +461,29 @@ class MakeUserFormState extends State<MakeUserForm> {
                     width: 263,
                     height: 38,
                     child: TextField(
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15,
+                        fontFamily: StringUtils.pretendard,
+                        color: Color(0xff555555),
+                        letterSpacing: -0.15,
+                      ),
                       textAlignVertical: TextAlignVertical.top,
                       keyboardType: TextInputType.text,
                       controller: _nameController,
-                      decoration: InputDecoration(
-                          enabled: !widget.isEditing,
-                          border: const OutlineInputBorder(
+                      decoration: const InputDecoration(
+                          enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(2.0)),
                               borderSide: BorderSide(color: Color(0xffdddddd))
-                          )
+                          ),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                              borderSide: BorderSide(color: Color(0xffdddddd))
+                          ),
                       ),
                     ),
                   ),
@@ -447,15 +523,29 @@ class MakeUserFormState extends State<MakeUserForm> {
                     width: 164,
                     height: 38,
                     child: TextField(
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15,
+                        fontFamily: StringUtils.pretendard,
+                        color: Color(0xff555555),
+                        letterSpacing: -0.15,
+                      ),
                       textAlignVertical: TextAlignVertical.top,
                       keyboardType: TextInputType.text,
                       controller: _emailFrontController,
-                      decoration: InputDecoration(
-                          enabled: !widget.isEditing,
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                              borderSide: BorderSide(color: Color(0xffdddddd))
-                          )
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
                       ),
                     ),
                   ),
@@ -475,15 +565,29 @@ class MakeUserFormState extends State<MakeUserForm> {
                   width: 164,
                   height: 38,
                   child: TextField(
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 15,
+                      fontFamily: StringUtils.pretendard,
+                      color: Color(0xff555555),
+                      letterSpacing: -0.15,
+                    ),
                     textAlignVertical: TextAlignVertical.top,
                     keyboardType: TextInputType.text,
                     controller: _emailBackController,
-                    decoration: InputDecoration(
-                        enabled: !widget.isEditing,
-                        border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                            borderSide: BorderSide(color: Color(0xffdddddd))
-                        )
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                          borderSide: BorderSide(color: Color(0xffdddddd))
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                          borderSide: BorderSide(color: Color(0xffdddddd))
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                          borderSide: BorderSide(color: Color(0xffdddddd))
+                      ),
                     ),
                   ),
                 ),
@@ -670,15 +774,29 @@ class MakeUserFormState extends State<MakeUserForm> {
                     width: 263,
                     height: 38,
                     child: TextField(
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15,
+                        fontFamily: StringUtils.pretendard,
+                        color: Color(0xff555555),
+                        letterSpacing: -0.15,
+                      ),
                       textAlignVertical: TextAlignVertical.top,
                       keyboardType: TextInputType.text,
                       controller: _phoneController,
-                      decoration: InputDecoration(
-                          enabled: !widget.isEditing,
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                              borderSide: BorderSide(color: Color(0xffdddddd))
-                          )
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
                       ),
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly
@@ -723,15 +841,29 @@ class MakeUserFormState extends State<MakeUserForm> {
                     width: 263,
                     height: 38,
                     child: TextField(
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15,
+                        fontFamily: StringUtils.pretendard,
+                        color: Color(0xff555555),
+                        letterSpacing: -0.15,
+                      ),
                       textAlignVertical: TextAlignVertical.top,
                       keyboardType: TextInputType.text,
                       controller: _recommenderController,
-                      decoration: InputDecoration(
-                          enabled: !widget.isEditing,
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                              borderSide: BorderSide(color: Color(0xffdddddd))
-                          )
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
                       ),
                     ),
                   ),
@@ -760,15 +892,29 @@ class MakeUserFormState extends State<MakeUserForm> {
                     width: 263,
                     height: 38,
                     child: TextField(
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15,
+                        fontFamily: StringUtils.pretendard,
+                        color: Color(0xff555555),
+                        letterSpacing: -0.15,
+                      ),
                       textAlignVertical: TextAlignVertical.top,
                       keyboardType: TextInputType.text,
                       controller: _workspaceController,
-                      decoration: InputDecoration(
-                          enabled: !widget.isEditing,
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                              borderSide: BorderSide(color: Color(0xffdddddd))
-                          )
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                            borderSide: BorderSide(color: Color(0xffdddddd))
+                        ),
                       ),
                     ),
                   ),
@@ -781,7 +927,7 @@ class MakeUserFormState extends State<MakeUserForm> {
               child: ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  OutlinedButton(
+                  if (!widget.isEditing) OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         fixedSize: const Size(120, 50),
                         side: const BorderSide(color: Color(0xff222222), width: 2.0),
@@ -857,7 +1003,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                       // }
                     },
                     child: widget.isEditing ?
-                      const Text("수정하기",
+                      const Text("저장하기",
                           style: TextStyle(
                               fontFamily: "Pretendard",
                               fontWeight: FontWeight.w500,

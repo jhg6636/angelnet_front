@@ -1,16 +1,6 @@
 
-import 'package:angelnet/screens/lp/joined_fund_screen.dart';
-import 'package:angelnet/screens/lp/lp_mypage.dart';
-import 'package:angelnet/screens/screen_frame_v2.dart';
-import 'package:angelnet/screens/user/find_id_pw_select_screen.dart';
-import 'package:angelnet/screens/user/find_id_screen.dart';
-import 'package:angelnet/screens/user/find_pw_screen.dart';
-import 'package:angelnet/screens/user/home_screen.dart';
-import 'package:angelnet/screens/user/sign_up_welcome_screen.dart';
-import 'package:angelnet/screens/user/signup_screen.dart';
-import 'package:angelnet/screens/user/terms_of_use_screen.dart';
-import 'package:angelnet/utils/NotificationUtils.dart';
-import 'package:angelnet/widgets/core/breadcrumb.dart';
+import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/user/edit_user_info_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -46,8 +36,20 @@ class AngelnetApp extends StatelessWidget {
     //     fontFamily: 'Pretendard',
     //   ),
     // );
-    return const GetMaterialApp(
-      home: JoinedFundScreen(isRunning: true,),
+    return GetMaterialApp(
+      home: EditUserInfoScreen(
+        user: User(
+          stringId: "ABC12345",
+          name: "김철수",
+          userLevel: "LP",
+          workplace: "",
+          phone: "01012345678",
+          email: "ABC12345@naver.com",
+          recommender: "",
+          createdAt: DateTime.now(),
+          lastLoginAt: DateTime.now()
+        )
+      ),
     );
     // return GetMaterialApp(
     //   title: '엔젤넷',

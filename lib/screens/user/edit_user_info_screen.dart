@@ -1,4 +1,5 @@
 import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/admin/make_user_form.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +15,7 @@ class EditUserInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenFrame(
+    return ScreenFrameV2(
         main: MakeUserForm(isPopup: false, isEditing: true, user: user!!,),
         // main: FutureBuilder(
         //   future: getMyInfo(),
@@ -28,7 +29,7 @@ class EditUserInfoScreen extends StatelessWidget {
         //     }
         //   },
         // ),
-        isAdmin: false,
+        isAdmin: false, crumbs: const ["마이페이지", "회원정보"],
     );
   }
 
