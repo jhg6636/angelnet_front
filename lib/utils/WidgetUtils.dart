@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'StringUtils.dart';
+
 /**
  * 프리텐다드 글꼴
  * 100 : Thin
@@ -42,7 +44,12 @@ class WidgetUtils {
   static const drawerButtonStyle = TextStyle(fontSize: 24.0);
 
   static const titleStyle = TextStyle(
-      fontSize: 36.0, fontWeight: FontWeight.bold);
+      fontWeight: FontWeight.bold,
+      fontSize: 50,
+      fontFamily: StringUtils.pretendard,
+      letterSpacing: -0.1,
+      color: Color(0xff111111)
+  );
 
   static Widget fnb = Container(
     height: 204,
