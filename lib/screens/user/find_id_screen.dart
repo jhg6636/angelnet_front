@@ -1,5 +1,6 @@
 import 'package:angelnet/screens/user/find_pw_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/utils/custom_border_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -154,8 +155,8 @@ class FindIdScreenState extends State<FindIdScreen> {
                                       textAlignVertical: TextAlignVertical.top,
                                       keyboardType: TextInputType.text,
                                       controller: _nameController,
-                                      decoration: InputDecoration(
-                                          border: const OutlineInputBorder(
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(Radius.circular(2.0)),
                                               borderSide: BorderSide(color: Color(0xffdddddd))
                                           )
@@ -213,9 +214,9 @@ class FindIdScreenState extends State<FindIdScreen> {
                             margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                             child: FilledButton(
                               style: FilledButton.styleFrom(
-                                backgroundColor: Color(0xff222222),
+                                backgroundColor: const Color(0xff222222),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                fixedSize: Size(120, 50)
+                                fixedSize: const Size(120, 50)
                               ),
                               onPressed: () {
 
@@ -306,22 +307,4 @@ class FindIdScreenState extends State<FindIdScreen> {
     //     )
     // );
   }
-}
-
-class CustomBorderClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final Path path = Path()
-      ..moveTo(0.0, 5.0)
-      ..quadraticBezierTo(0.0, 0.0, 5.0, 0.0)
-      ..lineTo(size.width - 5.0, 0.0)
-      ..quadraticBezierTo(size.width, 0.0, size.width, 5.0)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0.0, size.height)
-      ..close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
