@@ -1,5 +1,6 @@
 
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/notification/lp_notification_screen.dart';
 import 'package:angelnet/screens/user/edit_user_info_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,29 +29,29 @@ class AngelnetApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return GetMaterialApp(
-    //   home: Scaffold(
-    //     body: ScreenFrameV2(main: Text("hello"), isAdmin: false, crumbs: ["1차 메뉴"],),
-    //   ),
-    //   theme: ThemeData(
-    //     fontFamily: 'Pretendard',
-    //   ),
-    // );
     return GetMaterialApp(
-      home: EditUserInfoScreen(
-        user: User(
-          stringId: "ABC12345",
-          name: "김철수",
-          userLevel: "LP",
-          workplace: "",
-          phone: "01012345678",
-          email: "ABC12345@naver.com",
-          recommender: "",
-          createdAt: DateTime.now(),
-          lastLoginAt: DateTime.now()
-        )
+      home: const Scaffold(
+        body: LpNotificationScreen(),
+      ),
+      theme: ThemeData(
+        fontFamily: 'Pretendard',
       ),
     );
+    // return GetMaterialApp(
+    //   home: EditUserInfoScreen(
+    //     user: User(
+    //       stringId: "ABC12345",
+    //       name: "김철수",
+    //       userLevel: "LP",
+    //       workplace: "",
+    //       phone: "01012345678",
+    //       email: "ABC12345@naver.com",
+    //       recommender: "",
+    //       createdAt: DateTime.now(),
+    //       lastLoginAt: DateTime.now()
+    //     )
+    //   ),
+    // );
     // return GetMaterialApp(
     //   title: '엔젤넷',
     //   home: const HomeScreen(),

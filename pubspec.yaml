@@ -95,6 +95,7 @@ flutter:
     - lib/assets/images/fund_image_3.png
     - lib/assets/images/fund_image_4.png
     - lib/assets/images/fund_image_5.png
+    - lib/assets/images/lp_notification_image.png
 
   fonts:
     - family: Sriracha
