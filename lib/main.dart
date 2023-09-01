@@ -2,6 +2,7 @@
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
+import 'package:angelnet/screens/lp/join_fund_screen.dart';
 import 'package:angelnet/screens/notification/lp_notification_screen.dart';
 import 'package:angelnet/screens/user/edit_user_info_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,7 +34,7 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: const Scaffold(
-        body: FundingFundDetailScreen(),
+        body: JoinFundScreen(),
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',

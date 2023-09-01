@@ -5,6 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class StringUtils {
 
@@ -108,6 +109,11 @@ class StringUtils {
     }
 
     return false;
+  }
+
+  String currencyFormat(int number) {
+    var f = NumberFormat.currency(locale: 'ko-kr', symbol: "");
+    return f.format(number);
   }
 
 }

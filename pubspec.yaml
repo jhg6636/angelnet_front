@@ -60,6 +60,7 @@ dependencies:
   remixicon: ^1.0.0
   dotted_border: ^2.0.0
   dropdown_button2: ^2.3.9
+  dotted_line: ^3.2.2
 
 dev_dependencies:
   flutter_test:
