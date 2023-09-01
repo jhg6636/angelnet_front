@@ -1,6 +1,7 @@
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:remixicon/remixicon.dart';
@@ -19,6 +20,7 @@ class FundingFundDetailScreen extends StatefulWidget {
 class FundingFundDetailScreenState extends State<FundingFundDetailScreen> {
 
   var selectedMenu = '기본정보';
+  final searchTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +44,6 @@ class FundingFundDetailScreenState extends State<FundingFundDetailScreen> {
       fontSize: 15,
       letterSpacing: -0.15,
       color: Color(0xff555555)
-    );
-    const h1Style = TextStyle(
-        fontFamily: StringUtils.pretendard,
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-        color: Color(0xff1173f9),
-        letterSpacing: -0.17
     );
 
     return ScreenFrameV2(
@@ -329,7 +324,15 @@ class FundingFundDetailScreenState extends State<FundingFundDetailScreen> {
                                   border: Border(bottom: BorderSide(color: Color(0xff1173f9), width: 2))
                               ),
                               child: const Center(
-                                child: Text("기본정보", style: h1Style), // todo h1Style 다시 봐
+                                child: Text("기본정보",
+                                  style: TextStyle(
+                                      fontFamily: StringUtils.pretendard,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff282728),
+                                      letterSpacing: -0.17
+                                  )
+                                ),
                               )
                           ),
                         )
@@ -798,6 +801,196 @@ class FundingFundDetailScreenState extends State<FundingFundDetailScreen> {
                   )
                 ],
               ),
+            ),
+            // if (selectedMenu == '회사소개') todo IR자료, 고유번호증 등 회사소개 자료 업로드 공간
+            if (selectedMenu == '공지사항') Container(
+              margin: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                          child: const Text("페이지",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          ),
+                        ),
+                        const Text("1",
+                          style: TextStyle(
+                            fontFamily: StringUtils.pretendard,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                        Container(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            child: const Text("/6",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                fontFamily: StringUtils.pretendard,
+                                letterSpacing: -0.16,
+                                color: Color(0xff333333),
+                              ),
+                            )
+                        ),
+                        const Text("총 ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                        const Text("60",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                        const Text("건",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                          width: 320,
+                          height: 42,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(2),
+                            color: const Color(0xfff2f2f2),
+                          ),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                  flex: 29,
+                                  child: TextField(
+                                    controller: searchTextController,
+                                    textAlignVertical: TextAlignVertical.bottom,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                                        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                                        hintText: "검색어를 입력하세요",
+                                        hintStyle: TextStyle(
+                                            fontFamily: StringUtils.pretendard,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff757575),
+                                            letterSpacing: -0.16
+                                        )
+                                    ),
+                                  )
+                              ),
+                              Flexible(
+                                  flex: 3,
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      margin: const EdgeInsets.fromLTRB(0, 0, 9.69, 0),
+                                      width: 20.31,
+                                      height: 20.31,
+                                      decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage('lib/assets/images/search_icon.png'),
+                                            fit: BoxFit.fill,
+                                          )
+                                      ),
+                                    ),
+                                  )
+                              )
+                            ],
+                          )
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+            if (selectedMenu == '공지사항') Container(
+                width: 1280,
+                margin: const EdgeInsets.fromLTRB(0, 7, 0, 0),
+                child: DataTable(
+                  // todo 정렬
+                  // todo headingRow 아래 border 조정
+                  // todo 이미지 있을 시 표시 / 새 글 표시
+                  headingTextStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.pretendard,
+                    letterSpacing: -0.16,
+                    color: Color(0xff222222),
+                  ),
+                  dataTextStyle: const TextStyle(
+                      fontFamily: StringUtils.pretendard,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      letterSpacing: -0.16,
+                      color: Color(0xff757575)
+                  ),
+                  border: const TableBorder(
+                    top: BorderSide(color: Color(0xff333333), width: 2),
+                    bottom: BorderSide(color: Color(0xffe6e6e6)),
+                    horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+                  ),
+                  columns: const [
+                    DataColumn(label: Center(child: Text("번호"))),
+                    DataColumn(label: Center(child: Text("제목"))),
+                    DataColumn(label: Center(child: Text("작성자"))),
+                    DataColumn(label: Center(child: Text("작성일"))),
+                    DataColumn(label: Center(child: Text("첨부파일"))),
+                  ],
+                  rows: const [
+                    DataRow(
+                        cells: [
+                          DataCell(Text("101")),
+                          DataCell(Text("홈페이지 이용과 관련하여 필수적인 공지사항을 안내드립니다.")),
+                          DataCell(Text("관리자")),
+                          DataCell(Text("2023-03-03")),
+                          DataCell(Text("DOC")),
+                        ]
+                    ),
+                    DataRow(
+                        cells: [
+                          DataCell(Text("101")),
+                          DataCell(Text("인기있는 게시글 입니다.")),
+                          DataCell(Text("최고관리자")),
+                          DataCell(Text("2023-03-03")),
+                          DataCell(Text("PDF")),
+                        ]
+                    )
+                  ],
+                )
+            ),
+            if (selectedMenu == '공지사항') Container(
+              margin: const EdgeInsets.fromLTRB(0, 21, 0, 0),
+              child: pagination(4)
             )
           ],
         ),
