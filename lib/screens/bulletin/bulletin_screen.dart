@@ -1,6 +1,8 @@
 import 'package:angelnet/models/bulletin/bulletin.dart';
 import 'package:angelnet/models/common/post.dart';
 import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/screens/screen_frame_v2.dart';
+import 'package:angelnet/utils/StringUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,35 +14,20 @@ class BulletinScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenFrame(
-      main: SingleChildScrollView(
+    return ScreenFrameV2(
+      main: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 320),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("게시판 목록", style: WidgetUtils.titleStyle),
-            FutureBuilder(
-                future: fetchAllBulletins(),
-                builder: (BuildContext context, AsyncSnapshot<List<Bulletin>> snapshot) {
-                  if (snapshot.hasError) {
-                    return WidgetUtils.errorPadding;
-                  } else if (!snapshot.hasData) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    return DataTable(
-                        columns: const [
-                          DataColumn(label: Text("게시판명")),
-                          DataColumn(label: Text("게시글수")),
-                        ],
-                        rows: snapshot.data!.map<DataRow>((bulletin) =>
-                            bulletin.toLpDataRow()
-                        ).toList()
-                    );
-                  }
-                }
-            )
+            const Text("게시판", style: WidgetUtils.titleStyle),
+
           ],
         ),
       ),
-      isAdmin: false
+      isAdmin: false,
+      crumbs: ["게시판"]
     );
   }
 
