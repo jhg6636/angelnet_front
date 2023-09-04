@@ -109,6 +109,9 @@ flutter:
     - lib/assets/images/funding_fund_detail_image_1.png
     - lib/assets/images/funding_fund_detail_image_2.png
     - lib/assets/images/funding_fund_detail_image_3.png
+    - lib/assets/images/img.png
+    - lib/assets/images/pdf.png
+    - lib/assets/images/download_icon.png
 
   fonts:
     - family: Sriracha

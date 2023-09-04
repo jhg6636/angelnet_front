@@ -148,7 +148,7 @@ class BulletinScreenState extends State<BulletinScreen> {
                 ],
               ),
             ),
-            if (selectedMenu == '공지사항') Container(
+            Container(
               margin: const EdgeInsets.fromLTRB(0, 38, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -330,7 +330,7 @@ class BulletinScreenState extends State<BulletinScreen> {
                   ],
                 )
             ),
-            if (selectedMenu == '공지사항') Container(
+            Container(
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: pagination(4)
             )

@@ -1,6 +1,7 @@
 
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
+import 'package:angelnet/screens/bulletin/post_view_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
+import 'models/common/post.dart';
 
 // const serverAddress = 'localhost:8080';
 const serverAddress = '172.18.0.43:8080';
@@ -34,8 +36,12 @@ class AngelnetApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: const Scaffold(
-        body: BulletinScreen(),
+      home: Scaffold(
+        body: PostViewScreen(
+          bulletinName: "aa",
+          post: Post(id: 1, bulletinId: 1, title: 'ss', writer: 'ss', createdAt: DateTime.now(), body: 'asdf'),
+          isAdmin: false
+        ),
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',
