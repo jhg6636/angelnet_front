@@ -1,5 +1,6 @@
 
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/admin/manage_user_screen.dart';
 import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
 import 'package:angelnet/screens/bulletin/post_view_screen.dart';
 import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
@@ -38,7 +39,7 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-        body: AllPortfolioScreen(),
+        body: ManageUserScreen(),
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',

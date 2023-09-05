@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget pagination(int page) {
+  // todo 눌렀을 때 바뀔 수 있게
   const selectedDecoration = BoxDecoration(
     color: Color(0xff333333),
     shape: BoxShape.circle,

@@ -6,8 +6,15 @@ import 'package:flutter/material.dart';
 
 import '../../utils/WidgetUtils.dart';
 
-class AllPortfolioScreen extends StatelessWidget {
+class AllPortfolioScreen extends StatefulWidget {
   const AllPortfolioScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => AllPortfolioScreenState();
+
+}
+
+class AllPortfolioScreenState extends State<AllPortfolioScreen> {
 
   @override
   Widget build(BuildContext context) {
