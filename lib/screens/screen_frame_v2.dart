@@ -121,7 +121,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
     );
   }
 
-  AppBar lpAppBar() => AppBar(
+  AppBar appBar(bool isAdmin) => AppBar(
     toolbarHeight: 100,
     backgroundColor: Colors.white,
     foregroundColor: Colors.white,
@@ -148,7 +148,40 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                 ),
                 Container(
                     margin: const EdgeInsets.fromLTRB(58, 0, 0, 0),
-                    child: const Text("결성중인 조합",
+                    child: Text(isAdmin? "회원관리" : "결성중인 조합",
+                      style: const TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: StringUtils.pretendard,
+                      ),
+                    )
+                ),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: Text(isAdmin? "조합현황" : "게시판",
+                      style: const TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: StringUtils.pretendard,
+                      ),
+                    )
+                ),
+                if (isAdmin) Container(
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: const Text("그룹관리",
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: StringUtils.pretendard,
+                      ),
+                    )
+                ),
+                if (isAdmin) Container(
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: const Text("공지사항 관리",
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 19,
@@ -159,19 +192,8 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                 ),
                 Container(
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                    child: const Text("게시판",
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.pretendard,
-                      ),
-                    )
-                ),
-                Container(
-                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                    child: const Text("전체 포트폴리오",
-                      style: TextStyle(
+                    child: Text(isAdmin? "알림" : "전체 포트폴리오",
+                      style: const TextStyle(
                         color: Color(0xff333333),
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
@@ -193,16 +215,32 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                 //     }
                 //   },
                 // )
-                Container(
-                    margin: const EdgeInsets.fromLTRB(58, 0, 0, 0),
-                    child: const Text("플랜아이",
-                      style: TextStyle(
-                        color: Color(0xff000000),
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
+                if (isAdmin) Container(
+                  width: 58,
+                  height: 26,
+                  margin: const EdgeInsets.fromLTRB(0, 0, 9, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xffdddddd))
+                  ),
+                  child: const Text("관리자",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
                         fontFamily: StringUtils.pretendard,
-                      ),
-                    )
+                        letterSpacing: -0.15,
+                        color: Color(0xff767676)
+                    ),
+                  ),
+                ),
+                const Text("플랜아이",
+                  style: TextStyle(
+                    color: Color(0xff000000),
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: StringUtils.pretendard,
+                  ),
                 ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
@@ -237,7 +275,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: (!widget.isAdmin) ? lpAppBar() : AppBar(title: const Text("angelnet"),),
+      appBar: appBar(widget.isAdmin),
       body: RepaintBoundary(
         child: SingleChildScrollView(
           child: Column(
