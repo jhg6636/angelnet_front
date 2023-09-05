@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:remixicon/remixicon.dart';
 
 import '../../models/common/post.dart';
 import '../not_developed_screen.dart';
@@ -289,7 +290,7 @@ class PostViewScreenState extends State<PostViewScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                    child:                   Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -422,10 +423,169 @@ class PostViewScreenState extends State<PostViewScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
+                  if (widget.isAdmin) OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(width: 2, color: Color(0xff222222)),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                        fixedSize: const Size(120, 50)
+                    ),
+                    onPressed: () {},
+                    child: const Text("수정",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.34,
+                        color: Color(0xff222222)
+                      ),
+                    )
+                  ),
+                  if (widget.isAdmin) Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                side: const BorderSide(width: 2, color: const Color(0xff222222)),
+                                borderRadius: BorderRadius.circular(5)
+                            ),
+                            fixedSize: const Size(120, 50)
+                        ),
+                        onPressed: () {},
+                        child: const Text("삭제",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.34,
+                              color: Color(0xff222222)
+                          ),
+                        )
+                    )
+                  ),
+                  FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xff222222),
+                      foregroundColor: const Color(0xff222222),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      fixedSize: const Size(120, 50)
+                      // padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 45)
+                    ),
+                    onPressed: () {},
+                    child: const Text("목록",
+                      style: TextStyle(
+                        fontFamily: StringUtils.pretendard,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17,
+                        letterSpacing: -0.34,
+                        color: Colors.white
+                      ),
+                    )
+                  )
                 ],
               ),
-            )
+            ),
+            const Divider(color: Color(0xffe6e6e6),),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 11),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: InkWell(
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(Remix.arrow_up_s_line, color: Color(0xff333333),),
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(20, 0, 40, 0),
+                          child: const Text("이전글",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333)
+                            ),
+                          ),
+                        ),
+                        const Text("이전글이 없습니다.",
+                          style: TextStyle(
+                            fontFamily: StringUtils.pretendard,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            letterSpacing: -0.16,
+                            color: Color(0xff666666)
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const Divider(color: Color(0xffe6e6e6),),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 11),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: InkWell(
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(Remix.arrow_down_s_line, color: Color(0xff333333),),
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(20, 0, 40, 0),
+                          child: const Text("다음글",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: StringUtils.pretendard,
+                                letterSpacing: -0.16,
+                                color: Color(0xff333333)
+                            ),
+                          ),
+                        ),
+                        const Text("사업계획서 정오표 및 첨부파일 송부",
+                          style: TextStyle(
+                              fontFamily: StringUtils.pretendard,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              letterSpacing: -0.16,
+                              color: Color(0xff666666)
+                          ),
+                        )
+                      ],
+                    ),
+                    const Text("2023-03-03",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.16,
+                        color: Color(0xff666666)
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const Divider(color: Color(0xffe6e6e6),),
           ],
         ),
       ),
