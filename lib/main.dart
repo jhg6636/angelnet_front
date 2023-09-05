@@ -2,6 +2,7 @@
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
 import 'package:angelnet/screens/bulletin/post_view_screen.dart';
+import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
@@ -37,11 +38,7 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-        body: PostViewScreen(
-          bulletinName: "aa",
-          post: Post(id: 1, bulletinId: 1, title: 'ss', writer: 'ss', createdAt: DateTime.now(), body: 'asdf'),
-          isAdmin: false
-        ),
+        body: AllPortfolioScreen(),
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',
