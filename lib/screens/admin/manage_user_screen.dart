@@ -1,6 +1,8 @@
 import 'package:angelnet/screens/screen_frame_v2.dart';
+import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:remixicon/remixicon.dart';
 
 import '../../models/common/user.dart';
 import '../../utils/StringUtils.dart';
@@ -21,6 +23,7 @@ class ManageUserScreenState extends State<ManageUserScreen> {
   final levelOptions = ['전체', '일반회원', '관리자'];
   final searchOptions = ['전체', '이름', 'ID', '연락처'];
   final searchTextController = TextEditingController();
+  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +38,9 @@ class ManageUserScreenState extends State<ManageUserScreen> {
             Container(
               margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
               padding: const EdgeInsets.fromLTRB(0, 30, 0, 18),
-              decoration: BoxDecoration(
-                color: const Color(0xfff7faff),
-                border: const Border(top: BorderSide(width: 2, color: Color(0xff1173f9)))
+              decoration: const BoxDecoration(
+                color: Color(0xfff7faff),
+                border: Border(top: BorderSide(width: 2, color: Color(0xff1173f9)))
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -137,6 +140,298 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                   )
                 ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: const Text("페이지",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontFamily: StringUtils.pretendard,
+                          letterSpacing: -0.16,
+                          color: Color(0xff333333),
+                        ),
+                      ),
+                    ),
+                    const Text("1",
+                      style: TextStyle(
+                        fontFamily: StringUtils.pretendard,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: -0.16,
+                        color: Color(0xff333333),
+                      ),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                        child: const Text("/6",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        )
+                    ),
+                    const Text("총 ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.16,
+                        color: Color(0xff333333),
+                      ),
+                    ),
+                    const Text("60",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.16,
+                        color: Color(0xff333333),
+                      ),
+                    ),
+                    const Text("건",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.16,
+                        color: Color(0xff333333),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 128,
+                      margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: Color(0xffcccccc)),
+                            borderRadius: BorderRadius.circular(50)
+                          )
+                        ),
+                        onPressed: () {},
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                                child: const Icon(Remix.download_line, size: 16, color: Color(0xff333333),),
+                              ),
+                              const Text("엑셀 다운로드",
+                                style: TextStyle(
+                                  fontFamily: StringUtils.pretendard,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  letterSpacing: -0.14,
+                                  color: Color(0xff333333)
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              side: const BorderSide(color: Color(0xffcccccc)),
+                              borderRadius: BorderRadius.circular(50)
+                          )
+                      ),
+                      onPressed: () {},
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                              child: const Icon(Remix.user_add_line, size: 16, color: Color(0xff333333),),
+                            ),
+                            const Text("신규회원등록",
+                              style: TextStyle(
+                                  fontFamily: StringUtils.pretendard,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  letterSpacing: -0.14,
+                                  color: Color(0xff333333)
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+              child: Scrollbar(
+                thumbVisibility: true,
+                controller: scrollController,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    // todo 정렬
+                    headingTextStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.16,
+                        color: Color(0xff222222)
+                    ),
+                    dataTextStyle: const TextStyle(
+                        fontFamily: StringUtils.pretendard,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        letterSpacing: -0.16,
+                        color: Color(0xff757575)
+                    ),
+                    columns: const [
+                      DataColumn(label: Text("기능")),
+                      DataColumn(label: Text("번호")),
+                      DataColumn(label: Text("회원등급")),
+                      DataColumn(label: Text("이름")),
+                      DataColumn(label: Text("ID")),
+                      DataColumn(label: Text("연락처")),
+                      DataColumn(label: Text("그룹")),
+                      DataColumn(label: Text("이메일")),
+                      DataColumn(label: Text("가입일")),
+                      DataColumn(label: Text("최근 로그인 시간")),
+                      DataColumn(label: Text("추천인")),
+                      DataColumn(label: Text("근무처")),
+                    ],
+                    rows: [
+                      DataRow(cells: [
+                        DataCell(Row(
+                          children: [
+                            Container(
+                              width: 36,
+                              height: 36,
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xfff2f2f2),
+                                // border: Border.all(color: )
+                              ),
+                              child: IconButton(
+                                alignment: Alignment.center,
+                                splashRadius: 18,
+                                tooltip: "수정",
+                                onPressed: () {},
+                                icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
+                              ),
+                            ),
+                            Container(
+                              width: 36,
+                              height: 36,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xfff5a9a9),
+                                // border: Border.all(color: )
+                              ),
+                              child: IconButton(
+                                alignment: Alignment.center,
+                                splashRadius: 18,
+                                tooltip: "삭제",
+                                onPressed: () {},
+                                icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
+                              ),
+                            )
+                          ],
+                        )),
+                        const DataCell(Text("2")),
+                        const DataCell(Text("일반회원")),
+                        const DataCell(Text("홍길동")),
+                        const DataCell(Text("ABC1234")),
+                        const DataCell(Text("010-4423-2231")),
+                        const DataCell(Text("리벤처스")),
+                        const DataCell(Text("abc1234@gmail.com")),
+                        const DataCell(Text("2023-08-18")),
+                        const DataCell(Text("2023-08-18 09:30")),
+                        const DataCell(Text("-")),
+                        const DataCell(Text("-")),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Row(
+                          children: [
+                            Container(
+                              width: 36,
+                              height: 36,
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xfff2f2f2),
+                                // border: Border.all(color: )
+                              ),
+                              child: IconButton(
+                                alignment: Alignment.center,
+                                splashRadius: 18,
+                                tooltip: "수정",
+                                onPressed: () {},
+                                icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
+                              ),
+                            ),
+                            Container(
+                              width: 36,
+                              height: 36,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xfff5a9a9),
+                                // border: Border.all(color: )
+                              ),
+                              child: IconButton(
+                                alignment: Alignment.center,
+                                splashRadius: 18,
+                                tooltip: "삭제",
+                                onPressed: () {},
+                                icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
+                              ),
+                            )
+                          ],
+                        )),
+                        const DataCell(Text("1")),
+                        const DataCell(Text("일반회원")),
+                        const DataCell(Text("홍길동")),
+                        const DataCell(Text("ABC1234")),
+                        const DataCell(Text("010-4423-2231")),
+                        const DataCell(Text("리벤처스")),
+                        const DataCell(Text("abc1234@gmail.com")),
+                        const DataCell(Text("2023-08-18")),
+                        const DataCell(Text("2023-08-18 09:30")),
+                        const DataCell(Text("-")),
+                        const DataCell(Text("-")),
+                      ])
+                    ],
+                  ),
+                ),
+              )
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+              child: pagination(1),
             )
           ],
         ),

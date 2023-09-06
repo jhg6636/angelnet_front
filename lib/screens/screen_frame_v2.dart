@@ -277,6 +277,20 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
       backgroundColor: Colors.white,
       appBar: appBar(widget.isAdmin),
       body: RepaintBoundary(
+        // child: WidgetUtils().wrapAsDualScrollWidget(
+        //   Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Container(
+        //         padding: const EdgeInsets.fromLTRB(320, 67, 321, 24),
+        //         child: breadCrumbRow(widget.crumbs),
+        //       ),
+        //       widget.main,
+        //       const SizedBox(height: 100,),
+        //       WidgetUtils.fnb
+        //     ]
+        //   ),
+        // ),
         child: SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
