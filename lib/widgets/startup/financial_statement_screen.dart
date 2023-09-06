@@ -27,7 +27,7 @@ class FinancialStatementScreenState extends State<FinancialStatementScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(widget.title, style: WidgetUtils.h1),
+        Text(widget.title, style: WidgetUtils.h1Deprecated),
         FutureBuilder(
           future: financialStatements,
           builder: (BuildContext context, AsyncSnapshot<List<FinancialStatement>> snapshot) {

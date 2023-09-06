@@ -42,7 +42,7 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                   })
                 ],
               ),
-              const Text("기본 정보", style: WidgetUtils.h1),
+              const Text("기본 정보", style: WidgetUtils.h1Deprecated),
               widget.fund.toBasicTable(),
               FilledButton(
                 onPressed: () {
@@ -53,7 +53,7 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                 },
                 child: const Text("정보 수정하기")
               ),
-              const Text("조합 참여자", style: WidgetUtils.h1),
+              const Text("조합 참여자", style: WidgetUtils.h1Deprecated),
               FutureBuilder(
                 future: fetchLpInFund(widget.fund.id),
                 builder: (BuildContext context, AsyncSnapshot<List<LimitedPartner>> snapshot) {

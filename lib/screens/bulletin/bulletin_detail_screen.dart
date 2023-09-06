@@ -42,7 +42,7 @@ class BulletinDetailScreenState extends State<BulletinDetailScreen> {
                 })
               ],
             ),
-            const Text("게시글 목록", style: WidgetUtils.h1,),
+            const Text("게시글 목록", style: WidgetUtils.h1Deprecated,),
             if (widget.isAdmin) FilledButton(
               onPressed: () {
                 Get.to(const PostEditScreen(isEditing: false,));

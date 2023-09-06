@@ -35,7 +35,14 @@ class WidgetUtils {
   static const pretendard = TextStyle(
       fontFamily: "Pretendard", fontSize: 17.0, fontWeight: FontWeight.w400);
 
-  static const h1 = TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500);
+  static const h1Deprecated = TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500);
+  static const h1Style = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      fontFamily: StringUtils.pretendard,
+      letterSpacing: -0.2,
+      color: Color(0xff333333)
+  );
 
   static const smallPadding = EdgeInsets.all(32.0);
 

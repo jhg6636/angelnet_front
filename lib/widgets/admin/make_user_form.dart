@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/user/sign_up_welcome_screen.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/user/sign_up_process_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,14 +47,6 @@ class MakeUserFormState extends State<MakeUserForm> {
   final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
   var _userLevel = 'LP';
   bool notDuplicated = false;
-
-  static const h1Style = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    fontFamily: StringUtils.pretendard,
-    letterSpacing: -0.2,
-    color: Color(0xff333333)
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +108,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("기본정보", style: h1Style),
+                  Text("기본정보", style: WidgetUtils.h1Style),
                   Text("* 표시 항목은 필수 입력사항입니다.",
                     style: TextStyle(
                       fontSize: 15,
@@ -808,7 +801,7 @@ class MakeUserFormState extends State<MakeUserForm> {
             const Divider(color: Color(0xffdddddd),),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child: const Text("추가정보 입력", style: h1Style),
+              child: const Text("추가정보 입력", style: WidgetUtils.h1Style),
             ),
             const Divider(thickness: 2, color: Color(0xff555555),),
             Row(
@@ -915,7 +908,7 @@ class MakeUserFormState extends State<MakeUserForm> {
             const Divider(color: Color(0xffdddddd),),
             if (widget.isAdmin) Container(
               margin: const EdgeInsets.fromLTRB(0, 41, 0, 8),
-              child: const Text("회원 등급", style: h1Style,),
+              child: const Text("회원 등급", style: WidgetUtils.h1Style,),
             ),
             if (widget.isAdmin) const Divider(thickness: 2, color: Color(0xff555555),),
             if (widget.isAdmin) Container(

@@ -31,7 +31,7 @@ class BusinessCardAndSignatureWidget extends StatelessWidget {
           children: [
             const Text(
               "명함/서명 업로드",
-              style: WidgetUtils.h1,
+              style: WidgetUtils.h1Deprecated,
             ),
             ExpansionTile(
               title: const Text("명함"),

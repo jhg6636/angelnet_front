@@ -66,7 +66,7 @@ class GroupEditMemberWidgetState extends State<GroupEditMemberWidget> {
               ),
             ],
           ),
-          const Text("추가할 멤버", style: WidgetUtils.h1),
+          const Text("추가할 멤버", style: WidgetUtils.h1Deprecated),
           DataTable(
             columns: const [
               DataColumn(label: Text("이름")),
@@ -91,7 +91,7 @@ class GroupEditMemberWidgetState extends State<GroupEditMemberWidget> {
               ]
             )).toList()
           ),
-          const Text("멤버 선택", style: WidgetUtils.h1),
+          const Text("멤버 선택", style: WidgetUtils.h1Deprecated),
           FutureBuilder(
             future: users,
             builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {

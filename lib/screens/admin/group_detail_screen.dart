@@ -76,7 +76,7 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
               ),
               Wrap(
                 children: [
-                  const Text("멤버 보기", style: WidgetUtils.h1,),
+                  const Text("멤버 보기", style: WidgetUtils.h1Deprecated,),
                   ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(context: context, builder: (context) {
