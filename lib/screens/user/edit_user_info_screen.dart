@@ -16,7 +16,7 @@ class EditUserInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenFrameV2(
-        main: MakeUserForm(isPopup: false, isEditing: true, user: user!!,),
+        main: MakeUserForm(isAdmin: false, isEditing: true, user: user!!,),
         // main: FutureBuilder(
         //   future: getMyInfo(),
         //   builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {

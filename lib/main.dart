@@ -8,7 +8,9 @@ import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
 import 'package:angelnet/screens/notification/lp_notification_screen.dart';
+import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/screens/user/edit_user_info_screen.dart';
+import 'package:angelnet/widgets/admin/make_user_form.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -39,7 +41,11 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-        body: ManageUserScreen(),
+        body: ScreenFrameV2(
+          main: MakeUserForm(isAdmin: true, isEditing: false, user: null,),
+          isAdmin: true,
+          crumbs: ["회원관리", "회원정보수정"],
+        ),
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',

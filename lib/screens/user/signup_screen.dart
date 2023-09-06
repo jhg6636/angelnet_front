@@ -31,7 +31,7 @@ class SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
       body: const SingleChildScrollView(
-        child: MakeUserForm(isPopup: false, isEditing: false, user: null,)
+        child: MakeUserForm(isAdmin: false, isEditing: false, user: null,)
       )
     );
   }

@@ -17,11 +17,12 @@ import '../../utils/StringUtils.dart';
 
 class MakeUserForm extends StatefulWidget {
 
-  final bool isPopup;
+  // todo Admin일 경우 ScreenFrameV2로 둘러싸야 함
+  final bool isAdmin;
   final bool isEditing;
   final User? user;
 
-  const MakeUserForm({super.key, required this.isPopup, required this.isEditing, required this.user});
+  const MakeUserForm({super.key, required this.isAdmin, required this.isEditing, required this.user});
 
   @override
   State<StatefulWidget> createState() => MakeUserFormState();
@@ -41,13 +42,18 @@ class MakeUserFormState extends State<MakeUserForm> {
   var _emailBackController = TextEditingController();
   var _recommenderController = TextEditingController();
   var _workspaceController = TextEditingController();
-  var _zipCodeController = TextEditingController();
-  var _addressMainController = TextEditingController();
-  var _addressDetailController = TextEditingController();
 
   final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
-  String _userLevel = 'LP';
+  var _userLevel = 'LP';
   bool notDuplicated = false;
+
+  static const h1Style = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    fontFamily: StringUtils.pretendard,
+    letterSpacing: -0.2,
+    color: Color(0xff333333)
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +64,9 @@ class MakeUserFormState extends State<MakeUserForm> {
     _emailBackController = TextEditingController(text: widget.user?.email.split("@")[1]);
     _recommenderController = TextEditingController(text: widget.user?.recommender);
     _workspaceController = TextEditingController(text: widget.user?.workplace);
+
     return Container(
-        margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
+        margin: widget.isAdmin? EdgeInsets.zero : const EdgeInsets.fromLTRB(0, 100, 0, 0),
         padding: const EdgeInsets.symmetric(horizontal: 320),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -74,8 +81,8 @@ class MakeUserFormState extends State<MakeUserForm> {
                   color: Color(0xff111111)
                 ),
               ) :
-              const Text("회원가입",
-                style: TextStyle(
+              Text(widget.isAdmin? "회원등록" : "회원가입",
+                style: const TextStyle(
                   fontSize: 50,
                   fontWeight: FontWeight.bold,
                   fontFamily: "Pretendard",
@@ -101,22 +108,14 @@ class MakeUserFormState extends State<MakeUserForm> {
             //     )
             //   ],
             // ),
-            if (!widget.isEditing) signUpProcessWidget(2),
+            if (!widget.isEditing && !widget.isAdmin) signUpProcessWidget(2),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("기본정보",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: "Pretendard",
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xff333333),
-                      letterSpacing: -0.2
-                    ),
-                  ),
+                  Text("기본정보", style: h1Style),
                   Text("* 표시 항목은 필수 입력사항입니다.",
                     style: TextStyle(
                       fontSize: 15,
@@ -809,15 +808,7 @@ class MakeUserFormState extends State<MakeUserForm> {
             const Divider(color: Color(0xffdddddd),),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child: const Text("추가정보 입력",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Pretendard",
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff333333),
-                    letterSpacing: -0.2
-                ),
-              ),
+              child: const Text("추가정보 입력", style: h1Style),
             ),
             const Divider(thickness: 2, color: Color(0xff555555),),
             Row(
@@ -922,6 +913,68 @@ class MakeUserFormState extends State<MakeUserForm> {
               ],
             ),
             const Divider(color: Color(0xffdddddd),),
+            if (widget.isAdmin) Container(
+              margin: const EdgeInsets.fromLTRB(0, 41, 0, 8),
+              child: const Text("회원 등급", style: h1Style,),
+            ),
+            if (widget.isAdmin) const Divider(thickness: 2, color: Color(0xff555555),),
+            if (widget.isAdmin) Container(
+              margin: const EdgeInsets.fromLTRB(0, 9, 0, 11),
+              padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Radio(
+                    activeColor: const Color(0xff505050),
+                    splashRadius: 1,
+                    value: 'LP',
+                    groupValue: _userLevel,
+                    onChanged: (value) {
+                      setState(() {
+                        _userLevel = 'LP';
+                      });
+                    },
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(6, 0, 20, 0),
+                    child: const Text("일반회원",
+                      style: TextStyle(
+                          color: Color(0xff555555),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Pretendard",
+                          fontSize: 17,
+                          letterSpacing: -0.17
+                      ),
+                    ),
+                  ),
+                  Radio(
+                    activeColor: const Color(0xff505050),
+                    splashRadius: 1,
+                    value: 'ADMIN',
+                    groupValue: _userLevel,
+                    onChanged: (value) {
+                      setState(() {
+                        _userLevel = 'ADMIN';
+                      });
+                    },
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                    child: const Text("관리자",
+                      style: TextStyle(
+                          color: Color(0xff555555),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Pretendard",
+                          fontSize: 17,
+                          letterSpacing: -0.17
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            if (widget.isAdmin) const Divider(color: Color(0xffdddddd),),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
               child: ButtonBar(
@@ -1002,25 +1055,16 @@ class MakeUserFormState extends State<MakeUserForm> {
                       //   });
                       // }
                     },
-                    child: widget.isEditing ?
-                      const Text("저장하기",
-                          style: TextStyle(
-                              fontFamily: "Pretendard",
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17,
-                              color: Color(0xffffffff),
-                              letterSpacing: -0.34
-                          )
-                      ) :
-                      const Text("다음단계",
-                          style: TextStyle(
-                              fontFamily: "Pretendard",
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17,
-                              color: Color(0xffffffff),
-                              letterSpacing: -0.34
-                          )
-                      ),
+                    child: Text(
+                        widget.isEditing? "저장하기" : widget.isAdmin? "등록" : "다음단계",
+                        style: const TextStyle(
+                            fontFamily: "Pretendard",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            color: Color(0xffffffff),
+                            letterSpacing: -0.34
+                        )
+                    )
                   ),
                 ],
               )
