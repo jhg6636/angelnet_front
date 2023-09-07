@@ -1,6 +1,7 @@
 
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
+import 'package:angelnet/screens/admin/user_detail_screen.dart';
 import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
 import 'package:angelnet/screens/bulletin/post_view_screen.dart';
 import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
@@ -41,11 +42,7 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-        body: ScreenFrameV2(
-          main: MakeUserForm(isAdmin: true, isEditing: false, user: null,),
-          isAdmin: true,
-          crumbs: ["회원관리", "회원정보수정"],
-        ),
+        body: UserDetailScreen()
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',

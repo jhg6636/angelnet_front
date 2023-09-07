@@ -43,6 +43,13 @@ class WidgetUtils {
       letterSpacing: -0.2,
       color: Color(0xff333333)
   );
+  static const dataTableHeadStyle = TextStyle(
+    fontFamily: StringUtils.pretendard,
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    letterSpacing: -0.16,
+    color: Color(0xff222222),
+  );
 
   static const smallPadding = EdgeInsets.all(32.0);
 
