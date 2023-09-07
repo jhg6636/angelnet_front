@@ -9,6 +9,7 @@ import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
 import 'package:angelnet/screens/notification/notification_screen.dart';
+import 'package:angelnet/screens/notification/send_notification_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/screens/user/edit_user_info_screen.dart';
 import 'package:angelnet/widgets/admin/make_user_form.dart';
@@ -42,7 +43,7 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-        body: NotificationScreen(isAdmin: true)
+        body: SendNotificationScreen()
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',

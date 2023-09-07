@@ -275,7 +275,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                 ],
                               ),
                               Container(
-                                margin: const EdgeInsets.fromLTRB(16, 12, 0, 60),
+                                margin: const EdgeInsets.fromLTRB(16, 12, 0, 0),
                                 child: const Text("'김철수' 조합원님이 서류를 제출하셨습니다.",
                                   style: TextStyle(
                                     fontFamily: StringUtils.pretendard,
