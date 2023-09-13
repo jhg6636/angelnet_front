@@ -8,6 +8,7 @@ import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
+import 'package:angelnet/screens/notification/notification_receiver_select_screen.dart';
 import 'package:angelnet/screens/notification/notification_screen.dart';
 import 'package:angelnet/screens/notification/send_notification_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
@@ -43,7 +44,7 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-        body: SendNotificationScreen()
+        body: NotificationReceiverSelectScreen()
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',

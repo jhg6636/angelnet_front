@@ -1,5 +1,6 @@
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -14,6 +15,8 @@ class SendNotificationScreen extends StatefulWidget {
 }
 
 class SendNotificationScreenState extends State<SendNotificationScreen> {
+  final bodyController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return ScreenFrameV2(
@@ -89,8 +92,8 @@ class SendNotificationScreenState extends State<SendNotificationScreen> {
                     ],
                   )),
               Container(
-                padding: const EdgeInsets.fromLTRB(33, 0, 0, 0),
                 margin: const EdgeInsets.fromLTRB(0, 35, 0, 20),
+                padding: const EdgeInsets.fromLTRB(33, 0, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -270,7 +273,64 @@ class SendNotificationScreenState extends State<SendNotificationScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
+              const DottedLine(dashLength: 3, dashGapLength: 3, dashColor: Color(0xffdddddd),),
+              Container(
+                padding: const EdgeInsets.fromLTRB(98, 0, 0, 0),
+                // margin: const EdgeInsets.fromLTRB(0, 35, 0, 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: const Text("내용",
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                          letterSpacing: -0.38,
+                          color: Color(0xff002997),
+                        ),
+                      ),
+                    ),
+                    Container(
+                        width: 929,
+                        height: 350,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xffdddddd)),
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        margin: const EdgeInsets.fromLTRB(92, 20, 0, 50),
+                        padding: const EdgeInsets.fromLTRB(30, 20, 48, 20),
+                        child: SingleChildScrollView(
+                          child: TextField(
+                            controller: bodyController,
+                            maxLines: null,
+                            style: const TextStyle(
+                              fontFamily: StringUtils.pretendard,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              letterSpacing: -0.16,
+                              color: Color(0xff555555)
+                            ),
+                            decoration: const InputDecoration(
+                              hintText: "내용을 입력하세요",
+                              hintStyle: TextStyle(
+                                fontSize: 16,
+                                letterSpacing: -0.16,
+                                color: Color(0x80555555),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: StringUtils.pretendard
+                              ),
+                              border: InputBorder.none
+                            ),
+                          )
+                        )
+                    )
+                  ],
+                ),
+              ),
+              WidgetUtils().buttonBar("취소", "보내기", () {}, () {})
             ],
           ),
         ),

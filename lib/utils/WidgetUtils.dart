@@ -253,4 +253,53 @@ class WidgetUtils {
         .width < mobileWidth;
   }
 
+  Widget buttonBar(String button1, String button2, Function() action1, Function() action2) {
+    return ButtonBar(
+      alignment: MainAxisAlignment.center,
+      children: [
+        OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            side: const BorderSide(color: Color(0xff222222), width: 2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5)
+            ),
+            fixedSize: const Size(120, 50),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.white
+          ),
+          onPressed: action1,
+          child: Text(button1,
+            style: const TextStyle(
+              fontFamily: StringUtils.pretendard,
+              fontWeight: FontWeight.w500,
+              fontSize: 17,
+              letterSpacing: -0.34,
+              color: Color(0xff222222)
+            ),
+          )
+        ),
+        FilledButton(
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            fixedSize: const Size(120, 50),
+            backgroundColor: const Color(0xff222222),
+            foregroundColor: const Color(0xff222222),
+          ),
+          onPressed: action2,
+          child: Text(button2,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              fontFamily: StringUtils.pretendard,
+              letterSpacing: -0.34,
+              color: Colors.white
+            ),
+          )
+        )
+      ],
+    );
+  }
+
 }
