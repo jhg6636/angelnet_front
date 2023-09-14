@@ -112,7 +112,8 @@ class Fund {
           DataCell(Text(id.toString())),
           DataCell(TextButton(
             onPressed: () {
-              Get.to(FundDetailAdminScreen(fund: this));
+              Get.to(FundDetailAdminScreen());
+              // Get.to(FundDetailAdminScreen(fund: this));
             },
             child: Text(name),
           )),

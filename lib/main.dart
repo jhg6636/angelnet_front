@@ -1,5 +1,7 @@
 
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/admin/fund_detail_admin_screen.dart';
+import 'package:angelnet/screens/admin/manage_fund_screen.dart';
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
 import 'package:angelnet/screens/admin/user_detail_screen.dart';
 import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
@@ -44,7 +46,7 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-        body: NotificationReceiverSelectScreen()
+        body: FundDetailAdminScreen()
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 Widget pagination(int page) {
   // todo 눌렀을 때 바뀔 수 있게
+  // todo pagination 대신 무한스크롤 적용
   const selectedDecoration = BoxDecoration(
     color: Color(0xff333333),
     shape: BoxShape.circle,
