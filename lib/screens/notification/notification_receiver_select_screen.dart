@@ -2,6 +2,7 @@ import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:remixicon/remixicon.dart';
 
 import '../../utils/StringUtils.dart';
 
@@ -21,6 +22,17 @@ class NotificationReceiverSelectScreenState extends State<NotificationReceiverSe
   var fundNames = ["조합명", "조합명2", "조합명3"];
   final nameController = TextEditingController();
   var selectedUsers = [];
+  var allSelected = false;
+  static const userTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    fontFamily: StringUtils.pretendard,
+    letterSpacing: -0.16,
+    color: Color(0xff333333)
+  );
+  var allUsers = ["김철수(kimcs3937)", "홍길동(honggildong1994)", "한이랑(han2938)",
+    "김철수(kimcs3938)", "홍길동(honggildong1995)", "한이랑(han2937)",
+    "김철수(kimcs3939)", "홍길동(honggildong1996)", "한이랑(han2936)"];
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +164,7 @@ class NotificationReceiverSelectScreenState extends State<NotificationReceiverSe
                         children: [
                           Flexible(
                               child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
                                 height: 354,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -161,15 +174,83 @@ class NotificationReceiverSelectScreenState extends State<NotificationReceiverSe
                                     ),
                                     border: Border.all(color: const Color(0xffdddddd))
                                 ),
-                                child: Column(
-                                  children: [
-                                    Row()
-                                  ],
-                                ),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Checkbox(
+                                            activeColor: const Color(0xff0361f9),
+                                            checkColor: Colors.white,
+                                            value: allSelected,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                allSelected = value ?? false;
+                                                if (value == true) {
+                                                  selectedUsers.addAll(allUsers);
+                                                } else {
+                                                  selectedUsers.clear();
+                                                }
+                                              });
+                                            },
+                                            side: const BorderSide(color: Color(0xffdddddd)),
+                                            splashRadius: 10,
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(3, 0, 0, 0),
+                                            child: const Text("전체",
+                                              style: TextStyle(
+                                                  fontFamily: StringUtils.pretendard,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 19,
+                                                  letterSpacing: -0.38,
+                                                  color: Color(0xff333333)
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.fromLTRB(0, 11.5, 0, 15.5),
+                                          child: const Divider(color: Color(0xffdddddd),)
+                                      ),
+                                    ] + allUsers.map<Row>((user) => Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Checkbox(
+                                            activeColor: const Color(0xff0361f9),
+                                            checkColor: Colors.white,
+                                            side: const BorderSide(color: Color(0xffdddddd)),
+                                            splashRadius: 10,
+                                            value: selectedUsers.contains(user),
+                                            onChanged: (value) {
+                                              if (value == true) {
+                                                setState(() {
+                                                  selectedUsers.add(user);
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  selectedUsers.remove(user);
+                                                });
+                                              }
+                                            }
+                                        ),
+                                        Container(
+                                            margin: const EdgeInsets.fromLTRB(3, 0, 0, 0),
+                                            child: Text(user, style: userTextStyle)
+                                        )
+                                      ],
+                                    )).toList(),
+                                  ),
+                                )
                               )
                           ),
                           Flexible(
                               child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 33, horizontal: 40),
                                 height: 354,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -179,11 +260,72 @@ class NotificationReceiverSelectScreenState extends State<NotificationReceiverSe
                                   ),
                                   border: Border.all(color: const Color(0xff1173f9), width: 2),
                                 ),
-                                child: Column(
-                                  children: [
-
-                                  ],
-                                ),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Text("받는이 ",
+                                            style: TextStyle(
+                                                fontFamily: StringUtils.pretendard,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 19,
+                                                letterSpacing: -0.38,
+                                                color: Color(0xff333333)
+                                            ),
+                                          ),
+                                          Text(selectedUsers.length.toString(),
+                                            style: const TextStyle(
+                                                fontFamily: StringUtils.pretendard,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 19,
+                                                letterSpacing: -0.38,
+                                                color: Color(0xff0361f9)
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.fromLTRB(0, 17, 0, 10),
+                                          child: const Divider(color: Color(0xffdddddd),)
+                                      ),
+                                    ] + selectedUsers.map<Container>((user) =>
+                                        Container(
+                                            margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                            child: Row(
+                                              children: [
+                                                Text(user, style: userTextStyle,),
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                                                  child: InkWell(
+                                                    splashColor: Colors.transparent,
+                                                    hoverColor: Colors.transparent,
+                                                    focusColor: Colors.transparent,
+                                                    highlightColor: Colors.transparent,
+                                                    onTap: () {
+                                                      setState(() {
+                                                        selectedUsers.remove(user);
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets.all(3),
+                                                      decoration: const BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: Color(0xfff2f2f2)
+                                                      ),
+                                                      child: const Icon(Remix.close_line,
+                                                        size: 14,
+                                                        color: Color(0xff696969),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                        ),
+                                    ).toList(),
+                                  ),
+                                )
                               )
                           )
                         ],
