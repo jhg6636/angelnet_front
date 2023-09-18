@@ -118,8 +118,8 @@ class AdminLpDetailScreenState extends State<AdminLpDetailScreen> {
                   ),
                   FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: Color(0xff0d65de),
-                      foregroundColor: Color(0xff0d65de),
+                      backgroundColor: const Color(0xff0d65de),
+                      foregroundColor: const Color(0xff0d65de),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                       padding: const EdgeInsets.fromLTRB(23, 20, 15, 20)
                     ),
@@ -381,11 +381,425 @@ class AdminLpDetailScreenState extends State<AdminLpDetailScreen> {
             ),
             const Divider(color: Color(0xffdddddd),),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 55, 0, 0),
+              margin: const EdgeInsets.fromLTRB(0, 55, 0, 8),
               child: const Text("결성 시 제출서류", style: WidgetUtils.h1Style,),
             ),
             // todo ZIP download button
-            const Divider(thickness: 2, color: Color(0xff555555),)
+            const Divider(thickness: 2, color: Color(0xff555555),),
+            Container(
+              margin: const EdgeInsets.fromLTRB(19, 0, 23, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text("1. 사업자등록증", style: headingStyle,),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(54, 0, 8, 0),
+                        width: 24,
+                        height: 20,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('lib/assets/images/pdf.png'),
+                                fit: BoxFit.fill
+                            )
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                        child: const Text("홈페이지 이용과 관련하여 필수적인 공지사항.pdf",
+                          style: TextStyle(
+                            fontFamily: StringUtils.pretendard,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                      ),
+                      const Text("(123.4KB)",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.14,
+                            color: Color(0xff999999)
+                        ),
+                      ),
+                    ],
+                  ),
+                  ButtonBar(
+                    children: [
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          fixedSize: const Size(120, 32),
+                          shape: const RoundedRectangleBorder(
+                            side: BorderSide(color: Color(0xffcccccc)),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14)
+                        ),
+                        onPressed: () {},
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("다운로드",
+                              style: TextStyle(
+                                fontFamily: StringUtils.pretendard,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                letterSpacing: -0.14,
+                                color: Color(0xff333333)
+                              ),
+                            ),
+                            Icon(Remix.download_line, color: Color(0xff333333), size: 15,)
+                          ],
+                        )
+                      ),
+                      OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(120, 32),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffcccccc)),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14)
+                          ),
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("바로보기",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    letterSpacing: -0.14,
+                                    color: Color(0xff333333)
+                                ),
+                              ),
+                              Icon(Remix.search_line, color: Color(0xff333333), size: 15,)
+                            ],
+                          )
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            const Divider(color: Color(0xffdddddd),),
+            Container(
+              margin: const EdgeInsets.fromLTRB(19, 0, 23, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text("2. 사업자등록증", style: headingStyle,),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(54, 0, 8, 0),
+                        width: 24,
+                        height: 20,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('lib/assets/images/pdf.png'),
+                                fit: BoxFit.fill
+                            )
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                        child: const Text("홈페이지 이용과 관련하여 필수적인 공지사항.pdf",
+                          style: TextStyle(
+                            fontFamily: StringUtils.pretendard,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                      ),
+                      const Text("(123.4KB)",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.14,
+                            color: Color(0xff999999)
+                        ),
+                      ),
+                    ],
+                  ),
+                  ButtonBar(
+                    children: [
+                      OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(120, 32),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffcccccc)),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14)
+                          ),
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("다운로드",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    letterSpacing: -0.14,
+                                    color: Color(0xff333333)
+                                ),
+                              ),
+                              Icon(Remix.download_line, color: Color(0xff333333), size: 15,)
+                            ],
+                          )
+                      ),
+                      OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(120, 32),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffcccccc)),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14)
+                          ),
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("바로보기",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    letterSpacing: -0.14,
+                                    color: Color(0xff333333)
+                                ),
+                              ),
+                              Icon(Remix.search_line, color: Color(0xff333333), size: 15,)
+                            ],
+                          )
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            const Divider(color: Color(0xffdddddd),),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 55, 0, 8),
+              child: const Text("운용 중 제출서류", style: WidgetUtils.h1Style,),
+            ),
+            // todo ZIP download button
+            const Divider(thickness: 2, color: Color(0xff555555),),
+            Container(
+              margin: const EdgeInsets.fromLTRB(19, 0, 23, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text("1. 사업자등록증", style: headingStyle,),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(54, 0, 8, 0),
+                        width: 24,
+                        height: 20,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('lib/assets/images/pdf.png'),
+                                fit: BoxFit.fill
+                            )
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                        child: const Text("홈페이지 이용과 관련하여 필수적인 공지사항.pdf",
+                          style: TextStyle(
+                            fontFamily: StringUtils.pretendard,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                      ),
+                      const Text("(123.4KB)",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.14,
+                            color: Color(0xff999999)
+                        ),
+                      ),
+                    ],
+                  ),
+                  ButtonBar(
+                    children: [
+                      OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(120, 32),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffcccccc)),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14)
+                          ),
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("다운로드",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    letterSpacing: -0.14,
+                                    color: Color(0xff333333)
+                                ),
+                              ),
+                              Icon(Remix.download_line, color: Color(0xff333333), size: 15,)
+                            ],
+                          )
+                      ),
+                      OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(120, 32),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffcccccc)),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14)
+                          ),
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("바로보기",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    letterSpacing: -0.14,
+                                    color: Color(0xff333333)
+                                ),
+                              ),
+                              Icon(Remix.search_line, color: Color(0xff333333), size: 15,)
+                            ],
+                          )
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            const Divider(color: Color(0xffdddddd),),
+            Container(
+              margin: const EdgeInsets.fromLTRB(19, 0, 23, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text("2. 사업자등록증", style: headingStyle,),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(54, 0, 8, 0),
+                        width: 24,
+                        height: 20,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('lib/assets/images/pdf.png'),
+                                fit: BoxFit.fill
+                            )
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                        child: const Text("홈페이지 이용과 관련하여 필수적인 공지사항.pdf",
+                          style: TextStyle(
+                            fontFamily: StringUtils.pretendard,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            letterSpacing: -0.16,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                      ),
+                      const Text("(123.4KB)",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.14,
+                            color: Color(0xff999999)
+                        ),
+                      ),
+                    ],
+                  ),
+                  ButtonBar(
+                    children: [
+                      OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(120, 32),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffcccccc)),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14)
+                          ),
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("다운로드",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    letterSpacing: -0.14,
+                                    color: Color(0xff333333)
+                                ),
+                              ),
+                              Icon(Remix.download_line, color: Color(0xff333333), size: 15,)
+                            ],
+                          )
+                      ),
+                      OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(120, 32),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffcccccc)),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14)
+                          ),
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("바로보기",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    letterSpacing: -0.14,
+                                    color: Color(0xff333333)
+                                ),
+                              ),
+                              Icon(Remix.search_line, color: Color(0xff333333), size: 15,)
+                            ],
+                          )
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            const Divider(color: Color(0xffdddddd),),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 41, 0, 0),
+              child: WidgetUtils().buttonBar("목록", "저장", () => null, () => null),
+            )
           ],
         ),
       ),
