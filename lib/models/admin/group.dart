@@ -34,7 +34,8 @@ class Group {
       DataCell(
           TextButton(
             onPressed: () {
-              Get.to(GroupDetailScreen(group: this));
+              Get.to(GroupDetailScreen());
+              // Get.to(GroupDetailScreen(group: this));
             },
             child: Text(name),
           )

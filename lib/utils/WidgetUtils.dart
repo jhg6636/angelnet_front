@@ -58,6 +58,12 @@ class WidgetUtils {
     color: Color(0xff757575)
   );
 
+  static const tableBorder = TableBorder(
+    top: BorderSide(color: Color(0xff555555), width: 2),
+    horizontalInside: BorderSide(color: Color(0xffdddddd)),
+    bottom: BorderSide(color: Color(0xffdddddd)),
+  );
+
   static const smallPadding = EdgeInsets.all(32.0);
 
   static const drawerWidth = 300.0;
@@ -260,9 +266,9 @@ class WidgetUtils {
         .width < mobileWidth;
   }
 
-  Widget buttonBar(String button1, String button2, Function() action1, Function() action2) {
+  Widget buttonBar(String button1, String button2, Function() action1, Function() action2, {MainAxisAlignment align = MainAxisAlignment.center}) {
     return ButtonBar(
-      alignment: MainAxisAlignment.center,
+      alignment: align,
       children: [
         OutlinedButton(
           style: OutlinedButton.styleFrom(
