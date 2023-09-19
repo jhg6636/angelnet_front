@@ -9,6 +9,7 @@ import 'package:angelnet/screens/admin/manage_group_screen.dart';
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
 import 'package:angelnet/screens/admin/user_detail_screen.dart';
 import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
+import 'package:angelnet/screens/bulletin/post_edit_screen.dart';
 import 'package:angelnet/screens/bulletin/post_view_screen.dart';
 import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
@@ -50,7 +51,7 @@ class AngelnetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-        body: GroupDetailScreen()
+        body: PostEditScreen()
       ),
       theme: ThemeData(
         fontFamily: 'Pretendard',

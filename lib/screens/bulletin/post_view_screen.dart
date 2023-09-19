@@ -447,7 +447,7 @@ class PostViewScreenState extends State<PostViewScreen> {
                     child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                                side: const BorderSide(width: 2, color: const Color(0xff222222)),
+                                side: const BorderSide(width: 2, color: Color(0xff222222)),
                                 borderRadius: BorderRadius.circular(5)
                             ),
                             fixedSize: const Size(120, 50)

@@ -51,7 +51,8 @@ class Post {
                   const BackButton(),
                   if (isAdmin) ElevatedButton(
                     onPressed: () {
-                      Get.to(PostEditScreen(post: this, isEditing: true));
+                      Get.to(PostEditScreen());
+                      // Get.to(PostEditScreen(post: this, isEditing: true));
                     },
                     child: const Text("수정하기"),
                   )
