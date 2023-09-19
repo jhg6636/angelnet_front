@@ -1,5 +1,6 @@
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/custom_border_clipper.dart';
+import 'package:angelnet/widgets/admin/group_fund_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -131,7 +132,7 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
                                       bottom: BorderSide(
                                           color: Color(0xff1173f9), width: 2))),
                               child: const Center(
-                                child: Text("기본정보",
+                                child: Text("노출 조합 관리",
                                     style: TextStyle(
                                         fontFamily: StringUtils.pretendard,
                                         fontSize: 17,
@@ -146,6 +147,11 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
                   margin: const EdgeInsets.fromLTRB(0, 21, 0, 0),
                   child: const GroupMemberWidget(),
                 ),
+              if (selectedMenu == '노출 조합 관리')
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 21, 0, 0),
+                  child: const GroupFundWidget(),
+                )
             ],
           ),
         ),

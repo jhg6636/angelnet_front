@@ -1,4 +1,5 @@
 import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -16,6 +17,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
   final searchOptions = ['전체', 'ID', '성명', '연락처'];
   var selectedSearchOption = '전체';
   final searchTextController = TextEditingController();
+  var selectedMap = {};
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
               Container(
                   color: Colors.white,
                   margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  width: 120,
                   height: 42,
                   child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
@@ -220,7 +223,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
           ],
         ),
         Container(
-          margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+          margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
             width: 1280,
             child: DataTable(
               showCheckboxColumn: isAdding,
@@ -242,9 +245,10 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
               rows: [
                 for (int i = 0; i < 10; i++)
                   DataRow(
+                    selected: selectedMap[i] ?? false,
                     onSelectChanged: (value) {
                       setState(() {
-
+                        selectedMap[i] = value ?? false;
                       });
                     },
                     cells: [
@@ -279,6 +283,20 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                 ])
             ]
           )
+        ),
+        pagination(1),
+        if (isAdding) Container(
+          margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+          child: WidgetUtils().buttonBar(
+            "취소",
+            "저장",
+            () {
+              setState(() {
+                isAdding = false;
+              });
+            },
+            () => null
+          ),
         )
       ],
     );
