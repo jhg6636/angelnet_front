@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:angelnet/screens/user/signup_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:angelnet/widgets/user/sign_up_process_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -275,12 +276,26 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                               });
                             }
                         ),
-                        const Text("약관 및 개인정보 수집·이용에 전체 동의합니다.",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: "Pretendard",
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: -0.18
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              allChecked = !allChecked;
+                              if (allChecked == true) {
+                                id1 = 2;
+                                id2 = 2;
+                              } else {
+                                id1 = 1;
+                                id2 = 1;
+                              }
+                            });
+                          },
+                          child: const Text("약관 및 개인정보 수집·이용에 전체 동의합니다.",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Pretendard",
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: -0.18
+                            ),
                           ),
                         )
                       ],
@@ -328,16 +343,13 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                                 showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return AlertDialog(
-                                          title: const Text("약관에 동의해 주세요."),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text("확인"))
-                                          ]);
-                                    });
+                                      return CustomAlertWidget().informationWidget(
+                                          context,
+                                          "이용약관/개인정보 취급방침 동의는 필수입니다.",
+                                          "이용약관 동의 체크 후 다음 단계를 진행해 주세요."
+                                      );
+                                    }
+                                );
                               }
                             },
                             child: const Text("다음단계",

@@ -1,6 +1,8 @@
+import 'package:angelnet/utils/ColorUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remixicon/remixicon.dart';
 
 import 'StringUtils.dart';
 
@@ -311,6 +313,58 @@ class WidgetUtils {
             ),
           )
         )
+      ],
+    );
+  }
+
+  static Widget errorMessage(String msg) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: 16,
+          height: 15.98,
+          margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+          // decoration: const BoxDecoration(
+          //   shape: BoxShape.circle,
+          //   color: Color(0xffffe834)
+          // ),
+          alignment: Alignment.center,
+          child: const Icon(Remix.error_warning_fill, color: ColorUtils.negativeColor, size: 16,),
+        ),
+        Text(msg, style: const TextStyle(
+          fontFamily: StringUtils.pretendard,
+          fontWeight: FontWeight.w400,
+          fontSize: 15,
+          letterSpacing: -0.15,
+          color: ColorUtils.negativeColor,
+        ),)
+      ],
+    );
+  }
+
+  static Widget okMessage(String msg) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: 16,
+          height: 15.98,
+          margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+          // decoration: const BoxDecoration(
+          //     shape: BoxShape.circle,
+          //     color: Color(0xff01dfa5)
+          // ),
+          alignment: Alignment.center,
+          child: const Icon(Remix.checkbox_circle_fill, color: ColorUtils.positiveColor, size: 16,),
+        ),
+        Text(msg, style: const TextStyle(
+          fontFamily: StringUtils.pretendard,
+          fontWeight: FontWeight.w400,
+          fontSize: 15,
+          letterSpacing: -0.15,
+          color: ColorUtils.positiveColor,
+        ),)
       ],
     );
   }

@@ -188,6 +188,10 @@ class HomeScreenState extends State<HomeScreen> {
               )
           )
         ),
+        // Container(
+        //   margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+        //   child: WidgetUtils.errorMessage("테스트용"),
+        // ),
         Container(
           margin: const EdgeInsets.fromLTRB(0, 46, 0, 0),
           child: Column(
@@ -284,7 +288,7 @@ class HomeScreenState extends State<HomeScreen> {
                 filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
                 child: Container(
                   width: 530,
-                  height: 680,
+                  height: 681,
                   decoration: const BoxDecoration(
                       color: Color(0x2fffffff),
                       borderRadius: BorderRadius.all(Radius.circular(10.0))

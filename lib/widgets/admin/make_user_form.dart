@@ -15,6 +15,7 @@ import 'package:http/http.dart' as http;
 import '../../screens/user/home_screen.dart';
 import '../../screens/user/reset_pw_screen.dart';
 import '../../utils/StringUtils.dart';
+import '../core/custom_alert_widget.dart';
 
 class MakeUserForm extends StatefulWidget {
 
@@ -34,29 +35,31 @@ class MakeUserFormState extends State<MakeUserForm> {
 
   // TODO: 주소, 근무처, 명함첨부
 
-  var _nameController = TextEditingController();
-  var _stringIdController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _passwordCheckController = TextEditingController();
-  var _phoneController = TextEditingController();
-  var _emailFrontController = TextEditingController();
-  var _emailBackController = TextEditingController();
-  var _recommenderController = TextEditingController();
-  var _workspaceController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _stringIdController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _passwordCheckController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _emailFrontController = TextEditingController();
+  TextEditingController _emailBackController = TextEditingController();
+  TextEditingController _recommenderController = TextEditingController();
+  TextEditingController _workspaceController = TextEditingController();
 
   final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
   var _userLevel = 'LP';
-  bool notDuplicated = false;
+  bool? notDuplicated;
 
   @override
   Widget build(BuildContext context) {
-    _stringIdController = TextEditingController(text: widget.user?.stringId);
-    _nameController = TextEditingController(text: widget.user?.name);
-    _phoneController = TextEditingController(text: widget.user?.phone);
-    _emailFrontController = TextEditingController(text: widget.user?.email.split("@")[0]);
-    _emailBackController = TextEditingController(text: widget.user?.email.split("@")[1]);
-    _recommenderController = TextEditingController(text: widget.user?.recommender);
-    _workspaceController = TextEditingController(text: widget.user?.workplace);
+    if (widget.isEditing) {
+      _stringIdController = TextEditingController(text: widget.user?.stringId);
+      _nameController = TextEditingController(text: widget.user?.name);
+      _phoneController = TextEditingController(text: widget.user?.phone);
+      _emailFrontController = TextEditingController(text: widget.user?.email.split("@")[0]);
+      _emailBackController = TextEditingController(text: widget.user?.email.split("@")[1]);
+      _recommenderController = TextEditingController(text: widget.user?.recommender);
+      _workspaceController = TextEditingController(text: widget.user?.workplace);
+    }
 
     return Container(
         margin: widget.isAdmin? EdgeInsets.zero : const EdgeInsets.fromLTRB(0, 100, 0, 0),
@@ -167,6 +170,11 @@ class MakeUserFormState extends State<MakeUserForm> {
                                 color: Color(0xff555555),
                                 letterSpacing: -0.15,
                               ),
+                              onChanged: (value) {
+                                setState(() {
+
+                                });
+                              },
                               textAlignVertical: TextAlignVertical.bottom,
                               keyboardType: TextInputType.text,
                               controller: _stringIdController,
@@ -212,14 +220,10 @@ class MakeUserFormState extends State<MakeUserForm> {
                                   borderRadius: BorderRadius.all(Radius.circular(2.0))
                                 )
                               ),
-                              onPressed: () async {
+                              onPressed: (StringUtils().isValidStringId(_stringIdController.text)) ? () async {
                                 notDuplicated = await checkStringId(_stringIdController.text);
-                                if (notDuplicated) {
-                                  Fluttertoast.showToast(msg: "사용 가능한 아이디입니다!");
-                                } else {
-                                  Fluttertoast.showToast(msg: "중복 아이디입니다. 다른 아이디를 입력해 주세요.");
-                                }
-                              },
+                                setState(() {});
+                              } : null,
                               child: const Text("중복확인",
                                 style: TextStyle(
                                   fontSize: 16,
@@ -232,6 +236,10 @@ class MakeUserFormState extends State<MakeUserForm> {
                             ),
                           ),
                         ],
+                      ),
+                      if (notDuplicated != null) Container(
+                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: notDuplicated! ? WidgetUtils.okMessage("사용 가능한 아이디입니다!") : WidgetUtils.errorMessage("중복된 아이디입니다. 다른 아이디로 다시 입력해 주세요."),
                       ),
                       if (!widget.isEditing) Container(
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -996,8 +1004,8 @@ class MakeUserFormState extends State<MakeUserForm> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Color(0xff222222),
-                      fixedSize: Size(120, 50),
+                      backgroundColor: const Color(0xff222222),
+                      fixedSize: const Size(120, 50),
                       side: const BorderSide(color: Color(0xff222222), width: 2.0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0)
@@ -1006,47 +1014,43 @@ class MakeUserFormState extends State<MakeUserForm> {
                     onPressed: () async {
                       String? validityString = checkValidity();
                       print(validityString);
-                      Get.to(SignUpWelcomeScreen(userName: _nameController.text));
-                      // if (validityString == null) {
-                      //   // try {
-                      //   //   var response = await signInApi(
-                      //   //     _stringIdController.text,
-                      //   //     _passwordController.text,
-                      //   //     _nameController.text,
-                      //   //     _phoneController.text,
-                      //   //     _emailController.text,
-                      //   //     _recommenderController.text,
-                      //   //   );
-                      //   //   if (response.statusCode != 200) {
-                      //   //     print(jsonDecode(utf8.decode(response.bodyBytes)));
-                      //   //   } else {
-                      //   //     if (widget.isEditing) {
-                      //   //       Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
-                      //   //       Get.back();
-                      //   //     }
-                      //   //     else if (!widget.isPopup) {
-                      //   //       Fluttertoast.showToast(msg: "회원가입이 완료되었습니다.");
-                      //   //       Get.to(SignUpWelcomeScreen(userName: _nameController.text));
-                      //   //       Get.deleteAll();
-                      //   //     } else {
-                      //   //       Navigator.pop(context);
-                      //   //     }
-                      //   //   }
-                      //   // } catch (e) {
-                      //   //   print("Error: $e");
-                      //   // }
-                      // } else {
-                      //   showDialog(context: context, builder: (context) {
-                      //     return AlertDialog(
-                      //       title: Text(validityString),
-                      //       actions: [
-                      //         TextButton(onPressed: () {
-                      //           Navigator.of(context).pop();
-                      //         }, child: const Text("OK"))
-                      //       ],
-                      //     );
-                      //   });
-                      // }
+                      // Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                      if (validityString == null) {
+                        try {
+                          var response = await signInApi(
+                            _stringIdController.text,
+                            _passwordController.text,
+                            _nameController.text,
+                            _phoneController.text,
+                            _emailBackController.text,
+                            _recommenderController.text,
+                          );
+                          if (response.statusCode != 200) {
+                            print(jsonDecode(utf8.decode(response.bodyBytes)));
+                          } else {
+                            if (widget.isEditing) {
+                              Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
+                              Get.back();
+                            }
+                            else if (!widget.isEditing) {
+                              Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                              Get.deleteAll();
+                            } else {
+                              Navigator.pop(context);
+                            }
+                          }
+                        } catch (e) {
+                          print("Error: $e");
+                        }
+                      } else {
+                        showDialog(context: context, builder: (context) {
+                          return CustomAlertWidget().informationWidget(
+                            context,
+                            "입력하신 정보를 다시 확인해 주세요.",
+                            "$validityString."
+                          );
+                        });
+                      }
                     },
                     child: Text(
                         widget.isEditing? "저장하기" : widget.isAdmin? "등록" : "다음단계",
@@ -1062,13 +1066,16 @@ class MakeUserFormState extends State<MakeUserForm> {
                 ],
               )
             ),
-
+            if (!widget.isEditing && !widget.isAdmin) const SizedBox(height: 50,)
           ],
         )
     );
   }
 
   String? checkValidity() {
+    if (notDuplicated == null) {
+      return "ID 중복확인을 진행해 주세요.";
+    }
     // if (!isValidStringId()) {
     if (!(widget.isEditing || StringUtils().isValidStringId(_stringIdController.text))) {
       return "ID를 확인해 주세요";
@@ -1085,7 +1092,7 @@ class MakeUserFormState extends State<MakeUserForm> {
     if (!StringUtils().isValidPhone(_phoneController.text)) {
       return "전화번호를 확인해 주세요";
     }
-    if (!StringUtils().isValidEmail(_emailFrontController.text)) {
+    if (!StringUtils().isValidEmail(_emailBackController.text)) {
       return "이메일을 확인해 주세요";
     }
     if (!StringUtils().isValidRecommender(_recommenderController.text)) {

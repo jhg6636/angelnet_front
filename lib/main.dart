@@ -20,6 +20,8 @@ import 'package:angelnet/screens/notification/notification_screen.dart';
 import 'package:angelnet/screens/notification/send_notification_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/screens/user/edit_user_info_screen.dart';
+import 'package:angelnet/screens/user/home_screen.dart';
+import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/widgets/admin/make_user_form.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +31,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 import 'models/common/post.dart';
 
-// const serverAddress = 'localhost:8080';
-const serverAddress = '172.18.0.43:8080';
+const serverAddress = 'localhost:8080';
+// const serverAddress = '172.18.0.43:8080';
 const secureStorage = FlutterSecureStorage();
 var storage = {};
 
@@ -49,14 +51,14 @@ class AngelnetApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: Scaffold(
-        body: PostEditScreen()
-      ),
-      theme: ThemeData(
-        fontFamily: 'Pretendard',
-      ),
-    );
+    // return GetMaterialApp(
+    //   home: Scaffold(
+    //     body: PostEditScreen()
+    //   ),
+    //   theme: ThemeData(
+    //     fontFamily: 'Pretendard',
+    //   ),
+    // );
     // return GetMaterialApp(
     //   home: EditUserInfoScreen(
     //     user: User(
@@ -72,12 +74,12 @@ class AngelnetApp extends StatelessWidget {
     //     )
     //   ),
     // );
-    // return GetMaterialApp(
-    //   title: '엔젤넷',
-    //   home: const HomeScreen(),
-    //   theme: ThemeData(
-    //     fontFamily: 'Pretendard',
-    //   )
-    // );
+    return GetMaterialApp(
+      title: '엔젤넷',
+      home: const HomeScreen(),
+      theme: ThemeData(
+        fontFamily: StringUtils.pretendard,
+      )
+    );
   }
 }

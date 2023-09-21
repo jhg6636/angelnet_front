@@ -57,7 +57,7 @@ class StringUtils {
 
 
   bool isValidStringId(String stringId) {
-    if (RegExp("^[a-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{3,20}\$").hasMatch(stringId)) {
+    if (RegExp("^[a-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,20}\$").hasMatch(stringId)) {
       return true;
     }
     return false;
@@ -80,10 +80,7 @@ class StringUtils {
   }
 
   bool isValidName(String name) {
-    if (RegExp("^[가-힇]{2,}\$").hasMatch(name)) {
-      return true;
-    }
-    return false;
+    return true;
   }
 
   bool isValidPhone(String phone) {
@@ -93,8 +90,8 @@ class StringUtils {
     return false;
   }
 
-  bool isValidEmail(String email) {
-    if (RegExp("^[a-zA-Z0-9ㄱ-ㅎ가-힣./,!#\$%^&*()+=-]{1,}@[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}.[a-zA-Z0-9./,!@#\$%^&*()+=-]{1,}\$").hasMatch(email)) {
+  bool isValidEmail(String emailBack) {
+    if (RegExp("^[a-zA-Z0-9./,!#\$%^&*()+=-]{1,}.[a-zA-Z0-9./,!@#\$%^&*()+=-]{1,}\$").hasMatch(emailBack)) {
       return true;
     }
     return false;
