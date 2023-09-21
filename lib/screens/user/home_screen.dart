@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
 import 'package:angelnet/screens/lp/lp_mypage.dart';
+import 'package:angelnet/screens/user/find_id_screen.dart';
 import 'package:angelnet/screens/user/terms_of_use_screen.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
@@ -250,7 +251,7 @@ class HomeScreenState extends State<HomeScreen> {
                       margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: TextButton(
                           onPressed: () {
-                            Get.to(const TermsOfUseScreen());
+                            Get.to(const FindIdScreen());
                           },
                           child: const Text("아이디 / 패스워드 찾기",
                             style: TextStyle(

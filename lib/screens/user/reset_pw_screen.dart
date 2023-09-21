@@ -1,4 +1,6 @@
 import 'package:angelnet/screens/user/find_id_screen.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +13,9 @@ import 'home_screen.dart';
 class ResetPwScreen extends StatefulWidget {
 
   final String username;
+  final String stringId;
 
-  const ResetPwScreen({super.key, required this.username});
+  const ResetPwScreen({super.key, required this.username, required this.stringId});
 
   @override
   State<StatefulWidget> createState() => ResetPwScreenState();
@@ -173,7 +176,7 @@ class ResetPwScreenState extends State<ResetPwScreen> {
                                 width: 263,
                                 height: 38,
                                 child: TextField(
-                                  textAlignVertical: TextAlignVertical.bottom,
+                                  textAlignVertical: TextAlignVertical.top,
                                   keyboardType: TextInputType.text,
                                   controller: _passwordController,
                                   decoration: const InputDecoration(
@@ -267,11 +270,21 @@ class ResetPwScreenState extends State<ResetPwScreen> {
                       margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                       child: FilledButton(
                         style: FilledButton.styleFrom(
-                            backgroundColor: Color(0xff222222),
+                            backgroundColor: const Color(0xff222222),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                            fixedSize: Size(162, 50)
+                            fixedSize: const Size(162, 50)
                         ),
                         onPressed: () {
+                          if (!StringUtils().isValidPassword(_passwordController.text)) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomAlertWidget().informationWidget(
+                                  context,
+                                  "비밀번호를 확인해 주세요.",
+                                  "4~20자의 영문 (대소문자 구분), 숫자, 특수문자(!@#\$%^&*()_+=?/) 조합으로 구성해 주세요."
+                              )
+                            );
+                          }
 
                         },
                         child: const Text("비밀번호 재설정",

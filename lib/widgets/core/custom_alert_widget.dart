@@ -1,4 +1,5 @@
 import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -19,15 +20,7 @@ class CustomAlertWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(mainMessage,
-                      style: const TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24,
-                        letterSpacing: -0.48,
-                        color: Color(0xff111111)
-                      ),
-                    ),
+                    Text(mainMessage, style: WidgetUtils.dialogTitleStyle),
                     if (subMessage != null) Container(
                       margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Text(subMessage,

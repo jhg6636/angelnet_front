@@ -217,22 +217,27 @@ Future<http.Response> loginApi(String stringId, String password) async {
   return response;
 }
 
-Future<String> findIdApi(String name, String email) async {
-  var response = await http.post(
-      StringUtils().stringToUri("/find-id"),
-      body: {"name": name, "email": email},
-      headers: await StringUtils().header()
+Future<List<dynamic>> findIdApi(String name, String phone) async {
+  var response = await http.get(
+      StringUtils().stringToUri("/find-id", params: {"name": name, "phone": phone})
+      // headers: StringUtils.noAuthHeader
   );
+
+  print(response.body);
 
   return jsonDecode(utf8.decode(response.bodyBytes));
 }
 
-Future<String> findPwApi(String name, String email) async {
-  var response = await http.post(
-      StringUtils().stringToUri("/find-pw"),
-      body: {"name": name, "email": email},
-      headers: await StringUtils().header()
+Future<String> findPwApi(String name, String email, String stringId) async {
+  var response = await http.get(
+      StringUtils().stringToUri(
+          "/find-pw",
+          params: {"name": name, "email": email, "stringId": stringId}
+      ),
+      // headers: StringUtils.noAuthHeader
   );
 
-  return jsonDecode(utf8.decode(response.bodyBytes));
+  print(response.body);
+
+  return response.body;
 }

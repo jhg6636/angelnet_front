@@ -1,7 +1,10 @@
+import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/screens/user/reset_pw_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/utils/custom_border_clipper.dart';
+import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +13,7 @@ import 'package:get/get.dart';
 import 'find_id_screen.dart';
 
 class FindPwScreen extends StatefulWidget {
+
   const FindPwScreen({super.key});
 
   @override
@@ -24,6 +28,7 @@ class FindPwScreenState extends State<FindPwScreen> {
   final _emailController = TextEditingController();
   final _codeController = TextEditingController();
   var _buttonClicked = false;
+  String? code;
 
   @override
   Widget build(BuildContext context) {
@@ -239,35 +244,47 @@ class FindPwScreenState extends State<FindPwScreen> {
                                 ),
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
-                                  child: SizedBox(
-                                    width: 263,
-                                    height: 38,
-                                    child: TextField(
-                                      textAlignVertical: TextAlignVertical.top,
-                                      keyboardType: TextInputType.text,
-                                      controller: _emailController,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                                              borderSide: BorderSide(color: Color(0xffdddddd))
-                                          )
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: 263,
+                                        height: 38,
+                                        child: TextField(
+                                          textAlignVertical: TextAlignVertical.top,
+                                          keyboardType: TextInputType.text,
+                                          controller: _emailController,
+                                          decoration: const InputDecoration(
+                                              border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                                  borderSide: BorderSide(color: Color(0xffdddddd))
+                                              )
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
+                                      if (_buttonClicked) Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                        child: WidgetUtils.okMessage("인증번호가 입력하신 메일로 발송되었습니다."),
+                                      )
+                                    ],
+                                  )
                                 ),
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
                                   child: FilledButton(
                                     style: FilledButton.styleFrom(
-                                        fixedSize: Size(118, 38),
+                                        fixedSize: const Size(118, 38),
                                         backgroundColor: const Color(0xff6c6f81),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(2.0))
                                         )
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      code = await findPwApi(_nameController.text, _emailController.text, _idController.text);
                                       setState(() {
                                         _buttonClicked = true;
+
                                       });
                                     },
                                     child: const Text("인증번호 전송",
@@ -305,22 +322,32 @@ class FindPwScreenState extends State<FindPwScreen> {
                                 ),
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(97, 0, 0, 0),
-                                  child: SizedBox(
-                                    width: 263,
-                                    height: 38,
-                                    child: TextField(
-                                      textAlignVertical: TextAlignVertical.top,
-                                      keyboardType: TextInputType.text,
-                                      controller: _codeController,
-                                      decoration: InputDecoration(
-                                        enabled: _buttonClicked,
-                                          border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                                              borderSide: BorderSide(color: Color(0xffdddddd))
-                                          )
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: 263,
+                                        height: 38,
+                                        child: TextField(
+                                          textAlignVertical: TextAlignVertical.top,
+                                          keyboardType: TextInputType.text,
+                                          controller: _codeController,
+                                          decoration: InputDecoration(
+                                              enabled: _buttonClicked,
+                                              border: const OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                                  borderSide: BorderSide(color: Color(0xffdddddd))
+                                              )
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
+                                      if (code != null && code != _codeController.text && _codeController.text.isNotEmpty) Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                        child: WidgetUtils.errorMessage("인증번호가 일치하지 않습니다."),
+                                      )
+                                    ],
+                                  )
                                 ),
                               ],
                             ),
@@ -354,17 +381,21 @@ class FindPwScreenState extends State<FindPwScreen> {
                             ),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                backgroundColor: Color(0xff222222),
-                                fixedSize: Size(120, 50),
+                                backgroundColor: const Color(0xff222222),
+                                fixedSize: const Size(120, 50),
                                 side: const BorderSide(color: Color(0xff222222), width: 2.0),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5.0)
                                 ),
                               ),
                               onPressed: () {
-                                Get.to(ResetPwScreen(username: _nameController.text));
+                                if (_codeController.text == code) {
+                                  Get.to(ResetPwScreen(username: _nameController.text));
+                                } else {
+                                  setState(() {});
+                                }
                               },
-                              child: Text("확인",
+                              child: const Text("확인",
                                   style: TextStyle(
                                       fontFamily: "Pretendard",
                                       fontWeight: FontWeight.w500,
@@ -382,130 +413,6 @@ class FindPwScreenState extends State<FindPwScreen> {
             )
         ))
     );
-    // return Scaffold(
-    //     body: Align(
-    //         alignment: Alignment.center,
-    //         child: SingleChildScrollView(
-    //           child: Column(
-    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               const Text("비밀번호 찾기"),
-    //               const SizedBox(height: 120.0,),
-    //               Container(
-    //                 width: 900,
-    //                 height: 450,
-    //                 decoration: BoxDecoration(
-    //                     border: Border.all()
-    //                 ),
-    //                 child: Column(
-    //                   mainAxisAlignment: MainAxisAlignment.center,
-    //                   children: [
-    //                     const Row(
-    //                       children: [
-    //                         SizedBox(width: 50,),
-    //                         Text("가입 당시 입력한 이름 / ID / 이메일을 입력하시면, 이메일을 통하여 인증 완료 후, 비밀번호를 재설정 하실 수 있습니다.")
-    //                       ],
-    //                     ),
-    //                     Row(
-    //                       children: [
-    //                         const SizedBox(width: 50,),
-    //                         const SizedBox(
-    //                           width: 80,
-    //                           child: Text("이름"),
-    //                         ),
-    //                         SizedBox(
-    //                           width: 240,
-    //                           child: TextField(
-    //                             controller: _nameController,
-    //                           ),
-    //                         )
-    //                       ],
-    //                     ),
-    //                     Row(
-    //                       children: [
-    //                         const SizedBox(width: 50,),
-    //                         const SizedBox(
-    //                           width: 80,
-    //                           child: Text("ID"),
-    //                         ),
-    //                         SizedBox(
-    //                           width: 240,
-    //                           child: TextField(
-    //                             controller: _idController,
-    //                           ),
-    //                         )
-    //                       ],
-    //                     ),
-    //                     Row(
-    //                       children: [
-    //                         const SizedBox(width: 50,),
-    //                         const SizedBox(
-    //                           width: 80,
-    //                           child: Text("이메일"),
-    //                         ),
-    //                         SizedBox(
-    //                           width: 240,
-    //                           child: TextField(
-    //                             controller: _emailController,
-    //                           ),
-    //                         ),
-    //                         const SizedBox(
-    //                           width: 10.0,
-    //                         ),
-    //                         (_buttonClicked)
-    //                             ? FilledButton(onPressed: () {}, child: const Text("재전송"))
-    //                             : FilledButton(
-    //                                 onPressed: () {
-    //                                   setState(() {
-    //                                     _buttonClicked = true;
-    //                                   });
-    //                                 },
-    //                                 child: const Text("인증번호 전송")
-    //                               ),
-    //                       ],
-    //                     ),
-    //                     Row(
-    //                       children: [
-    //                         const SizedBox(width: 50,),
-    //                         const SizedBox(
-    //                           width: 80,
-    //                           child: Text("인증번호"),
-    //                         ),
-    //                         SizedBox(
-    //                           width: 240,
-    //                           child: TextField(
-    //                             controller: _codeController,
-    //                             enabled: _buttonClicked,
-    //                           ),
-    //                         ),
-    //                       ]
-    //                     ),
-    //                     ButtonBar(
-    //                       alignment: MainAxisAlignment.center,
-    //                       children: [
-    //                         FilledButton(
-    //                           onPressed: () {
-    //                             Get.to(ResetPwScreen(username: _nameController.text));
-    //                           },
-    //                           child: const Text("확인")
-    //                         ),
-    //                         OutlinedButton(
-    //                           onPressed: () {
-    //                             Get.to(const HomeScreen());
-    //                           },
-    //                           child: const Text("취소")
-    //                         ),
-    //                       ],
-    //                     )
-    //                   ],
-    //                 ),
-    //               )
-    //             ],
-    //           ),
-    //         )
-    //     )
-    // );
   }
 
 }

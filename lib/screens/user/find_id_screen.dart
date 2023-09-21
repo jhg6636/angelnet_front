@@ -1,9 +1,14 @@
+import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/user/find_pw_screen.dart';
+import 'package:angelnet/screens/user/home_screen.dart';
+import 'package:angelnet/utils/ColorUtils.dart';
 import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/utils/custom_border_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:remixicon/remixicon.dart';
 
 class FindIdScreen extends StatefulWidget {
   const FindIdScreen({super.key});
@@ -218,10 +223,11 @@ class FindIdScreenState extends State<FindIdScreen> {
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                 fixedSize: const Size(120, 50)
                               ),
-                              onPressed: () {
-
+                              onPressed: () async {
+                                var foundIds = await findIdApi(_nameController.text, _phoneController.text);
+                                showDialog(context: context, builder: (context) => foundIdsInformWidget(context, foundIds));
                               },
-                              child: Text("아이디 찾기",
+                              child: const Text("아이디 찾기",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
@@ -238,73 +244,114 @@ class FindIdScreenState extends State<FindIdScreen> {
             )
         )
     );
-    // return Scaffold(
-    //     body: Align(
-    //         alignment: Alignment.center,
-    //         child: SingleChildScrollView(
-    //           child: Column(
-    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               const Text("아이디 찾기"),
-    //               const SizedBox(height: 120.0,),
-    //               Container(
-    //                 width: 900,
-    //                 height: 450,
-    //                 decoration: BoxDecoration(
-    //                   border: Border.all()
-    //                 ),
-    //                 child: Column(
-    //                   mainAxisAlignment: MainAxisAlignment.center,
-    //                   children: [
-    //                     Row(
-    //                       children: [
-    //                         const SizedBox(width: 50,),
-    //                         const SizedBox(
-    //                           width: 80,
-    //                           child: Text("이름"),
-    //                         ),
-    //                         SizedBox(
-    //                           width: 240,
-    //                           child: TextField(
-    //                             controller: _nameController,
-    //                             decoration: const InputDecoration(),
-    //                           ),
-    //                         )
-    //                       ],
-    //                     ),
-    //                     Row(
-    //                       children: [
-    //                         const SizedBox(width: 50,),
-    //                         const SizedBox(
-    //                           width: 80,
-    //                           child: Text("연락처"),
-    //                         ),
-    //                         SizedBox(
-    //                           width: 240,
-    //                           child: TextField(
-    //                             controller: _phoneController,
-    //                             decoration: const InputDecoration(),
-    //                           ),
-    //                         )
-    //                       ],
-    //                     ),
-    //                     Align(
-    //                       alignment: Alignment.centerRight,
-    //                       child: FilledButton(
-    //                         onPressed: () {
-    //                           Get.to(IdInformScreen(name: _nameController.text, id: 'IDIDIDIDID'));
-    //                         },
-    //                         child: const Text("아이디 찾기"),
-    //                       ),
-    //                     )
-    //                   ],
-    //                 ),
-    //               )
-    //             ],
-    //           ),
-    //         )
-    //     )
-    // );
   }
+
+  Widget foundIdsInformWidget(BuildContext context, List<dynamic> foundIds) {
+    return AlertDialog(
+      content: Container(
+        width: 660,
+        height: 600,
+        padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 50),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  padding: const EdgeInsets.all(16),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xfff9f9f9)
+                  ),
+                  child: const Icon(Remix.close_line, color: Color(0xff333333), size: 32,),
+                ),
+              ),
+            ),
+            Text("총 ${foundIds.length}건의 검색 결과가 있습니다.", style: WidgetUtils.dialogTitleStyle),
+            Container(
+              width: 560,
+              margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              padding: const EdgeInsets.fromLTRB(30, 15, 30, 25),
+              color: ColorUtils.skyBlue,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: foundIds.map((foundId) => Container(
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(foundId, style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: StringUtils.pretendard,
+                    letterSpacing: -0.4,
+                    color: Color(0xff111111)
+                  ),),
+                )).toList(),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+              child: ButtonBar(
+                alignment: MainAxisAlignment.end,
+                children: [
+                  OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: Color(0xff222222), width: 2),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)
+                          ),
+                          fixedSize: const Size(128, 50),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.white
+                      ),
+                      onPressed: () {
+                        Get.to(const HomeScreen());
+                      },
+                      child: const Text("홈으로",
+                        style: TextStyle(
+                            fontFamily: StringUtils.pretendard,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            letterSpacing: -0.34,
+                            color: Color(0xff222222)
+                        ),
+                      )
+                  ),
+                  FilledButton(
+                      style: FilledButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        fixedSize: const Size(128, 50),
+                        backgroundColor: const Color(0xff222222),
+                        foregroundColor: const Color(0xff222222),
+                      ),
+                      onPressed: () {
+                        Get.to(const FindPwScreen());
+                      },
+                      child: const Text("비밀번호 찾기",
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.34,
+                            color: Colors.white
+                        ),
+                      )
+                  )
+                ],
+              )
+            )
+          ],
+        ),
+      )
+    );
+  }
+
 }

@@ -20,6 +20,8 @@ class StringUtils {
     return Uri.http(serverAddress, apiName, params);
   }
 
+  static Map<String, String> noAuthHeader = {HttpHeaders.contentTypeHeader: "application/json"};
+
   Future<Map<String, String>> header() async {
     // var token = await secureStorage.read(key: await getDeviceId()) ?? "";
     var token = storage[await getDeviceId()] ?? "";

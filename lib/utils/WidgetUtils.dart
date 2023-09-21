@@ -80,6 +80,14 @@ class WidgetUtils {
       color: Color(0xff111111)
   );
 
+  static const dialogTitleStyle = TextStyle(
+      fontFamily: StringUtils.pretendard,
+      fontWeight: FontWeight.w600,
+      fontSize: 24,
+      letterSpacing: -0.48,
+      color: Color(0xff111111)
+  );
+
   static Widget fnb = Container(
     height: 204,
     padding: const EdgeInsets.fromLTRB(320, 0, 0, 0),
