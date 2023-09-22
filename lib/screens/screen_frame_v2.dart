@@ -2,9 +2,19 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/admin/manage_fund_screen.dart';
+import 'package:angelnet/screens/admin/manage_group_screen.dart';
+import 'package:angelnet/screens/admin/manage_user_screen.dart';
+import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
+import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
+import 'package:angelnet/screens/lp/funding_fund_screen.dart';
+import 'package:angelnet/screens/lp/lp_mypage.dart';
+import 'package:angelnet/screens/notification/notification_screen.dart';
+import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
+import 'package:get/get.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import 'package:flutter/cupertino.dart';
@@ -13,6 +23,8 @@ import 'package:flutter/rendering.dart';
 import 'package:printing/printing.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:share_plus/share_plus.dart';
+
+import 'bulletin/manage_bulletin_screen.dart';
 
 class ScreenFrameV2 extends StatefulWidget {
 
@@ -54,10 +66,6 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
   }
 
   Widget breadCrumbRow(List<String> crumbs) {
-    var crumbItems = [];
-    for (int i=0; i<crumbs.length-1; i++) {
-
-    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -148,56 +156,81 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                 ),
                 Container(
                     margin: const EdgeInsets.fromLTRB(58, 0, 0, 0),
-                    child: Text(isAdmin? "회원관리" : "결성중인 조합",
-                      style: const TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.pretendard,
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(isAdmin? const ManageUserScreen() : const FundingFundScreen());
+                      },
+                      child: Text(isAdmin? "회원관리" : "결성중인 조합",
+                        style: const TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                        ),
                       ),
                     )
                 ),
                 Container(
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                    child: Text(isAdmin? "조합현황" : "게시판",
-                      style: const TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.pretendard,
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(isAdmin? const ManageFundScreen() : const BulletinScreen());
+                      },
+                      child: Text(isAdmin? "조합현황" : "게시판",
+                        style: const TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                        ),
+                      )
+                    )
+                ),
+                if (isAdmin) Container(
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(const ManageGroupScreen());
+                      },
+                      child: const Text("그룹관리",
+                        style: TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                        ),
                       ),
                     )
                 ),
                 if (isAdmin) Container(
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                    child: const Text("그룹관리",
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.pretendard,
-                      ),
-                    )
-                ),
-                if (isAdmin) Container(
-                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                    child: const Text("공지사항 관리",
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.pretendard,
-                      ),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(const ManageBulletinScreen());
+                      },
+                      child: const Text("공지사항 관리",
+                        style: TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                        ),
+                      )
                     )
                 ),
                 Container(
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                    child: Text(isAdmin? "알림" : "전체 포트폴리오",
-                      style: const TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.pretendard,
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(isAdmin? const NotificationScreen(isAdmin: true) : const AllPortfolioScreen());
+                      },
+                      child: Text(isAdmin? "알림" : "전체 포트폴리오",
+                        style: const TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                        ),
                       ),
                     )
                 )
@@ -206,15 +239,6 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // todo 이거로 변경
-                // FutureBuilder(
-                //   future: getMyInfo(),
-                //   builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                //     if (snapshot.hasData && !snapshot.hasError) {
-                //       return snapshot.data!['name'];
-                //     }
-                //   },
-                // )
                 if (isAdmin) Container(
                   width: 58,
                   height: 26,
@@ -234,23 +258,131 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                     ),
                   ),
                 ),
-                const Text("플랜아이",
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: StringUtils.pretendard,
+                DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    focusNode: FocusNode(skipTraversal: true),
+                    focusColor: Colors.white,
+                    dropdownColor: Colors.white,
+                    onChanged: (value) {  },
+                    items: [
+                      DropdownMenuItem(
+                        value: "Info",
+                        child: FutureBuilder(
+                          future: getMyInfo(),
+                          builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                            if (snapshot.hasError) {
+
+                            }
+                          },
+                        ),
+                        Container(
+                          height: 300,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: const Color(0xff0361f9),
+                                radius: 40.0,
+                                child: Text(
+                                  myInfo["name"].toString()[0],
+                                  style: const TextStyle(color: Colors.white70, fontSize: 25.0),
+                                ),
+                              ),
+                              Text("${myInfo["name"]} 님",
+                                style: const TextStyle(fontSize: 20.0)
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: "MyPage",
+                        child: TextButton(
+                          onPressed: () async {
+                            Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text("마이페이지",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                    letterSpacing: -0.3,
+                                    color: Color(0xff0361F9)
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: const Icon(Remix.user_line, color: Color(0xff0361f9),),
+                              )
+                            ],
+                          )
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: "LogOut",
+                        child: TextButton(
+                          onPressed: () async {
+                            // todo logout
+                            Get.to(const HomeScreen());
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text("로그아웃",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                    letterSpacing: -0.3,
+                                    color: Color(0xff0361F9)
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: const Icon(Remix.logout_box_line, color: Color(0xff0361f9),),
+                              )
+                            ],
+                          )
+                        ),
+                      )
+                    ],
+                    hint: Row(
+                      children: [
+                        FutureBuilder(
+                          future: getMyInfo(),
+                          builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                            if (snapshot.hasError) {
+                              return Text(snapshot.error.toString());
+                            } else if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              return Text(snapshot.data!['name'],
+                                style: const TextStyle(
+                                  color: Color(0xff000000),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: StringUtils.pretendard,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        // Container(
+                        //     margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                        //     // child: const Icon(Icons.arrow_drop_down, color: Color(0xff000000)),
+                        //     child: Transform(
+                        //         transform: Matrix4.diagonal3Values(1.5, 1.0, 1.0),
+                        //         child: const Text("▾",
+                        //           style: TextStyle(color: Colors.black, fontSize: 20),
+                        //         )
+                        //     )
+                        // ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                  // child: const Icon(Icons.arrow_drop_down, color: Color(0xff000000)),
-                  child: Transform(
-                    transform: Matrix4.diagonal3Values(1.5, 1.0, 1.0),
-                    child: const Text("▾",
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    )
-                  )
                 ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(37, 0, 80, 0),
@@ -268,7 +400,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
         ),
         const Divider(color: Color(0xffdddddd),),
       ],
-    )
+    ),
   );
 
   @override

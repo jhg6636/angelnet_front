@@ -21,7 +21,7 @@ class LeftSideDrawer extends StatelessWidget {
           const CustomDrawerHeader(),
           TextButton(
             onPressed: () {
-              Get.to(const LpMyPage());
+              // Get.to(const LpMyPage());
             },
             child: const Text(
               "마이페이지",

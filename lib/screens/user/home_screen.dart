@@ -173,9 +173,7 @@ class HomeScreenState extends State<HomeScreen> {
           height: 60,
           child: ElevatedButton(
               onPressed: () async {
-                var response = tryLogin();
-                Get.to(LpMyPage());
-                // todo 로그인 시도 -> 성공 실패 시 각각 Action
+                tryLogin();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xff00A8E3),
@@ -342,7 +340,7 @@ class HomeScreenState extends State<HomeScreen> {
         String role = await checkRoleApi().obs.value;
         switch (role) {
           case "LP":
-            Get.to(const LpMyPage());
+            Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
             break;
           case "ADMIN":
             Get.to(const ManageUserScreen());

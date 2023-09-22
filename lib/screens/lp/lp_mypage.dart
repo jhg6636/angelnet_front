@@ -1,3 +1,4 @@
+import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/models/lp/limited_partner.dart';
 import 'package:angelnet/screens/not_developed_screen.dart';
 import 'package:angelnet/screens/screen_frame.dart';
@@ -17,7 +18,9 @@ import 'funding_fund_screen.dart';
 
 class LpMyPage extends StatefulWidget {
 
-  const LpMyPage({super.key});
+  final User user;
+
+  const LpMyPage({super.key, required this.user});
 
   @override
   State<StatefulWidget> createState() => LpMyPageState();
@@ -33,18 +36,18 @@ class LpMyPageState extends State<LpMyPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("username",
-                style: TextStyle(
+              Text(widget.user.name,
+                style: const TextStyle(
                   fontFamily: StringUtils.pretendard,
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                   color: Colors.white,
                 ),
               ),
-              Text(" 님",
+              const Text(" 님",
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
@@ -409,6 +412,6 @@ DataRow toMyPageRow(int index, Fund fund, LimitedPartner lp) {
     DataCell(Text(fund.startAt.toString())),
     DataCell(Text(fund.dissolvedAt.toString() ?? "")),
     DataCell(Text(fund.margin.toString() ?? "")),
-    DataCell(Text(""))
+    const DataCell(Text(""))
   ]);
 }
