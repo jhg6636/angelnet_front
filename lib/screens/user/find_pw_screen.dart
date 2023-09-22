@@ -390,7 +390,7 @@ class FindPwScreenState extends State<FindPwScreen> {
                               ),
                               onPressed: () {
                                 if (_codeController.text == code) {
-                                  Get.to(ResetPwScreen(username: _nameController.text));
+                                  Get.to(ResetPwScreen(username: _nameController.text, stringId: _idController.text,));
                                 } else {
                                   setState(() {});
                                 }

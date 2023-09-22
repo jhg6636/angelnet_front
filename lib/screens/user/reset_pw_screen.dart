@@ -1,3 +1,4 @@
+import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/user/find_id_screen.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/custom_alert_widget.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:remixicon/remixicon.dart';
 
 import '../../utils/StringUtils.dart';
 import '../../utils/custom_border_clipper.dart';
@@ -274,7 +276,7 @@ class ResetPwScreenState extends State<ResetPwScreen> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                             fixedSize: const Size(162, 50)
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (!StringUtils().isValidPassword(_passwordController.text)) {
                             showDialog(
                               context: context,
@@ -284,8 +286,94 @@ class ResetPwScreenState extends State<ResetPwScreen> {
                                   "4~20자의 영문 (대소문자 구분), 숫자, 특수문자(!@#\$%^&*()_+=?/) 조합으로 구성해 주세요."
                               )
                             );
+                          } else if (_passwordController.text != _passwordCheckController.text) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomAlertWidget().informationWidget(
+                                  context,
+                                  "비밀번호를 확인해 주세요.",
+                                  "비밀번호에 입력된 값과 비밀번호 재확인에 입력된 값이 다릅니다."
+                              )
+                            );
+                          } else {
+                            await changePassword(widget.stringId, _passwordController.text);
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Container(
+                                    width: 660,
+                                    height: 270,
+                                    padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 50),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text("비밀번호가 변경되었습니다.", style: WidgetUtils.dialogTitleStyle),
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                                  child: Text("홈페이지로 돌아가 변경된 비밀번호로 로그인해 주세요.",
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w300,
+                                                        fontFamily: StringUtils.pretendard,
+                                                        letterSpacing: -0.16,
+                                                        color: Color(0xff767676)
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Container(
+                                              width: 60,
+                                              height: 60,
+                                              padding: const EdgeInsets.all(16),
+                                              decoration: const BoxDecoration(
+                                                  color: Color(0xfff2f9ff),
+                                                  shape: BoxShape.circle
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: const Icon(Remix.error_warning_line, color: Color(0xff1BADFB), size: 32,),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                          alignment: AlignmentDirectional.centerEnd,
+                                          margin: const EdgeInsets.fromLTRB(0, 72, 0, 0),
+                                          child: FilledButton(
+                                            style: FilledButton.styleFrom(
+                                                backgroundColor: const Color(0xff222222),
+                                                foregroundColor: const Color(0xff222222),
+                                                fixedSize: const Size(120, 50),
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Get.to(const HomeScreen());
+                                            },
+                                            child: const Text("홈으로",
+                                              style: TextStyle(
+                                                  fontFamily: StringUtils.pretendard,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 17,
+                                                  letterSpacing: -0.34,
+                                                  color: Colors.white
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                            );
                           }
-
                         },
                         child: const Text("비밀번호 재설정",
                           style: TextStyle(
