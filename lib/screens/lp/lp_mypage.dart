@@ -1,7 +1,9 @@
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/models/lp/limited_partner.dart';
 import 'package:angelnet/screens/not_developed_screen.dart';
+import 'package:angelnet/screens/notification/notification_screen.dart';
 import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/screens/user/edit_user_info_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/lp/fund_card.dart';
@@ -28,6 +30,7 @@ class LpMyPage extends StatefulWidget {
 
 class LpMyPageState extends State<LpMyPage> {
   Future<List<Fund>> funds = fetchMyFunds();
+  var totalCost = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +71,10 @@ class LpMyPageState extends State<LpMyPage> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                     fixedSize: const Size(96, 40)
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    // todo 서류제출 관련 페이지 기획 필요
+                    Get.to(const NotificationScreen(isAdmin: false));
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -98,7 +104,9 @@ class LpMyPageState extends State<LpMyPage> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                         fixedSize: const Size(96, 40)
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(EditUserInfoScreen(user: widget.user));
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -122,7 +130,9 @@ class LpMyPageState extends State<LpMyPage> {
               Container(
                 margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(const NotificationScreen(isAdmin: false));
+                    },
                     icon: const Badge(
                       backgroundColor: Colors.transparent,
                       offset: Offset(9, -9),
@@ -196,112 +206,116 @@ class LpMyPageState extends State<LpMyPage> {
                   ],
                 ),
               ),
-              Container(
-                  width: 1280,
-                  margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
-                  child: DataTable(
-                    // todo 가운데정렬
-                    // todo headingRow 아래 border 조정
-                    headingTextStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.pretendard,
-                      letterSpacing: -0.16,
-                      color: Color(0xff222222),
-                    ),
-                    dataTextStyle: const TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        letterSpacing: -0.16,
-                        color: Color(0xff757575)
-                    ),
-                    border: const TableBorder(
-                      top: BorderSide(color: Color(0xff333333), width: 2),
-                      bottom: BorderSide(color: Color(0xffe6e6e6)),
-                      horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
-                    ),
-                    columns: const [
-                      DataColumn(label: Center(child: Text("번호"))),
-                      DataColumn(label: Center(child: Text("조합명"))),
-                      DataColumn(label: Center(child: Text("투자기업"))),
-                      DataColumn(label: Center(child: Text("참여금액"))),
-                      DataColumn(label: Center(child: Text("결성일"))),
-                      DataColumn(label: Center(child: Text("진행상태"))),
-                    ],
-                    rows: const [
-                      DataRow(
-                          cells: [
-                            DataCell(Text("1")),
-                            DataCell(Text("플랜아이")),
-                            DataCell(Text("(주)리벤처스")),
-                            DataCell(Text("6,000,000,000")),
-                            DataCell(Text("2023.06.06")),
-                            DataCell(Text("서류접수중")),
-                          ]
-                      ),
-                      DataRow(
-                          cells: [
-                            DataCell(Text("2")),
-                            DataCell(Text("플랜아이")),
-                            DataCell(Text("(주)리벤처스")),
-                            DataCell(Text("6,000,000,000")),
-                            DataCell(Text("2023.06.06")),
-                            DataCell(Text("운용중")),
-                          ]
-                      )
-                    ],
-                  )
-              ),
-              Container(
-                height: 83,
-                margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: DottedBorder(
-                  color: const Color(0xffb5becc),
-                  radius: const Radius.circular(5),
-                  dashPattern: const [3, 3],
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 27,
-                          height: 27,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xff00958f),
-                          ),
-                          child: const Icon(Remix.check_fill, size: 18, color: Colors.white,),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                          child: const Text("참여금액 합계",
-                            style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: StringUtils.pretendard,
-                              color: Color(0xff333333),
+              FutureBuilder(
+                future: fetchMyFunds(),
+                builder: (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    print('----');
+                    print(snapshot.stackTrace);
+                    print('----');
+                    return const CircularProgressIndicator();
+                  } else if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    for (var fund in snapshot.data!) {
+                      totalCost += fund.cost;
+                    }
+                    return Container(
+                      width: 1280,
+                      margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 1280,
+                            child: DataTable(
+                              // todo 가운데정렬
+                              // todo headingRow 아래 border 조정
+                                headingTextStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: StringUtils.pretendard,
+                                  letterSpacing: -0.16,
+                                  color: Color(0xff222222),
+                                ),
+                                dataTextStyle: const TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    letterSpacing: -0.16,
+                                    color: Color(0xff757575)
+                                ),
+                                border: const TableBorder(
+                                  top: BorderSide(color: Color(0xff333333), width: 2),
+                                  bottom: BorderSide(color: Color(0xffe6e6e6)),
+                                  horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+                                ),
+                                columns: const [
+                                  DataColumn(label: Center(child: Text("번호"))),
+                                  DataColumn(label: Center(child: Text("조합명"))),
+                                  DataColumn(label: Center(child: Text("투자기업"))),
+                                  DataColumn(label: Center(child: Text("참여금액"))),
+                                  DataColumn(label: Center(child: Text("결성일"))),
+                                  DataColumn(label: Center(child: Text("진행상태"))),
+                                ],
+                                rows: snapshot.data!.indexed.map((e) => e.$2.toLpMyPageRow(e.$1 + 1)).toList()
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                          child: const Text("|",
-                            style: TextStyle(color: Color(0x4d707070), fontSize: 10),
+                          Container(
+                            height: 83,
+                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            child: DottedBorder(
+                                color: const Color(0xffb5becc),
+                                radius: const Radius.circular(5),
+                                dashPattern: const [3, 3],
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 27,
+                                        height: 27,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0xff00958f),
+                                        ),
+                                        child: const Icon(Remix.check_fill, size: 18, color: Colors.white,),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                        child: const Text("참여금액 합계",
+                                          style: TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: StringUtils.pretendard,
+                                            color: Color(0xff333333),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                                        child: const Text("|",
+                                          style: TextStyle(color: Color(0x4d707070), fontSize: 10),
+                                        ),
+                                      ),
+                                      Text(StringUtils().currencyFormat(totalCost),
+                                        style: const TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: StringUtils.pretendard,
+                                            color: Color(0xff333333)
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                            ),
                           ),
-                        ),
-                        const Text("18,000,000,000",
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: StringUtils.pretendard,
-                            color: Color(0xff333333)
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ),
+                        ],
+                      ),
+                    );
+                  }
+                }
               ),
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),

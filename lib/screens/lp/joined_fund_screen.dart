@@ -1,16 +1,24 @@
+import 'package:angelnet/models/fund/fund.dart';
+import 'package:angelnet/models/fund/fund_status.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:remixicon/remixicon.dart';
+
+import 'fund_detail_lp_screen.dart';
 
 class JoinedFundScreen extends StatefulWidget {
 
   // todo fund 추가 + enum class 도입하여 문구 및 step 자동화
 
-  final bool isRunning; // todo fundStatus로 관리하기
-  const JoinedFundScreen({super.key, required this.isRunning});
+  final Fund fund;
+
+  // final bool isRunning; // todo fundStatus로 관리하기
+  const JoinedFundScreen({super.key, required this.fund});
 
   @override
   State<StatefulWidget> createState() => JoinedFundScreenState();
@@ -22,9 +30,12 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
   final fileNameController1 = TextEditingController();
   final fileNameController2 = TextEditingController();
   final fileNameController3 = TextEditingController();
+  bool isRunning = false;
+  bool detailPageClicked = false;
 
   @override
   Widget build(BuildContext context) {
+    isRunning = (widget.fund.status == FundStatus.running) && !detailPageClicked;
     return ScreenFrameV2(
       main: Container(
           padding: const EdgeInsets.symmetric(horizontal: 320),
@@ -77,8 +88,8 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                             ),
                           ),
                         ),
-                        const Text("리벤처스 테크 이노베이션 투자조합 6호",
-                          style: TextStyle(
+                        Text(widget.fund.name,
+                          style: const TextStyle(
                             fontSize: 19,
                             fontFamily: StringUtils.pretendard,
                             fontWeight: FontWeight.bold,
@@ -95,7 +106,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                         fixedSize: const Size(153, 50),
                         padding: EdgeInsets.zero
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          detailPageClicked = true;
+                        });
+                      },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(18, 0, 0, 0),
                         child: Row(
@@ -122,11 +137,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 )
               ),
-              if (!widget.isRunning) Container(
+              if (!isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                child: fundStatusWidget(5),
+                child: fundStatusWidget(widget.fund.status),
               ),
-              if (!widget.isRunning) Container(
+              if (!isRunning) Container(
                 height: 83,
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: DottedBorder(
@@ -161,7 +176,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                 )
               ),
 
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                   margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                   child: const Text("투자정보",
                     style: TextStyle(
@@ -172,11 +187,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ),
                   )
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(thickness: 2, color: Color(0xff333333),),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                 child: Row(
@@ -207,11 +222,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 ),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(color: Color(0xffdddddd),),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                 child: Row(
@@ -239,18 +254,18 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                           ),
                         )
                     ),
-                    if (widget.isRunning) Container(
+                    if (isRunning) Container(
                       margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                       child: const Divider(color: Color(0xffdddddd),),
                     )
                   ],
                 ),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(color: Color(0xffdddddd),),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                 child: Row(
@@ -281,11 +296,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 ),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(color: Color(0xffdddddd),),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                 child: Row(
@@ -330,11 +345,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 ),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(color: Color(0xffdddddd),),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 41, 0, 0),
                 child: Row(
                   children: [
@@ -362,11 +377,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 ),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                 margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                 child: const Divider(thickness: 2, color: Color(0xff555555),),
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                   padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                   child: Row(
                     children: [
@@ -412,8 +427,8 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ],
                   )
               ),
-              if (widget.isRunning) const Divider(color: Color(0xffdddddd),),
-              if (widget.isRunning) Container(
+              if (isRunning) const Divider(color: Color(0xffdddddd),),
+              if (isRunning) Container(
                   margin: const EdgeInsets.fromLTRB(0, 41, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -467,7 +482,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ],
                   )
               ),
-              if (widget.isRunning) Container(
+              if (isRunning) Container(
                   width: 1280,
                   margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
                   child: DataTable(
@@ -678,7 +693,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                 margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                 child: const Divider(thickness: 1, color: Color(0xffdddddd),),
               ),
-              if (!widget.isRunning) Container(
+              if (isRunning) Container(
                 alignment: Alignment.center,
                 margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                 child: FilledButton(
@@ -709,7 +724,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
 
 }
 
-Row fundStatusWidget(int step) {
+Row fundStatusWidget(FundStatus status) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -729,13 +744,14 @@ Row fundStatusWidget(int step) {
               width: 88,
               height: 33,
               decoration: BoxDecoration(
-                color: (step == 1) ? const Color(0xff1badfb) : const Color(0xffb5becc),
+                color: (status == FundStatus.receivingDocuments || status == FundStatus.accepting)
+                    ? const Color(0xff1badfb) : const Color(0xffb5becc),
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Text("STEP 01",
                 style: TextStyle(
                   color: Colors.white,
-                  fontWeight: (step == 1) ? FontWeight.w600 : FontWeight.w500,
+                  fontWeight: (status == FundStatus.receivingDocuments || status == FundStatus.accepting) ? FontWeight.w600 : FontWeight.w500,
                   fontSize: 15,
                   fontFamily: StringUtils.pretendard
                 ),
@@ -758,8 +774,8 @@ Row fundStatusWidget(int step) {
                 style: TextStyle(
                   fontFamily: StringUtils.pretendard,
                   fontSize: 18,
-                  fontWeight: (step == 1) ? FontWeight.bold : FontWeight.w400,
-                  color: (step == 1) ? const Color(0xff111111) : const Color(0xff434343)
+                  fontWeight: (status == FundStatus.receivingDocuments || status == FundStatus.accepting) ? FontWeight.bold : FontWeight.w400,
+                  color: (status == FundStatus.receivingDocuments || status == FundStatus.accepting) ? const Color(0xff111111) : const Color(0xff434343)
                 ),
               ),
             )
@@ -786,13 +802,13 @@ Row fundStatusWidget(int step) {
                 width: 88,
                 height: 33,
                 decoration: BoxDecoration(
-                  color: (step == 2) ? const Color(0xff5992ef) : const Color(0xffb5becc),
+                  color: (status == FundStatus.stockPayment) ? const Color(0xff5992ef) : const Color(0xffb5becc),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text("STEP 02",
                   style: TextStyle(
                       color: Colors.white,
-                      fontWeight: (step == 2) ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: (status == FundStatus.stockPayment) ? FontWeight.w600 : FontWeight.w500,
                       fontSize: 15,
                       fontFamily: StringUtils.pretendard
                   ),
@@ -815,8 +831,8 @@ Row fundStatusWidget(int step) {
                   style: TextStyle(
                       fontFamily: StringUtils.pretendard,
                       fontSize: 18,
-                      fontWeight: (step == 2) ? FontWeight.bold : FontWeight.w400,
-                      color: (step == 2) ? const Color(0xff111111) : const Color(0xff434343)
+                      fontWeight: (status == FundStatus.stockPayment) ? FontWeight.bold : FontWeight.w400,
+                      color: (status == FundStatus.stockPayment) ? const Color(0xff111111) : const Color(0xff434343)
                   ),
                 ),
               )
@@ -843,13 +859,13 @@ Row fundStatusWidget(int step) {
                 width: 88,
                 height: 33,
                 decoration: BoxDecoration(
-                  color: (step == 3) ? const Color(0xff0361f9) : const Color(0xffb5becc),
+                  color: (status == FundStatus.stockPaymentComplete) ? const Color(0xff0361f9) : const Color(0xffb5becc),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text("STEP 03",
                   style: TextStyle(
                       color: Colors.white,
-                      fontWeight: (step == 3) ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: (status == FundStatus.stockPaymentComplete) ? FontWeight.w600 : FontWeight.w500,
                       fontSize: 15,
                       fontFamily: StringUtils.pretendard
                   ),
@@ -872,8 +888,8 @@ Row fundStatusWidget(int step) {
                   style: TextStyle(
                       fontFamily: StringUtils.pretendard,
                       fontSize: 18,
-                      fontWeight: (step == 3) ? FontWeight.bold : FontWeight.w400,
-                      color: (step == 3) ? const Color(0xff111111) : const Color(0xff434343)
+                      fontWeight: (status == FundStatus.stockPaymentComplete) ? FontWeight.bold : FontWeight.w400,
+                      color: (status == FundStatus.stockPaymentComplete) ? const Color(0xff111111) : const Color(0xff434343)
                   ),
                 ),
               )
@@ -900,13 +916,13 @@ Row fundStatusWidget(int step) {
                 width: 88,
                 height: 33,
                 decoration: BoxDecoration(
-                  color: (step == 4) ? const Color(0xff004cc6) : const Color(0xffb5becc),
+                  color: (status == FundStatus.governmentProcess) ? const Color(0xff004cc6) : const Color(0xffb5becc),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text("STEP 04",
                   style: TextStyle(
                       color: Colors.white,
-                      fontWeight: (step == 4) ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: (status == FundStatus.governmentProcess) ? FontWeight.w600 : FontWeight.w500,
                       fontSize: 15,
                       fontFamily: StringUtils.pretendard
                   ),
@@ -929,8 +945,8 @@ Row fundStatusWidget(int step) {
                   style: TextStyle(
                       fontFamily: StringUtils.pretendard,
                       fontSize: 18,
-                      fontWeight: (step == 4) ? FontWeight.bold : FontWeight.w400,
-                      color: (step == 4) ? const Color(0xff111111) : const Color(0xff434343)
+                      fontWeight: (status == FundStatus.governmentProcess) ? FontWeight.bold : FontWeight.w400,
+                      color: (status == FundStatus.governmentProcess) ? const Color(0xff111111) : const Color(0xff434343)
                   ),
                 ),
               )
@@ -957,13 +973,13 @@ Row fundStatusWidget(int step) {
                 width: 88,
                 height: 33,
                 decoration: BoxDecoration(
-                  color: (step == 5) ? const Color(0xff002997) : const Color(0xffb5becc),
+                  color: (status == FundStatus.stockPaymentComplete) ? const Color(0xff002997) : const Color(0xffb5becc),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text("STEP 05",
                   style: TextStyle(
                       color: Colors.white,
-                      fontWeight: (step == 5) ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: (status == FundStatus.stockPaymentComplete) ? FontWeight.w600 : FontWeight.w500,
                       fontSize: 15,
                       fontFamily: StringUtils.pretendard
                   ),
@@ -986,8 +1002,8 @@ Row fundStatusWidget(int step) {
                   style: TextStyle(
                       fontFamily: StringUtils.pretendard,
                       fontSize: 18,
-                      fontWeight: (step == 5) ? FontWeight.bold : FontWeight.w400,
-                      color: (step == 5) ? const Color(0xff111111) : const Color(0xff434343)
+                      fontWeight: (status == FundStatus.stockPaymentComplete) ? FontWeight.bold : FontWeight.w400,
+                      color: (status == FundStatus.stockPaymentComplete) ? const Color(0xff111111) : const Color(0xff434343)
                   ),
                 ),
               )

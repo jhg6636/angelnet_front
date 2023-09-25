@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
+import 'package:angelnet/screens/lp/joined_fund_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -81,7 +82,7 @@ class Fund {
         startupName: json['startupName'] as String,
         mainProduct: json['mainProduct'] as String,
         managerName: json['manager'] as String,
-        startAt: DateTime.parse(json['startAt']),
+        startAt: DateTime(json['startAt'][0], json['startAt'][1], json['startAt'][2]),
         type: FundType.fromEnglish(json['type']),
         dissolvedAt: null,
         margin: null,
@@ -126,6 +127,7 @@ class Fund {
           DataCell(Text(status.korean)),
         ]
     );
+    
   }
 
   DataRow toFundingFundDataRow() {
@@ -203,6 +205,26 @@ class Fund {
       'memo': memo,
       'status': status.english,
     });
+  }
+
+  DataRow toLpMyPageRow(int index) {
+    return DataRow(
+        cells: [
+          DataCell(Text(index.toString())),
+          DataCell(
+            TextButton(
+              onPressed: () {
+                Get.to(JoinedFundScreen(fund: this,));
+              },
+              child: Text(name),
+            )
+          ),
+          DataCell(Text(startupName)),
+          DataCell(Text(StringUtils().currencyFormat(cost))),
+          DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt))),
+          DataCell(status.toSmallWidget()),
+        ]
+    );
   }
 
 }

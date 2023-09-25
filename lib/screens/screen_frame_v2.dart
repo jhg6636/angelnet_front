@@ -271,28 +271,43 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                           future: getMyInfo(),
                           builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
                             if (snapshot.hasError) {
-
+                              print("error");
+                              print(snapshot.error);
+                              print(snapshot.stackTrace);
+                              return const CircularProgressIndicator();
+                            } else if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: const Color(0xff0361f9),
+                                      radius: 15.0,
+                                      child: Text(
+                                        snapshot.data!["name"].toString()[0],
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                          fontFamily: StringUtils.pretendard,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: -0.4
+                                        ),
+                                      ),
+                                    ),
+                                    Text("${snapshot.data!["name"]} 님",
+                                        style: const TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: StringUtils.pretendard,
+                                          letterSpacing: -0.4,
+                                          color: Color(0xff555555),
+                                        )
+                                    ),
+                                  ],
+                                );
                             }
                           },
-                        ),
-                        Container(
-                          height: 300,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: const Color(0xff0361f9),
-                                radius: 40.0,
-                                child: Text(
-                                  myInfo["name"].toString()[0],
-                                  style: const TextStyle(color: Colors.white70, fontSize: 25.0),
-                                ),
-                              ),
-                              Text("${myInfo["name"]} 님",
-                                style: const TextStyle(fontSize: 20.0)
-                              ),
-                            ],
-                          ),
                         ),
                       ),
                       DropdownMenuItem(
@@ -384,16 +399,27 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(37, 0, 80, 0),
-                  child: const Badge(
-                    backgroundColor: Colors.transparent,
-                    offset: Offset(9, -9),
-                    label: Icon(Icons.circle, color: Color(0xff0361f9), size: 6), // todo 알림 없으면 null
-                    child: Icon(Remix.notification_2_line, size: 24, color: Color(0xff333333),),
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    Get.to(const NotificationScreen(isAdmin: false));
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(37, 0, 80, 0),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Badge(
+                      backgroundColor: Colors.transparent,
+                      offset: Offset(9, -9),
+                      label: Icon(Icons.circle, color: Color(0xff0361f9), size: 6), // todo 알림 없으면 null
+                      child: Icon(Remix.notification_2_line, size: 24, color: Color(0xff333333),),
+                    ),
                   ),
                 )
-
               ],
             )
           ],
