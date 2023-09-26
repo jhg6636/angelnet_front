@@ -238,20 +238,8 @@ class LpMyPageState extends State<LpMyPage> {
                             child: DataTable(
                               // todo 가운데정렬
                               // todo headingRow 아래 border 조정
-                                headingTextStyle: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: StringUtils.pretendard,
-                                  letterSpacing: -0.16,
-                                  color: Color(0xff222222),
-                                ),
-                                dataTextStyle: const TextStyle(
-                                    fontFamily: StringUtils.pretendard,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    letterSpacing: -0.16,
-                                    color: Color(0xff757575)
-                                ),
+                                headingTextStyle: WidgetUtils.dataTableHeadStyle,
+                                dataTextStyle: WidgetUtils.dataTableDataStyle,
                                 border: const TableBorder(
                                   top: BorderSide(color: Color(0xff333333), width: 2),
                                   bottom: BorderSide(color: Color(0xffe6e6e6)),

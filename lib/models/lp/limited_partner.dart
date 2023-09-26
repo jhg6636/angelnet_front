@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/screens/lp/joined_fund_screen.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -85,7 +86,11 @@ class LimitedPartner {
                 onPressed: () {
                   Get.to(LpJoinedFundScreen(lp: this,));
                 },
-                child: Text(fundName),
+                child: Text(fundName,
+                  style: WidgetUtils.dataTableDataStyle.apply(
+                    decoration: TextDecoration.underline
+                  ),
+                ),
               )
           ),
           DataCell(Text(startupName)),

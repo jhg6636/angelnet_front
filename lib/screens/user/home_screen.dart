@@ -24,6 +24,7 @@ class HomeScreenState extends State<HomeScreen> {
   final _stringIdController = TextEditingController();
   final _passwordController = TextEditingController();
   var idSaveChecked = false;
+  var loginTried = false;
 
   @override
   Widget build(BuildContext context) {
@@ -187,10 +188,10 @@ class HomeScreenState extends State<HomeScreen> {
               )
           )
         ),
-        // Container(
-        //   margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-        //   child: WidgetUtils.errorMessage("테스트용"),
-        // ),
+        if (loginTried) Container(
+          margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child: WidgetUtils.errorMessage("아이디/패스워드가 일치하지 않습니다."),
+        ),
         Container(
           margin: const EdgeInsets.fromLTRB(0, 46, 0, 0),
           child: Column(
@@ -350,10 +351,9 @@ class HomeScreenState extends State<HomeScreen> {
             break;
         }
       } else {
-        Fluttertoast.showToast(
-            msg: "ID/PW를 확인해주세요",
-            toastLength: Toast.LENGTH_LONG,
-            fontSize: 64.0);
+        setState(() {
+          loginTried = true;
+        });
       }
     } catch (e) {
       print("Error: $e");

@@ -16,8 +16,9 @@ class ResetPwScreen extends StatefulWidget {
 
   final String username;
   final String stringId;
+  final bool isLost;
 
-  const ResetPwScreen({super.key, required this.username, required this.stringId});
+  const ResetPwScreen({super.key, required this.username, required this.stringId, required this.isLost});
 
   @override
   State<StatefulWidget> createState() => ResetPwScreenState();
@@ -64,7 +65,7 @@ class ResetPwScreenState extends State<ResetPwScreen> {
                           color: Color(0xff111111)
                       )
                     ),
-                    Container(
+                    if (widget.isLost) Container(
                         margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                         child: Row(
                           children: [

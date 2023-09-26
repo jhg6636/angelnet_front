@@ -296,7 +296,9 @@ class MakeUserFormState extends State<MakeUserForm> {
                       fixedSize: const Size(128, 38),
                       padding: EdgeInsets.zero
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(ResetPwScreen(username: widget.user!.name, stringId: widget.user!.stringId, isLost: false));
+                    },
                     child: const Text("비밀번호 재설정",
                       style: TextStyle(
                         fontFamily: StringUtils.pretendard,
@@ -1016,38 +1018,41 @@ class MakeUserFormState extends State<MakeUserForm> {
                       print(validityString);
                       // Get.to(SignUpWelcomeScreen(userName: _nameController.text));
                       if (validityString == null) {
-                        try {
-                          var response = await signInApi(
-                            _stringIdController.text,
-                            _passwordController.text,
-                            _nameController.text,
-                            _phoneController.text,
-                            _emailBackController.text,
-                            _recommenderController.text,
-                          );
-                          if (response.statusCode != 200) {
-                            print(jsonDecode(utf8.decode(response.bodyBytes)));
-                          } else {
-                            if (widget.isEditing) {
-                              Fluttertoast.showToast(msg: "회원 정보 수정이 완료되었습니다.");
-                              Get.back();
-                            }
-                            else if (!widget.isEditing) {
-                              Get.to(SignUpWelcomeScreen(userName: _nameController.text));
-                              Get.deleteAll();
+                        if (widget.isEditing) {
+
+                        } else {
+                          try {
+                            var response = await signInApi(
+                              _stringIdController.text,
+                              _passwordController.text,
+                              _nameController.text,
+                              _phoneController.text,
+                              _emailBackController.text,
+                              _recommenderController.text,
+                            );
+                            if (response.statusCode != 200) {
+                              print(jsonDecode(utf8.decode(response.bodyBytes)));
                             } else {
-                              Navigator.pop(context);
+                              if (widget.isEditing) {
+
+                              }
+                              else if (!widget.isEditing) {
+                                Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                                Get.deleteAll();
+                              } else {
+                                Navigator.pop(context);
+                              }
                             }
+                          } catch (e) {
+                            print("Error: $e");
                           }
-                        } catch (e) {
-                          print("Error: $e");
                         }
                       } else {
                         showDialog(context: context, builder: (context) {
                           return CustomAlertWidget().informationWidget(
-                            context,
-                            "입력하신 정보를 다시 확인해 주세요.",
-                            "$validityString."
+                              context,
+                              "입력하신 정보를 다시 확인해 주세요.",
+                              "$validityString."
                           );
                         });
                       }
