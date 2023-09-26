@@ -1,41 +1,36 @@
 import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/models/fund/fund_status.dart';
+import 'package:angelnet/models/lp/limited_partner.dart';
+import 'package:angelnet/models/lp/lp_status.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:remixicon/remixicon.dart';
 
 import 'fund_detail_lp_screen.dart';
 
-class JoinedFundScreen extends StatefulWidget {
+class LpJoinedFundScreen extends StatefulWidget {
 
-  // todo fund 추가 + enum class 도입하여 문구 및 step 자동화
+  final LimitedPartner lp;
 
-  final Fund fund;
-
-  // final bool isRunning; // todo fundStatus로 관리하기
-  const JoinedFundScreen({super.key, required this.fund});
+  const LpJoinedFundScreen({super.key, required this.lp});
 
   @override
-  State<StatefulWidget> createState() => JoinedFundScreenState();
+  State<StatefulWidget> createState() => LpJoinedFundScreenState();
 
 }
 
-class JoinedFundScreenState extends State<JoinedFundScreen> {
+class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
 
   final fileNameController1 = TextEditingController();
   final fileNameController2 = TextEditingController();
   final fileNameController3 = TextEditingController();
-  bool isRunning = false;
   bool detailPageClicked = false;
 
   @override
   Widget build(BuildContext context) {
-    isRunning = (widget.fund.status == FundStatus.running) && !detailPageClicked;
     return ScreenFrameV2(
       main: Container(
           padding: const EdgeInsets.symmetric(horizontal: 320),
@@ -88,7 +83,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                             ),
                           ),
                         ),
-                        Text(widget.fund.name,
+                        Text(widget.lp.fundName,
                           style: const TextStyle(
                             fontSize: 19,
                             fontFamily: StringUtils.pretendard,
@@ -137,11 +132,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 )
               ),
-              if (!isRunning) Container(
+              if (!widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                child: fundStatusWidget(widget.fund.status),
+                child: lpStatusWidget(widget.lp.status),
               ),
-              if (!isRunning) Container(
+              if (!widget.lp.fundStatus.isRunning()) Container(
                 height: 83,
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: DottedBorder(
@@ -162,8 +157,8 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                           ),
                           child: const Icon(Remix.check_fill, size: 18, color: Colors.white,),
                         ),
-                        const Text("조합 결성이 진행 중입니다.",
-                          style: TextStyle(
+                        Text(widget.lp.status.joinedFundComment,
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 19,
                             fontFamily: StringUtils.pretendard,
@@ -176,7 +171,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                 )
               ),
 
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                   margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                   child: const Text("투자정보",
                     style: TextStyle(
@@ -187,11 +182,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ),
                   )
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(thickness: 2, color: Color(0xff333333),),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                 child: Row(
@@ -209,8 +204,8 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ),
                     Container(
                         margin: const EdgeInsets.fromLTRB(112, 0, 0, 0),
-                        child: const Text("리벤처스 테크 이노베이션 투자조합 6호",
-                          style: TextStyle(
+                        child: Text(widget.lp.fundName,
+                          style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 15,
                               fontFamily: StringUtils.pretendard,
@@ -222,11 +217,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 ),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(color: Color(0xffdddddd),),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                 child: Row(
@@ -244,8 +239,8 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ),
                     Container(
                         margin: const EdgeInsets.fromLTRB(98, 0, 0, 0),
-                        child: const Text("(주)플랜아이",
-                          style: TextStyle(
+                        child: Text(widget.lp.startupName,
+                          style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 15,
                               fontFamily: StringUtils.pretendard,
@@ -254,18 +249,18 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                           ),
                         )
                     ),
-                    if (isRunning) Container(
+                    if (widget.lp.fundStatus.isRunning()) Container(
                       margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                       child: const Divider(color: Color(0xffdddddd),),
                     )
                   ],
                 ),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(color: Color(0xffdddddd),),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                 child: Row(
@@ -283,8 +278,8 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ),
                     Container(
                         margin: const EdgeInsets.fromLTRB(94, 0, 0, 0),
-                        child: const Text("15 좌",
-                          style: TextStyle(
+                        child: Text("${widget.lp.stockCount} 좌",
+                          style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 15,
                               fontFamily: StringUtils.pretendard,
@@ -296,11 +291,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 ),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(color: Color(0xffdddddd),),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                 child: Row(
@@ -318,11 +313,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ),
                     Container(
                         margin: const EdgeInsets.fromLTRB(94, 0, 0, 0),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text("60,000,000",
-                              style: TextStyle(
+                            Text(StringUtils().currencyFormat(widget.lp.cost),
+                              style: const TextStyle(
                                   fontFamily: StringUtils.pretendard,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -330,7 +325,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                                   color: Color(0xff111111)
                               ),
                             ),
-                            Text("원",
+                            const Text("원",
                               style: TextStyle(
                                   fontWeight: FontWeight.w300,
                                   fontSize: 15,
@@ -345,11 +340,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 ),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: const Divider(color: Color(0xffdddddd),),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 41, 0, 0),
                 child: Row(
                   children: [
@@ -377,11 +372,11 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                   ],
                 ),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                 child: const Divider(thickness: 2, color: Color(0xff555555),),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                   padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
                   child: Row(
                     children: [
@@ -427,8 +422,8 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ],
                   )
               ),
-              if (isRunning) const Divider(color: Color(0xffdddddd),),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) const Divider(color: Color(0xffdddddd),),
+              if (widget.lp.fundStatus.isRunning()) Container(
                   margin: const EdgeInsets.fromLTRB(0, 41, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -482,7 +477,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                     ],
                   )
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                   width: 1280,
                   margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
                   child: DataTable(
@@ -693,7 +688,7 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
                 margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                 child: const Divider(thickness: 1, color: Color(0xffdddddd),),
               ),
-              if (isRunning) Container(
+              if (widget.lp.fundStatus.isRunning()) Container(
                 alignment: Alignment.center,
                 margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                 child: FilledButton(
@@ -721,295 +716,21 @@ class JoinedFundScreenState extends State<JoinedFundScreen> {
     isAdmin: false, crumbs: const ["마이페이지", "참여중인 조합"]
     );
   }
-
 }
 
-Row fundStatusWidget(FundStatus status) {
+Row lpStatusWidget(LpStatus status) {
+  var containers = <Widget>[];
+  for (var thisStatus in LpStatus.values) {
+    containers.add((status == thisStatus) ? thisStatus.toEnabledWidget() : thisStatus.toDisabledWidget());
+    if (thisStatus.index != 4) {
+      containers.add(Container(
+          margin: const EdgeInsets.fromLTRB(13, 0, 12, 0),
+          child: const Text("▶", style: TextStyle(fontSize: 14, color: Color(0xff33363b)),)
+      ));
+    }
+  }
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Container(
-        width: 200,
-        height: 210,
-        padding: const EdgeInsets.fromLTRB(0, 24, 0, 34),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: const Color(0xffdddddd))
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              width: 88,
-              height: 33,
-              decoration: BoxDecoration(
-                color: (status == FundStatus.receivingDocuments || status == FundStatus.accepting)
-                    ? const Color(0xff1badfb) : const Color(0xffb5becc),
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Text("STEP 01",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: (status == FundStatus.receivingDocuments || status == FundStatus.accepting) ? FontWeight.w600 : FontWeight.w500,
-                  fontSize: 15,
-                  fontFamily: StringUtils.pretendard
-                ),
-              ),
-            ),
-            Container(
-              width: 50.83,
-              height: 44.62,
-              margin: const EdgeInsets.fromLTRB(0, 23, 0, 0),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('lib/assets/images/fund_image_1.png'),
-                  fit: BoxFit.cover
-                )
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 28.38, 0, 0),
-              child: Text("서류제출",
-                style: TextStyle(
-                  fontFamily: StringUtils.pretendard,
-                  fontSize: 18,
-                  fontWeight: (status == FundStatus.receivingDocuments || status == FundStatus.accepting) ? FontWeight.bold : FontWeight.w400,
-                  color: (status == FundStatus.receivingDocuments || status == FundStatus.accepting) ? const Color(0xff111111) : const Color(0xff434343)
-                ),
-              ),
-            )
-          ],
-        )
-      ),
-      Container(
-        margin: const EdgeInsets.fromLTRB(14, 0, 12, 0),
-        child: const Text("▶", style: TextStyle(fontSize: 14, color: Color(0xff33363b)),)
-      ),
-      Container(
-          width: 200,
-          height: 210,
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 34),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: const Color(0xffdddddd))
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                width: 88,
-                height: 33,
-                decoration: BoxDecoration(
-                  color: (status == FundStatus.stockPayment) ? const Color(0xff5992ef) : const Color(0xffb5becc),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Text("STEP 02",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: (status == FundStatus.stockPayment) ? FontWeight.w600 : FontWeight.w500,
-                      fontSize: 15,
-                      fontFamily: StringUtils.pretendard
-                  ),
-                ),
-              ),
-              Container(
-                width: 48.62,
-                height: 44.84,
-                margin: const EdgeInsets.fromLTRB(0, 25.35, 0, 0),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('lib/assets/images/fund_image_2.png'),
-                        fit: BoxFit.cover
-                    )
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 25.81, 0, 0),
-                child: Text("입금대기",
-                  style: TextStyle(
-                      fontFamily: StringUtils.pretendard,
-                      fontSize: 18,
-                      fontWeight: (status == FundStatus.stockPayment) ? FontWeight.bold : FontWeight.w400,
-                      color: (status == FundStatus.stockPayment) ? const Color(0xff111111) : const Color(0xff434343)
-                  ),
-                ),
-              )
-            ],
-          )
-      ),
-      Container(
-          margin: const EdgeInsets.fromLTRB(14, 0, 12, 0),
-          child: const Text("▶", style: TextStyle(fontSize: 14, color: Color(0xff33363b)),)
-      ),
-      Container(
-          width: 200,
-          height: 210,
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 34),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: const Color(0xffdddddd))
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                width: 88,
-                height: 33,
-                decoration: BoxDecoration(
-                  color: (status == FundStatus.stockPaymentComplete) ? const Color(0xff0361f9) : const Color(0xffb5becc),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Text("STEP 03",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: (status == FundStatus.stockPaymentComplete) ? FontWeight.w600 : FontWeight.w500,
-                      fontSize: 15,
-                      fontFamily: StringUtils.pretendard
-                  ),
-                ),
-              ),
-              Container(
-                width: 39,
-                height: 46.01,
-                margin: const EdgeInsets.fromLTRB(0, 24.76, 0, 0),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('lib/assets/images/fund_image_3.png'),
-                        fit: BoxFit.cover
-                    )
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 25.22, 0, 0),
-                child: Text("입금완료",
-                  style: TextStyle(
-                      fontFamily: StringUtils.pretendard,
-                      fontSize: 18,
-                      fontWeight: (status == FundStatus.stockPaymentComplete) ? FontWeight.bold : FontWeight.w400,
-                      color: (status == FundStatus.stockPaymentComplete) ? const Color(0xff111111) : const Color(0xff434343)
-                  ),
-                ),
-              )
-            ],
-          )
-      ),
-      Container(
-          margin: const EdgeInsets.fromLTRB(14, 0, 12, 0),
-          child: const Text("▶", style: TextStyle(fontSize: 14, color: Color(0xff33363b)),)
-      ),
-      Container(
-          width: 200,
-          height: 210,
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 34),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: const Color(0xffdddddd))
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                width: 88,
-                height: 33,
-                decoration: BoxDecoration(
-                  color: (status == FundStatus.governmentProcess) ? const Color(0xff004cc6) : const Color(0xffb5becc),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Text("STEP 04",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: (status == FundStatus.governmentProcess) ? FontWeight.w600 : FontWeight.w500,
-                      fontSize: 15,
-                      fontFamily: StringUtils.pretendard
-                  ),
-                ),
-              ),
-              Container(
-                width: 48.54,
-                height: 42.41,
-                margin: const EdgeInsets.fromLTRB(0, 23.76, 0, 0),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('lib/assets/images/fund_image_4.png'),
-                        fit: BoxFit.cover
-                    )
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 29.83, 0, 0),
-                child: Text("중기부 승인 진행",
-                  style: TextStyle(
-                      fontFamily: StringUtils.pretendard,
-                      fontSize: 18,
-                      fontWeight: (status == FundStatus.governmentProcess) ? FontWeight.bold : FontWeight.w400,
-                      color: (status == FundStatus.governmentProcess) ? const Color(0xff111111) : const Color(0xff434343)
-                  ),
-                ),
-              )
-            ],
-          )
-      ),
-      Container(
-          margin: const EdgeInsets.fromLTRB(14, 0, 12, 0),
-          child: const Text("▶", style: TextStyle(fontSize: 14, color: Color(0xff33363b)),)
-      ),
-      Container(
-          width: 200,
-          height: 210,
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 34),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: const Color(0xffdddddd))
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                width: 88,
-                height: 33,
-                decoration: BoxDecoration(
-                  color: (status == FundStatus.stockPaymentComplete) ? const Color(0xff002997) : const Color(0xffb5becc),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Text("STEP 05",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: (status == FundStatus.stockPaymentComplete) ? FontWeight.w600 : FontWeight.w500,
-                      fontSize: 15,
-                      fontFamily: StringUtils.pretendard
-                  ),
-                ),
-              ),
-              Container(
-                width: 33.46,
-                height: 45.21,
-                margin: const EdgeInsets.fromLTRB(0, 23.76, 0, 0),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('lib/assets/images/fund_image_5.png'),
-                        fit: BoxFit.cover
-                    )
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 27.02, 0, 0),
-                child: Text("주금 납입",
-                  style: TextStyle(
-                      fontFamily: StringUtils.pretendard,
-                      fontSize: 18,
-                      fontWeight: (status == FundStatus.stockPaymentComplete) ? FontWeight.bold : FontWeight.w400,
-                      color: (status == FundStatus.stockPaymentComplete) ? const Color(0xff111111) : const Color(0xff434343)
-                  ),
-                ),
-              )
-            ],
-          )
-      )
-    ],
+    children: containers
   );
 }

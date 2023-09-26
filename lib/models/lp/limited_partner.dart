@@ -1,109 +1,58 @@
 import 'dart:convert';
 
 import 'package:angelnet/models/fund/fund.dart';
+import 'package:angelnet/screens/lp/joined_fund_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import '../../utils/FileUtils.dart';
 import '../../utils/StringUtils.dart';
 import '../fund/fund_status.dart';
+import 'lp_status.dart';
 
 class LimitedPartner {
 
   final int id;
-  final String stringId;
-  final String name;
-  final String phone;
   final int cost;
   final int stockCount;
-  final String? locUrl;
-  final String? taxDeductionUrl;
-  final DateTime? depositAt;
+  final DateTime startAt;
   final String fundName;
   final String startupName;
   final FundStatus fundStatus;
+  final LpStatus status;
 
-  LimitedPartner({
+  const LimitedPartner({
     required this.id,
-    required this.stringId,
-    required this.name,
-    required this.phone,
     required this.cost,
     required this.stockCount,
-    required this.locUrl,
-    required this.taxDeductionUrl,
-    required this.depositAt,
+    required this.startAt,
     required this.fundName,
     required this.startupName,
     required this.fundStatus,
+    required this.status,
   });
 
   factory LimitedPartner.fromJson(Map<String, dynamic> json) {
     return LimitedPartner(
-        id: json['lpId'] as int,
-        stringId: json['stringId'] as String,
-        name: json['name'] as String,
-        phone: json['phone'] as String,
+        id: json['id'] as int,
         cost: json['cost'] as int,
-        stockCount: json['stocks'] as int,
-        locUrl: json['locUrl'],
-        taxDeductionUrl: json['taxDeductionUrl'],
-        depositAt: json['depositAt'],
-        fundName: "fundName",
-        startupName: "startupName",
-        fundStatus: FundStatus.accepting,
+        stockCount: json['stockCount'] as int,
+        startAt: DateTime(json['startAt'][0], json['startAt'][1], json['startAt'][2]),
+        fundName: json['fundName'],
+        startupName: json['startupName'],
+        fundStatus: FundStatus.fromEnglish(json['fundStatus']),
+        status: LpStatus.fromEnglish(json['status'])
     );
   }
 
   DataRow toDataRow(int index) {
-    DataCell locCell;
-    DataCell taxDeductionCell;
-    DataCell depositAtCell;
-    if (locUrl == null) {
-      locCell = const DataCell(Text("X"));
-    } else {
-      locCell = DataCell(
-        TextButton.icon(
-            onPressed: () {
-              FileUtils().downloadFile(locUrl!!);
-            },
-            icon: const Icon(Icons.download),
-            label: const Text("다운로드")
-        )
-      );
-    }
-    
-    if (taxDeductionUrl == null) {
-      taxDeductionCell = const DataCell(Text("X"));
-    } else {
-      taxDeductionCell = DataCell(
-        TextButton.icon(
-          onPressed: () {
-            FileUtils().downloadFile(taxDeductionUrl!!);
-          },
-          icon: const Icon(Icons.download),
-          label: const Text("다운로드")
-        )
-      );
-    }
-    
-    if (depositAt == null) {
-      depositAtCell = DataCell(OutlinedButton(onPressed: () {}, child: const Text("입금확인")));
-    } else {
-      depositAtCell = DataCell(Text(depositAt.toString()));
-    }
-    
     return DataRow(
         cells: [
           DataCell(Text(index.toString())),
-          DataCell(Text(stringId)),
-          DataCell(Text(name)),
-          DataCell(Text(phone)),
           DataCell(Text(cost.toString())),
           DataCell(Text(stockCount.toString())),
-          locCell,
-          taxDeductionCell,
-          depositAtCell,
           DataCell(
               OutlinedButton(
                 onPressed: () { // todo 삭제 api
@@ -119,7 +68,7 @@ class LimitedPartner {
     return DataRow(
         cells: [
           DataCell(Text(index.toString())),
-          DataCell(Text(name)),
+          DataCell(Text(fundName)),
           DataCell(Text(startupName)),
           DataCell(Text(cost.toString())),
           DataCell(Text(fundStatus.korean)),
@@ -127,11 +76,43 @@ class LimitedPartner {
     );
   }
 
+  DataRow toLpMyPageRow(int index) {
+    return DataRow(
+        cells: [
+          DataCell(Text(index.toString())),
+          DataCell(
+              TextButton(
+                onPressed: () {
+                  Get.to(LpJoinedFundScreen(lp: this,));
+                },
+                child: Text(fundName),
+              )
+          ),
+          DataCell(Text(startupName)),
+          DataCell(Text(StringUtils().currencyFormat(cost))),
+          DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt!))),
+          DataCell(fundStatus.toSmallWidget()),
+        ]
+    );
+  }
+
 }
 
-Future<List<LimitedPartner>> fetchLpInFund(int fundId) async {
+// Future<List<LimitedPartner>> fetchLpInFund(int fundId) async {
+//   var response = await http.get(
+//     StringUtils().stringToUri('admin/lp-in-fund', params: {"fundId": fundId.toString()}),
+//     headers: await StringUtils().header(),
+//   );
+//
+//   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+//   print(responseBody);
+//
+//   return responseBody.map<LimitedPartner>((json) => LimitedPartner.fromJson(json)).toList();
+// }
+
+Future<List<LimitedPartner>> fetchMine() async {
   var response = await http.get(
-    StringUtils().stringToUri('admin/lp-in-fund', params: {"fundId": fundId.toString()}),
+    StringUtils().stringToUri('lp/my-fund'),
     headers: await StringUtils().header(),
   );
 

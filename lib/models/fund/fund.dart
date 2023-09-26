@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import '../../screens/admin/fund_detail_admin_screen.dart';
 import '../../screens/lp/fund_detail_lp_screen.dart';
 import '../../utils/StringUtils.dart';
+import '../lp/limited_partner.dart';
 import 'fund_status.dart';
 import 'fund_type.dart';
 
@@ -205,26 +206,6 @@ class Fund {
       'memo': memo,
       'status': status.english,
     });
-  }
-
-  DataRow toLpMyPageRow(int index) {
-    return DataRow(
-        cells: [
-          DataCell(Text(index.toString())),
-          DataCell(
-            TextButton(
-              onPressed: () {
-                Get.to(JoinedFundScreen(fund: this,));
-              },
-              child: Text(name),
-            )
-          ),
-          DataCell(Text(startupName)),
-          DataCell(Text(StringUtils().currencyFormat(cost))),
-          DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt))),
-          DataCell(status.toSmallWidget()),
-        ]
-    );
   }
 
 }

@@ -29,7 +29,6 @@ class LpMyPage extends StatefulWidget {
 }
 
 class LpMyPageState extends State<LpMyPage> {
-  Future<List<Fund>> funds = fetchMyFunds();
   var totalCost = 0;
 
   @override
@@ -207,16 +206,24 @@ class LpMyPageState extends State<LpMyPage> {
                 ),
               ),
               FutureBuilder(
-                future: fetchMyFunds(),
-                builder: (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
+                future: fetchMine(),
+                builder: (BuildContext context, AsyncSnapshot<List<LimitedPartner>> snapshot) {
                   if (snapshot.hasError) {
                     print(snapshot.error);
                     print('----');
                     print(snapshot.stackTrace);
                     print('----');
-                    return const CircularProgressIndicator();
+                    return Container(
+                      margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(),
+                    );
                   } else if (!snapshot.hasData) {
-                    return const CircularProgressIndicator();
+                    return Container(
+                      margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(),
+                    );
                   } else {
                     for (var fund in snapshot.data!) {
                       totalCost += fund.cost;

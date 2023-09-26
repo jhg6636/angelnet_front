@@ -311,6 +311,9 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                         ),
                       ),
                       DropdownMenuItem(
+                        onTap: () async {
+                          Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
+                        },
                         value: "MyPage",
                         child: TextButton(
                           onPressed: () async {
@@ -337,6 +340,10 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                         ),
                       ),
                       DropdownMenuItem(
+                        onTap: () async {
+                          // todo logout
+                          Get.to(const HomeScreen());
+                        },
                         value: "LogOut",
                         child: TextButton(
                           onPressed: () async {
@@ -365,6 +372,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                       )
                     ],
                     hint: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         FutureBuilder(
                           future: getMyInfo(),
@@ -374,12 +382,17 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                             } else if (!snapshot.hasData) {
                               return const CircularProgressIndicator();
                             } else {
-                              return Text(snapshot.data!['name'],
-                                style: const TextStyle(
-                                  color: Color(0xff000000),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: StringUtils.pretendard,
+                              return Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(snapshot.data!['name'],
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(
+                                    color: Color(0xff000000),
+                                    fontSize: 16,
+                                    letterSpacing: -0.16,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: StringUtils.pretendard,
+                                  ),
                                 ),
                               );
                             }

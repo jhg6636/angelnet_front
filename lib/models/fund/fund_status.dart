@@ -7,7 +7,6 @@ enum FundStatus {
   accepting(korean: "참여신청", english: "ACCEPTING", smallWidgetColor: Color(0xff0361f9)),
   receivingDocuments(korean: "서류접수중", english: "RECEIVING_DOCUMENTS", smallWidgetColor: Color(0xff43a3d6)),
   stockPayment(korean: "주금납입", english: "STOCK_PAYMENT", smallWidgetColor: Color(0xff002997)),
-  stockPaymentComplete(korean: "주금납입완료", english: "STOCK_PAYMENT_COMPLETE", smallWidgetColor: Color(0xff002997)),
   governmentProcess(korean: "중기부 승인 진행", english: "GOVERNMENT_PROCESS", smallWidgetColor: Color(0xff43a3d6)),
   running(korean: "운용중", english: "RUNNING", smallWidgetColor: Color(0xff04b45f)),
   dissolved(korean: "해산", english: "DISSOLVED", smallWidgetColor: Color(0xff323c4e));
@@ -36,7 +35,7 @@ enum FundStatus {
         return FundStatus.receivingDocuments;
       case "STOCK_PAYMENT":
         return FundStatus.stockPayment;
-      case "COMPLETE":
+      case "RUNNING":
         return FundStatus.running;
       case "DISSOLVED":
         return FundStatus.dissolved;
@@ -54,5 +53,7 @@ enum FundStatus {
       child: Text(korean, style: FundStatus.statusTextStyle,),
     );
   }
+
+  bool isRunning() => index >= running.index;
 
 }
