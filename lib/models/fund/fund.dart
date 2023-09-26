@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-import 'package:angelnet/screens/lp/joined_fund_screen.dart';
+import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +11,6 @@ import 'package:intl/intl.dart';
 import '../../screens/admin/fund_detail_admin_screen.dart';
 import '../../screens/lp/fund_detail_lp_screen.dart';
 import '../../utils/StringUtils.dart';
-import '../lp/limited_partner.dart';
 import 'fund_status.dart';
 import 'fund_type.dart';
 
@@ -44,114 +43,106 @@ class Fund {
   String? etcUrl;
   bool isFunding;
 
-  Fund(
-      {
-        required this.id,
-        required this.name,
-        required this.startupName,
-        required this.mainProduct,
-        required this.managerName,
-        required this.startAt,
-        required this.type,
-        required this.dissolvedAt,
-        required this.margin,
-        required this.cost,
-        required this.costPerShare,
-        required this.currentFundedCost,
-        required this.currentMemberCount,
-        required this.totalMember,
-        required this.minimumShare,
-        required this.totalShare,
-        required this.status,
-        required this.payAt,
-        required this.value,
-        required this.recommender,
-        required this.groupName,
-        required this.memo,
-        required this.irUrl,
-        required this.fundIdDocumentUrl,
-        required this.ruleUrl,
-        required this.etcUrl,
-        required this.isFunding,
-      }
-  );
+  Fund({
+    required this.id,
+    required this.name,
+    required this.startupName,
+    required this.mainProduct,
+    required this.managerName,
+    required this.startAt,
+    required this.type,
+    required this.dissolvedAt,
+    required this.margin,
+    required this.cost,
+    required this.costPerShare,
+    required this.currentFundedCost,
+    required this.currentMemberCount,
+    required this.totalMember,
+    required this.minimumShare,
+    required this.totalShare,
+    required this.status,
+    required this.payAt,
+    required this.value,
+    required this.recommender,
+    required this.groupName,
+    required this.memo,
+    required this.irUrl,
+    required this.fundIdDocumentUrl,
+    required this.ruleUrl,
+    required this.etcUrl,
+    required this.isFunding,
+  });
 
   factory Fund.fromJson(Map<String, dynamic> json) {
     return Fund(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        startupName: json['startupName'] as String,
-        mainProduct: json['mainProduct'] as String,
-        managerName: json['manager'] as String,
-        startAt: DateTime(json['startAt'][0], json['startAt'][1], json['startAt'][2]),
-        type: FundType.fromEnglish(json['type']),
-        dissolvedAt: null,
-        margin: null,
-        cost: json['cost'] as int,
-        costPerShare: json['costPerShare'] as int,
-        currentFundedCost: json['currentFundedCost'] as int,
-        currentMemberCount: json['currentMemberCount'] as int,
-        status: FundStatus.fromEnglish(json['status']),
-        payAt: DateTime.now(),
-        totalMember: json['totalMember'] as int,
-        minimumShare: json['minimumShare'] as int,
-        totalShare: json['totalShare'] as int,
-        value: json['value'] as int,
-        recommender: json['recommender'] as String?,
-        groupName: json['groupName'] as String?,
-        memo: json['memo'] as String?,
-        irUrl: null,
-        fundIdDocumentUrl: null,
-        ruleUrl: null,
-        etcUrl: null,
-        isFunding: true,
+      id: json['id'] as int,
+      name: json['name'] as String,
+      startupName: json['startupName'] as String,
+      mainProduct: json['mainProduct'] as String,
+      managerName: json['manager'] as String,
+      startAt:
+          DateTime(json['startAt'][0], json['startAt'][1], json['startAt'][2]),
+      type: FundType.fromEnglish(json['type']),
+      dissolvedAt: null,
+      margin: null,
+      cost: json['cost'] as int,
+      costPerShare: json['costPerShare'] as int,
+      currentFundedCost: json['currentFundedCost'] as int,
+      currentMemberCount: json['currentMemberCount'] as int,
+      status: FundStatus.fromEnglish(json['status']),
+      payAt: DateTime.now(),
+      totalMember: json['totalMember'] as int,
+      minimumShare: json['minimumShare'] as int,
+      totalShare: json['totalShare'] as int,
+      value: json['value'] as int,
+      recommender: json['recommender'] as String?,
+      groupName: json['groupName'] as String?,
+      memo: json['memo'] as String?,
+      irUrl: null,
+      fundIdDocumentUrl: null,
+      ruleUrl: null,
+      etcUrl: null,
+      isFunding: true,
     );
   }
 
   DataRow toAdminDataRow() {
-    return DataRow(
-        cells: [
-          DataCell(Text(id.toString())),
-          DataCell(TextButton(
-            onPressed: () {
-              Get.to(FundDetailAdminScreen());
-              // Get.to(FundDetailAdminScreen(fund: this));
-            },
-            child: Text(name),
-          )),
-          DataCell(Text(startupName)),
-          DataCell(Text(cost.toString())),
-          DataCell(Text(currentFundedCost.toString())),
-          DataCell(Text((cost-currentFundedCost).toString())),
-          DataCell(Text(currentMemberCount.toString())),
-          DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt))),
-          DataCell(Text(status.korean)),
-        ]
-    );
-    
+    return DataRow(cells: [
+      DataCell(Text(id.toString())),
+      DataCell(TextButton(
+        onPressed: () {
+          Get.to(const FundDetailAdminScreen());
+          // Get.to(FundDetailAdminScreen(fund: this));
+        },
+        child: Text(name),
+      )),
+      DataCell(Text(startupName)),
+      DataCell(Text(cost.toString())),
+      DataCell(Text(currentFundedCost.toString())),
+      DataCell(Text((cost - currentFundedCost).toString())),
+      DataCell(Text(currentMemberCount.toString())),
+      DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt))),
+      DataCell(Text(status.korean)),
+    ]);
   }
 
   DataRow toFundingFundDataRow() {
-    return DataRow(
-        cells: [
-          DataCell(Text(name)),
-          DataCell(Text(startupName)),
-          DataCell(Text(mainProduct)),
-          DataCell(Text(cost.toString())),
-          DataCell(Text((currentFundedCost/costPerShare).toString())),
-          DataCell(Text(((cost - currentFundedCost)/costPerShare).toString())),
-          DataCell(Text((totalMember-currentMemberCount).toString())),
-          DataCell(
-              ElevatedButton.icon(
-                onPressed: () {
-                  Get.to(FundDetailLpScreen(fund: this));
-                },
-                icon: const Icon(Icons.search),
-                label: const Text("자세히 보기"),
-              )
-          ),
-        ]
-    );
+    return DataRow(cells: [
+      DataCell(Text(name)),
+      DataCell(Text(startupName)),
+      DataCell(Text(mainProduct)),
+      DataCell(Text(cost.toString())),
+      DataCell(Text((currentFundedCost / costPerShare).toString())),
+      DataCell(Text(((cost - currentFundedCost) / costPerShare).toString())),
+      DataCell(Text((totalMember - currentMemberCount).toString())),
+      DataCell(ElevatedButton.icon(
+        onPressed: () {
+          Get.to(FundDetailLpScreen(fund: this));
+        },
+        icon: const Icon(Icons.search),
+        label: const Text("자세히 보기"),
+      )),
+    ]);
   }
 
   DataRow toAllPortfolioRow() {
@@ -167,22 +158,35 @@ class Fund {
   }
 
   DataTable toBasicTable() {
-    return DataTable(
-        columns: const [
-          DataColumn(label: Text("")),
-          DataColumn(label: Text("")),
-        ],
-        rows: [
-          DataRow(cells: [const DataCell(Text("결성 금액")), DataCell(Text(cost.toString()))]),
-          DataRow(cells: [const DataCell(Text("1좌당 금액")), DataCell(Text(costPerShare.toString()))]),
-          DataRow(cells: [const DataCell(Text("투자 종목")), DataCell(Text(startupName))]),
-          DataRow(cells: [const DataCell(Text("투자 형태")), DataCell(Text(type.korean))]),
-          DataRow(cells: [const DataCell(Text("상태")), DataCell(Text(status.korean))]),
-          DataRow(cells: [const DataCell(Text("조합 결성일")), DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt)))]),
-          DataRow(cells: [const DataCell(Text("주금 납입일")), DataCell(Text(DateFormat('yyyy-MM-dd').format(payAt)))]),
-          DataRow(cells: [const DataCell(Text("담당자")), DataCell(Text(managerName))]),
-        ]
-    );
+    return DataTable(columns: const [
+      DataColumn(label: Text("")),
+      DataColumn(label: Text("")),
+    ], rows: [
+      DataRow(cells: [
+        const DataCell(Text("결성 금액")),
+        DataCell(Text(cost.toString()))
+      ]),
+      DataRow(cells: [
+        const DataCell(Text("1좌당 금액")),
+        DataCell(Text(costPerShare.toString()))
+      ]),
+      DataRow(
+          cells: [const DataCell(Text("투자 종목")), DataCell(Text(startupName))]),
+      DataRow(
+          cells: [const DataCell(Text("투자 형태")), DataCell(Text(type.korean))]),
+      DataRow(
+          cells: [const DataCell(Text("상태")), DataCell(Text(status.korean))]),
+      DataRow(cells: [
+        const DataCell(Text("조합 결성일")),
+        DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt)))
+      ]),
+      DataRow(cells: [
+        const DataCell(Text("주금 납입일")),
+        DataCell(Text(DateFormat('yyyy-MM-dd').format(payAt)))
+      ]),
+      DataRow(
+          cells: [const DataCell(Text("담당자")), DataCell(Text(managerName))]),
+    ]);
   }
 
   String toPostRequest() {
@@ -208,13 +212,204 @@ class Fund {
     });
   }
 
+  Widget fundingFundContainer() => InkWell(
+    onTap: () {
+      Get.to(FundingFundDetailScreen(fund: this,));
+    },
+    child: Container(
+      padding: const EdgeInsets.fromLTRB(20, 27, 4, 27),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text(
+                    "참여가능 인원 ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontFamily: StringUtils.pretendard,
+                      color: Color(0xff333333),
+                      letterSpacing: -0.15,
+                    ),
+                  ),
+                  Text(
+                    (totalMember - currentMemberCount).toString(),
+                    style: const TextStyle(
+                      fontFamily: StringUtils.pretendard,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.15,
+                      color: Color(0xff0361f9),
+                    ),
+                  ),
+                  Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: const Text(
+                        "|",
+                        style:
+                        TextStyle(fontSize: 12, color: Color(0xffdddddd)),
+                      )),
+                  const Text(
+                    "참여좌수 ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontFamily: StringUtils.pretendard,
+                      color: Color(0xff333333),
+                      letterSpacing: -0.15,
+                    ),
+                  ),
+                  Text(
+                    (currentFundedCost / costPerShare).toString(),
+                    style: const TextStyle(
+                      fontFamily: StringUtils.pretendard,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.15,
+                      color: Color(0xff0361f9),
+                    ),
+                  ),
+                  Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: const Text(
+                        "|",
+                        style:
+                        TextStyle(fontSize: 12, color: Color(0xffdddddd)),
+                      )),
+                  const Text(
+                    "남은좌수 ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontFamily: StringUtils.pretendard,
+                      color: Color(0xff333333),
+                      letterSpacing: -0.15,
+                    ),
+                  ),
+                  Text(
+                    (totalShare - (currentFundedCost / costPerShare))
+                        .toString(),
+                    style: const TextStyle(
+                      fontFamily: StringUtils.pretendard,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.15,
+                      color: Color(0xff0361f9),
+                    ),
+                  ),
+                  Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: const Text(
+                        "|",
+                        style:
+                        TextStyle(fontSize: 12, color: Color(0xffdddddd)),
+                      ))
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: StringUtils.pretendard,
+                    letterSpacing: -0.22,
+                    color: Color(0xff191919),
+                  ),
+                ),
+              ),
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "주요제품",
+                        style: TextStyle(
+                          fontFamily: StringUtils.pretendard,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          letterSpacing: -0.15,
+                          color: Color(0xff333333),
+                        ),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: const Text(
+                            "|",
+                            style: TextStyle(
+                                fontSize: 12, color: Color(0xffdddddd)),
+                          )),
+                      Text(
+                        mainProduct,
+                        style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.15,
+                            color: Color(0xff757575)),
+                      )
+                    ],
+                  )),
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "결성금액",
+                        style: TextStyle(
+                          fontFamily: StringUtils.pretendard,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          letterSpacing: -0.15,
+                          color: Color(0xff333333),
+                        ),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: const Text(
+                            "|",
+                            style: TextStyle(
+                                fontSize: 12, color: Color(0xffdddddd)),
+                          )),
+                      Text(
+                        StringUtils().currencyFormat(cost),
+                        style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.15,
+                            color: Color(0xff000000)),
+                      ),
+                      const Text(
+                        "원",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.15,
+                            color: Color(0xff757575)),
+                      )
+                    ],
+                  ))
+            ],
+          ),
+          status.toBigWidget(),
+        ],
+      ),
+    ),
+  );
 }
 
 Future<List<Fund>> fetchMyFunds() async {
-  var response = await http.get(
-      StringUtils().stringToUri('lp/my-fund'),
-      headers: await StringUtils().header()
-  );
+  var response = await http.get(StringUtils().stringToUri('lp/my-fund'),
+      headers: await StringUtils().header());
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
 
@@ -259,17 +454,15 @@ Future<http.Response> joinFund(int fundId, int stockCount) async {
 
 Future<http.Response> unjoinFund(int fundId, int? userId) async {
   return await http.delete(
-    StringUtils().stringToUri('lp/fund', params: {"fundId": fundId, "userId": userId}),
+    StringUtils()
+        .stringToUri('lp/fund', params: {"fundId": fundId, "userId": userId}),
     headers: await StringUtils().header(),
   );
 }
 
 Future<http.Response> checkDeposit(int lpId) async {
-  return await http.post(
-    StringUtils().stringToUri('admin/deposit'),
-    headers: await StringUtils().header(),
-    body: jsonEncode({"lpId": lpId})
-  );
+  return await http.post(StringUtils().stringToUri('admin/deposit'),
+      headers: await StringUtils().header(), body: jsonEncode({"lpId": lpId}));
 }
 
 Future<http.Response> uncheckDeposit(int lpId) async {
@@ -298,17 +491,13 @@ Future<http.Response> editFund(Fund fund) async {
 }
 
 Future<http.Response> postFundDocument(Uint8List bytes, String ext) async {
-  return await http.post(
-    StringUtils().stringToUri('admin/fund/document'),
-    headers: await StringUtils().header(),
-    body: jsonEncode({"file": bytes, "ext": ext})
-  );
+  return await http.post(StringUtils().stringToUri('admin/fund/document'),
+      headers: await StringUtils().header(),
+      body: jsonEncode({"file": bytes, "ext": ext}));
 }
 
 Future<http.Response> changeIsFunding(Fund fund, bool isFunding) async {
-  return await http.put(
-    StringUtils().stringToUri('admin/is-funding'),
-    headers: await StringUtils().header(),
-    body: jsonEncode({"fundId": fund.id, "isFunding": isFunding})
-  );
+  return await http.put(StringUtils().stringToUri('admin/is-funding'),
+      headers: await StringUtils().header(),
+      body: jsonEncode({"fundId": fund.id, "isFunding": isFunding}));
 }
