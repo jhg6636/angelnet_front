@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:angelnet/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -113,6 +114,13 @@ class StringUtils {
   String currencyFormat(int number) {
     var f = NumberFormat.currency(locale: 'ko-kr', symbol: "");
     return f.format(number);
+  }
+
+  void printError(AsyncSnapshot<dynamic> snapshot) {
+    print('====');
+    print(snapshot.error);
+    print('----');
+    print(snapshot.stackTrace);
   }
 
 }

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/admin/manage_user_screen.dart';
+import 'package:angelnet/screens/lp/lp_mypage.dart';
 import 'package:angelnet/screens/user/sign_up_welcome_screen.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/user/sign_up_process_widget.dart';
@@ -12,6 +14,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../models/common/user_level.dart';
 import '../../screens/user/home_screen.dart';
 import '../../screens/user/reset_pw_screen.dart';
 import '../../utils/StringUtils.dart';
@@ -46,7 +49,7 @@ class MakeUserFormState extends State<MakeUserForm> {
   TextEditingController _workspaceController = TextEditingController();
 
   final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
-  var _userLevel = 'LP';
+  var _userLevel = UserLevel.lp;
   bool? notDuplicated;
 
   @override
@@ -931,11 +934,11 @@ class MakeUserFormState extends State<MakeUserForm> {
                   Radio(
                     activeColor: const Color(0xff505050),
                     splashRadius: 1,
-                    value: 'LP',
+                    value: UserLevel.lp,
                     groupValue: _userLevel,
                     onChanged: (value) {
                       setState(() {
-                        _userLevel = 'LP';
+                        _userLevel = UserLevel.lp;
                       });
                     },
                   ),
@@ -954,11 +957,11 @@ class MakeUserFormState extends State<MakeUserForm> {
                   Radio(
                     activeColor: const Color(0xff505050),
                     splashRadius: 1,
-                    value: 'ADMIN',
+                    value: UserLevel.admin,
                     groupValue: _userLevel,
                     onChanged: (value) {
                       setState(() {
-                        _userLevel = 'ADMIN';
+                        _userLevel = UserLevel.admin;
                       });
                     },
                   ),
@@ -1019,7 +1022,28 @@ class MakeUserFormState extends State<MakeUserForm> {
                       // Get.to(SignUpWelcomeScreen(userName: _nameController.text));
                       if (validityString == null) {
                         if (widget.isEditing) {
-
+                          try {
+                            var response = await editUserApi(
+                              widget.user!.stringId,
+                              _nameController.text,
+                              _phoneController.text,
+                              "${_emailFrontController.text}@${_emailBackController.text}",
+                              _recommenderController.text,
+                              _workspaceController.text,
+                              _userLevel
+                            );
+                            if (response.statusCode != 200) {
+                              print(jsonDecode(utf8.decode(response.bodyBytes)));
+                            } else {
+                              if (widget.isAdmin) {
+                                Get.to(const ManageUserScreen());
+                              } else {
+                                Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
+                              }
+                            }
+                          } catch (e) {
+                            print('error: $e');
+                          }
                         } else {
                           try {
                             var response = await signInApi(
@@ -1027,8 +1051,9 @@ class MakeUserFormState extends State<MakeUserForm> {
                               _passwordController.text,
                               _nameController.text,
                               _phoneController.text,
-                              _emailBackController.text,
+                              "${_emailFrontController.text}@${_emailBackController.text}",
                               _recommenderController.text,
+                              _workspaceController.text,
                             );
                             if (response.statusCode != 200) {
                               print(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -1078,17 +1103,17 @@ class MakeUserFormState extends State<MakeUserForm> {
   }
 
   String? checkValidity() {
-    if (notDuplicated == null) {
+    if (notDuplicated == null && !widget.isEditing) {
       return "ID 중복확인을 진행해 주세요.";
     }
     // if (!isValidStringId()) {
     if (!(widget.isEditing || StringUtils().isValidStringId(_stringIdController.text))) {
       return "ID를 확인해 주세요";
     }
-    if (!StringUtils().isValidPassword(_passwordController.text)) {
+    if (!(widget.isEditing || StringUtils().isValidPassword(_passwordController.text))) {
       return "PW를 확인해 주세요";
     }
-    if (!StringUtils().checkSamePassword(_passwordController.text, _passwordCheckController.text)) {
+    if (!(widget.isEditing || StringUtils().checkSamePassword(_passwordController.text, _passwordCheckController.text))) {
       return "비밀번호가 다릅니다.";
     }
     if (!StringUtils().isValidName(_nameController.text)) {

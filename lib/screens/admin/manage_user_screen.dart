@@ -2,6 +2,7 @@ import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../../models/common/user.dart';
@@ -24,6 +25,7 @@ class ManageUserScreenState extends State<ManageUserScreen> {
   final searchOptions = ['전체', '이름', 'ID', '연락처'];
   final searchTextController = TextEditingController();
   final scrollController = ScrollController();
+  Future<List<User>> users = fetchUsers();
 
   @override
   Widget build(BuildContext context) {
@@ -148,39 +150,6 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                      child: const Text("페이지",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          fontFamily: StringUtils.pretendard,
-                          letterSpacing: -0.16,
-                          color: Color(0xff333333),
-                        ),
-                      ),
-                    ),
-                    const Text("1",
-                      style: TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -0.16,
-                        color: Color(0xff333333),
-                      ),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        child: const Text("/6",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            fontFamily: StringUtils.pretendard,
-                            letterSpacing: -0.16,
-                            color: Color(0xff333333),
-                          ),
-                        )
-                    ),
                     const Text("총 ",
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -190,14 +159,42 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                         color: Color(0xff333333),
                       ),
                     ),
-                    const Text("60",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        fontFamily: StringUtils.pretendard,
-                        letterSpacing: -0.16,
-                        color: Color(0xff333333),
-                      ),
+                    FutureBuilder(
+                      future: users,
+                      builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                        if (snapshot.hasError) {
+                          StringUtils().printError(snapshot);
+                          return const Text("0",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          );
+                        } else if (!snapshot.hasData) {
+                          return const Text("0",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          );
+                        } else {
+                          return Text((snapshot.data?.length ?? 0).toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          );
+                        }
+                      }
                     ),
                     const Text("건",
                       style: TextStyle(
@@ -254,7 +251,15 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                               borderRadius: BorderRadius.circular(50)
                           )
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(
+                          const ScreenFrameV2(
+                            main: MakeUserForm(isAdmin: true, isEditing: false, user: null),
+                            isAdmin: true,
+                            crumbs: ['회원관리', '신규회원등록']
+                          )
+                        );
+                      },
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: Row(
@@ -289,150 +294,22 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                 child: SingleChildScrollView(
                   controller: scrollController,
                   scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    // todo 정렬
-                    headingTextStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: StringUtils.pretendard,
-                        letterSpacing: -0.16,
-                        color: Color(0xff222222)
-                    ),
-                    dataTextStyle: const TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        letterSpacing: -0.16,
-                        color: Color(0xff757575)
-                    ),
-                    columns: const [
-                      DataColumn(label: Text("기능")),
-                      DataColumn(label: Text("번호")),
-                      DataColumn(label: Text("회원등급")),
-                      DataColumn(label: Text("이름")),
-                      DataColumn(label: Text("ID")),
-                      DataColumn(label: Text("연락처")),
-                      DataColumn(label: Text("그룹")),
-                      DataColumn(label: Text("이메일")),
-                      DataColumn(label: Text("가입일")),
-                      DataColumn(label: Text("최근 로그인 시간")),
-                      DataColumn(label: Text("추천인")),
-                      DataColumn(label: Text("근무처")),
-                    ],
-                    rows: [
-                      DataRow(cells: [
-                        DataCell(Row(
-                          children: [
-                            Container(
-                              width: 36,
-                              height: 36,
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xfff2f2f2),
-                                // border: Border.all(color: )
-                              ),
-                              child: IconButton(
-                                alignment: Alignment.center,
-                                splashRadius: 18,
-                                tooltip: "수정",
-                                onPressed: () {},
-                                icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                              ),
-                            ),
-                            Container(
-                              width: 36,
-                              height: 36,
-                              alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xfff5a9a9),
-                                // border: Border.all(color: )
-                              ),
-                              child: IconButton(
-                                alignment: Alignment.center,
-                                splashRadius: 18,
-                                tooltip: "삭제",
-                                onPressed: () {},
-                                icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                              ),
-                            )
-                          ],
-                        )),
-                        const DataCell(Text("2")),
-                        const DataCell(Text("일반회원")),
-                        const DataCell(Text("홍길동")),
-                        const DataCell(Text("ABC1234")),
-                        const DataCell(Text("010-4423-2231")),
-                        const DataCell(Text("리벤처스")),
-                        const DataCell(Text("abc1234@gmail.com")),
-                        const DataCell(Text("2023-08-18")),
-                        const DataCell(Text("2023-08-18 09:30")),
-                        const DataCell(Text("-")),
-                        const DataCell(Text("-")),
-                      ]),
-                      DataRow(cells: [
-                        DataCell(Row(
-                          children: [
-                            Container(
-                              width: 36,
-                              height: 36,
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xfff2f2f2),
-                                // border: Border.all(color: )
-                              ),
-                              child: IconButton(
-                                alignment: Alignment.center,
-                                splashRadius: 18,
-                                tooltip: "수정",
-                                onPressed: () {},
-                                icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                              ),
-                            ),
-                            Container(
-                              width: 36,
-                              height: 36,
-                              alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xfff5a9a9),
-                                // border: Border.all(color: )
-                              ),
-                              child: IconButton(
-                                alignment: Alignment.center,
-                                splashRadius: 18,
-                                tooltip: "삭제",
-                                onPressed: () {},
-                                icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                              ),
-                            )
-                          ],
-                        )),
-                        const DataCell(Text("1")),
-                        const DataCell(Text("일반회원")),
-                        const DataCell(Text("홍길동")),
-                        const DataCell(Text("ABC1234")),
-                        const DataCell(Text("010-4423-2231")),
-                        const DataCell(Text("리벤처스")),
-                        const DataCell(Text("abc1234@gmail.com")),
-                        const DataCell(Text("2023-08-18")),
-                        const DataCell(Text("2023-08-18 09:30")),
-                        const DataCell(Text("-")),
-                        const DataCell(Text("-")),
-                      ])
-                    ],
-                  ),
+                  child: FutureBuilder(
+                    future: users,
+                    builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                      if (snapshot.hasError) {
+                        StringUtils().printError(snapshot);
+                        return const CircularProgressIndicator();
+                      } else if (!snapshot.hasData) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        return adminUserTable(snapshot.data ?? [], context);
+                      }
+                    },
+                  )
                 ),
               )
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: pagination(1),
-            )
           ],
         ),
       ),
@@ -440,206 +317,39 @@ class ManageUserScreenState extends State<ManageUserScreen> {
       crumbs: ["회원관리"]
     );
   }
-  // Future<List<User>> users = fetchUsers();
-  //
-  // final _stringIdController = TextEditingController();
-  // final _nameController = TextEditingController();
-  // final _workplaceController = TextEditingController();
-  // final _recommenderController = TextEditingController();
-  //
-  // final List<String> _userLevelFilterOptions = ['LP', 'STARTUP', 'ADMIN'];
-  // final List<String> _selectedUserLevels = [];
-  //
-  // @override
-  // Widget build(BuildContext context) {
-  //   return ScreenFrame(
-  //       main: Column(
-  //         children: [
-  //           const SizedBox(height: 36.0),
-  //           const Text(
-  //             "회원 관리",
-  //             style: WidgetUtils.titleStyle,
-  //           ),
-  //           const SizedBox(height: 36.0),
-  //           Wrap(
-  //             children: [
-  //               Padding(
-  //                 padding: const EdgeInsets.all(10.0),
-  //                 child: SizedBox(
-  //                   width: 350.0,
-  //                   child: TextField(
-  //                     controller: _stringIdController,
-  //                     decoration: const InputDecoration(
-  //                       labelText: "아이디",
-  //                       border: OutlineInputBorder(),
-  //                     ),
-  //                   ),
-  //                 )
-  //               ),
-  //               Padding(
-  //                 padding: const EdgeInsets.all(10.0),
-  //                 child: SizedBox(
-  //                   width: 350.0,
-  //                   child: TextField(
-  //                     controller: _nameController,
-  //                     decoration: const InputDecoration(
-  //                       labelText: "이름",
-  //                       border: OutlineInputBorder(),
-  //                     ),
-  //                   ),
-  //                 )
-  //               ),
-  //               Padding(
-  //                 padding: const EdgeInsets.all(10.0),
-  //                 child: SizedBox(
-  //                   width: 350.0,
-  //                   child: TextField(
-  //                     controller: _workplaceController,
-  //                     decoration: const InputDecoration(
-  //                       labelText: "근무처",
-  //                       border: OutlineInputBorder(),
-  //                     ),
-  //                   ),
-  //                 )
-  //               ),
-  //               Padding(
-  //                 padding: const EdgeInsets.all(10.0),
-  //                 child: SizedBox(
-  //                   width: 350.0,
-  //                   child: TextField(
-  //                     controller: _recommenderController,
-  //                     decoration: const InputDecoration(
-  //                       labelText: "추천인",
-  //                       border: OutlineInputBorder(),
-  //                     ),
-  //                   )
-  //                 )
-  //               ),
-  //               const Padding(
-  //                 padding: EdgeInsets.all(10.0),
-  //                 child: Text("권한 (복수 선택 가능)")
-  //               ),
-  //               Wrap(
-  //                 crossAxisAlignment: WrapCrossAlignment.end,
-  //                   children: _userLevelFilterOptions.map((option) {
-  //                     return Padding(
-  //                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-  //                         child: FilterChip(
-  //                             label: Text(option),
-  //                             selected: _selectedUserLevels.contains(option),
-  //                             onSelected: (bool selected) {
-  //                               setState(() {
-  //                                 if (selected) {
-  //                                   _selectedUserLevels.add(option);
-  //                                 } else {
-  //                                   _selectedUserLevels.remove(option);
-  //                                 }
-  //                               });
-  //                             }
-  //                         )
-  //                     );
-  //                   }).toList()
-  //               ),
-  //             ],
-  //           ),
-  //           ButtonBar(
-  //             alignment: MainAxisAlignment.center,
-  //             children: [
-  //               FilledButton.icon(
-  //                   onPressed: () {
-  //                     // todo 검색 기능
-  //                     setState(() {
-  //                       users = fetchUsers();
-  //                     });
-  //                   },
-  //                   icon: const Icon(Icons.search),
-  //                   label: const Text("검색"),
-  //               ),
-  //               FilledButton.icon(
-  //                 onPressed: () {
-  //                   showModalBottomSheet(
-  //                     context: context,
-  //                     builder: (BuildContext context) {
-  //                       return const SizedBox(
-  //                         height: 1000.0,
-  //                         child: MakeUserForm(isPopup: true, isEditing: false, user: null,)
-  //                       );
-  //                     }
-  //                   );
-  //                 },
-  //                 icon: const Icon(Icons.add),
-  //                 label: const Text("신규 회원 추가"),
-  //               ),
-  //               FilledButton(
-  //                 onPressed: () {
-  //                   setState(() {
-  //                     users = fetchUsers(sort: "LAST_LOGIN");
-  //                   });
-  //                 },
-  //                 child: const Text("최근 로그인 순 정렬"),
-  //               ),
-  //               FilledButton(
-  //                 onPressed: () {
-  //                   setState(() {
-  //                     users = fetchUsers();
-  //                   });
-  //                 },
-  //                 child: const Text("최근 가입 순 정렬"),
-  //               )
-  //             ],
-  //           ),
-  //           FutureBuilder<List<User>>(
-  //               future: users,
-  //               builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-  //                 if (snapshot.hasError) {
-  //                   print(snapshot.error);
-  //                   print(snapshot.stackTrace);
-  //                   return WidgetUtils.errorPadding;
-  //                 } else if (snapshot.hasData == false) {
-  //                   return const CircularProgressIndicator();
-  //                 } else {
-  //                   ScrollController vertical = ScrollController();
-  //                   ScrollController horizontal = ScrollController();
-  //                   return Scrollbar(
-  //                       controller: vertical,
-  //                       child: SingleChildScrollView(
-  //                         controller: vertical,
-  //                         child: Scrollbar(
-  //                           controller: horizontal,
-  //                           child: SingleChildScrollView(
-  //                             controller: horizontal,
-  //                             scrollDirection: Axis.horizontal,
-  //                             child: adminUserTable(snapshot.data ?? List.empty()),
-  //                           ),
-  //                         )
-  //                       )
-  //                   );
-  //                 }
-  //               }
-  //           ),
-  //         ],
-  //       ),
-  //       isAdmin: true
-  //   );
-  // }
 
 }
 
 // todo lastLogin 필요, 멤버 상세 페이지 연결 필요
-DataTable adminUserTable(List<User> users) {
+DataTable adminUserTable(List<User> users, BuildContext context) {
   return DataTable(
+      headingTextStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          fontFamily: StringUtils.pretendard,
+          letterSpacing: -0.16,
+          color: Color(0xff222222)
+      ),
+      dataTextStyle: const TextStyle(
+          fontFamily: StringUtils.pretendard,
+          fontWeight: FontWeight.w400,
+          fontSize: 16,
+          letterSpacing: -0.16,
+          color: Color(0xff757575)
+      ),
       columns: const [
-        DataColumn(label: Text("아이디")),
+        DataColumn(label: Text("기능")),
+        DataColumn(label: Text("번호")),
+        DataColumn(label: Text("회원등급")),
         DataColumn(label: Text("이름")),
-        DataColumn(label: Text("등급")),
+        DataColumn(label: Text("ID")),
         DataColumn(label: Text("연락처")),
         DataColumn(label: Text("이메일")),
-        DataColumn(label: Text("추천인")),
-        DataColumn(label: Text("최근 로그인 시간")),
-        DataColumn(label: Text("근무처")),
         DataColumn(label: Text("가입일")),
-        DataColumn(label: Text("정보 수정")),
+        DataColumn(label: Text("최근 로그인 시간")),
+        DataColumn(label: Text("추천인")),
+        DataColumn(label: Text("근무처")),
       ],
-      rows: users.map<DataRow>((user) => user.toDataRow()).toList(),
+      rows: users.indexed.map<DataRow>((e) => e.$2.toDataRow(e.$1, context)).toList(),
   );
 }
