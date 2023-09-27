@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
+import 'package:angelnet/screens/admin/manage_fund_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
+import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:remixicon/remixicon.dart';
 
 import '../../screens/admin/fund_detail_admin_screen.dart';
 import '../../screens/lp/fund_detail_lp_screen.dart';
@@ -106,23 +109,69 @@ class Fund {
     );
   }
 
-  DataRow toAdminDataRow() {
+  DataRow toAdminDataRow(int index, BuildContext context) {
     return DataRow(cells: [
-      DataCell(Text(id.toString())),
-      DataCell(TextButton(
-        onPressed: () {
-          Get.to(const FundDetailAdminScreen());
-          // Get.to(FundDetailAdminScreen(fund: this));
-        },
-        child: Text(name),
-      )),
+      DataCell(Text(index.toString())),
+      DataCell(Text(name)),
       DataCell(Text(startupName)),
-      DataCell(Text(cost.toString())),
-      DataCell(Text(currentFundedCost.toString())),
-      DataCell(Text((cost - currentFundedCost).toString())),
+      DataCell(Text(managerName)),
       DataCell(Text(currentMemberCount.toString())),
-      DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt))),
-      DataCell(Text(status.korean)),
+      DataCell(status.toSmallWidget()),
+      DataCell(
+          Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                alignment: Alignment.center,
+                margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xfff2f2f2),
+                  // border: Border.all(color: )
+                ),
+                child: IconButton(
+                  alignment: Alignment.center,
+                  splashRadius: 18,
+                  tooltip: "수정",
+                  onPressed: () {
+                    Get.to(const FundDetailAdminScreen());
+                  },
+                  icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
+                ),
+              ),
+              Container(
+                width: 36,
+                height: 36,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xfff5a9a9),
+                ),
+                child: IconButton(
+                  alignment: Alignment.center,
+                  splashRadius: 18,
+                  tooltip: "삭제",
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CustomAlertWidget().deleteWidget(context, () async {
+                            var response = await deleteFund(id);
+                            print(response.body);
+                            Navigator.pop(context);
+                            Get.to(const ManageFundScreen());
+                            // todo setState 혹은 새로고침 버튼 만들어야 함
+                          });
+                        }
+                    );
+                  },
+                  icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
+                ),
+              )
+            ],
+          )
+      ),
     ]);
   }
 
@@ -500,4 +549,11 @@ Future<http.Response> changeIsFunding(Fund fund, bool isFunding) async {
   return await http.put(StringUtils().stringToUri('admin/is-funding'),
       headers: await StringUtils().header(),
       body: jsonEncode({"fundId": fund.id, "isFunding": isFunding}));
+}
+
+Future<http.Response> deleteFund(int id) async {
+  return await http.delete(
+    StringUtils().stringToUri('/fund', params: {"fundId": id.toString()}),
+    headers: await StringUtils().header()
+  );
 }

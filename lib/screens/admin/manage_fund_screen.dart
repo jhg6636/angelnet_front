@@ -1,6 +1,7 @@
 import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../../models/fund/fund.dart';
@@ -43,6 +44,7 @@ class ManageFundScreenState extends State<ManageFundScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var funds = fetchAllFunds();
     return ScreenFrameV2(
       main: Container(
         padding: const EdgeInsets.symmetric(horizontal: 320),
@@ -163,39 +165,6 @@ class ManageFundScreenState extends State<ManageFundScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                      child: const Text("페이지",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          fontFamily: StringUtils.pretendard,
-                          letterSpacing: -0.16,
-                          color: Color(0xff333333),
-                        ),
-                      ),
-                    ),
-                    const Text("1",
-                      style: TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -0.16,
-                        color: Color(0xff333333),
-                      ),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        child: const Text("/6",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            fontFamily: StringUtils.pretendard,
-                            letterSpacing: -0.16,
-                            color: Color(0xff333333),
-                          ),
-                        )
-                    ),
                     const Text("총 ",
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -205,14 +174,42 @@ class ManageFundScreenState extends State<ManageFundScreen> {
                         color: Color(0xff333333),
                       ),
                     ),
-                    const Text("60",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        fontFamily: StringUtils.pretendard,
-                        letterSpacing: -0.16,
-                        color: Color(0xff333333),
-                      ),
+                    FutureBuilder(
+                      future: funds,
+                      builder: (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
+                        if (snapshot.hasError) {
+                          StringUtils().printError(snapshot);
+                          return const Text("0",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          );
+                        } else if (!snapshot.hasData) {
+                          return const Text("0",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          );
+                        } else {
+                          return Text((snapshot.data?.length ?? 0).toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                fontFamily: StringUtils.pretendard,
+                                letterSpacing: -0.16,
+                                color: Color(0xff333333),
+                              )
+                          )
+                        }
+                      },
                     ),
                     const Text("건",
                       style: TextStyle(
@@ -238,7 +235,9 @@ class ManageFundScreenState extends State<ManageFundScreen> {
                                 borderRadius: BorderRadius.circular(50)
                             )
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(FundForm(isMaking: true, fund: null))
+                        },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                           child: Row(
@@ -269,348 +268,20 @@ class ManageFundScreenState extends State<ManageFundScreen> {
             Container(
               width: 1280,
               margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
-              child: DataTable(
-                border: const TableBorder(
-                  top: BorderSide(color: Color(0xff333333), width: 2),
-                  horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
-                  bottom: BorderSide(color: Color(0xffe6e6e6))
-                ),
-                headingTextStyle: WidgetUtils.dataTableHeadStyle,
-                dataTextStyle: WidgetUtils.dataTableDataStyle,
-                dataRowMinHeight: 62,
-                dataRowMaxHeight: 62,
-                columns: const [
-                  DataColumn(label: Text("번호")),
-                  DataColumn(label: Text("조합명")),
-                  DataColumn(label: Text("투자종목")),
-                  DataColumn(label: Text("담당자")),
-                  DataColumn(label: Text("참여인원")),
-                  DataColumn(label: Text("진행상태")),
-                  DataColumn(label: Text("기능")),
-                ],
-                rows: [
-                  DataRow(cells: [
-                    const DataCell(Text("101")),
-                    const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                    const DataCell(Text("소부장")),
-                    const DataCell(Text("리벤처스")),
-                    const DataCell(Text("183")),
-                    DataCell(Container(
-                      alignment: Alignment.center,
-                      width: 84,
-                      height: 28,
-                      color: const Color(0xff43a3d6),
-                      child: const Text("서류접수중", style: statusTextStyle,),
-                    )),
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff2f2f2),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "수정",
-                            onPressed: () {},
-                            icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                          ),
-                        ),
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff5a9a9),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "삭제",
-                            onPressed: () {},
-                            icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                          ),
-                        )
-                      ],
-                    )),
-                  ]),
-                  DataRow(cells: [
-                    const DataCell(Text("101")),
-                    const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                    const DataCell(Text("소부장")),
-                    const DataCell(Text("리벤처스")),
-                    const DataCell(Text("289")),
-                    DataCell(Container(
-                      alignment: Alignment.center,
-                      width: 84,
-                      height: 28,
-                      color: const Color(0xff8f40de),
-                      child: const Text("조합검토기간", style: statusTextStyle,),
-                    )),
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff2f2f2),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "수정",
-                            onPressed: () {},
-                            icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                          ),
-                        ),
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff5a9a9),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "삭제",
-                            onPressed: () {},
-                            icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                          ),
-                        )
-                      ],
-                    )),
-                  ]),
-                  DataRow(cells: [
-                    const DataCell(Text("101")),
-                    const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                    const DataCell(Text("소부장")),
-                    const DataCell(Text("리벤처스")),
-                    const DataCell(Text("183")),
-                    DataCell(Container(
-                      alignment: Alignment.center,
-                      width: 84,
-                      height: 28,
-                      color: const Color(0xff323c4e),
-                      child: const Text("해산", style: statusTextStyle,),
-                    )),
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff2f2f2),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "수정",
-                            onPressed: () {},
-                            icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                          ),
-                        ),
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff5a9a9),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "삭제",
-                            onPressed: () {},
-                            icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                          ),
-                        )
-                      ],
-                    )),
-                  ]),
-                  DataRow(cells: [
-                    const DataCell(Text("101")),
-                    const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                    const DataCell(Text("소부장")),
-                    const DataCell(Text("리벤처스")),
-                    const DataCell(Text("183")),
-                    DataCell(Container(
-                      alignment: Alignment.center,
-                      width: 84,
-                      height: 28,
-                      color: const Color(0xff002997),
-                      child: const Text("주금납입", style: statusTextStyle,),
-                    )),
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff2f2f2),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "수정",
-                            onPressed: () {},
-                            icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                          ),
-                        ),
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff5a9a9),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "삭제",
-                            onPressed: () {},
-                            icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                          ),
-                        )
-                      ],
-                    )),
-                  ]),
-                  DataRow(cells: [
-                    const DataCell(Text("101")),
-                    const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                    const DataCell(Text("소부장")),
-                    const DataCell(Text("리벤처스")),
-                    const DataCell(Text("183")),
-                    DataCell(Container(
-                      alignment: Alignment.center,
-                      width: 84,
-                      height: 28,
-                      color: const Color(0xff0361f9),
-                      child: const Text("참여신청", style: statusTextStyle,),
-                    )),
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff2f2f2),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "수정",
-                            onPressed: () {},
-                            icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                          ),
-                        ),
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff5a9a9),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "삭제",
-                            onPressed: () {},
-                            icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                          ),
-                        )
-                      ],
-                    )),
-                  ]),
-                  DataRow(cells: [
-                    const DataCell(Text("101")),
-                    const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                    const DataCell(Text("소부장")),
-                    const DataCell(Text("리벤처스")),
-                    const DataCell(Text("183")),
-                    DataCell(Container(
-                      alignment: Alignment.center,
-                      width: 84,
-                      height: 28,
-                      color: const Color(0xff04b45f),
-                      child: const Text("운용중", style: statusTextStyle,),
-                    )),
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff2f2f2),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "수정",
-                            onPressed: () {},
-                            icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                          ),
-                        ),
-                        Container(
-                          width: 36,
-                          height: 36,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfff5a9a9),
-                            // border: Border.all(color: )
-                          ),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            splashRadius: 18,
-                            tooltip: "삭제",
-                            onPressed: () {},
-                            icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                          ),
-                        )
-                      ],
-                    )),
-                  ]),
-                ]
-              ),
+              child: FutureBuilder(
+                future: funds,
+                builder: (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
+                  if (snapshot.hasError) {
+                    StringUtils().printError(snapshot);
+                    return const CircularProgressIndicator();
+                  } else if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return adminFundTable(snapshot.data ?? [], context);
+                  }
+                },
+              )
             ),
-            pagination(1)
           ],
         ),
       ),
@@ -741,16 +412,25 @@ class ManageFundScreenState extends State<ManageFundScreen> {
   }
 }
 
-DataTable adminFundTable(List<Fund> funds) {
-  return DataTable(columns: const [
-    DataColumn(label: Text("번호")),
-    DataColumn(label: Text("조합명")),
-    DataColumn(label: Text("투자종목")),
-    DataColumn(label: Text("총 결성금액")),
-    DataColumn(label: Text("현재 참여금액")),
-    DataColumn(label: Text("잔여 금액")),
-    DataColumn(label: Text("현재 참여 인원")),
-    DataColumn(label: Text("조합결성일")),
-    DataColumn(label: Text("상태"))
-  ], rows: funds.map<DataRow>((fund) => fund.toAdminDataRow()).toList());
+DataTable adminFundTable(List<Fund> funds, BuildContext context) {
+  return DataTable(
+    border: const TableBorder(
+        top: BorderSide(color: Color(0xff333333), width: 2),
+        horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+        bottom: BorderSide(color: Color(0xffe6e6e6))
+    ),
+    headingTextStyle: WidgetUtils.dataTableHeadStyle,
+    dataTextStyle: WidgetUtils.dataTableDataStyle,
+    dataRowMinHeight: 62,
+    dataRowMaxHeight: 62,
+    columns: const [
+      DataColumn(label: Text("번호")),
+      DataColumn(label: Text("조합명")),
+      DataColumn(label: Text("투자종목")),
+      DataColumn(label: Text("담당자")),
+      DataColumn(label: Text("참여인원")),
+      DataColumn(label: Text("진행상태")),
+      DataColumn(label: Text("기능"))
+    ],
+    rows: funds.indexed.map<DataRow>((e) => e.$2.toAdminDataRow(e.$1 + 1, context)).toList());
 }

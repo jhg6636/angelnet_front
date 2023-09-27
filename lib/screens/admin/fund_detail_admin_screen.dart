@@ -15,10 +15,9 @@ import '../screen_frame_v2.dart';
 
 class FundDetailAdminScreen extends StatefulWidget {
 
-  // final Fund fund;
+  final Fund fund;
 
-  const FundDetailAdminScreen({super.key});
-  // const FundDetailAdminScreen({super.key, required this.fund});
+  const FundDetailAdminScreen({super.key, required this.fund});
 
   @override
   State<StatefulWidget> createState() => FundDetailAdminScreenState();
