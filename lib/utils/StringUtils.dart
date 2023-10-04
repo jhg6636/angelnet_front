@@ -116,6 +116,10 @@ class StringUtils {
     return f.format(number);
   }
 
+  int fromCurrencyFormat(String number) {
+    return int.parse(number.replaceAll(",", ""));
+  }
+
   void printError(AsyncSnapshot<dynamic> snapshot) {
     print('====');
     print(snapshot.error);

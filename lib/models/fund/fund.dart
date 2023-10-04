@@ -135,7 +135,7 @@ class Fund {
                   splashRadius: 18,
                   tooltip: "수정",
                   onPressed: () {
-                    Get.to(const FundDetailAdminScreen());
+                    Get.to(FundDetailAdminScreen(fund: this));
                   },
                   icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
                 ),
@@ -475,6 +475,7 @@ Future<List<Fund>> fetchAllFunds() async {
   );
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+  print(responseBody);
 
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }

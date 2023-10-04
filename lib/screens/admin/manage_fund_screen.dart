@@ -207,7 +207,7 @@ class ManageFundScreenState extends State<ManageFundScreen> {
                                 letterSpacing: -0.16,
                                 color: Color(0xff333333),
                               )
-                          )
+                          );
                         }
                       },
                     ),
@@ -236,7 +236,7 @@ class ManageFundScreenState extends State<ManageFundScreen> {
                             )
                         ),
                         onPressed: () {
-                          Get.to(FundForm(isMaking: true, fund: null))
+                          Get.to(const FundForm(isMaking: true, fund: null));
                         },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

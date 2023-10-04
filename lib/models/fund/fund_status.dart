@@ -84,6 +84,27 @@ enum FundStatus {
     }
   }
 
+  factory FundStatus.fromKorean(String korean) {
+    switch (korean) {
+      case "조합검토기간":
+        return FundStatus.reviewing;
+      case "참여신청":
+        return FundStatus.accepting;
+      case "서류접수중":
+        return FundStatus.receivingDocuments;
+      case "주금납입":
+        return FundStatus.stockPayment;
+      case "중기부 승인 진행":
+        return FundStatus.governmentProcess;
+      case "운용중":
+        return FundStatus.running;
+      case "해산":
+        return FundStatus.dissolved;
+      default:
+        return FundStatus.reviewing;
+    }
+  }
+
   Widget toSmallWidget() {
     return Container(
       alignment: Alignment.center,

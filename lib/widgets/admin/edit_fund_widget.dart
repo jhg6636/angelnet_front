@@ -1,14 +1,23 @@
+import 'package:angelnet/models/fund/fund.dart';
+import 'package:angelnet/models/fund/fund_status.dart';
+import 'package:angelnet/models/fund/fund_type.dart';
+import 'package:angelnet/screens/admin/manage_fund_screen.dart';
 import 'package:angelnet/utils/CustomInputFormatters.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
 class EditFundWidget extends StatefulWidget {
 
-  const EditFundWidget({super.key});
+  final Fund fund;
+  final FundStatus status;
+
+  const EditFundWidget({super.key, required this.fund, required this.status});
 
   @override
   State<StatefulWidget> createState() => EditFundWidgetState();
@@ -45,23 +54,23 @@ class EditFundWidgetState extends State<EditFundWidget> {
     color: Color(0xff555555)
   );
 
-  final fundNameController = TextEditingController();
-  final startupNameController = TextEditingController();
-  final mainProductController = TextEditingController();
-  final typeController = TextEditingController(); // todo dropdown
-  final totalCostController = TextEditingController();
-  final valueController = TextEditingController();
-  final costPerStockController = TextEditingController();
-  final minimumCostController = TextEditingController();
-  final gpController = TextEditingController();
-  final memoController = TextEditingController();
-  final startDateController = TextEditingController();
-  final payDateController = TextEditingController();
   final valueTypes = ["PRE", "POST"];
   var selectedValueType = "PRE";
 
   @override
   Widget build(BuildContext context) {
+    final fundNameController = TextEditingController(text: widget.fund.name);
+    final startupNameController = TextEditingController(text: widget.fund.startupName);
+    final mainProductController = TextEditingController(text: widget.fund.mainProduct);
+    final typeController = TextEditingController(text: widget.fund.type.korean); // todo dropdown
+    final totalCostController = TextEditingController(text: StringUtils().currencyFormat(widget.fund.cost));
+    final valueController = TextEditingController(text: StringUtils().currencyFormat(widget.fund.value));
+    final costPerStockController = TextEditingController(text: StringUtils().currencyFormat(widget.fund.costPerShare));
+    final minimumCostController = TextEditingController(text: StringUtils().currencyFormat((widget.fund.minimumShare*widget.fund.costPerShare)));
+    final gpController = TextEditingController(text: widget.fund.managerName);
+    final memoController = TextEditingController(text: widget.fund.memo ?? "");
+    final startDateController = TextEditingController(text: DateFormat("yyyy-MM-dd").format(widget.fund.startAt));
+    final payDateController = TextEditingController(text: DateFormat("yyyy-MM-dd").format(widget.fund.payAt));
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -714,7 +723,45 @@ class EditFundWidgetState extends State<EditFundWidget> {
         const Divider(color: Color(0xffdddddd),),
         Container(
           margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-          child: WidgetUtils().buttonBar("목록", "저장", () => null, () => null),
+          child: WidgetUtils().buttonBar(
+            "목록",
+            "저장",
+            () {
+              Get.to(const ManageFundScreen());
+            },
+            () async {
+              await editFund(Fund(
+                id: widget.fund.id,
+                name: fundNameController.text,
+                startupName: startupNameController.text,
+                mainProduct: mainProductController.text,
+                managerName: gpController.text,
+                startAt: DateTime.parse(startDateController.text),
+                type: FundType.fromKorean(typeController.text),
+                dissolvedAt: widget.fund.dissolvedAt,
+                margin: widget.fund.margin,
+                cost: StringUtils().fromCurrencyFormat(totalCostController.text),
+                costPerShare: StringUtils().fromCurrencyFormat(costPerStockController.text),
+                currentFundedCost: widget.fund.currentFundedCost,
+                currentMemberCount: widget.fund.currentMemberCount,
+                minimumShare: StringUtils().fromCurrencyFormat(minimumCostController.text) ~/ StringUtils().fromCurrencyFormat(costPerStockController.text),
+                totalShare: StringUtils().fromCurrencyFormat(totalCostController.text) ~/ StringUtils().fromCurrencyFormat(minimumCostController.text),
+                totalMember: widget.fund.totalMember,
+                status: widget.status,
+                payAt: DateTime.parse(payDateController.text),
+                value: StringUtils().fromCurrencyFormat(valueController.text),
+                recommender: null,
+                groupName: null,
+                memo: memoController.text,
+                irUrl: null,
+                fundIdDocumentUrl: null,
+                ruleUrl: null,
+                etcUrl: null,
+                isFunding: false,
+              ));
+              Get.to(const ManageFundScreen());
+            }
+          ),
         )
       ],
     );
