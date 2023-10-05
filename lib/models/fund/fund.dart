@@ -93,7 +93,7 @@ class Fund {
       currentFundedCost: json['currentFundedCost'] as int,
       currentMemberCount: json['currentMemberCount'] as int,
       status: FundStatus.fromEnglish(json['status']),
-      payAt: DateTime.now(),
+      payAt: DateTime(json['payAt'][0], json['payAt'][1], json['payAt'][2]),
       totalMember: json['totalMember'] as int,
       minimumShare: json['minimumShare'] as int,
       totalShare: json['totalShare'] as int,
@@ -240,6 +240,28 @@ class Fund {
 
   String toPostRequest() {
     return jsonEncode({
+      'name': name,
+      'startupName': startupName,
+      'mainProduct': mainProduct,
+      'manager': managerName,
+      'type': type.english,
+      'cost': cost,
+      'costPerShare': costPerShare,
+      'minimumShare': minimumShare,
+      'totalShare': totalShare,
+      'totalMember': totalMember,
+      'status': status.english,
+      'startAt': DateFormat('yyyy-MM-dd').format(startAt),
+      'payAt': DateFormat('yyyy-MM-dd').format(payAt),
+      'value': value,
+      'recommender': recommender,
+      'groupName': groupName,
+      'memo': memo,
+    });
+  }
+
+  String toPutRequest() {
+    return jsonEncode({
       'fundId': id,
       'name': name,
       'startupName': startupName,
@@ -251,13 +273,13 @@ class Fund {
       'minimumShare': minimumShare,
       'totalShare': totalShare,
       'totalMember': totalMember,
+      'status': status.english,
       'startAt': DateFormat('yyyy-MM-dd').format(startAt),
       'payAt': DateFormat('yyyy-MM-dd').format(payAt),
       'value': value,
       'recommender': recommender,
       'groupName': groupName,
       'memo': memo,
-      'status': status.english,
     });
   }
 
@@ -532,11 +554,11 @@ Future<http.Response> makeFund(Fund fund) async {
 }
 
 Future<http.Response> editFund(Fund fund) async {
-  print(fund.toPostRequest());
+  print(fund.toPutRequest());
   return await http.put(
     StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
-    body: fund.toPostRequest(),
+    body: fund.toPutRequest(),
   );
 }
 

@@ -19,7 +19,7 @@ class FundDetailAdminScreen extends StatefulWidget {
 }
 
 class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
-  var selectedStatus = "조합검토기간";
+  late var selectedStatus = widget.fund.status.korean;
   final statuses = FundStatus.values.map((status) => status.korean).toList();
   var selectedMenu = "기본정보";
   static const bigNumberTextStyle = TextStyle(
@@ -35,7 +35,6 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    selectedStatus = widget.fund.status.korean;
     return ScreenFrameV2(
         main: Container(
           padding: const EdgeInsets.symmetric(horizontal: 320),
@@ -581,7 +580,7 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                 Container(
                   // Container(
                   margin: const EdgeInsets.fromLTRB(0, 33, 0, 0),
-                  child: EditFundWidget(fund: widget.fund, status: FundStatus.fromKorean(selectedStatus)),
+                  child: FundFormWidget(fund: widget.fund, status: FundStatus.fromKorean(selectedStatus)),
                 )
             ],
           ),

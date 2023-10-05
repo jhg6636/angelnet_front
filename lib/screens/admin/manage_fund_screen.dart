@@ -236,7 +236,7 @@ class ManageFundScreenState extends State<ManageFundScreen> {
                             )
                         ),
                         onPressed: () {
-                          Get.to(const FundForm(isMaking: true, fund: null));
+                          Get.to(const MakeFundScreen());
                         },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
