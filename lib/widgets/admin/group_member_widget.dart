@@ -1,3 +1,5 @@
+import 'package:angelnet/models/admin/group.dart';
+import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,9 @@ import 'package:remixicon/remixicon.dart';
 import '../../utils/StringUtils.dart';
 
 class GroupMemberWidget extends StatefulWidget {
-  const GroupMemberWidget({super.key});
+  final Group group;
+
+  const GroupMemberWidget({super.key, required this.group});
 
   @override
   State<StatefulWidget> createState() => GroupMemberWidgetState();
@@ -119,41 +123,6 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                  child: const Text(
-                    "페이지",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                      fontFamily: StringUtils.pretendard,
-                      letterSpacing: -0.16,
-                      color: Color(0xff333333),
-                    ),
-                  ),
-                ),
-                const Text(
-                  "1",
-                  style: TextStyle(
-                    fontFamily: StringUtils.pretendard,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: -0.16,
-                    color: Color(0xff333333),
-                  ),
-                ),
-                Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                    child: const Text(
-                      "/6",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        fontFamily: StringUtils.pretendard,
-                        letterSpacing: -0.16,
-                        color: Color(0xff333333),
-                      ),
-                    )),
                 const Text(
                   "총 ",
                   style: TextStyle(
@@ -164,15 +133,33 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                     color: Color(0xff333333),
                   ),
                 ),
-                const Text(
-                  "60",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    fontFamily: StringUtils.pretendard,
-                    letterSpacing: -0.16,
-                    color: Color(0xff333333),
-                  ),
+                FutureBuilder(
+                  future: fetchUsersInGroup(widget.group.id),
+                  builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                    if (snapshot.hasError) {
+                      StringUtils().printError(snapshot);
+                      return const Text(
+                        "0",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          fontFamily: StringUtils.pretendard,
+                          letterSpacing: -0.16,
+                          color: Color(0xff333333),
+                        ),
+                      );
+                    } else {
+                      return Text((snapshot.data?.length ?? 0).toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          fontFamily: StringUtils.pretendard,
+                          letterSpacing: -0.16,
+                          color: Color(0xff333333),
+                        ),
+                      );
+                    }
+                  }
                 ),
                 const Text(
                   "건",
@@ -198,7 +185,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                   setState(() {
                     isAdding = true;
                   });
-                }, // todo 그룹 생성 팝업
+                },
                 child: Row(
                   children: [
                     Container(
@@ -222,69 +209,52 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                 ))
           ],
         ),
-        Container(
-          margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
-            width: 1280,
-            child: DataTable(
-              showCheckboxColumn: isAdding,
-              headingTextStyle: WidgetUtils.dataTableHeadStyle,
-              dataTextStyle: WidgetUtils.dataTableDataStyle,
-              border: WidgetUtils.tableBorder,
-              dataRowMinHeight: 62,
-              dataRowMaxHeight: 62,
-              columns: const [
-                DataColumn(label: Text("번호")),
-                DataColumn(label: Text("회원등급")),
-                DataColumn(label: Text("성명")),
-                DataColumn(label: Text("ID")),
-                DataColumn(label: Text("연락처")),
-                DataColumn(label: Text("이메일")),
-                DataColumn(label: Text("가입일")),
-                DataColumn(label: Text("기능")),
-              ],
-              rows: [
-                for (int i = 0; i < 10; i++)
-                  DataRow(
-                    selected: selectedMap[i] ?? false,
-                    onSelectChanged: (value) {
-                      setState(() {
-                        selectedMap[i] = value ?? false;
-                      });
-                    },
-                    cells: [
-                      DataCell(Text((252 - i).toString())),
-                      const DataCell(Text("일반회원")),
-                      const DataCell(Text("홍길동")),
-                      const DataCell(Text("abc1234")),
-                      const DataCell(Text("010-1234-5667")),
-                      const DataCell(Text("abdc@naver.com")),
-                      const DataCell(Text("2023-08-18")),
-                      DataCell(Container(
-                        width: 36,
-                        height: 36,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xfff5a9a9),
-                          // border: Border.all(color: )
-                        ),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          splashRadius: 18,
-                          tooltip: "삭제",
-                          onPressed: () {},
-                          icon: const Icon(
-                            Remix.subtract_line,
-                            size: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )),
-                ])
-            ]
-          )
+        FutureBuilder(
+          future: fetchUsersInGroup(widget.group.id),
+          builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+            if (snapshot.hasError) {
+              StringUtils().printError(snapshot);
+              return const CircularProgressIndicator();
+            } else if (!snapshot.hasData) {
+              return const CircularProgressIndicator();
+            } else {
+              var members = snapshot.data ?? [];
+              if (members.isEmpty) {
+                return const Center(
+                  child: Text("그룹에 멤버가 없습니다.",
+                    style: WidgetUtils.dataTableDataStyle,
+                  )
+                );
+              } else {
+                return Container(
+                    margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
+                    width: 1280,
+                    child: DataTable(
+                        showCheckboxColumn: isAdding,
+                        headingTextStyle: WidgetUtils.dataTableHeadStyle,
+                        dataTextStyle: WidgetUtils.dataTableDataStyle,
+                        border: WidgetUtils.tableBorder,
+                        dataRowMinHeight: 62,
+                        dataRowMaxHeight: 62,
+                        columns: const [
+                          DataColumn(label: Text("번호")),
+                          DataColumn(label: Text("회원등급")),
+                          DataColumn(label: Text("성명")),
+                          DataColumn(label: Text("ID")),
+                          DataColumn(label: Text("연락처")),
+                          DataColumn(label: Text("이메일")),
+                          DataColumn(label: Text("가입일")),
+                          DataColumn(label: Text("기능")),
+                        ],
+                        rows: members.indexed.map((e) => e.$2.toGroupMemberDataRow(
+                          context, members.length - e.$1, widget.group.id
+                        )).toList()
+                    )
+                );
+              }
+            }
+          }
         ),
-        pagination(1),
         if (isAdding) Container(
           margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
           child: WidgetUtils().buttonBar(

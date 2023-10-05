@@ -1,8 +1,11 @@
+import 'package:angelnet/models/admin/group.dart';
+import 'package:angelnet/screens/admin/manage_group_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 class MakeGroupScreen extends StatefulWidget {
@@ -127,7 +130,17 @@ class MakeGroupScreenState extends State<MakeGroupScreen> {
                       ),
                     ),
                   ),
-                  WidgetUtils().buttonBar("취소", "저장", () => null, () => null, align: MainAxisAlignment.end),
+                  WidgetUtils().buttonBar(
+                      "취소",
+                      "저장",
+                      () {
+                        Get.to(const ManageGroupScreen());
+                      },
+                      () async {
+                        await makeGroup(groupNameController.text);
+                        Get.to(const ManageGroupScreen());
+                      },
+                      align: MainAxisAlignment.end),
                 ],
               ),
             ),

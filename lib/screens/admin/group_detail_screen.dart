@@ -1,3 +1,4 @@
+import 'package:angelnet/models/admin/group.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/custom_border_clipper.dart';
 import 'package:angelnet/widgets/admin/group_fund_widget.dart';
@@ -9,9 +10,9 @@ import '../../utils/WidgetUtils.dart';
 import '../../widgets/admin/group_member_widget.dart';
 
 class GroupDetailScreen extends StatefulWidget {
-  // final Group group;
+  final Group group;
 
-  const GroupDetailScreen({super.key});
+  const GroupDetailScreen({super.key, required this.group});
 
   // const GroupDetailScreen({super.key, required this.group});
 
@@ -145,7 +146,7 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
               if (selectedMenu == '회원관리')
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 21, 0, 0),
-                  child: const GroupMemberWidget(),
+                  child: GroupMemberWidget(group: widget.group,),
                 ),
               if (selectedMenu == '노출 조합 관리')
                 Container(

@@ -1,3 +1,4 @@
+import 'package:angelnet/screens/admin/make_group_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,6 +23,7 @@ class ManageGroupScreen extends StatefulWidget {
 
 class ManageGroupScreenState extends State<ManageGroupScreen> {
   final _groupNameController = TextEditingController();
+  var groups = fetchAllGroups();
 
   @override
   Widget build(BuildContext context) {
@@ -98,39 +100,6 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                      child: const Text("페이지",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          fontFamily: StringUtils.pretendard,
-                          letterSpacing: -0.16,
-                          color: Color(0xff333333),
-                        ),
-                      ),
-                    ),
-                    const Text("1",
-                      style: TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -0.16,
-                        color: Color(0xff333333),
-                      ),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        child: const Text("/6",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            fontFamily: StringUtils.pretendard,
-                            letterSpacing: -0.16,
-                            color: Color(0xff333333),
-                          ),
-                        )
-                    ),
                     const Text("총 ",
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -140,14 +109,42 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
                         color: Color(0xff333333),
                       ),
                     ),
-                    const Text("60",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        fontFamily: StringUtils.pretendard,
-                        letterSpacing: -0.16,
-                        color: Color(0xff333333),
-                      ),
+                    FutureBuilder(
+                      future: groups,
+                      builder: (BuildContext context, AsyncSnapshot<List<Group>> snapshot) {
+                        if (snapshot.hasError) {
+                          StringUtils().printError(snapshot);
+                          return const Text("0",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          );
+                        } else if (!snapshot.hasData) {
+                          return const Text("0",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          );
+                        } else {
+                          return Text(snapshot.data!.length.toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.16,
+                              color: Color(0xff333333),
+                            ),
+                          );
+                        }
+                      }
                     ),
                     const Text("건",
                       style: TextStyle(
@@ -169,7 +166,9 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
                     padding: const EdgeInsets.fromLTRB(28, 10, 27, 10),
                     fixedSize: const Size(127, 36)
                   ),
-                  onPressed: () {}, // todo 그룹 생성 팝업
+                  onPressed: () {
+                    Get.to(const MakeGroupScreen());
+                  },
                   child: Row(
                     children: [
                       Container(
@@ -193,154 +192,44 @@ class ManageGroupScreenState extends State<ManageGroupScreen> {
             Container(
               margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
               width: 1280,
-              child: DataTable(
-                  dataRowMaxHeight: 62,
-                  dataRowMinHeight: 62,
-                  dataTextStyle: WidgetUtils.dataTableDataStyle,
-                  headingTextStyle: WidgetUtils.dataTableHeadStyle,
-                  border: const TableBorder(
-                    top: BorderSide(color: Color(0xff555555), width: 2),
-                    horizontalInside: BorderSide(color: Color(0xffdddddd)),
-                    bottom: BorderSide(color: Color(0xffdddddd)),
-                  ),
-                  columns: const [
-                    DataColumn(label: Text("번호")),
-                    DataColumn(label: Text("그룹명")),
-                    DataColumn(label: Text("그룹인원")),
-                    DataColumn(label: Text("생성일")),
-                    DataColumn(label: Text("기능")),
-                  ],
-                  rows: [
-                    for (int i=0; i<10; i++) DataRow(cells: [
-                      const DataCell(Text("101")),
-                      const DataCell(Text("101")),
-                      const DataCell(Text("101")),
-                      const DataCell(Text("101")),
-                      DataCell(Row(
-                        children: [
-                          Container(
-                            width: 36,
-                            height: 36,
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xfff2f2f2),
-                              // border: Border.all(color: )
-                            ),
-                            child: IconButton(
-                              alignment: Alignment.center,
-                              splashRadius: 18,
-                              tooltip: "수정",
-                              onPressed: () {},
-                              icon: const Icon(Remix.edit_2_line, size: 14, color: Color(0xff333333),),
-                            ),
-                          ),
-                          Container(
-                            width: 36,
-                            height: 36,
-                            alignment: Alignment.center,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xfff5a9a9),
-                              // border: Border.all(color: )
-                            ),
-                            child: IconButton(
-                              alignment: Alignment.center,
-                              splashRadius: 18,
-                              tooltip: "삭제",
-                              onPressed: () {},
-                              icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                            ),
-                          )
+              child: FutureBuilder(
+                future: groups,
+                builder: (BuildContext context, AsyncSnapshot<List<Group>> snapshot) {
+                  if (snapshot.hasError) {
+                    StringUtils().printError(snapshot);
+                    return const CircularProgressIndicator();
+                  } else if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return DataTable(
+                        dataRowMaxHeight: 62,
+                        dataRowMinHeight: 62,
+                        dataTextStyle: WidgetUtils.dataTableDataStyle,
+                        headingTextStyle: WidgetUtils.dataTableHeadStyle,
+                        border: const TableBorder(
+                          top: BorderSide(color: Color(0xff555555), width: 2),
+                          horizontalInside: BorderSide(color: Color(0xffdddddd)),
+                          bottom: BorderSide(color: Color(0xffdddddd)),
+                        ),
+                        columns: const [
+                          DataColumn(label: Text("번호")),
+                          DataColumn(label: Text("그룹명")),
+                          DataColumn(label: Text("그룹인원")),
+                          // DataColumn(label: Text("생성일")),
+                          DataColumn(label: Text("기능")),
                         ],
-                      ))
-                    ])
-                  ]
+                        rows: snapshot.data!.indexed.map((e) => e.$2.toDataRow(snapshot.data!.length - e.$1, context)).toList()
+                    );
+                  }
+                },
               ),
             ),
-            pagination(1),
           ],
         ),
       ),
       isAdmin: true,
       crumbs: const ["그룹관리"]
     );
-    // return ScreenFrame(
-    //     main: SingleChildScrollView(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         children: [
-    //           const SizedBox(height: 20.0,),
-    //           const Text(
-    //             "그룹 관리",
-    //             style: WidgetUtils.titleStyle,
-    //           ),
-    //           const SizedBox(height: 12.0,),
-    //           FutureBuilder(
-    //             future: fetchAllGroups(),
-    //             builder: (BuildContext context, AsyncSnapshot<List<Group>> snapshot) {
-    //               if (snapshot.hasError) {
-    //                 print(snapshot.error);
-    //                 print(snapshot.stackTrace);
-    //                 return WidgetUtils.errorPadding;
-    //               } else if (snapshot.hasData == false) {
-    //                 return const CircularProgressIndicator();
-    //               } else {
-    //                 return makeDataTable(snapshot.data ?? List.empty());
-    //               }
-    //             }
-    //           ),
-    //           ElevatedButton(
-    //               onPressed: () {
-    //                 showModalBottomSheet(
-    //                     context: context,
-    //                     builder: (BuildContext context) {
-    //                       return SingleChildScrollView(
-    //                         child: Column(
-    //                           children: [
-    //                             TextField(
-    //                               controller: _groupNameController,
-    //                               decoration: const InputDecoration(
-    //                                 labelText: "그룹명",
-    //                                 border: OutlineInputBorder(),
-    //                               ),
-    //                             ),
-    //                             ButtonBar(
-    //                               children: [
-    //                                 TextButton(
-    //                                     onPressed: () {
-    //                                       Navigator.pop(context);
-    //                                     },
-    //                                     child: const Text("취소하기")
-    //                                 ),
-    //                                 ElevatedButton(
-    //                                     onPressed: () async {
-    //                                       var response = await makeGroup(_groupNameController.text);
-    //                                       if (response.statusCode == 200) {
-    //                                         Fluttertoast.showToast(msg: "그룹이 생성되었습니다.");
-    //                                         Navigator.pop(context);
-    //                                       } else {
-    //                                         Fluttertoast.showToast(msg: "그룹이 생성되지 않았습니다. 관리자에게 문의해 주세요.");
-    //                                       }
-    //                                       print(response.body);
-    //                                     },
-    //                                     child: const Text("추가하기")
-    //                                 )
-    //                               ],
-    //                             )
-    //                           ],
-    //                         )
-    //                       );
-    //                 });
-    //               },
-    //               child: const Text("그룹 추가")
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //     isAdmin: true
-    // );
   }
 
 }
