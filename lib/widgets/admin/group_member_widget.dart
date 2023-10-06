@@ -3,6 +3,7 @@ import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../../utils/StringUtils.dart';
@@ -17,14 +18,30 @@ class GroupMemberWidget extends StatefulWidget {
 }
 
 class GroupMemberWidgetState extends State<GroupMemberWidget> {
-  var isAdding = false;
+  var isEditing = false;
   final searchOptions = ['전체', 'ID', '성명', '연락처'];
   var selectedSearchOption = '전체';
   final searchTextController = TextEditingController();
-  var selectedMap = {};
+  var selectedUserIds = <int>[];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMembers().then((members) {
+      setState(() {
+        selectedUserIds = members.map((user) => user.id).toList();
+      });
+    });
+  }
+
+  Future<List<User>> fetchMembers() async {
+    return fetchUsersInGroup(widget.group.id);
+  }
 
   @override
   Widget build(BuildContext context) {
+    var members = fetchUsersInGroup(widget.group.id);
+    print(selectedUserIds);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +137,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Row(
+            if (!isEditing) Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Text(
@@ -134,7 +151,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                   ),
                 ),
                 FutureBuilder(
-                  future: fetchUsersInGroup(widget.group.id),
+                  future: members,
                   builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
                     if (snapshot.hasError) {
                       StringUtils().printError(snapshot);
@@ -173,7 +190,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                 )
               ],
             ),
-            if (!isAdding) OutlinedButton(
+            if (!isEditing) OutlinedButton(
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
@@ -183,7 +200,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                     fixedSize: const Size(127, 36)),
                 onPressed: () {
                   setState(() {
-                    isAdding = true;
+                    isEditing = true;
                   });
                 },
                 child: Row(
@@ -191,13 +208,13 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                     Container(
                       margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
                       child: const Icon(
-                        Remix.user_add_line,
+                        Remix.user_line,
                         size: 16,
                         color: Color(0xff333333),
                       ),
                     ),
                     const Text(
-                      "회원 추가",
+                      "회원 편집",
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -209,8 +226,25 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                 ))
           ],
         ),
-        FutureBuilder(
-          future: fetchUsersInGroup(widget.group.id),
+        (isEditing)? FutureBuilder(
+          future: fetchUsers(),
+          builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+            if (snapshot.hasError) {
+              StringUtils().printError(snapshot);
+              return const CircularProgressIndicator();
+            } else if (!snapshot.hasData) {
+              return const CircularProgressIndicator();
+            } else {
+              return groupMemberTable(
+                  (snapshot.data?.indexed ?? []).map((e) => toGroupMemberDataRow(
+                      context, (snapshot.data?.length ?? 0) - e.$1, e.$2)
+                  ).toList()
+              );
+            }
+          }
+        )
+        : FutureBuilder(
+          future: members,
           builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
             if (snapshot.hasError) {
               StringUtils().printError(snapshot);
@@ -226,49 +260,141 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                   )
                 );
               } else {
-                return Container(
-                    margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
-                    width: 1280,
-                    child: DataTable(
-                        showCheckboxColumn: isAdding,
-                        headingTextStyle: WidgetUtils.dataTableHeadStyle,
-                        dataTextStyle: WidgetUtils.dataTableDataStyle,
-                        border: WidgetUtils.tableBorder,
-                        dataRowMinHeight: 62,
-                        dataRowMaxHeight: 62,
-                        columns: const [
-                          DataColumn(label: Text("번호")),
-                          DataColumn(label: Text("회원등급")),
-                          DataColumn(label: Text("성명")),
-                          DataColumn(label: Text("ID")),
-                          DataColumn(label: Text("연락처")),
-                          DataColumn(label: Text("이메일")),
-                          DataColumn(label: Text("가입일")),
-                          DataColumn(label: Text("기능")),
-                        ],
-                        rows: members.indexed.map((e) => e.$2.toGroupMemberDataRow(
-                          context, members.length - e.$1, widget.group.id
-                        )).toList()
-                    )
-                );
+                print(selectedUserIds);
+                return groupMemberTable(members.indexed.map((e) => toGroupMemberDataRow(
+                    context, members.length - e.$1, e.$2
+                )).toList());
               }
             }
           }
         ),
-        if (isAdding) Container(
+        if (isEditing) Container(
           margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
           child: WidgetUtils().buttonBar(
             "취소",
             "저장",
             () {
               setState(() {
-                isAdding = false;
+                print(selectedUserIds);
+                isEditing = false;
               });
             },
-            () => null
+            () async {
+              var currentUserIds = (await fetchMembers()).map((user) => user.id).toList();
+              var addingUsers = <int>[];
+              for (var element in selectedUserIds) {
+                if (!currentUserIds.contains(element)) {
+                  addingUsers.add(element);
+                }
+              }
+              var removingUsers = <int>[];
+              for (var element in currentUserIds) {
+                if (!selectedUserIds.contains(element)) {
+                  removingUsers.add(element);
+                }
+              }
+
+              await addGroupMember(addingUsers, widget.group.id);
+              var deleteResponse = await deleteGroupMember(removingUsers, widget.group.id); // todo delete 버그 있는듯?
+              print(deleteResponse.body);
+
+              setState(() {
+                // print(selectedUserIds);
+                print("-----addingUsers------");
+                print(addingUsers);
+                print("-----removingUsers----");
+                print(removingUsers);
+                isEditing = false;
+              });
+            }
           ),
         )
       ],
     );
   }
+
+  Container groupMemberTable(List<DataRow> rows) {
+    return Container(
+        margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
+        width: 1280,
+        child: DataTable(
+            showCheckboxColumn: isEditing,
+            headingTextStyle: WidgetUtils.dataTableHeadStyle,
+            dataTextStyle: WidgetUtils.dataTableDataStyle,
+            border: WidgetUtils.tableBorder,
+            dataRowMinHeight: 62,
+            dataRowMaxHeight: 62,
+            columns: const [
+              DataColumn(label: Text("번호")),
+              DataColumn(label: Text("회원등급")),
+              DataColumn(label: Text("성명")),
+              DataColumn(label: Text("ID")),
+              DataColumn(label: Text("연락처")),
+              DataColumn(label: Text("이메일")),
+              DataColumn(label: Text("가입일")),
+              // DataColumn(label: Text("기능")),
+            ],
+            rows: rows
+        )
+    );
+  }
+
+  DataRow toGroupMemberDataRow(BuildContext context, int index, User user) {
+    return DataRow(
+        color: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+          return Colors.white;
+        }),
+        selected: selectedUserIds.contains(user.id),
+        onSelectChanged: (selected) {
+          setState(() {
+            if (selected == true) {
+              if (!selectedUserIds.contains(user.id)) {
+                selectedUserIds.add(user.id);
+              }
+            } else {
+              selectedUserIds.remove(user.id);
+            }
+          });
+        },
+        cells: [
+          DataCell(Text(index.toString())),
+          DataCell(Text(user.userLevel.korean)),
+          DataCell(Text(user.name)),
+          DataCell(Text(user.stringId)),
+          DataCell(Text(user.phone)),
+          DataCell(Text(user.email)),
+          DataCell(Text(DateFormat('yyyy-MM-dd').format(user.createdAt))),
+          // DataCell(Container(
+          //   width: 36,
+          //   height: 36,
+          //   alignment: Alignment.center,
+          //   decoration: const BoxDecoration(
+          //     shape: BoxShape.circle,
+          //     color: Color(0xfff5a9a9),
+          //   ),
+          //   child: IconButton(
+          //     alignment: Alignment.center,
+          //     splashRadius: 18,
+          //     tooltip: "삭제",
+          //     onPressed: () {
+          //       showDialog(
+          //           context: context,
+          //           builder: (context) {
+          //             return CustomAlertWidget().deleteWidget(context, () async {
+          //               var response = await deleteGroupMember(id, groupId);
+          //               Navigator.pop(context);
+          //             });
+          //           });
+          //     },
+          //     icon: const Icon(
+          //       Remix.subtract_line,
+          //       size: 14,
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          // ))
+        ]
+    );
+  }
+
 }

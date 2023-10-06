@@ -158,45 +158,57 @@ class User {
     ]);
   }
 
-  DataRow toGroupMemberDataRow(BuildContext context, int index, int groupId) {
-    return DataRow(cells: [
-      DataCell(Text(index.toString())),
-      DataCell(Text(userLevel.korean)),
-      DataCell(Text(name)),
-      DataCell(Text(stringId)),
-      DataCell(Text(phone)),
-      DataCell(Text(email)),
-      DataCell(Text(DateFormat('yyyy-MM-dd').format(createdAt))),
-      DataCell(Container(
-        width: 36,
-        height: 36,
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xfff5a9a9),
-        ),
-        child: IconButton(
-          alignment: Alignment.center,
-          splashRadius: 18,
-          tooltip: "삭제",
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return CustomAlertWidget().deleteWidget(context, () async {
-                    var response = await deleteGroupMember(id, groupId);
-                    Navigator.pop(context);
-                  });
-                });
-          },
-          icon: const Icon(
-            Remix.subtract_line,
-            size: 14,
-            color: Colors.white,
-          ),
-        ),
-      ))
-    ]);
+  DataRow toGroupMemberDataRow(BuildContext context, int index, int groupId, List<int> selectedIds) {
+    return DataRow(
+      selected: selectedIds.contains(id),
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          if (!selectedIds.contains(id)) {
+            selectedIds.add(id);
+          }
+        } else {
+          selectedIds.remove(id);
+        }
+      },
+      cells: [
+        DataCell(Text(index.toString())),
+        DataCell(Text(userLevel.korean)),
+        DataCell(Text(name)),
+        DataCell(Text(stringId)),
+        DataCell(Text(phone)),
+        DataCell(Text(email)),
+        DataCell(Text(DateFormat('yyyy-MM-dd').format(createdAt))),
+        // DataCell(Container(
+        //   width: 36,
+        //   height: 36,
+        //   alignment: Alignment.center,
+        //   decoration: const BoxDecoration(
+        //     shape: BoxShape.circle,
+        //     color: Color(0xfff5a9a9),
+        //   ),
+        //   child: IconButton(
+        //     alignment: Alignment.center,
+        //     splashRadius: 18,
+        //     tooltip: "삭제",
+        //     onPressed: () {
+        //       showDialog(
+        //           context: context,
+        //           builder: (context) {
+        //             return CustomAlertWidget().deleteWidget(context, () async {
+        //               var response = await deleteGroupMember(id, groupId);
+        //               Navigator.pop(context);
+        //             });
+        //           });
+        //     },
+        //     icon: const Icon(
+        //       Remix.subtract_line,
+        //       size: 14,
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        // ))
+      ]
+    );
   }
 
   bool isContainedIn(List<User> users) {

@@ -127,4 +127,14 @@ class StringUtils {
     print(snapshot.stackTrace);
   }
 
+  String apiListDataFormat(List<dynamic> list) {
+    if (list.isEmpty) {
+      return "";
+    }
+    if (list.length == 1) {
+      return list.first.toString();
+    }
+    return list.toString().substring(1, list.length-1);
+  }
+
 }

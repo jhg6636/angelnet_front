@@ -127,17 +127,17 @@ Future<List<User>> fetchUsersInGroup(int groupId) async {
       .map<User>((json) => User.fromJson(json)).toList();
 }
 
-Future<http.Response> addGroupMember(int groupId, List<String> stringIds) async {
+Future<http.Response> addGroupMember(List<int> userIds, int groupId) async {
   return await http.post(
     StringUtils().stringToUri("admin/group/member"),
     headers: await StringUtils().header(),
-    body: jsonEncode({'groupId': groupId, 'stringIds': stringIds})
+    body: jsonEncode({'groupId': groupId, 'userIds': userIds})
   );
 }
 
-Future<http.Response> deleteGroupMember(int userId, int groupId) async {
+Future<http.Response> deleteGroupMember(List<int> userIds, int groupId) async {
   return await http.delete(
-    StringUtils().stringToUri('admin/group/member', params: {'userId': userId, 'groupId': groupId}),
+    StringUtils().stringToUri('admin/group/member', params: {'userIds': StringUtils().apiListDataFormat(userIds), 'groupId': groupId.toString()}),
     headers: await StringUtils().header(),
   );
 }
