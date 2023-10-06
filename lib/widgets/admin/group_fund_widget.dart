@@ -1,3 +1,4 @@
+import 'package:angelnet/models/admin/group.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,9 @@ import '../core/pagination.dart';
 
 class GroupFundWidget extends StatefulWidget {
 
-  const GroupFundWidget({super.key});
+  final Group group;
+
+  const GroupFundWidget({super.key, required this.group});
 
   @override
   State<StatefulWidget> createState() => GroupFundWidgetState();

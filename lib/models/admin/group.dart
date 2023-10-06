@@ -9,6 +9,7 @@ import 'package:remixicon/remixicon.dart';
 import '../../screens/admin/group_detail_screen.dart';
 import '../../utils/StringUtils.dart';
 import '../common/user.dart';
+import '../fund/fund.dart';
 
 class Group {
 
@@ -156,3 +157,7 @@ Future<http.Response> deleteGroup(int groupId) async {
     headers: await StringUtils().header(),
   );
 }
+
+// Future<List<Fund>> fetchFundsInGroup(int groupId) async {
+//
+// }
