@@ -47,10 +47,10 @@ class GroupEditMemberWidgetState extends State<GroupEditMemberWidget> {
                       .where((user) => !user.isContainedIn(memberResponse))
                       .map<String>((user) => user.stringId).toList());
                   var response = await addGroupMember(
-                      widget.groupId,
-                      addingMembers
+                    addingMembers
                         .where((user) => !user.isContainedIn(memberResponse))
-                        .map<String>((user) => user.stringId).toList()
+                        .map<int>((user) => user.id).toList(),
+                      widget.groupId,
                   );
                   if (response.statusCode == 200) {
                     Fluttertoast.showToast(msg: "멤버가 추가되었습니다.");

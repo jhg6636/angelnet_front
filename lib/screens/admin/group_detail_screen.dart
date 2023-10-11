@@ -151,7 +151,7 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
               if (selectedMenu == '노출 조합 관리')
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 21, 0, 0),
-                  child: const GroupFundWidget(),
+                  child: GroupFundWidget(group: widget.group,),
                 )
             ],
           ),

@@ -18,8 +18,7 @@ class StringUtils {
   }
 
   Uri stringToUri(String apiName, {Map<String, dynamic>? params}) {
-    return Uri.http(serverAddress, apiName, params);
-  }
+    return Uri.http(serverAddress, apiName, params);  }
 
   static Map<String, String> noAuthHeader = {HttpHeaders.contentTypeHeader: "application/json"};
 
