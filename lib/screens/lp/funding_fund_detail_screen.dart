@@ -121,7 +121,7 @@ class FundingFundDetailScreenState extends State<FundingFundDetailScreen> {
                                 padding:
                                     const EdgeInsets.fromLTRB(24, 0, 16, 0)),
                             onPressed: () {
-                              Get.to(const JoinFundScreen());
+                              Get.to(JoinFundScreen(fund: widget.fund,));
                             },
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,

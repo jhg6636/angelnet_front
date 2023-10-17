@@ -1,16 +1,23 @@
+import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/models/fund/fund.dart';
+import 'package:angelnet/screens/lp/lp_mypage.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 class JoinFundScreen extends StatefulWidget {
 
-  const JoinFundScreen({super.key});
+  final Fund fund;
+
+  const JoinFundScreen({super.key, required this.fund});
 
   @override
   State<StatefulWidget> createState() => JoinFundScreenState();
@@ -71,17 +78,17 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                         color: const Color(0x0f1badfb),
                         borderRadius: BorderRadius.circular(19),
                       ),
-                      child: const Text("조합검토기간",
+                      child: Text(widget.fund.status.korean,
                         style: TextStyle(
                           fontFamily: StringUtils.pretendard,
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
-                          color: Color(0xff1badfb)
+                          color: widget.fund.status.smallWidgetColor
                         ),
                       ),
                     ),
-                    const Text("리벤처스 테크 이노베이션 투자조합 6호",
-                      style: TextStyle(
+                    Text(widget.fund.name,
+                      style: const TextStyle(
                         fontSize: 27,
                         fontWeight: FontWeight.bold,
                         fontFamily: StringUtils.pretendard,
@@ -117,7 +124,7 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                         ),
                         child: const Icon(Remix.check_fill, size: 18, color: CupertinoColors.white),
                       ),
-                      const Text(" 참여 좌수는 ",
+                      const Text(" 최소 참여 좌수는 ",
                         style: TextStyle(
                           fontFamily: StringUtils.pretendard,
                           fontWeight: FontWeight.w500,
@@ -126,8 +133,8 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                           color: Color(0xff333333),
                         ),
                       ),
-                      const Text("5",
-                        style: TextStyle(
+                      Text(widget.fund.minimumShare.toString(),
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           fontFamily: StringUtils.pretendard,
@@ -135,7 +142,7 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                           color: Color(0xff00968f),
                         ),
                       ),
-                      const Text("단위로 참여가능합니다.",
+                      const Text("좌 입니다. 클릭 시 5단위로 변경가능, 직접입력 후 엔터 시 1단위로 변경가능합니다.",
                         style: TextStyle(
                           fontFamily: StringUtils.pretendard,
                           fontWeight: FontWeight.w500,
@@ -177,7 +184,7 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text("5,000,000", style: bigNumberStyle,),
+                                Text(StringUtils().currencyFormat(widget.fund.costPerShare), style: bigNumberStyle,),
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                                   child: Text("원", style: unitTextStyle,),
@@ -206,7 +213,11 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                                 InkWell(
                                   onTap: () {
                                     setState(() {
-                                      if (stockCounts >= 5) stockCounts -= 5;
+                                      if (stockCounts > widget.fund.minimumShare) {
+                                        stockCounts -= 5;
+                                      } else {
+                                        stockCounts = widget.fund.minimumShare;
+                                      }
                                     });
                                   },
                                   child: Container(
@@ -250,9 +261,14 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                                         contentPadding: EdgeInsets.zero,
                                     ),
                                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                    onEditingComplete: () {
+                                    onSubmitted: (value) {
                                       setState(() {
-                                        stockCounts = (stockCountsController.text) as int;
+                                        // print(stockCountsController.text);
+                                        stockCounts = int.parse(value);
+                                        // stockCounts = int.parse(stockCountsController.text);
+                                        if (stockCounts < widget.fund.minimumShare) {
+                                          stockCounts = widget.fund.minimumShare;
+                                        }
                                       });
                                     },
                                   ),
@@ -295,7 +311,7 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(StringUtils().currencyFormat(5000000 * stockCounts), style: bigNumberStyle,),
+                                Text(StringUtils().currencyFormat(widget.fund.costPerShare * stockCounts), style: bigNumberStyle,),
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                                   child: Text("원", style: unitTextStyle,),
@@ -312,7 +328,16 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                     margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
 
                     child: FilledButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await joinFund(widget.fund.id, stockCounts);
+                        showDialog(context: context, builder: (BuildContext context) {
+                          return CustomAlertWidget().informationWidget(
+                            context,
+                            "${widget.fund.name} 에 참여가 완료되었습니다.",
+                            null,
+                          );
+                        });
+                      },
                       style: FilledButton.styleFrom(
                         backgroundColor: const Color(0xff0d65de),
                         foregroundColor: const Color(0xff0d65de),
@@ -346,7 +371,7 @@ class JoinFundScreenState extends State<JoinFundScreen> {
         ),
       ),
       isAdmin: false,
-      crumbs: ["결성중인 조합", "리벤처스 테크 이노베이션 투자조합 6호", "조합 참여"]
+      crumbs: ["결성중인 조합", widget.fund.name, "조합 참여"]
     );
   }
 
