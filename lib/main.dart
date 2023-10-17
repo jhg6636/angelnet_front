@@ -31,7 +31,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 import 'models/common/post.dart';
 
-const serverAddress = 'localhost:8081';
+const serverAddress = 'api.angelnet.co.kr';
 // const serverAddress = '172.18.0.43:8080';
 const secureStorage = FlutterSecureStorage();
 var storage = {};

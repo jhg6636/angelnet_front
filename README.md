@@ -1,6 +1,6 @@
-# backoffice_front
+# angelnet
 
-reventures backoffice frontend project
+angelnet frontend project
 
 ## Getting Started
 
