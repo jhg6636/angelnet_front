@@ -85,8 +85,30 @@ class WidgetUtils {
       fontWeight: FontWeight.w600,
       fontSize: 24,
       letterSpacing: -0.48,
-      color: Color(0xff111111)
+      color: Color(0xff222222)
   );
+  static const dialogSubStyle = TextStyle(
+    fontFamily: StringUtils.pretendard,
+    fontSize: 16,
+    letterSpacing: -0.16,
+    color: Color(0xff333333),
+    fontWeight: FontWeight.w300,
+  );
+
+  static const textInputHintStyle = TextStyle(
+    fontWeight: FontWeight.w300,
+    fontSize: 16,
+    letterSpacing: -0.16,
+    fontFamily: StringUtils.pretendard,
+    color: Color(0xffaaaaaa),
+  );
+  static const textInputTextStyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    letterSpacing: -0.16,
+    fontFamily: StringUtils.pretendard,
+    color: Color(0xff555555),
+  )
 
   static Widget fnb = Container(
     height: 204,
@@ -374,6 +396,21 @@ class WidgetUtils {
           color: ColorUtils.positiveColor,
         ),)
       ],
+    );
+  }
+
+  static Widget circleButtonFrame(Color color, IconButton button) {
+    return Container(
+      width: 36,
+      height: 36,
+      alignment: Alignment.center,
+      margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+        // border: Border.all(color: )
+      ),
+      child: button
     );
   }
 

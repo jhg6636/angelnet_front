@@ -1,4 +1,5 @@
 import 'package:angelnet/widgets/admin/edit_fund_widget.dart';
+import 'package:angelnet/widgets/admin/fund_lp_manage_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -350,65 +351,7 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                                           letterSpacing: -0.17)),
                                 )),
                       )),
-                  Flexible(
-                      flex: 1,
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            selectedMenu = '조합 공지사항';
-                          });
-                        },
-                        child: (selectedMenu == '조합 공지사항')
-                            ? ClipPath(
-                                clipper: CustomBorderClipper(),
-                                child: Container(
-                                    height: 62,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border(
-                                          top: BorderSide(
-                                              color: Color(0xff1173f9),
-                                              width: 2),
-                                          left: BorderSide(
-                                              color: Color(0xff1173f9),
-                                              width: 2),
-                                          right: BorderSide(
-                                              color: Color(0xff1173f9),
-                                              width: 2),
-                                        )),
-                                    child: const Center(
-                                      child: Text(
-                                        "조합 공지사항",
-                                        style: TextStyle(
-                                            fontFamily: StringUtils.pretendard,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xff1173f9),
-                                            letterSpacing: -0.17),
-                                      ),
-                                    )))
-                            : Container(
-                                height: 62,
-                                decoration: const BoxDecoration(
-                                    color: Color(0xfff9f9f9),
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Color(0xff1173f9),
-                                            width: 2))),
-                                child: const Center(
-                                  child: Text(
-                                    "조합 공지사항",
-                                    style: TextStyle(
-                                        fontFamily: StringUtils.pretendard,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff282728),
-                                        letterSpacing: -0.17),
-                                  ),
-                                )
-                        ),
-                      )
-                  ),
+
                   // Flexible(
                   //     flex: 1,
                   //     child: InkWell(
@@ -521,6 +464,124 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                                   ),
                                 )),
                       )),
+                  Flexible(
+                      flex: 1,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedMenu = '조합서류 관리';
+                          });
+                        },
+                        child: (selectedMenu == '조합서류 관리')
+                            ? ClipPath(
+                            clipper: CustomBorderClipper(),
+                            child: Container(
+                                height: 62,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border(
+                                      top: BorderSide(
+                                          color: Color(0xff1173f9),
+                                          width: 2),
+                                      left: BorderSide(
+                                          color: Color(0xff1173f9),
+                                          width: 2),
+                                      right: BorderSide(
+                                          color: Color(0xff1173f9),
+                                          width: 2),
+                                    )),
+                                child: const Center(
+                                  child: Text(
+                                    "조합서류 관리",
+                                    style: TextStyle(
+                                        fontFamily: StringUtils.pretendard,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff1173f9),
+                                        letterSpacing: -0.17),
+                                  ),
+                                )))
+                            : Container(
+                            height: 62,
+                            decoration: const BoxDecoration(
+                                color: Color(0xfff9f9f9),
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Color(0xff1173f9),
+                                        width: 2))),
+                            child: const Center(
+                              child: Text(
+                                "조합서류 관리",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff282728),
+                                    letterSpacing: -0.17),
+                              ),
+                            )
+                        ),
+                      )
+                  ),
+                  Flexible(
+                      flex: 1,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedMenu = '조합 공지사항';
+                          });
+                        },
+                        child: (selectedMenu == '조합 공지사항')
+                            ? ClipPath(
+                            clipper: CustomBorderClipper(),
+                            child: Container(
+                                height: 62,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border(
+                                      top: BorderSide(
+                                          color: Color(0xff1173f9),
+                                          width: 2),
+                                      left: BorderSide(
+                                          color: Color(0xff1173f9),
+                                          width: 2),
+                                      right: BorderSide(
+                                          color: Color(0xff1173f9),
+                                          width: 2),
+                                    )),
+                                child: const Center(
+                                  child: Text(
+                                    "조합 공지사항",
+                                    style: TextStyle(
+                                        fontFamily: StringUtils.pretendard,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff1173f9),
+                                        letterSpacing: -0.17),
+                                  ),
+                                )))
+                            : Container(
+                            height: 62,
+                            decoration: const BoxDecoration(
+                                color: Color(0xfff9f9f9),
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Color(0xff1173f9),
+                                        width: 2))),
+                            child: const Center(
+                              child: Text(
+                                "조합 공지사항",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.pretendard,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff282728),
+                                    letterSpacing: -0.17),
+                              ),
+                            )
+                        ),
+                      )
+                  ),
                   // Flexible(
                   //     flex: 1,
                   //     child: InkWell(
@@ -581,7 +642,20 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                   // Container(
                   margin: const EdgeInsets.fromLTRB(0, 33, 0, 0),
                   child: FundFormWidget(fund: widget.fund, status: FundStatus.fromKorean(selectedStatus)),
-                )
+                ),
+              if (selectedMenu == '조합서류 관리')
+                Container(
+
+                ),
+              if (selectedMenu == '조합 공지사항')
+                Container(
+
+                ),
+              if (selectedMenu == '조합원 관리')
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 33, 0, 0),
+                  child: FundLpManageWidget(fund: widget.fund,)
+                ),
             ],
           ),
         ),

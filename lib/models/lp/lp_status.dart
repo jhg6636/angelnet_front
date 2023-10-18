@@ -2,6 +2,12 @@ import 'package:angelnet/utils/StringUtils.dart';
 import 'package:flutter/material.dart';
 
 enum LpStatus {
+  waiting(
+    korean: "참여대기",
+    english: "WAITING",
+    enabledColor: Color(0xfff4f4f4),
+    joinedFundComment: "조합 참여 대기 중입니다."
+  ),
   fundDocumentSubmit(
       korean: "서류접수",
       english: "FUND_DOCUMENT_SUBMIT",
@@ -58,6 +64,8 @@ enum LpStatus {
 
   Widget imageWidget() {
     switch (this) {
+      case LpStatus.waiting:
+        return Container();
       case LpStatus.fundDocumentSubmit:
         return Container(
           width: 50.83,
@@ -197,5 +205,42 @@ enum LpStatus {
             )
           ],
         ));
+  }
+
+  Widget toFundLpWidget() {
+    if (this == LpStatus.waiting) {
+      return Container(
+        width: 84,
+        height: 28,
+        color: const Color(0xfff4f4f4),
+        child: const Center(
+          child: Text("대기",
+            style: TextStyle(
+              color: Color(0xff999999),
+              fontWeight: FontWeight.w400,
+              fontFamily: StringUtils.pretendard,
+              fontSize: 15,
+              letterSpacing: -0.45
+            ),
+          ),
+        ),
+      );
+    }
+    return Container(
+      width: 84,
+      height: 28,
+      color: const Color(0xff04b45f),
+      child: const Center(
+        child: Text("참여",
+          style: TextStyle(
+              color: Color(0xffffffff),
+              fontWeight: FontWeight.w400,
+              fontFamily: StringUtils.pretendard,
+              fontSize: 15,
+              letterSpacing: -0.45
+          ),
+        ),
+      ),
+    );
   }
 }
