@@ -372,7 +372,7 @@ class NotificationScreenState extends State<NotificationScreen> {
             ],
           )
         ),
-        isAdmin: false, crumbs: const ["마이페이지", "알림"],
+        isAdmin: widget.isAdmin, crumbs: const ["마이페이지", "알림"],
       );
   }
 

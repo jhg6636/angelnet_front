@@ -39,7 +39,7 @@ class LeftSideDrawer extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                Get.to(const BulletinScreen());
+                Get.to(const BulletinScreen(isAdmin: false,));
               },
               child: const Text(
                   "공지사항",

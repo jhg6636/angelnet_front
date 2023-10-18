@@ -174,7 +174,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: TextButton(
                       onPressed: () {
-                        Get.to(isAdmin? const ManageFundScreen() : const BulletinScreen());
+                        Get.to(isAdmin? const ManageFundScreen() : const BulletinScreen(isAdmin: false,));
                       },
                       child: Text(isAdmin? "조합현황" : "게시판",
                         style: const TextStyle(
@@ -206,7 +206,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: TextButton(
                       onPressed: () {
-                        Get.to(const ManageBulletinScreen());
+                        Get.to(const BulletinScreen(isAdmin: true,));
                       },
                       child: const Text("공지사항 관리",
                         style: TextStyle(
@@ -310,7 +310,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                           },
                         ),
                       ),
-                      DropdownMenuItem(
+                      if (!widget.isAdmin) DropdownMenuItem(
                         onTap: () async {
                           Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
                         },
@@ -418,7 +418,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () {
-                    Get.to(const NotificationScreen(isAdmin: false));
+                    Get.to(NotificationScreen(isAdmin: widget.isAdmin));
                   },
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(37, 0, 80, 0),

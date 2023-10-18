@@ -1,10 +1,13 @@
 import 'package:angelnet/models/bulletin/bulletin.dart';
 import 'package:angelnet/models/common/post.dart';
+import 'package:angelnet/screens/bulletin/post_edit_screen.dart';
 import 'package:angelnet/screens/screen_frame.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:remixicon/remixicon.dart';
 
 import '../../utils/WidgetUtils.dart';
 import '../../utils/custom_border_clipper.dart';
@@ -12,7 +15,8 @@ import '../../widgets/core/pagination.dart';
 
 class BulletinScreen extends StatefulWidget {
 
-  const BulletinScreen({super.key});
+  final bool isAdmin;
+  const BulletinScreen({super.key, required this.isAdmin});
 
   @override
   State<StatefulWidget> createState() => BulletinScreenState();
@@ -157,39 +161,6 @@ class BulletinScreenState extends State<BulletinScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                        child: const Text("페이지",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            fontFamily: StringUtils.pretendard,
-                            letterSpacing: -0.16,
-                            color: Color(0xff333333),
-                          ),
-                        ),
-                      ),
-                      const Text("1",
-                        style: TextStyle(
-                          fontFamily: StringUtils.pretendard,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.16,
-                          color: Color(0xff333333),
-                        ),
-                      ),
-                      Container(
-                          margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                          child: const Text("/6",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              fontFamily: StringUtils.pretendard,
-                              letterSpacing: -0.16,
-                              color: Color(0xff333333),
-                            ),
-                          )
-                      ),
                       const Text("총 ",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
@@ -269,6 +240,41 @@ class BulletinScreenState extends State<BulletinScreen> {
                               )
                             ],
                           )
+                      ),
+                      if (widget.isAdmin) Container(
+                        margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  side: const BorderSide(color: Color(0xffcccccc)),
+                                  borderRadius: BorderRadius.circular(50)
+                              )
+                          ),
+                          onPressed: () {
+                            Get.to(PostEditScreen());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                                  child: const Icon(Remix.edit_line, size: 16, color: Color(0xff333333),),
+                                ),
+                                const Text("게시글 등록",
+                                  style: TextStyle(
+                                      fontFamily: StringUtils.pretendard,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      letterSpacing: -0.14,
+                                      color: Color(0xff333333)
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   )
@@ -330,14 +336,10 @@ class BulletinScreenState extends State<BulletinScreen> {
                   ],
                 )
             ),
-            Container(
-                margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                child: pagination(4)
-            )
           ],
         ),
       ),
-      isAdmin: false,
+      isAdmin: widget.isAdmin,
       crumbs: const ["게시판"]
     );
   }

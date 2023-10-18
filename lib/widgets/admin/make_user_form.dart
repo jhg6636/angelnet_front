@@ -1062,7 +1062,11 @@ class MakeUserFormState extends State<MakeUserForm> {
 
                               }
                               else if (!widget.isEditing) {
-                                Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                                if (widget.isAdmin) {
+                                  Get.to(const ManageUserScreen());
+                                } else {
+                                  Get.to(SignUpWelcomeScreen(userName: _nameController.text));
+                                }
                                 Get.deleteAll();
                               } else {
                                 Navigator.pop(context);
