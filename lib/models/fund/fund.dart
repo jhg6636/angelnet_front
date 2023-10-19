@@ -516,11 +516,11 @@ Future<List<Fund>> searchFunds() async {
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }
 
-Future<http.Response> joinFund(int fundId, int stockCount) async {
+Future<http.Response> joinFund(int fundId, int stockCount, {int? userId}) async {
   return await http.post(
     StringUtils().stringToUri('lp/fund'),
     headers: await StringUtils().header(),
-    body: jsonEncode({"fundId": fundId.toString(), "stockCounts": stockCount}),
+    body: jsonEncode({"fundId": fundId.toString(), "stockCounts": stockCount, "userId": userId}),
   );
 }
 

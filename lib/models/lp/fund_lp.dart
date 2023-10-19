@@ -103,9 +103,10 @@ class FundLp {
           )
       ),
       DataCell(
-        depositAt == null? Text(DateFormat('yyyy-MM-dd hh:mm').format(depositAt!)) : Container(
+        depositAt != null? Text(DateFormat('yyyy-MM-dd hh:mm').format(depositAt!)) : Container(
           width: 84,
           height: 28,
+          alignment: Alignment.center,
           color: const Color(0xfff4f4f4),
           child: const Text("확인",
             style: TextStyle(
@@ -132,5 +133,6 @@ Future<List<FundLp>> fetchFundLps(int fundId) async {
     headers: await StringUtils().header()
   );
 
-  return jsonDecode(utf8.decode(response.bodyBytes)).map((json) => FundLp.fromJson(json)).toList();
+  var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+  return responseBody.map<FundLp>((json) => FundLp.fromJson(json)).toList();
 }

@@ -108,7 +108,7 @@ class WidgetUtils {
     letterSpacing: -0.16,
     fontFamily: StringUtils.pretendard,
     color: Color(0xff555555),
-  )
+  );
 
   static Widget fnb = Container(
     height: 204,
