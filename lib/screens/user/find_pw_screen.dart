@@ -263,9 +263,12 @@ class FindPwScreenState extends State<FindPwScreen> {
                                           ),
                                         ),
                                       ),
-                                      if (_buttonClicked) Container(
+                                      if (_buttonClicked && code != null) Container(
                                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                                         child: WidgetUtils.okMessage("인증번호가 입력하신 메일로 발송되었습니다."),
+                                      ) else if (code == null && _buttonClicked) Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                        child: WidgetUtils.errorMessage("입력하신 정보를 다시 한 번 확인해 주세요."),
                                       )
                                     ],
                                   )
@@ -281,10 +284,17 @@ class FindPwScreenState extends State<FindPwScreen> {
                                         )
                                     ),
                                     onPressed: () async {
-                                      code = await findPwApi(_nameController.text, _emailController.text, _idController.text);
+                                      setState(() {
+                                        _buttonClicked = false;
+                                      });
+                                      var response = await findPwApi(_nameController.text, _emailController.text, _idController.text);
+                                      if (response.statusCode == 200) {
+                                        code = response.body;
+                                      } else {
+                                        code = null;
+                                      }
                                       setState(() {
                                         _buttonClicked = true;
-
                                       });
                                     },
                                     child: const Text("인증번호 전송",
@@ -334,7 +344,7 @@ class FindPwScreenState extends State<FindPwScreen> {
                                           keyboardType: TextInputType.text,
                                           controller: _codeController,
                                           decoration: InputDecoration(
-                                              enabled: _buttonClicked,
+                                              enabled: _buttonClicked && code != null,
                                               border: const OutlineInputBorder(
                                                   borderRadius: BorderRadius.all(Radius.circular(2.0)),
                                                   borderSide: BorderSide(color: Color(0xffdddddd))

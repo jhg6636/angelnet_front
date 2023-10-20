@@ -297,83 +297,97 @@ class ResetPwScreenState extends State<ResetPwScreen> {
                               )
                             );
                           } else {
-                            await changePassword(widget.stringId, _passwordController.text);
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Container(
-                                    width: 660,
-                                    height: 270,
-                                    padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 50),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                            var response = await changePassword(widget.stringId, _passwordController.text);
+                            print(response.body);
+                            if (response.statusCode == 200) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: Container(
+                                        width: 660,
+                                        height: 270,
+                                        padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 50),
+                                        child: Column(
                                           children: [
-                                            Column(
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text("비밀번호가 변경되었습니다.", style: WidgetUtils.dialogTitleStyle),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("비밀번호가 변경되었습니다.", style: WidgetUtils.dialogTitleStyle),
+                                                    Container(
+                                                      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                                      child: Text("홈페이지로 돌아가 변경된 비밀번호로 로그인해 주세요.",
+                                                        style: const TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.w300,
+                                                            fontFamily: StringUtils.pretendard,
+                                                            letterSpacing: -0.16,
+                                                            color: Color(0xff767676)
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                                 Container(
-                                                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                                  child: Text("홈페이지로 돌아가 변경된 비밀번호로 로그인해 주세요.",
-                                                    style: const TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.w300,
-                                                        fontFamily: StringUtils.pretendard,
-                                                        letterSpacing: -0.16,
-                                                        color: Color(0xff767676)
-                                                    ),
+                                                  width: 60,
+                                                  height: 60,
+                                                  padding: const EdgeInsets.all(16),
+                                                  decoration: const BoxDecoration(
+                                                      color: Color(0xfff2f9ff),
+                                                      shape: BoxShape.circle
                                                   ),
+                                                  alignment: Alignment.center,
+                                                  child: const Icon(Remix.error_warning_line, color: Color(0xff1BADFB), size: 32,),
                                                 )
                                               ],
                                             ),
                                             Container(
-                                              width: 60,
-                                              height: 60,
-                                              padding: const EdgeInsets.all(16),
-                                              decoration: const BoxDecoration(
-                                                  color: Color(0xfff2f9ff),
-                                                  shape: BoxShape.circle
+                                              alignment: AlignmentDirectional.centerEnd,
+                                              margin: const EdgeInsets.fromLTRB(0, 72, 0, 0),
+                                              child: FilledButton(
+                                                style: FilledButton.styleFrom(
+                                                    backgroundColor: const Color(0xff222222),
+                                                    foregroundColor: const Color(0xff222222),
+                                                    fixedSize: const Size(120, 50),
+                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  Get.to(const HomeScreen());
+                                                },
+                                                child: const Text("홈으로",
+                                                  style: TextStyle(
+                                                      fontFamily: StringUtils.pretendard,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 17,
+                                                      letterSpacing: -0.34,
+                                                      color: Colors.white
+                                                  ),
+                                                ),
                                               ),
-                                              alignment: Alignment.center,
-                                              child: const Icon(Remix.error_warning_line, color: Color(0xff1BADFB), size: 32,),
                                             )
                                           ],
                                         ),
-                                        Container(
-                                          alignment: AlignmentDirectional.centerEnd,
-                                          margin: const EdgeInsets.fromLTRB(0, 72, 0, 0),
-                                          child: FilledButton(
-                                            style: FilledButton.styleFrom(
-                                                backgroundColor: const Color(0xff222222),
-                                                foregroundColor: const Color(0xff222222),
-                                                fixedSize: const Size(120, 50),
-                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              Get.to(const HomeScreen());
-                                            },
-                                            child: const Text("홈으로",
-                                              style: TextStyle(
-                                                  fontFamily: StringUtils.pretendard,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 17,
-                                                  letterSpacing: -0.34,
-                                                  color: Colors.white
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
-                            );
+                                      ),
+                                    );
+                                  }
+                              );
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return CustomAlertWidget().informationWidget(
+                                      context,
+                                      "비밀번호가 정상적으로 변경되지 않았습니다.",
+                                      "다시 시도해 주세요."
+                                    );
+                                  }
+                              );
+                            }
                           }
                         },
                         child: const Text("비밀번호 재설정",

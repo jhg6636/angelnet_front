@@ -283,7 +283,7 @@ Future<http.Response> changePassword(
     String stringId, String newPassword) async {
   var response = await http.post(StringUtils().stringToUri("/change-password"),
       body: jsonEncode({"stringId": stringId, "newPassword": newPassword}),
-      headers: await StringUtils().header());
+      headers: StringUtils.noAuthHeader);
 
   return response;
 }
@@ -351,16 +351,12 @@ Future<List<dynamic>> findIdApi(String name, String phone) async {
   return jsonDecode(utf8.decode(response.bodyBytes));
 }
 
-Future<String> findPwApi(String name, String email, String stringId) async {
-  var response = await http.get(
+Future<http.Response> findPwApi(String name, String email, String stringId) async {
+  return await http.get(
     StringUtils().stringToUri("/find-pw",
         params: {"name": name, "email": email, "stringId": stringId}),
     // headers: StringUtils.noAuthHeader
   );
-
-  print(response.body);
-
-  return response.body;
 }
 
 Future<http.Response> editUserApi(
