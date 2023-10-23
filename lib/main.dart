@@ -12,7 +12,7 @@ import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
 import 'package:angelnet/screens/bulletin/post_edit_screen.dart';
 import 'package:angelnet/screens/bulletin/post_view_screen.dart';
 import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
-import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
+import 'package:angelnet/screens/lp/fund_detail_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
 import 'package:angelnet/screens/notification/notification_receiver_select_screen.dart';

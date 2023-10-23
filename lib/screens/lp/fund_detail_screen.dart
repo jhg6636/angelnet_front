@@ -1,4 +1,5 @@
 import 'package:angelnet/models/fund/fund.dart';
+import 'package:angelnet/models/fund/fund_status.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
@@ -11,16 +12,16 @@ import 'package:remixicon/remixicon.dart';
 
 import '../../utils/custom_border_clipper.dart';
 
-class FundingFundDetailScreen extends StatefulWidget {
+class FundDetailScreen extends StatefulWidget {
   final Fund fund;
 
-  const FundingFundDetailScreen({super.key, required this.fund});
+  const FundDetailScreen({super.key, required this.fund});
 
   @override
-  State<StatefulWidget> createState() => FundingFundDetailScreenState();
+  State<StatefulWidget> createState() => FundDetailScreenState();
 }
 
-class FundingFundDetailScreenState extends State<FundingFundDetailScreen> {
+class FundDetailScreenState extends State<FundDetailScreen> {
   var selectedMenu = '기본정보';
   final searchTextController = TextEditingController();
 
@@ -54,7 +55,7 @@ class FundingFundDetailScreenState extends State<FundingFundDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                widget.fund.status.isRunning() ? "조합 상세 페이지" : "결성중인 조합",
+                widget.fund.status.isRunning() ? "조합 상세" : "결성중인 조합",
                 style: WidgetUtils.titleStyle,
               ),
               Container(
@@ -111,7 +112,7 @@ class FundingFundDetailScreenState extends State<FundingFundDetailScreen> {
                             )
                           ],
                         ),
-                        FilledButton(
+                        if (widget.fund.status == FundStatus.accepting) FilledButton(
                             style: FilledButton.styleFrom(
                                 backgroundColor: const Color(0xff293655),
                                 foregroundColor: const Color(0xff293655),

@@ -2,14 +2,15 @@ import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/models/fund/fund_status.dart';
 import 'package:angelnet/models/lp/limited_partner.dart';
 import 'package:angelnet/models/lp/lp_status.dart';
+import 'package:angelnet/screens/lp/fund_detail_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
-import 'fund_detail_lp_screen.dart';
 
 class LpJoinedFundScreen extends StatefulWidget {
 
@@ -101,9 +102,10 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                         fixedSize: const Size(153, 50),
                         padding: EdgeInsets.zero
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        var fund = await getFundByLpId(widget.lp.id);
                         setState(() {
-                          detailPageClicked = true;
+                          Get.to(FundDetailScreen(fund: fund));
                         });
                       },
                       child: Container(
@@ -721,8 +723,11 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
 Row lpStatusWidget(LpStatus status) {
   var containers = <Widget>[];
   for (var thisStatus in LpStatus.values) {
+    if (thisStatus == LpStatus.waiting) {
+      continue;
+    }
     containers.add((status == thisStatus) ? thisStatus.toEnabledWidget() : thisStatus.toDisabledWidget());
-    if (thisStatus.index != 4) {
+    if (thisStatus.index != 5) {
       containers.add(Container(
           margin: const EdgeInsets.fromLTRB(13, 0, 12, 0),
           child: const Text("▶", style: TextStyle(fontSize: 14, color: Color(0xff33363b)),)

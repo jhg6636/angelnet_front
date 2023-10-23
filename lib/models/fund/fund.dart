@@ -3,7 +3,7 @@ import 'dart:core';
 import 'dart:typed_data';
 
 import 'package:angelnet/screens/admin/manage_fund_screen.dart';
-import 'package:angelnet/screens/lp/funding_fund_detail_screen.dart';
+import 'package:angelnet/screens/lp/fund_detail_screen.dart';
 import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,6 @@ import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../../screens/admin/fund_detail_admin_screen.dart';
-import '../../screens/lp/fund_detail_lp_screen.dart';
 import '../../utils/StringUtils.dart';
 import 'fund_status.dart';
 import 'fund_type.dart';
@@ -175,25 +174,6 @@ class Fund {
     ]);
   }
 
-  DataRow toFundingFundDataRow() {
-    return DataRow(cells: [
-      DataCell(Text(name)),
-      DataCell(Text(startupName)),
-      DataCell(Text(mainProduct)),
-      DataCell(Text(cost.toString())),
-      DataCell(Text((currentFundedCost / costPerShare).toString())),
-      DataCell(Text(((cost - currentFundedCost) / costPerShare).toString())),
-      DataCell(Text((totalMember - currentMemberCount).toString())),
-      DataCell(ElevatedButton.icon(
-        onPressed: () {
-          Get.to(FundDetailLpScreen(fund: this));
-        },
-        icon: const Icon(Icons.search),
-        label: const Text("자세히 보기"),
-      )),
-    ]);
-  }
-
   DataRow toAllPortfolioRow() {
     return DataRow(cells: [
       DataCell(Text(name)),
@@ -285,7 +265,7 @@ class Fund {
 
   Widget fundingFundContainer() => InkWell(
     onTap: () {
-      Get.to(FundingFundDetailScreen(fund: this,));
+      Get.to(FundDetailScreen(fund: this,));
     },
     child: Container(
       padding: const EdgeInsets.fromLTRB(20, 27, 4, 27),
@@ -579,4 +559,15 @@ Future<http.Response> deleteFund(int id) async {
     StringUtils().stringToUri('/fund', params: {"fundId": id.toString()}),
     headers: await StringUtils().header()
   );
+}
+
+Future<Fund> getFundByLpId(int lpId) async {
+  var response = await http.get(
+    StringUtils().stringToUri('/fund', params: {"lpId": lpId.toString()}),
+    headers: await StringUtils().header()
+  );
+
+  print(response.body);
+
+  return Fund.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 }

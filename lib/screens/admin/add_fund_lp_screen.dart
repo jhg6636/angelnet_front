@@ -59,7 +59,7 @@ class AddFundLpFirstScreenState extends State<AddFundLpFirstScreen> {
                             ),
                             SizedBox(height: 10,),
                             Text("이름 입력 후 다음 버튼을 클릭 시 조합원을 선택할 수 있습니다.",
-                              style: WidgetUtils.dialogSubStyle
+                              style: WidgetUtils.regularStyle
                             )
                           ],
                         ),
@@ -155,7 +155,7 @@ class AddFundLpSecondScreenState extends State<AddFundLpSecondScreen> {
                           children: [
                             Text("아래 인원 중 추가하실 조합원을 선택해 주세요.", style: WidgetUtils.dialogTitleStyle),
                             SizedBox(height: 10,),
-                            Text("추가하고자 하는 인원 우측에 좌수를 입력하시면 조합원으로 추가됩니다.", style: WidgetUtils.dialogSubStyle)
+                            Text("추가하고자 하는 인원 우측에 좌수를 입력하시면 조합원으로 추가됩니다.", style: WidgetUtils.regularStyle)
                           ],
                         ),
                         Container(

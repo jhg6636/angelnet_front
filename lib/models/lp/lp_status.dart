@@ -139,7 +139,7 @@ enum LpStatus {
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Text(
-                "STEP 0${index + 1}",
+                "STEP 0$index",
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -183,7 +183,7 @@ enum LpStatus {
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Text(
-                "STEP 0${index + 1}",
+                "STEP 0$index",
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,

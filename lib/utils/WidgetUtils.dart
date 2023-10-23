@@ -87,12 +87,19 @@ class WidgetUtils {
       letterSpacing: -0.48,
       color: Color(0xff222222)
   );
-  static const dialogSubStyle = TextStyle(
+  static const regularStyle = TextStyle(
     fontFamily: StringUtils.pretendard,
     fontSize: 16,
     letterSpacing: -0.16,
     color: Color(0xff333333),
     fontWeight: FontWeight.w300,
+  );
+  static const boldStyle = TextStyle(
+    fontFamily: StringUtils.pretendard,
+    fontSize: 16,
+    letterSpacing: -0.16,
+    color: Color(0xff333333),
+    fontWeight: FontWeight.bold,
   );
 
   static const textInputHintStyle = TextStyle(
@@ -108,6 +115,13 @@ class WidgetUtils {
     letterSpacing: -0.16,
     fontFamily: StringUtils.pretendard,
     color: Color(0xff555555),
+  );
+  static const regularTextStyleOverDataTable = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 17,
+    letterSpacing: -0.17,
+    fontFamily: StringUtils.pretendard,
+    color: Color(0xff)
   );
 
   static Widget fnb = Container(

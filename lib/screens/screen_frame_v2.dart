@@ -143,15 +143,24 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
           children: [
             Row(
               children: [
-                Container(
-                  width: 154,
-                  height: 52,
-                  margin: const EdgeInsets.fromLTRB(108, 0, 0, 0),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('lib/assets/images/logo.png'),
-                          fit: BoxFit.cover
-                      )
+                InkWell(
+                  onTap: () async {
+                    if (widget.isAdmin) {
+                      Get.to(const ManageUserScreen());
+                    } else {
+                      Get.to(LpMyPage(user: User.fromJson(await getMyInfo())));
+                    }
+                  },
+                  child: Container(
+                    width: 154,
+                    height: 52,
+                    margin: const EdgeInsets.fromLTRB(108, 0, 0, 0),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('lib/assets/images/logo.png'),
+                            fit: BoxFit.cover
+                        )
+                    ),
                   ),
                 ),
                 Container(

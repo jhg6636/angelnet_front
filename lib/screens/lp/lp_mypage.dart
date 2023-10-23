@@ -1,12 +1,12 @@
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/models/lp/limited_partner.dart';
+import 'package:angelnet/screens/lp/document_lp_screen.dart';
 import 'package:angelnet/screens/not_developed_screen.dart';
 import 'package:angelnet/screens/notification/notification_screen.dart';
 import 'package:angelnet/screens/screen_frame.dart';
 import 'package:angelnet/screens/user/edit_user_info_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
-import 'package:angelnet/widgets/lp/fund_card.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +72,7 @@ class LpMyPageState extends State<LpMyPage> {
                   ),
                   onPressed: () {
                     // todo 서류제출 관련 페이지 기획 필요
-                    Get.to(const NotificationScreen(isAdmin: false));
+                    Get.to(LpDocumentScreen());
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -400,15 +400,6 @@ class LpMyPageState extends State<LpMyPage> {
         ),
         isAdmin: false, crumbs: const ["마이페이지"],
     );
-  }
-
-  List<FundCard> fundCardsFromFunds(List<Fund> funds) {
-    List<FundCard> result = List.empty(growable: true);
-    for (var fund in funds) {
-      result.add(FundCard(fund: fund));
-    }
-
-    return result;
   }
 }
 
