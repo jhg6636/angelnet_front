@@ -138,4 +138,8 @@ class StringUtils {
     return list.toString().substring(1, list.length-1);
   }
 
+  static String shorten(String original, int length) {
+    return "${original.substring(0, length)}...";
+  }
+
 }

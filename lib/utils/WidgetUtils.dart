@@ -87,12 +87,26 @@ class WidgetUtils {
       letterSpacing: -0.48,
       color: Color(0xff222222)
   );
-  static const regularStyle = TextStyle(
+  static const lightStyle = TextStyle(
     fontFamily: StringUtils.pretendard,
     fontSize: 16,
     letterSpacing: -0.16,
     color: Color(0xff333333),
     fontWeight: FontWeight.w300,
+  );
+  static const regularStyle = TextStyle(
+    fontFamily: StringUtils.pretendard,
+    fontSize: 16,
+    letterSpacing: -0.16,
+    color: Color(0xff333333),
+    fontWeight: FontWeight.w400,
+  );
+  static const semiBoldStyle = TextStyle(
+    fontFamily: StringUtils.pretendard,
+    fontSize: 16,
+    letterSpacing: -0.16,
+    color: Color(0xff333333),
+    fontWeight: FontWeight.w600,
   );
   static const boldStyle = TextStyle(
     fontFamily: StringUtils.pretendard,
@@ -425,6 +439,33 @@ class WidgetUtils {
         // border: Border.all(color: )
       ),
       child: button
+    );
+  }
+
+  Widget fileRowWithIcon(String url, int textSize) {
+    return Row(
+      children: [
+        Container(
+          width: 30,
+          height: 30,
+          margin: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('lib/assets/images/pdf.png'), // todo 확장자에 따라 변경
+                  fit: BoxFit.fill
+              )
+          ),
+        ),
+        Text(StringUtils.shorten(url, textSize),
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            fontFamily: StringUtils.pretendard,
+            letterSpacing: -0.16,
+            color: Color(0xff555555),
+          ),
+        )
+      ],
     );
   }
 

@@ -55,6 +55,21 @@ enum FundDocumentStatus {
     }
   }
 
+  factory FundDocumentStatus.fromKorean(String korean) {
+    switch (korean) {
+      case "승인":
+        return FundDocumentStatus.accepted;
+      case "반려":
+        return FundDocumentStatus.rejected;
+      case "미제출":
+        return FundDocumentStatus.notSubmitted;
+      case "검토":
+        return FundDocumentStatus.reviewing;
+      default:
+        return FundDocumentStatus.notSubmitted;
+    }
+  }
+
   Widget statusWidget() {
     return Container(
       width: 84,
@@ -138,7 +153,7 @@ enum FundDocumentStatus {
                 tooltip: "업로드",
                 onPressed: uploadAction,
                 icon: const Icon(
-                  Remix.download_line,
+                  Remix.upload_line,
                   size: 16,
                   color: Colors.white,
                 ),
@@ -162,7 +177,7 @@ enum FundDocumentStatus {
             tooltip: "업로드",
             onPressed: uploadAction,
             icon: const Icon(
-              Remix.download_line,
+              Remix.upload_line,
               size: 16,
               color: Colors.white,
             ),

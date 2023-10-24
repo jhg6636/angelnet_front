@@ -31,6 +31,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 import 'models/common/post.dart';
 
+const version = '1.0';
 // const serverAddress = 'api.angelnet.co.kr';
 const serverAddress = 'localhost:8081';
 const secureStorage = FlutterSecureStorage();
@@ -51,6 +52,7 @@ class AngelnetApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print("Ver. $version");
     // return GetMaterialApp(
     //   home: Scaffold(
     //     body: PostEditScreen()
