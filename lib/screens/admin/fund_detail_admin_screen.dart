@@ -1,4 +1,5 @@
 import 'package:angelnet/widgets/admin/edit_fund_widget.dart';
+import 'package:angelnet/widgets/admin/fund_document_manage_widget.dart';
 import 'package:angelnet/widgets/admin/fund_lp_manage_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -644,9 +645,7 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                   child: FundFormWidget(fund: widget.fund, status: FundStatus.fromKorean(selectedStatus)),
                 ),
               if (selectedMenu == '조합서류 관리')
-                Container(
-
-                ),
+                FundDocumentManageWidget(fund: widget.fund),
               if (selectedMenu == '조합 공지사항')
                 Container(
 

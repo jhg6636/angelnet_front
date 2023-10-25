@@ -130,13 +130,14 @@ class WidgetUtils {
     fontFamily: StringUtils.pretendard,
     color: Color(0xff555555),
   );
-  static const regularTextStyleOverDataTable = TextStyle(
+  static const statusBoxWhiteStyle = TextStyle(
     fontWeight: FontWeight.w400,
-    fontSize: 17,
-    letterSpacing: -0.17,
+    fontSize: 15,
+    letterSpacing: -0.45,
     fontFamily: StringUtils.pretendard,
-    color: Color(0xff)
+    color: Colors.white
   );
+
 
   static Widget fnb = Container(
     height: 204,
@@ -442,6 +443,11 @@ class WidgetUtils {
     );
   }
 
+  static BoxDecoration textFieldBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(2),
+    border: Border.all(color: const Color(0xffdddddd)),
+  );
+
   Widget fileRowWithIcon(String url, int textSize) {
     return Row(
       children: [
@@ -465,6 +471,29 @@ class WidgetUtils {
             color: Color(0xff555555),
           ),
         )
+      ],
+    );
+  }
+
+  Widget dataTableCountRow(Future<List<dynamic>> future) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Text("총 ", style: WidgetUtils.lightStyle,),
+        FutureBuilder(
+          future: future,
+          builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+            if (snapshot.hasError) {
+              StringUtils().printError(snapshot);
+              return const Text("0", style: WidgetUtils.boldStyle,);
+            } else if (!snapshot.hasData) {
+              return const Text("0", style: WidgetUtils.boldStyle,);
+            } else {
+              return Text(snapshot.data!.length.toString(), style: WidgetUtils.boldStyle,);
+            }
+          },
+        ),
+        const Text("건", style: WidgetUtils.lightStyle,),
       ],
     );
   }
