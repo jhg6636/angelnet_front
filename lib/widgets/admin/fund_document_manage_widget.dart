@@ -44,7 +44,7 @@ class FundDocumentManageWidgetState extends State<FundDocumentManageWidget> {
                           borderRadius: BorderRadius.circular(50),
                           side: const BorderSide(color: Color(0xffcccccc)),
                         ),
-                        padding: const EdgeInsets.fromLTRB(28, 10, 27, 10),
+                        padding: const EdgeInsets.fromLTRB(27, 10, 27, 10),
                         fixedSize: const Size(127, 36)),
                     onPressed: () {
                       Get.to(MakeFundDocumentScreen(fund: widget.fund));
@@ -60,7 +60,7 @@ class FundDocumentManageWidgetState extends State<FundDocumentManageWidget> {
                           ),
                         ),
                         const Text(
-                          "회원 편집",
+                          "서류 추가",
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,

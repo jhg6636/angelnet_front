@@ -46,6 +46,7 @@ class FundDocument {
             width: 84,
             height: 28,
             color: type.adminStatusColor,
+            alignment: Alignment.center,
             child: Text(type.korean, style: WidgetUtils.statusBoxWhiteStyle,),
           )
         ),
@@ -154,7 +155,7 @@ class FundDocument {
               icon: const Icon(
                 Remix.arrow_right_line,
                 size: 14,
-                color: Color(0xff333333),
+                color: Colors.white,
               ),
             ),
           ),
@@ -186,7 +187,7 @@ class FundDocument {
               icon: const Icon(
                 Remix.close_line,
                 size: 14,
-                color: Color(0xff333333),
+                color: Colors.white,
               ),
             ),
           ),
@@ -204,5 +205,5 @@ Future<List<FundDocument>> getFundDocuments(int fundId) async {
   );
   print(response.body);
 
-  return jsonDecode(utf8.decode(response.bodyBytes)).map((json) => FundDocument.fromJson(json)).toList();
+  return jsonDecode(utf8.decode(response.bodyBytes)).map<FundDocument>((json) => FundDocument.fromJson(json)).toList();
 }
