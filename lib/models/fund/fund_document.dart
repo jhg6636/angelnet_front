@@ -202,6 +202,7 @@ Future<List<FundDocument>> getFundDocuments(int fundId) async {
     StringUtils().stringToUri("/fund/document", params: {'fundId': fundId.toString()}),
     headers: await StringUtils().header(),
   );
+  print(response.body);
 
   return jsonDecode(utf8.decode(response.bodyBytes)).map((json) => FundDocument.fromJson(json)).toList();
 }
