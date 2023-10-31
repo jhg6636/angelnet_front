@@ -25,7 +25,6 @@ class FundLpManageWidgetState extends State<FundLpManageWidget> {
   Widget build(BuildContext context) {
     var fundLps = fetchFundLps(widget.fund.id);
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
       child: Column(
         children: [
           Row(
@@ -60,7 +59,7 @@ class FundLpManageWidgetState extends State<FundLpManageWidget> {
                         } else if (!snapshot.hasData) {
                           return const Text("0", style: style);
                         } else {
-                          return Text(snapshot.data?.length.toString() ?? "0");
+                          return Text(snapshot.data?.length.toString() ?? "0", style: style,);
                         }
                       }
                   ),

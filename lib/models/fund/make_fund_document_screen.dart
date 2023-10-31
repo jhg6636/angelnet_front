@@ -36,11 +36,16 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("서류 생성", style: WidgetUtils.titleStyle,),
+            const Text("서류 추가", style: WidgetUtils.titleStyle,),
             Center(
               child: Container(
+                width: 660,
                 margin: const EdgeInsets.fromLTRB(0, 55, 0, 0),
                 padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 50),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: const Color(0xffdddddd)),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -78,6 +83,7 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                         children: [
                           const Text("구분", style: WidgetUtils.semiBoldStyle,),
                           Container(
+                            height: 37,
                             margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             padding: const EdgeInsets.fromLTRB(24, 9, 16, 9),
                             decoration: BoxDecoration(
@@ -86,6 +92,7 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                             ),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
+                                value: selectedDocumentType,
                                 items: documentTypes.map((type) => DropdownMenuItem(
                                   value: type,
                                   child: Text(type,
@@ -102,6 +109,15 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                                     if (value != null) selectedDocumentType = value;
                                   });
                                 },
+                                iconEnabledColor: Colors.white,
+                                iconDisabledColor: Colors.grey,
+                                dropdownColor: const Color(0xff0361f9),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontFamily: StringUtils.pretendard
+                                ),
                               ),
                             ),
                           )
@@ -110,12 +126,14 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                     ),
                     Container(
                       width: 560,
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                      // padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       decoration: WidgetUtils.textFieldBoxDecoration,
                       child: TextField(
                         controller: titleController,
                         decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                          border: InputBorder.none,
                           hintText: "제목",
                           hintStyle: TextStyle(
                             fontFamily: StringUtils.pretendard,
@@ -131,7 +149,7 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                       children: [
                         Container(
                           width: 430,
-                          margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                          margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                           decoration: WidgetUtils.textFieldBoxDecoration,
                           padding: const EdgeInsets.all(15),
                           child: (selectedFileName == null)? const Text("파일명",
@@ -148,7 +166,8 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                           style: FilledButton.styleFrom(
                             foregroundColor: ColorUtils.actionColor,
                             backgroundColor: ColorUtils.actionColor,
-                            fixedSize: const Size(120, 48)
+                            fixedSize: const Size(120, 48),
+                            shape: const RoundedRectangleBorder()
                           ),
                           onPressed: () {
                             // todo File Picker

@@ -60,6 +60,8 @@ class FundLp {
       DataCell(locUrl == null?
         WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
           onPressed: () {  },
+          splashRadius: 4.0,
+          tooltip: "업로드",
           icon: const Icon(Remix.upload_line, color: Color(0xff222222), size: 16,),
         )) :
         Row(
@@ -67,12 +69,16 @@ class FundLp {
           children: [
             WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
               onPressed: () {},
+              splashRadius: 4.0,
+              tooltip: "다운로드",
               icon: const Icon(Remix.download_line, color: Color(0xff222222), size: 16,))
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
               child: WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
                   onPressed: () {},
+                  splashRadius: 4.0,
+                  tooltip: "수정 (재업로드)",
                   icon: const Icon(Remix.edit_2_line, color: Color(0xff222222), size: 14,))
               ),
             )
@@ -83,6 +89,8 @@ class FundLp {
         taxUrl == null?
           WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
             onPressed: () {  },
+            splashRadius: 4.0,
+            tooltip: "업로드",
             icon: const Icon(Remix.upload_line, color: Color(0xff222222), size: 16,),
           )) :
           Row(
@@ -90,12 +98,16 @@ class FundLp {
             children: [
               WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
                   onPressed: () {},
+                  splashRadius: 4.0,
+                  tooltip: "다운로드",
                   icon: const Icon(Remix.download_line, color: Color(0xff222222), size: 16,))
               ),
               Container(
                 margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                 child: WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
                     onPressed: () {},
+                    splashRadius: 4.0,
+                    tooltip: "수정 (재업로드)",
                     icon: const Icon(Remix.edit_2_line, color: Color(0xff222222), size: 14,))
                 ),
               )
@@ -120,6 +132,9 @@ class FundLp {
         )
       ),
       DataCell(WidgetUtils.circleButtonFrame(const Color(0xfff5a9a9), IconButton(
+        tooltip: "삭제",
+        padding: const EdgeInsets.all(0),
+        splashRadius: 4.0,
         onPressed: () {},
         icon: const Icon(Remix.close_line, color: Colors.white, size: 24,)
       ))),
