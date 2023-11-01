@@ -30,7 +30,7 @@ class FundDocumentManageWidgetState extends State<FundDocumentManageWidget> {
       Future<List<FundDocument>> documents = getFundDocuments(widget.fund.id);
       return Container(
         width: 1280,
-        margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
+        margin: const EdgeInsets.fromLTRB(0, 33, 0, 0),
         child: Column(
           children: [
             Row(

@@ -157,7 +157,7 @@ class GroupDetailScreenState extends State<GroupDetailScreen> {
           ),
         ),
         isAdmin: true,
-        crumbs: const ["그룹관리", "그룹명"]);
+        crumbs: ["그룹관리", widget.group.name]);
     // users = fetchUsersInGroup(widget.group.id);
     //
     // return ScreenFrame(

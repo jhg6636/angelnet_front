@@ -1,4 +1,5 @@
 import 'package:angelnet/models/admin/group.dart';
+import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,21 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
       color: Colors.white
   );
   var selectedMap = {};
+  var selectedFundIds = <int>[];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchFunds().then((funds) {
+      setState(() {
+        selectedFundIds = funds.map((fund) => fund.id).toList();
+      });
+    });
+  }
+
+  Future<List<Fund>> fetchFunds() async {
+    return await fetchFundsInGroup(widget.group.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +88,9 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
                         onChanged: (String? value) => setState(() {
                           selectedSearchOption = value ?? "전체";
                         }),
-                      ))),
+                      )
+                  )
+              ),
               Container(
                   width: 320,
                   height: 42,
@@ -126,22 +144,25 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
             ],
           ),
         ),
-        Container(
+        if (!isAdding) Container(
           alignment: Alignment.centerRight,
           child: OutlinedButton(
               style: OutlinedButton.styleFrom(
+                  alignment: Alignment.center,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                     side: const BorderSide(color: Color(0xffcccccc)),
                   ),
-                  padding: const EdgeInsets.fromLTRB(17, 10, 11, 10),
-                  fixedSize: const Size(127, 36)),
+                  padding: const EdgeInsets.fromLTRB(14, 10, 11, 10),
+                  fixedSize: const Size(120, 36)
+              ),
               onPressed: () {
                 setState(() {
                   isAdding = true;
                 });
               }, // todo 그룹 생성 팝업
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
@@ -152,7 +173,7 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
                     ),
                   ),
                   const Text(
-                    "노출 조합 추가",
+                    "조합 편집",
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -166,297 +187,107 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
         Container(
           width: 1280,
           margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
-          child: DataTable(
-              showCheckboxColumn: isAdding,
-              border: const TableBorder(
-                  top: BorderSide(color: Color(0xff333333), width: 2),
-                  horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
-                  bottom: BorderSide(color: Color(0xffe6e6e6))
-              ),
-              headingTextStyle: WidgetUtils.dataTableHeadStyle,
-              dataTextStyle: WidgetUtils.dataTableDataStyle,
-              dataRowMinHeight: 62,
-              dataRowMaxHeight: 62,
-              columns: const [
-                DataColumn(label: Text("번호")),
-                DataColumn(label: Text("조합명")),
-                DataColumn(label: Text("투자종목")),
-                DataColumn(label: Text("담당자")),
-                DataColumn(label: Text("참여인원")),
-                DataColumn(label: Text("진행상태")),
-                DataColumn(label: Text("기능")),
-              ],
-              rows: [
-                DataRow(
-                  selected: selectedMap[0] ?? false,
-                  onSelectChanged: (value) {
-                    setState(() {
-                      selectedMap[0] = value ?? false;
-                    });
-                  },
-                    cells: [
-                  const DataCell(Text("101")),
-                  const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                  const DataCell(Text("소부장")),
-                  const DataCell(Text("리벤처스")),
-                  const DataCell(Text("183")),
-                  DataCell(Container(
-                    alignment: Alignment.center,
-                    width: 84,
-                    height: 28,
-                    color: const Color(0xff43a3d6),
-                    child: const Text("서류접수중", style: statusTextStyle,),
-                  )),
-                  DataCell(Row(
-                    children: [
-                      Container(
-                        width: 36,
-                        height: 36,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xfff5a9a9),
-                          // border: Border.all(color: )
-                        ),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          splashRadius: 18,
-                          tooltip: "삭제",
-                          onPressed: () {},
-                          icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                        ),
-                      )
-                    ],
-                  )),
-                ]),
-                DataRow(
-                    selected: selectedMap[1] ?? false,
-                    onSelectChanged: (value) {
-                      setState(() {
-                        selectedMap[1] = value ?? false;
-                      });
-                    },
-                    cells: [
-                  const DataCell(Text("101")),
-                  const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                  const DataCell(Text("소부장")),
-                  const DataCell(Text("리벤처스")),
-                  const DataCell(Text("289")),
-                  DataCell(Container(
-                    alignment: Alignment.center,
-                    width: 84,
-                    height: 28,
-                    color: const Color(0xff8f40de),
-                    child: const Text("조합검토기간", style: statusTextStyle,),
-                  )),
-                  DataCell(Row(
-                    children: [
-                      Container(
-                        width: 36,
-                        height: 36,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xfff5a9a9),
-                          // border: Border.all(color: )
-                        ),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          splashRadius: 18,
-                          tooltip: "삭제",
-                          onPressed: () {},
-                          icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                        ),
-                      )
-                    ],
-                  )),
-                ]),
-                DataRow(
-                    selected: selectedMap[2] ?? false,
-                    onSelectChanged: (value) {
-                      setState(() {
-                        selectedMap[2] = value ?? false;
-                      });
-                    },
-                    cells: [
-                  const DataCell(Text("101")),
-                  const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                  const DataCell(Text("소부장")),
-                  const DataCell(Text("리벤처스")),
-                  const DataCell(Text("183")),
-                  DataCell(Container(
-                    alignment: Alignment.center,
-                    width: 84,
-                    height: 28,
-                    color: const Color(0xff323c4e),
-                    child: const Text("해산", style: statusTextStyle,),
-                  )),
-                  DataCell(Row(
-                    children: [
-                      Container(
-                        width: 36,
-                        height: 36,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xfff5a9a9),
-                          // border: Border.all(color: )
-                        ),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          splashRadius: 18,
-                          tooltip: "삭제",
-                          onPressed: () {},
-                          icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                        ),
-                      )
-                    ],
-                  )),
-                ]),
-                DataRow(
-                    selected: selectedMap[3] ?? false,
-                    onSelectChanged: (value) {
-                      setState(() {
-                        selectedMap[3] = value ?? false;
-                      });
-                    },
-                    cells: [
-                  const DataCell(Text("101")),
-                  const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                  const DataCell(Text("소부장")),
-                  const DataCell(Text("리벤처스")),
-                  const DataCell(Text("183")),
-                  DataCell(Container(
-                    alignment: Alignment.center,
-                    width: 84,
-                    height: 28,
-                    color: const Color(0xff002997),
-                    child: const Text("주금납입", style: statusTextStyle,),
-                  )),
-                  DataCell(Row(
-                    children: [
-                      Container(
-                        width: 36,
-                        height: 36,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xfff5a9a9),
-                          // border: Border.all(color: )
-                        ),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          splashRadius: 18,
-                          tooltip: "삭제",
-                          onPressed: () {},
-                          icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                        ),
-                      )
-                    ],
-                  )),
-                ]),
-                DataRow(
-                    selected: selectedMap[4] ?? false,
-                    onSelectChanged: (value) {
-                      setState(() {
-                        selectedMap[4] = value ?? false;
-                      });
-                    },
-                    cells: [
-                  const DataCell(Text("101")),
-                  const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                  const DataCell(Text("소부장")),
-                  const DataCell(Text("리벤처스")),
-                  const DataCell(Text("183")),
-                  DataCell(Container(
-                    alignment: Alignment.center,
-                    width: 84,
-                    height: 28,
-                    color: const Color(0xff0361f9),
-                    child: const Text("참여신청", style: statusTextStyle,),
-                  )),
-                  DataCell(Row(
-                    children: [
-                      Container(
-                        width: 36,
-                        height: 36,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xfff5a9a9),
-                          // border: Border.all(color: )
-                        ),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          splashRadius: 18,
-                          tooltip: "삭제",
-                          onPressed: () {},
-                          icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                        ),
-                      )
-                    ],
-                  )),
-                ]),
-                DataRow(
-                    selected: selectedMap[5] ?? false,
-                    onSelectChanged: (value) {
-                      setState(() {
-                        selectedMap[5] = value ?? false;
-                      });
-                    },
-                    cells: [
-                  const DataCell(Text("101")),
-                  const DataCell(Text("리벤처스 지역엔젤 투자조합")),
-                  const DataCell(Text("소부장")),
-                  const DataCell(Text("리벤처스")),
-                  const DataCell(Text("183")),
-                  DataCell(Container(
-                    alignment: Alignment.center,
-                    width: 84,
-                    height: 28,
-                    color: const Color(0xff04b45f),
-                    child: const Text("운용중", style: statusTextStyle,),
-                  )),
-                  DataCell(Row(
-                    children: [
-                      Container(
-                        width: 36,
-                        height: 36,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xfff5a9a9),
-                          // border: Border.all(color: )
-                        ),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          splashRadius: 18,
-                          tooltip: "삭제",
-                          onPressed: () {},
-                          icon: const Icon(Remix.subtract_line, size: 14, color: Colors.white,),
-                        ),
-                      )
-                    ],
-                  )),
-                ]),
-              ]
+          child: FutureBuilder(
+              future: (isAdding)? searchFunds() : fetchFundsInGroup(widget.group.id),
+              builder: (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
+                if (snapshot.hasError || !snapshot.hasData) {
+                  StringUtils().printError(snapshot);
+                  return const Center(
+                    child: Text("조합이 없습니다.", style: WidgetUtils.dataTableDataStyle),
+                  );
+                } else {
+                  return groupFundDataTable(snapshot.data!.indexed.map((e) => toGroupFundDataRow(e.$1 + 1, e.$2)).toList());
+                }
+              }
           ),
         ),
-        pagination(1),
         if (isAdding) Container(
           margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
           child: WidgetUtils().buttonBar(
               "취소",
               "저장",
-                  () {
+              () {
                 setState(() {
                   isAdding = false;
                 });
               },
-                  () => null
+              () async {
+                var currentFundIds = (await fetchFunds()).map((fund) => fund.id).toList();
+                var addingFunds = <int>[];
+                for (var fundId in selectedFundIds) {
+                  if (!currentFundIds.contains(fundId)) {
+                    addingFunds.add(fundId);
+                  }
+                }
+                var removingFunds = <int>[];
+                for (var fundId in currentFundIds) {
+                  if (!selectedFundIds.contains(fundId)) {
+                    removingFunds.add(fundId);
+                  }
+                }
+
+                // todo post & delete api
+
+                setState(() {
+                  print("-----addingFunds-----");
+                  print(addingFunds);
+                  print("-----removingFunds-----");
+                  print(removingFunds);
+                  isAdding = false;
+                });
+              }
           ),
         )
       ],
+    );
+  }
+
+  DataRow toGroupFundDataRow(int index, Fund fund) {
+    return DataRow(
+        selected: selectedFundIds.contains(fund.id),
+        onSelectChanged: (selected) {
+          setState(() {
+            if (selected == true) {
+              if (!selectedFundIds.contains(fund.id)) {
+                selectedFundIds.add(fund.id);
+              } else {
+                selectedFundIds.remove(fund.id);
+              }
+            }
+          });
+        },
+        cells: [
+          DataCell(Text(index.toString())),
+          DataCell(Text(fund.name)),
+          DataCell(Text(fund.startupName)),
+          DataCell(Text(fund.managerName)),
+          DataCell(Text(fund.currentMemberCount.toString())),
+          DataCell(fund.status.toSmallWidget()),
+        ]
+    );
+  }
+
+  DataTable groupFundDataTable(List<DataRow> rows) {
+    return DataTable(
+        showCheckboxColumn: isAdding,
+        border: const TableBorder(
+            top: BorderSide(color: Color(0xff333333), width: 2),
+            horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+            bottom: BorderSide(color: Color(0xffe6e6e6))
+        ),
+        headingTextStyle: WidgetUtils.dataTableHeadStyle,
+        dataTextStyle: WidgetUtils.dataTableDataStyle,
+        dataRowMaxHeight: 62,
+        dataRowMinHeight: 62,
+        columns: const [
+          DataColumn(label: Text("번호")),
+          DataColumn(label: Text("조합명")),
+          DataColumn(label: Text("투자종목")),
+          DataColumn(label: Text("담당자")),
+          DataColumn(label: Text("참여인원")),
+          DataColumn(label: Text("진행상태")),
+        ],
+        rows: rows
     );
   }
 

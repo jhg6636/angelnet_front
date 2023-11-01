@@ -158,6 +158,13 @@ Future<http.Response> deleteGroup(int groupId) async {
   );
 }
 
-// Future<List<Fund>> fetchFundsInGroup(int groupId) async {
-//
-// }
+Future<List<Fund>> fetchFundsInGroup(int groupId) async {
+  var response = await http.get(
+    StringUtils().stringToUri('admin/group/fund', params: {'groupId': groupId}),
+    headers: await StringUtils().header(),
+  );
+  print('here');
+  print(response.body);
+
+  return jsonDecode(utf8.decode(response.bodyBytes)).map<Fund>((json) => Fund.fromJson(json)).toList();
+}

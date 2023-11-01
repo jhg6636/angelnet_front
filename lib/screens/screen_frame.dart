@@ -44,7 +44,7 @@ class ScreenFrameState extends State<ScreenFrame> {
                   ),
                   InkWell(
                       onTap: () {
-                        Get.to(BulletinScreen(isAdmin: false));
+                        Get.to(ManagePostScreen(isAdmin: false));
                       },
                       child: const Text(" 게시판 ")
                   ),
@@ -134,7 +134,7 @@ AppBar newLpAppBar(String userName, int notificationCount, {String email = ""}) 
           ),
           InkWell(
               onTap: () {
-                Get.to(const BulletinScreen(isAdmin: false,));
+                Get.to(const ManagePostScreen(isAdmin: false,));
               },
               child: const Text(" 게시판 ")
           ),

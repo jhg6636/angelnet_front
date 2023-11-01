@@ -4,6 +4,8 @@ import 'dart:typed_data';
 
 import 'package:angelnet/screens/admin/manage_fund_screen.dart';
 import 'package:angelnet/screens/lp/fund_detail_screen.dart';
+import 'package:angelnet/utils/ColorUtils.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

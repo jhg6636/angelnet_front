@@ -183,7 +183,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: TextButton(
                       onPressed: () {
-                        Get.to(isAdmin? const ManageFundScreen() : const BulletinScreen(isAdmin: false,));
+                        Get.to(isAdmin? const ManageFundScreen() : const ManagePostScreen(isAdmin: false,));
                       },
                       child: Text(isAdmin? "조합현황" : "게시판",
                         style: const TextStyle(
@@ -215,7 +215,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: TextButton(
                       onPressed: () {
-                        Get.to(const BulletinScreen(isAdmin: true,));
+                        Get.to(const ManagePostScreen(isAdmin: true,));
                       },
                       child: const Text("공지사항 관리",
                         style: TextStyle(

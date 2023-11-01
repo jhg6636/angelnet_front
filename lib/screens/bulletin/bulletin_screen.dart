@@ -13,17 +13,17 @@ import '../../utils/WidgetUtils.dart';
 import '../../utils/custom_border_clipper.dart';
 import '../../widgets/core/pagination.dart';
 
-class BulletinScreen extends StatefulWidget {
+class ManagePostScreen extends StatefulWidget {
 
   final bool isAdmin;
-  const BulletinScreen({super.key, required this.isAdmin});
+  const ManagePostScreen({super.key, required this.isAdmin});
 
   @override
-  State<StatefulWidget> createState() => BulletinScreenState();
+  State<StatefulWidget> createState() => ManagePostScreenState();
 
 }
 
-class BulletinScreenState extends State<BulletinScreen> {
+class ManagePostScreenState extends State<ManagePostScreen> {
   var selectedMenu = '공지사항';
   final searchTextController = TextEditingController();
 
@@ -158,10 +158,10 @@ class BulletinScreenState extends State<BulletinScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text("총 ",
+                      Text("총 ",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
@@ -170,7 +170,7 @@ class BulletinScreenState extends State<BulletinScreen> {
                           color: Color(0xff333333),
                         ),
                       ),
-                      const Text("60",
+                      Text("60",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -179,7 +179,7 @@ class BulletinScreenState extends State<BulletinScreen> {
                           color: Color(0xff333333),
                         ),
                       ),
-                      const Text("건",
+                      Text("건",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
@@ -251,7 +251,7 @@ class BulletinScreenState extends State<BulletinScreen> {
                               )
                           ),
                           onPressed: () {
-                            Get.to(PostEditScreen());
+                            Get.to(const PostEditScreen());
                           },
                           child: Container(
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -284,56 +284,33 @@ class BulletinScreenState extends State<BulletinScreen> {
             Container( // todo 공지사항 - 조합 게시판에 따라 내용물 다르게 보이게
                 width: 1280,
                 margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: DataTable(
-                  // todo 정렬
-                  // todo headingRow 아래 border 조정
-                  // todo 이미지 있을 시 표시 / 새 글 표시
-                  headingTextStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.pretendard,
-                    letterSpacing: -0.16,
-                    color: Color(0xff222222),
-                  ),
-                  dataTextStyle: const TextStyle(
-                      fontFamily: StringUtils.pretendard,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                      letterSpacing: -0.16,
-                      color: Color(0xff757575)
-                  ),
-                  border: const TableBorder(
-                    top: BorderSide(color: Color(0xff333333), width: 2),
-                    bottom: BorderSide(color: Color(0xffe6e6e6)),
-                    horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
-                  ),
-                  columns: const [
-                    DataColumn(label: Center(child: Text("번호"))),
-                    DataColumn(label: Center(child: Text("제목"))),
-                    DataColumn(label: Center(child: Text("작성자"))),
-                    DataColumn(label: Center(child: Text("작성일"))),
-                    DataColumn(label: Center(child: Text("첨부파일"))),
-                  ],
-                  rows: const [
-                    DataRow(
-                        cells: [
-                          DataCell(Text("101")),
-                          DataCell(Text("홈페이지 이용과 관련하여 필수적인 공지사항을 안내드립니다.")),
-                          DataCell(Text("관리자")),
-                          DataCell(Text("2023-03-03")),
-                          DataCell(Text("DOC")),
-                        ]
-                    ),
-                    DataRow(
-                        cells: [
-                          DataCell(Text("101")),
-                          DataCell(Text("인기있는 게시글 입니다.")),
-                          DataCell(Text("최고관리자")),
-                          DataCell(Text("2023-03-03")),
-                          DataCell(Text("PDF")),
-                        ]
-                    )
-                  ],
+                child: FutureBuilder(
+                  future: (selectedMenu == '공지사항')? fetchAllPosts() : fetchAllPosts(),
+                  builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+                    if (snapshot.hasError || !snapshot.hasData) {
+                      StringUtils().printError(snapshot);
+                      return const Center(child: Text("공지사항이 없습니다.", style: WidgetUtils.dataTableDataStyle,),);
+                    } else {
+                      DataTable(
+                          headingTextStyle: WidgetUtils.dataTableHeadStyle,
+                          dataTextStyle: WidgetUtils.dataTableDataStyle,
+                          border: const TableBorder(
+                            top: BorderSide(color: Color(0xff333333), width: 2),
+                            bottom: BorderSide(color: Color(0xffe6e6e6)),
+                            horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+                          ),
+                          columns: [
+                            const DataColumn(label: Center(child: Text("번호"))),
+                            if (selectedMenu == '조합 게시판') const DataColumn(label: Center(child: Text("조합명"),)),
+                            const DataColumn(label: Center(child: Text("제목"))),
+                            const DataColumn(label: Center(child: Text("작성자"))),
+                            const DataColumn(label: Center(child: Text("작성일"))),
+                            if (widget.isAdmin) const DataColumn(label: Center(child: Text("기능"))),
+                          ],
+                          rows: snapshot.data!.indexed.map((e) => e.$2.toDataRow(widget.isAdmin)).toList() // todo 수정
+                      )
+                    }
+                  },
                 )
             ),
           ],
