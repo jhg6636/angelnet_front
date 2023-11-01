@@ -307,7 +307,11 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                             const DataColumn(label: Center(child: Text("작성일"))),
                             if (widget.isAdmin) const DataColumn(label: Center(child: Text("기능"))),
                           ],
-                          rows: snapshot.data!.indexed.map((e) => e.$2.toDataRow(widget.isAdmin)).toList() // todo 수정
+                          rows: snapshot.data!
+                              .where((post) => (post.fundId == null && selectedMenu == '공지사항') || post.fundId != null && selectedMenu == '조합 게시판')
+                              .indexed
+                              .map((e) => e.$2.toDataRow(widget.isAdmin))
+                              .toList() // todo 수정
                       )
                     }
                   },
