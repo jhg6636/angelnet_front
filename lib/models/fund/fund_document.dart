@@ -71,9 +71,10 @@ class FundDocument {
             child: IconButton(
               alignment: Alignment.center,
               splashRadius: 18,
-              tooltip: "오전 10시 알림이 발송됩니다.",
+              // tooltip: "오전 10시 알림이 발송됩니다.",
               onPressed: () {
                 // todo 알림 발송 예약
+                // 일단은 즉시 알림 발송
               },
               icon: const Icon(
                 Remix.notification_2_line,
