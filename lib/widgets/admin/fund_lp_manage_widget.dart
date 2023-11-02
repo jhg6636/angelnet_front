@@ -134,7 +134,16 @@ class FundLpManageWidgetState extends State<FundLpManageWidget> {
                         DataColumn(label: Text("입금확인")),
                         DataColumn(label: Text("삭제")),
                       ],
-                      rows: snapshot.data!.indexed.map((e) => e.$2.toFundLpDataRow(e.$1 + 1)).toList(),
+                      rows: snapshot.data!.indexed.map((e) => e.$2.toFundLpDataRow(
+                        e.$1 + 1,
+                        context,
+                        () {
+                          setState(() {
+
+                          });
+                        }
+                      ))
+                        .toList(),
                     );
                   }
                 },

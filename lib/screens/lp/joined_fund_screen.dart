@@ -350,7 +350,7 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                 margin: const EdgeInsets.fromLTRB(0, 41, 0, 0),
                 child: Row(
                   children: [
-                    const Text("출자증서 발급",
+                    const Text("출자증서 및 소득공제 서류 발급",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 20,
@@ -361,7 +361,7 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                     ),
                     Container(
                         margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                        child: const Text("출자증서를 다운로드 하실 수 있습니다.",
+                        child: const Text("출자증서 및 소득공제 서류를 다운로드 하실 수 있습니다.",
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15,
@@ -408,6 +408,53 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                                   child: const Text("출자증서 다운로드",
+                                    style: TextStyle(
+                                        fontFamily: StringUtils.pretendard,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: -0.32,
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                        ),
+                      )
+                    ],
+                  )
+              ),
+              if (widget.lp.fundStatus.isRunning()) const Divider(color: Color(0xffdddddd),),
+              if (widget.lp.fundStatus.isRunning()) Container(
+                  padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      const Text("소득공제",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                          fontFamily: StringUtils.pretendard,
+                          letterSpacing: -0.17,
+                          color: Color(0xff333333),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(98, 0, 0, 0),
+                        child: FilledButton(
+                            style: FilledButton.styleFrom(
+                                fixedSize: const Size(164, 38),
+                                foregroundColor: const Color(0xff6c6f81),
+                                backgroundColor: const Color(0xff6c6f81),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
+                            ),
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Remix.download_2_line, size: 16, color: Colors.white,),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                                  child: const Text("소득공제 다운로드",
                                     style: TextStyle(
                                         fontFamily: StringUtils.pretendard,
                                         fontSize: 16,

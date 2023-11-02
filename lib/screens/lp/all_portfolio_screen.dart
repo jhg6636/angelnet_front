@@ -29,9 +29,18 @@ class AllPortfolioScreenState extends State<AllPortfolioScreen> {
               Container(
                 width: 1280,
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
-                child: getDataTable(),
+                child: FutureBuilder(
+                  future: fetchAllFunds(),
+                  builder: (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
+                    if (snapshot.hasError || !snapshot.hasData) {
+                      StringUtils().printError(snapshot);
+                      return const CircularProgressIndicator();
+                    } else {
+                      return getDataTable(snapshot.data!);
+                    }
+                  },
+                ),
               ),
-              pagination(1)
             ],
           ),
         ),
@@ -42,7 +51,7 @@ class AllPortfolioScreenState extends State<AllPortfolioScreen> {
 
 }
 
-DataTable getDataTable(/* List<Fund> funds */) => DataTable(
+DataTable getDataTable(List<Fund> funds) => DataTable(
     headingTextStyle: const TextStyle(
       fontFamily: StringUtils.pretendard,
       fontWeight: FontWeight.w500,
@@ -68,54 +77,7 @@ DataTable getDataTable(/* List<Fund> funds */) => DataTable(
       DataColumn(label: Text("조합결성일")),
       DataColumn(label: Text("투자형태")),
       DataColumn(label: Text("해산일")),
-      DataColumn(label: Text("해산방식")),
+      // DataColumn(label: Text("해산방식")),
     ],
-    rows: const [
-      DataRow(cells: [
-        DataCell(Text("리벤처스 투자조합")),
-        DataCell(Text("플랜아이")),
-        DataCell(Text("김철수(GP 리벤처스)")),
-        DataCell(Text("2023-01-01")),
-        DataCell(Text("상환전환우선주")),
-        DataCell(Text("-")),
-        DataCell(Text("현물반납")),
-      ]),
-      DataRow(cells: [
-        DataCell(Text("리벤처스 투자조합")),
-        DataCell(Text("플랜아이")),
-        DataCell(Text("김철수(GP 리벤처스)")),
-        DataCell(Text("2023-01-01")),
-        DataCell(Text("상환전환우선주")),
-        DataCell(Text("-")),
-        DataCell(Text("현물반납")),
-      ]),
-      DataRow(cells: [
-        DataCell(Text("리벤처스 투자조합")),
-        DataCell(Text("플랜아이")),
-        DataCell(Text("김철수(GP 리벤처스)")),
-        DataCell(Text("2023-01-01")),
-        DataCell(Text("상환전환우선주")),
-        DataCell(Text("-")),
-        DataCell(Text("현물반납")),
-      ]),
-      DataRow(cells: [
-        DataCell(Text("리벤처스 투자조합")),
-        DataCell(Text("플랜아이")),
-        DataCell(Text("김철수(GP 리벤처스)")),
-        DataCell(Text("2023-01-01")),
-        DataCell(Text("상환전환우선주")),
-        DataCell(Text("-")),
-        DataCell(Text("현물반납")),
-      ]),
-      DataRow(cells: [
-        DataCell(Text("리벤처스 투자조합")),
-        DataCell(Text("플랜아이")),
-        DataCell(Text("김철수(GP 리벤처스)")),
-        DataCell(Text("2023-01-01")),
-        DataCell(Text("상환전환우선주")),
-        DataCell(Text("-")),
-        DataCell(Text("현물반납")),
-      ])
-    ]
-    // rows: funds.map<DataRow>((fund) => fund.toAllPortfolioRow()).toList(),
+    rows: funds.map<DataRow>((fund) => fund.toAllPortfolioRow()).toList(),
   );

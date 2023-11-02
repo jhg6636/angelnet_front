@@ -181,10 +181,10 @@ class Fund {
       DataCell(Text(name)),
       DataCell(Text(startupName)),
       DataCell(Text(managerName)),
-      DataCell(Text(startAt.toString())),
+      DataCell(Text(DateFormat('yyyy-MM-dd').format(startAt))),
       DataCell(Text(type.korean)),
-      DataCell(Text(dissolvedAt.toString())),
-      DataCell(Text(margin.toString())),
+      DataCell(Text((dissolvedAt == null)? "-" : DateFormat('yyyy-MM-dd').format(dissolvedAt!))),
+      // DataCell(Text(margin.toString())),
     ]);
   }
 

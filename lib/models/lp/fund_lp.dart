@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:angelnet/models/lp/lp_status.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
@@ -49,7 +50,7 @@ class FundLp {
     );
   }
 
-  DataRow toFundLpDataRow(int index) {
+  DataRow toFundLpDataRow(int index, BuildContext context, Function setState) {
     return DataRow(cells: [
       DataCell(Text(index.toString())),
       DataCell(Text(stringId)),
@@ -135,7 +136,14 @@ class FundLp {
         tooltip: "삭제",
         padding: const EdgeInsets.all(0),
         splashRadius: 4.0,
-        onPressed: () {},
+        onPressed: () async {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return CustomAlertWidget().deleteWidget(context, () => null);
+            }
+          );
+        },
         icon: const Icon(Remix.close_line, color: Colors.white, size: 24,)
       ))),
     ]);

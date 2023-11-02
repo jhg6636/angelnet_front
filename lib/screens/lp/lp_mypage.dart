@@ -71,7 +71,6 @@ class LpMyPageState extends State<LpMyPage> {
                     fixedSize: const Size(96, 40)
                   ),
                   onPressed: () {
-                    // todo 서류제출 관련 페이지 기획 필요
                     Get.to(LpDocumentScreen());
                   },
                   child: Row(
@@ -170,7 +169,6 @@ class LpMyPageState extends State<LpMyPage> {
                     colors: [Color(0xff00ade2), Color(0xff006ce8)],
                     begin: FractionalOffset.centerLeft,
                     end: FractionalOffset.centerRight,
-                    // todo 회전 적용
                   ),
                   borderRadius: BorderRadius.circular(5)
                 ),
@@ -236,8 +234,6 @@ class LpMyPageState extends State<LpMyPage> {
                           SizedBox(
                             width: 1280,
                             child: DataTable(
-                              // todo 가운데정렬
-                              // todo headingRow 아래 border 조정
                                 headingTextStyle: WidgetUtils.dataTableHeadStyle,
                                 dataTextStyle: WidgetUtils.dataTableDataStyle,
                                 border: const TableBorder(
@@ -251,7 +247,7 @@ class LpMyPageState extends State<LpMyPage> {
                                   DataColumn(label: Center(child: Text("투자기업"))),
                                   DataColumn(label: Center(child: Text("참여금액"))),
                                   DataColumn(label: Center(child: Text("결성일"))),
-                                  DataColumn(label: Center(child: Text("진행상태"))),
+                                  DataColumn(label: Center(child: Text("조합상태"))),
                                 ],
                                 rows: snapshot.data!.indexed.map((e) => e.$2.toLpMyPageRow(e.$1 + 1)).toList()
                             ),

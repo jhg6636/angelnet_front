@@ -291,7 +291,7 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                       StringUtils().printError(snapshot);
                       return const Center(child: Text("공지사항이 없습니다.", style: WidgetUtils.dataTableDataStyle,),);
                     } else {
-                      DataTable(
+                      return DataTable(
                           headingTextStyle: WidgetUtils.dataTableHeadStyle,
                           dataTextStyle: WidgetUtils.dataTableDataStyle,
                           border: const TableBorder(
@@ -312,7 +312,7 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                               .indexed
                               .map((e) => e.$2.toDataRow(widget.isAdmin))
                               .toList() // todo 수정
-                      )
+                      );
                     }
                   },
                 )
