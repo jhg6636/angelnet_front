@@ -1,3 +1,4 @@
+import 'package:angelnet/models/common/post.dart';
 import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/models/fund/fund_status.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
@@ -914,51 +915,17 @@ class FundDetailScreenState extends State<FundDetailScreen> {
               // if (selectedMenu == '회사소개') todo IR자료, 고유번호증 등 회사소개 자료 업로드 공간
               if (selectedMenu == '공지사항')
                 Container(
-                  margin: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                  margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        margin: const EdgeInsets.fromLTRB(20, 17, 0, 0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                              child: const Text(
-                                "페이지",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  fontFamily: StringUtils.pretendard,
-                                  letterSpacing: -0.16,
-                                  color: Color(0xff333333),
-                                ),
-                              ),
-                            ),
-                            const Text(
-                              "1",
-                              style: TextStyle(
-                                fontFamily: StringUtils.pretendard,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: -0.16,
-                                color: Color(0xff333333),
-                              ),
-                            ),
-                            Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                                child: const Text(
-                                  "/6",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    fontFamily: StringUtils.pretendard,
-                                    letterSpacing: -0.16,
-                                    color: Color(0xff333333),
-                                  ),
-                                )),
                             const Text(
                               "총 ",
                               style: TextStyle(
@@ -969,15 +936,15 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                                 color: Color(0xff333333),
                               ),
                             ),
-                            const Text(
-                              "60",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: StringUtils.pretendard,
-                                letterSpacing: -0.16,
-                                color: Color(0xff333333),
-                              ),
+                            FutureBuilder(
+                              future: fetchPostsInFund(widget.fund.id),
+                              builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+                                if (snapshot.hasError || !snapshot.hasData) {
+                                  return const Text("0", style: WidgetUtils.boldStyle,);
+                                } else {
+                                  return Text(snapshot.data!.length.toString(), style: WidgetUtils.boldStyle);
+                                }
+                              }
                             ),
                             const Text(
                               "건",
@@ -992,63 +959,63 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                           ],
                         ),
                       ),
-                      Row(
-                        children: [
-                          Container(
-                              width: 320,
-                              height: 42,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(2),
-                                color: const Color(0xfff2f2f2),
-                              ),
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      flex: 29,
-                                      child: TextField(
-                                        controller: searchTextController,
-                                        textAlignVertical:
-                                            TextAlignVertical.bottom,
-                                        decoration: const InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.transparent)),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.transparent)),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.transparent)),
-                                            hintText: "검색어를 입력하세요",
-                                            hintStyle: TextStyle(
-                                                fontFamily:
-                                                    StringUtils.pretendard,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color(0xff757575),
-                                                letterSpacing: -0.16)),
-                                      )),
-                                  Flexible(
-                                      flex: 3,
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 0, 9.69, 0),
-                                          width: 20.31,
-                                          height: 20.31,
-                                          decoration: const BoxDecoration(
-                                              image: DecorationImage(
-                                            image: AssetImage(
-                                                'lib/assets/images/search_icon.png'),
-                                            fit: BoxFit.fill,
-                                          )),
-                                        ),
-                                      ))
-                                ],
-                              ))
-                        ],
-                      )
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //         width: 320,
+                      //         height: 42,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(2),
+                      //           color: const Color(0xfff2f2f2),
+                      //         ),
+                      //         child: Row(
+                      //           children: [
+                      //             Flexible(
+                      //                 flex: 29,
+                      //                 child: TextField(
+                      //                   controller: searchTextController,
+                      //                   textAlignVertical:
+                      //                       TextAlignVertical.bottom,
+                      //                   decoration: const InputDecoration(
+                      //                       border: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: Colors.transparent)),
+                      //                       enabledBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: Colors.transparent)),
+                      //                       focusedBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: Colors.transparent)),
+                      //                       hintText: "검색어를 입력하세요",
+                      //                       hintStyle: TextStyle(
+                      //                           fontFamily:
+                      //                               StringUtils.pretendard,
+                      //                           fontSize: 16,
+                      //                           fontWeight: FontWeight.w400,
+                      //                           color: Color(0xff757575),
+                      //                           letterSpacing: -0.16)),
+                      //                 )),
+                      //             Flexible(
+                      //                 flex: 3,
+                      //                 child: InkWell(
+                      //                   onTap: () {},
+                      //                   child: Container(
+                      //                     margin: const EdgeInsets.fromLTRB(
+                      //                         0, 0, 9.69, 0),
+                      //                     width: 20.31,
+                      //                     height: 20.31,
+                      //                     decoration: const BoxDecoration(
+                      //                         image: DecorationImage(
+                      //                       image: AssetImage(
+                      //                           'lib/assets/images/search_icon.png'),
+                      //                       fit: BoxFit.fill,
+                      //                     )),
+                      //                   ),
+                      //                 ))
+                      //           ],
+                      //         ))
+                      //   ],
+                      // )
                     ],
                   ),
                 ),
@@ -1056,60 +1023,38 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                 Container(
                     width: 1280,
                     margin: const EdgeInsets.fromLTRB(0, 7, 0, 0),
-                    child: DataTable(
-                      // todo 정렬
-                      // todo headingRow 아래 border 조정
-                      // todo 이미지 있을 시 표시 / 새 글 표시
-                      headingTextStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: StringUtils.pretendard,
-                        letterSpacing: -0.16,
-                        color: Color(0xff222222),
-                      ),
-                      dataTextStyle: const TextStyle(
-                          fontFamily: StringUtils.pretendard,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          letterSpacing: -0.16,
-                          color: Color(0xff757575)),
-                      border: const TableBorder(
-                        top: BorderSide(color: Color(0xff333333), width: 2),
-                        bottom: BorderSide(color: Color(0xffe6e6e6)),
-                        horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
-                      ),
-                      columns: const [
-                        DataColumn(label: Center(child: Text("번호"))),
-                        DataColumn(label: Center(child: Text("제목"))),
-                        DataColumn(label: Center(child: Text("작성자"))),
-                        DataColumn(label: Center(child: Text("작성일"))),
-                        DataColumn(label: Center(child: Text("첨부파일"))),
-                      ],
-                      rows: const [
-                        DataRow(cells: [
-                          DataCell(Text("101")),
-                          DataCell(Text("홈페이지 이용과 관련하여 필수적인 공지사항을 안내드립니다.")),
-                          DataCell(Text("관리자")),
-                          DataCell(Text("2023-03-03")),
-                          DataCell(Text("DOC")),
-                        ]),
-                        DataRow(cells: [
-                          DataCell(Text("101")),
-                          DataCell(Text("인기있는 게시글 입니다.")),
-                          DataCell(Text("최고관리자")),
-                          DataCell(Text("2023-03-03")),
-                          DataCell(Text("PDF")),
-                        ])
-                      ],
-                    )),
-              if (selectedMenu == '공지사항')
-                Container(
-                    margin: const EdgeInsets.fromLTRB(0, 21, 0, 0),
-                    child: pagination(4))
+                    child: FutureBuilder(
+                      future: fetchPostsInFund(widget.fund.id),
+                      builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+                        if (snapshot.hasError || !snapshot.hasData) {
+                          return const Center(child: Text("공지사항이 없습니다.", style: WidgetUtils.dataTableDataStyle),);
+                        } else {
+                          return DataTable(
+                            headingTextStyle: WidgetUtils.dataTableHeadStyle,
+                            dataTextStyle: WidgetUtils.dataTableDataStyle,
+                            border: const TableBorder(
+                              top: BorderSide(color: Color(0xff333333), width: 2),
+                              bottom: BorderSide(color: Color(0xffe6e6e6)),
+                              horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+                            ),
+                            columns: const [
+                              DataColumn(label: Center(child: Text("번호"))),
+                              DataColumn(label: Center(child: Text("제목"))),
+                              DataColumn(label: Center(child: Text("작성자"))),
+                              DataColumn(label: Center(child: Text("작성일"))),
+                              DataColumn(label: Center(child: Text("조회수"))),
+                            ],
+                            rows: snapshot.data!.indexed.map((e) => e.$2.toDataRow(false, false, snapshot.data!.length - e.$1)).toList(),
+                          );
+                        }
+                      },
+                    )
+                ),
             ],
           ),
         ),
         isAdmin: false,
-        crumbs: const ["결성중인 조합", "리벤처스 테크 이노베이션 투자조합 6호"]);
+        crumbs: ["결성중인 조합", widget.fund.name]
+    );
   }
 }
