@@ -5,10 +5,9 @@ import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
-
-import 'package:http/http.dart' as http;
 
 class FundLp {
   final int id;

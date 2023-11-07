@@ -1,6 +1,4 @@
-import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/models/fund/fund.dart';
-import 'package:angelnet/screens/lp/lp_mypage.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
@@ -10,7 +8,6 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 class JoinFundScreen extends StatefulWidget {

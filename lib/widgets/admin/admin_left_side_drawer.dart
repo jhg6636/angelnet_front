@@ -1,5 +1,4 @@
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
-import 'package:angelnet/screens/bulletin/manage_bulletin_screen.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/drawer_header.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../screens/admin/manage_fund_screen.dart';
 import '../../screens/admin/manage_group_screen.dart';
+import '../../screens/post/manage_bulletin_screen.dart';
 
 class AdminLeftSideDrawer extends StatelessWidget {
   const AdminLeftSideDrawer({super.key});

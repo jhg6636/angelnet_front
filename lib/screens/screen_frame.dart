@@ -1,7 +1,7 @@
-import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
 import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
 import 'package:angelnet/screens/lp/lp_mypage.dart';
+import 'package:angelnet/screens/post/manage_post_screen.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/admin/admin_left_side_drawer.dart';

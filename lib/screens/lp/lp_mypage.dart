@@ -1,22 +1,19 @@
+import 'package:angelnet/models/common/post.dart';
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/models/lp/limited_partner.dart';
 import 'package:angelnet/screens/lp/document_lp_screen.dart';
-import 'package:angelnet/screens/not_developed_screen.dart';
 import 'package:angelnet/screens/notification/notification_screen.dart';
-import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/screens/post/manage_post_screen.dart';
 import 'package:angelnet/screens/user/edit_user_info_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../../models/fund/fund.dart';
-import '../../widgets/lp/lp_my_page_state.dart';
 import '../screen_frame_v2.dart';
-import 'funding_fund_screen.dart';
 
 class LpMyPage extends StatefulWidget {
 
@@ -311,84 +308,75 @@ class LpMyPageState extends State<LpMyPage> {
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text("공지사항",
-                      style: TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        letterSpacing: -0.2,
-                        color: Color(0xff333333)
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                      child: const Text("참여하고 있는 조합의 최신 공지사항입니다.",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: StringUtils.pretendard,
-                          letterSpacing: -0.15,
-                          color: Color(0xff555555),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text("공지사항",
+                          style: TextStyle(
+                              fontFamily: StringUtils.pretendard,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              letterSpacing: -0.2,
+                              color: Color(0xff333333)
+                          ),
                         ),
-                      ),
-                    )
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                          child: const Text("엔젤넷과 참여하고 있는 조합의 최신 공지사항입니다.",
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: StringUtils.pretendard,
+                              letterSpacing: -0.15,
+                              color: Color(0xff555555),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    WidgetUtils.moreButton(() {
+                      Get.to(const ManagePostScreen(isAdmin: false));
+                    })
                   ],
                 ),
               ),
               Container(
                   width: 1280,
                   margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
-                  child: DataTable(
-                    // todo 가운데정렬
-                    // todo headingRow 아래 border 조정
-                    headingTextStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.pretendard,
-                      letterSpacing: -0.16,
-                      color: Color(0xff222222),
-                    ),
-                    dataTextStyle: const TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        letterSpacing: -0.16,
-                        color: Color(0xff757575)
-                    ),
-                    border: const TableBorder(
-                      top: BorderSide(color: Color(0xff333333), width: 2),
-                      bottom: BorderSide(color: Color(0xffe6e6e6)),
-                      horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
-                    ),
-                    columns: const [
-                      DataColumn(label: Center(child: Text("번호"))),
-                      DataColumn(label: Center(child: Text("제목"))),
-                      DataColumn(label: Center(child: Text("작성자"))),
-                      DataColumn(label: Center(child: Text("작성일"))),
-                      DataColumn(label: Center(child: Text("첨부파일"))),
-                    ],
-                    rows: const [
-                      DataRow(
-                          cells: [
-                            DataCell(Text("101")),
-                            DataCell(Text("홈페이지 이용과 관련하여 필수적인 공지사항을 안내드립니다.")),
-                            DataCell(Text("관리자")),
-                            DataCell(Text("2023-03-03")),
-                            DataCell(Text("DOC")),
-                          ]
-                      ),
-                      DataRow(
-                          cells: [
-                            DataCell(Text("101")),
-                            DataCell(Text("인기있는 게시글 입니다.")),
-                            DataCell(Text("최고관리자")),
-                            DataCell(Text("2023-03-03")),
-                            DataCell(Text("PDF")),
-                          ]
-                      )
-                    ],
+                  child: FutureBuilder(
+                    future: fetchAllPosts(),
+                    builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+                      if (snapshot.hasError || !snapshot.hasData) {
+                        return const Center(
+                          child: Text("공지사항이 없습니다.", style: WidgetUtils.dataTableDataStyle,),
+                        );
+                      } else {
+                        var data = snapshot.data!.where((post) => post.fundName == null);
+                        return DataTable(
+                          // todo 가운데정렬
+                          // todo headingRow 아래 border 조정
+                          headingTextStyle: WidgetUtils.dataTableHeadStyle,
+                          dataTextStyle: WidgetUtils.dataTableDataStyle,
+                          border: const TableBorder(
+                            top: BorderSide(color: Color(0xff333333), width: 2),
+                            bottom: BorderSide(color: Color(0xffe6e6e6)),
+                            horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+                          ),
+                          columns: const [
+                            DataColumn(label: Center(child: Text("번호"))),
+                            DataColumn(label: Center(child: Text("제목"))),
+                            DataColumn(label: Center(child: Text("작성자"))),
+                            DataColumn(label: Center(child: Text("작성일"))),
+                            DataColumn(label: Center(child: Text("조회수"))),
+                          ],
+                          rows: data.indexed
+                          .map((e) => e.$2.toDataRow(false, false, data.length - e.$1)).toList(),
+                        );
+                      }
+                    },
                   )
               ),
             ],

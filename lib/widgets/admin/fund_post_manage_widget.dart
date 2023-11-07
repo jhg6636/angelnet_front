@@ -1,5 +1,5 @@
 import 'package:angelnet/models/common/post.dart';
-import 'package:angelnet/screens/bulletin/post_edit_screen.dart';
+import 'package:angelnet/screens/post/post_edit_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +56,7 @@ class FundPostManageWidgetState extends State<FundPostManageWidget> {
                     padding: const EdgeInsets.fromLTRB(15, 10, 13, 10),
                     fixedSize: const Size(127, 36)),
                 onPressed: () {
-                  Get.to(const PostEditScreen());
+                  Get.to(PostEditScreen(fundName: widget.fund.name, isEditing: false,));
                 },
                 child: Row(
                   children: [

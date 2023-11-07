@@ -1,6 +1,5 @@
 import 'package:angelnet/screens/user/find_pw_screen.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

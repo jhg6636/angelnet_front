@@ -1,6 +1,4 @@
 import 'package:angelnet/screens/screen_frame_v2.dart';
-import 'package:angelnet/widgets/core/pagination.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
@@ -9,7 +7,6 @@ import '../../models/common/user.dart';
 import '../../utils/StringUtils.dart';
 import '../../utils/WidgetUtils.dart';
 import '../../widgets/admin/make_user_form.dart';
-import '../screen_frame.dart';
 
 class ManageUserScreen extends StatefulWidget {
   const ManageUserScreen({super.key});

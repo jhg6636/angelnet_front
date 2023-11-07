@@ -3,7 +3,6 @@ import 'package:angelnet/models/lp/fund_lp.dart';
 import 'package:angelnet/screens/admin/add_fund_lp_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';

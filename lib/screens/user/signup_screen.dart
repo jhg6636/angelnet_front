@@ -1,6 +1,4 @@
-import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/admin/make_user_form.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {

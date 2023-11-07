@@ -1,7 +1,5 @@
 import 'package:angelnet/utils/ColorUtils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 import 'StringUtils.dart';
@@ -495,6 +493,27 @@ class WidgetUtils {
         ),
         const Text("건", style: WidgetUtils.lightStyle,),
       ],
+    );
+  }
+
+  static Widget moreButton(Function() onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: const Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("더보기",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 15,
+              fontFamily: StringUtils.pretendard,
+              letterSpacing: -0.15,
+              color: Color(0xff555555),
+            ),
+          ),
+          Icon(Remix.arrow_right_s_line, color: Color(0xff555555), size: 15,)
+        ],
+      ),
     );
   }
 

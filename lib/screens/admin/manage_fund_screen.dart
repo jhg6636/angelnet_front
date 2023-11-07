@@ -1,6 +1,4 @@
-import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -8,7 +6,6 @@ import '../../models/fund/fund.dart';
 import '../../utils/StringUtils.dart';
 import '../../utils/WidgetUtils.dart';
 import '../../widgets/lp/fund_form.dart';
-import '../screen_frame.dart';
 import '../screen_frame_v2.dart';
 
 class ManageFundScreen extends StatefulWidget {

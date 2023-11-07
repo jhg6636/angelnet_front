@@ -1,10 +1,10 @@
 import 'package:angelnet/screens/lp/lp_mypage.dart';
+import 'package:angelnet/screens/post/manage_post_screen.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/drawer_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../screens/bulletin/bulletin_screen.dart';
 import '../../screens/lp/funding_fund_screen.dart';
 import '../../screens/not_developed_screen.dart';
 

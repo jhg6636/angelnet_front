@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
@@ -7,15 +6,11 @@ import 'package:angelnet/screens/lp/lp_mypage.dart';
 import 'package:angelnet/screens/user/sign_up_welcome_screen.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/user/sign_up_process_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 import '../../models/common/user_level.dart';
-import '../../screens/user/home_screen.dart';
 import '../../screens/user/reset_pw_screen.dart';
 import '../../utils/StringUtils.dart';
 import '../core/custom_alert_widget.dart';

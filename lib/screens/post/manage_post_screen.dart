@@ -1,17 +1,13 @@
-import 'package:angelnet/models/bulletin/bulletin.dart';
 import 'package:angelnet/models/common/post.dart';
-import 'package:angelnet/screens/bulletin/post_edit_screen.dart';
-import 'package:angelnet/screens/screen_frame.dart';
+import 'package:angelnet/screens/post/post_edit_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../../utils/WidgetUtils.dart';
 import '../../utils/custom_border_clipper.dart';
-import '../../widgets/core/pagination.dart';
 
 class ManagePostScreen extends StatefulWidget {
 
@@ -158,10 +154,10 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("총 ",
+                      const Text("총 ",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
@@ -170,16 +166,32 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                           color: Color(0xff333333),
                         ),
                       ),
-                      Text("60",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          fontFamily: StringUtils.pretendard,
-                          letterSpacing: -0.16,
-                          color: Color(0xff333333),
-                        ),
+                      FutureBuilder(
+                        future: fetchAllPosts(),
+                        builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+                          if (snapshot.hasError || !snapshot.hasData) {
+                            return const Text("0",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                fontFamily: StringUtils.pretendard,
+                                letterSpacing: -0.16,
+                                color: Color(0xff333333),
+                              ),
+                            );
+                          } else {
+                            return Text(
+                              selectedMenu == "공지사항"? snapshot.data!
+                                  .where((post) => post.fundName == null)
+                                  .length.toString()
+                                : snapshot.data!
+                                  .where((post) => post.fundName != null)
+                                  .length.toString(),
+                              style: WidgetUtils.boldStyle,);
+                          }
+                        }
                       ),
-                      Text("건",
+                      const Text("건",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
@@ -192,55 +204,55 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                   ),
                   Row(
                     children: [
-                      Container(
-                          width: 320,
-                          height: 42,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(2),
-                            color: const Color(0xfff2f2f2),
-                          ),
-                          child: Row(
-                            children: [
-                              Flexible(
-                                  flex: 29,
-                                  child: TextField(
-                                    controller: searchTextController,
-                                    textAlignVertical: TextAlignVertical.bottom,
-                                    decoration: const InputDecoration(
-                                        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                                        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                                        hintText: "검색어를 입력하세요",
-                                        hintStyle: TextStyle(
-                                            fontFamily: StringUtils.pretendard,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xff757575),
-                                            letterSpacing: -0.16
-                                        )
-                                    ),
-                                  )
-                              ),
-                              Flexible(
-                                  flex: 3,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      margin: const EdgeInsets.fromLTRB(0, 0, 9.69, 0),
-                                      width: 20.31,
-                                      height: 20.31,
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage('lib/assets/images/search_icon.png'),
-                                            fit: BoxFit.fill,
-                                          )
-                                      ),
-                                    ),
-                                  )
-                              )
-                            ],
-                          )
-                      ),
+                      // Container(
+                      //     width: 320,
+                      //     height: 42,
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(2),
+                      //       color: const Color(0xfff2f2f2),
+                      //     ),
+                      //     child: Row(
+                      //       children: [
+                      //         Flexible(
+                      //             flex: 29,
+                      //             child: TextField(
+                      //               controller: searchTextController,
+                      //               textAlignVertical: TextAlignVertical.bottom,
+                      //               decoration: const InputDecoration(
+                      //                   border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                      //                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                      //                   focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                      //                   hintText: "검색어를 입력하세요",
+                      //                   hintStyle: TextStyle(
+                      //                       fontFamily: StringUtils.pretendard,
+                      //                       fontSize: 16,
+                      //                       fontWeight: FontWeight.w400,
+                      //                       color: Color(0xff757575),
+                      //                       letterSpacing: -0.16
+                      //                   )
+                      //               ),
+                      //             )
+                      //         ),
+                      //         Flexible(
+                      //             flex: 3,
+                      //             child: InkWell(
+                      //               onTap: () {},
+                      //               child: Container(
+                      //                 margin: const EdgeInsets.fromLTRB(0, 0, 9.69, 0),
+                      //                 width: 20.31,
+                      //                 height: 20.31,
+                      //                 decoration: const BoxDecoration(
+                      //                     image: DecorationImage(
+                      //                       image: AssetImage('lib/assets/images/search_icon.png'),
+                      //                       fit: BoxFit.fill,
+                      //                     )
+                      //                 ),
+                      //               ),
+                      //             )
+                      //         )
+                      //       ],
+                      //     )
+                      // ),
                       if (widget.isAdmin) Container(
                         margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: OutlinedButton(
@@ -251,7 +263,7 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                               )
                           ),
                           onPressed: () {
-                            Get.to(const PostEditScreen());
+                            Get.to(const PostEditScreen(isEditing: true,));
                           },
                           child: Container(
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -285,19 +297,20 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                 width: 1280,
                 margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: FutureBuilder(
-                  future: (selectedMenu == '공지사항')? fetchAllPosts() : fetchAllPosts(),
+                  future: fetchAllPosts(),
                   builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
                     if (snapshot.hasError || !snapshot.hasData) {
                       StringUtils().printError(snapshot);
                       return const Center(child: Text("공지사항이 없습니다.", style: WidgetUtils.dataTableDataStyle,),);
                     } else {
+                      var data = (selectedMenu == '공지사항'? snapshot.data!.where((post) => post.fundName == null) : snapshot.data!.where((post) => post.fundName != null));
                       return DataTable(
                           headingTextStyle: WidgetUtils.dataTableHeadStyle,
                           dataTextStyle: WidgetUtils.dataTableDataStyle,
                           border: const TableBorder(
                             top: BorderSide(color: Color(0xff333333), width: 2),
-                            bottom: BorderSide(color: Color(0xffe6e6e6)),
-                            horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+                            bottom: BorderSide(color: Color(0xffdddddd)),
+                            horizontalInside: BorderSide(color: Color(0xffdddddd)),
                           ),
                           columns: [
                             const DataColumn(label: Center(child: Text("번호"))),
@@ -305,13 +318,12 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                             const DataColumn(label: Center(child: Text("제목"))),
                             const DataColumn(label: Center(child: Text("작성자"))),
                             const DataColumn(label: Center(child: Text("작성일"))),
-                            if (widget.isAdmin) const DataColumn(label: Center(child: Text("기능"))),
+                            const DataColumn(label: Center(child: Text("조회수"))),
                           ],
-                          rows: snapshot.data!
-                              .where((post) => (post.fundId == null && selectedMenu == '공지사항') || post.fundId != null && selectedMenu == '조합 게시판')
+                          rows: data
                               .indexed
-                              .map((e) => e.$2.toDataRow(widget.isAdmin))
-                              .toList() // todo 수정
+                              .map((e) => e.$2.toDataRow(selectedMenu == "조합 게시판", widget.isAdmin, data.length - e.$1))
+                              .toList()
                       );
                     }
                   },

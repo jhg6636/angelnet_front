@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:angelnet/screens/user/signup_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';

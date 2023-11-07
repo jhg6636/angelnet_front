@@ -3,7 +3,6 @@ import 'package:angelnet/models/fund/make_fund_document_screen.dart';
 import 'package:angelnet/models/lp/fund_document_submission.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';

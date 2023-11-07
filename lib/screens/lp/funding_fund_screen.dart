@@ -1,12 +1,7 @@
-import 'package:angelnet/screens/screen_frame.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
-import 'package:angelnet/widgets/core/pagination.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:remixicon/remixicon.dart';
 
 import '../../models/fund/fund.dart';
 

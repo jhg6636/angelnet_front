@@ -3,9 +3,7 @@ import 'package:angelnet/screens/admin/fund_detail_admin_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 

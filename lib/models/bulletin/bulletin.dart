@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../../screens/bulletin/bulletin_detail_screen.dart';
 import '../../utils/StringUtils.dart';
 
 class Bulletin {
@@ -38,7 +37,7 @@ class Bulletin {
         DataCell(Text(id.toString())),
         DataCell(TextButton(
           onPressed: () {
-            Get.to(BulletinDetailScreen(bulletin: this, isAdmin: true));
+            // Get.to(BulletinDetailScreen(bulletin: this, isAdmin: true));
           },
           child: Text(name),
         )),
@@ -52,7 +51,7 @@ class Bulletin {
       cells: [
         DataCell(TextButton(
           onPressed: () {
-            Get.to(BulletinDetailScreen(bulletin: this, isAdmin: false,));
+            // Get.to(BulletinDetailScreen(bulletin: this, isAdmin: false,));
           },
           child: Text(name),
         )),

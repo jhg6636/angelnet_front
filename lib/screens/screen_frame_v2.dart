@@ -5,26 +5,24 @@ import 'package:angelnet/models/common/user.dart';
 import 'package:angelnet/screens/admin/manage_fund_screen.dart';
 import 'package:angelnet/screens/admin/manage_group_screen.dart';
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
-import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
 import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
 import 'package:angelnet/screens/lp/funding_fund_screen.dart';
 import 'package:angelnet/screens/lp/lp_mypage.dart';
 import 'package:angelnet/screens/notification/notification_screen.dart';
+import 'package:angelnet/screens/post/manage_post_screen.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
-import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
-import 'package:get/get.dart';
-import 'package:pdf/widgets.dart' as pw;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
+import 'package:get/get.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'bulletin/manage_bulletin_screen.dart';
 
 class ScreenFrameV2 extends StatefulWidget {
 

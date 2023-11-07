@@ -1,4 +1,3 @@
-import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 
 Widget signUpProcessWidget(int step) {

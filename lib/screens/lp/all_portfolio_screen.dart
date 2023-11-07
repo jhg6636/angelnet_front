@@ -1,7 +1,6 @@
 import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
-import 'package:angelnet/widgets/core/pagination.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/WidgetUtils.dart';

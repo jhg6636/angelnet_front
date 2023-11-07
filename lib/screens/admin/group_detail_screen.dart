@@ -3,7 +3,6 @@ import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/custom_border_clipper.dart';
 import 'package:angelnet/widgets/admin/group_fund_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:remixicon/remixicon.dart';
 
 import '../../utils/StringUtils.dart';
 import '../../utils/WidgetUtils.dart';

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/screens/lp/joined_fund_screen.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-import '../../utils/FileUtils.dart';
 import '../../utils/StringUtils.dart';
 import '../fund/fund_status.dart';
 import 'lp_status.dart';

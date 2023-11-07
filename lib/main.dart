@@ -1,37 +1,15 @@
 
-import 'package:angelnet/models/common/user.dart';
-import 'package:angelnet/screens/admin/admin_lp_detail_screen.dart';
-import 'package:angelnet/screens/admin/fund_detail_admin_screen.dart';
-import 'package:angelnet/screens/admin/group_detail_screen.dart';
-import 'package:angelnet/screens/admin/make_group_screen.dart';
-import 'package:angelnet/screens/admin/manage_fund_screen.dart';
-import 'package:angelnet/screens/admin/manage_group_screen.dart';
-import 'package:angelnet/screens/admin/manage_user_screen.dart';
-import 'package:angelnet/screens/admin/user_detail_screen.dart';
-import 'package:angelnet/screens/bulletin/bulletin_screen.dart';
-import 'package:angelnet/screens/bulletin/post_edit_screen.dart';
-import 'package:angelnet/screens/bulletin/post_view_screen.dart';
-import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
-import 'package:angelnet/screens/lp/fund_detail_screen.dart';
-import 'package:angelnet/screens/lp/funding_fund_screen.dart';
-import 'package:angelnet/screens/lp/join_fund_screen.dart';
-import 'package:angelnet/screens/notification/notification_receiver_select_screen.dart';
-import 'package:angelnet/screens/notification/notification_screen.dart';
-import 'package:angelnet/screens/notification/send_notification_screen.dart';
-import 'package:angelnet/screens/screen_frame_v2.dart';
-import 'package:angelnet/screens/user/edit_user_info_screen.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
-import 'package:angelnet/widgets/admin/make_user_form.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'firebase_options.dart';
-import 'models/common/post.dart';
 
-const version = '1.0';
+import 'firebase_options.dart';
+
+const version = '1.1';
 // const serverAddress = 'api.angelnet.co.kr';
 const serverAddress = 'localhost:8081';
 const secureStorage = FlutterSecureStorage();

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:angelnet/screens/post/post_view_screen.dart';
 import 'package:angelnet/utils/ColorUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -10,41 +10,44 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
-import '../../screens/bulletin/post_edit_screen.dart';
+import '../../screens/post/post_edit_screen.dart';
 import '../../screens/screen_frame.dart';
 import '../../utils/StringUtils.dart';
 
 class Post {
 
   final int id;
-  final int? fundId;
+  // final int? fundId;
   final String? fundName;
   final String title;
   final String writer;
   final DateTime createdAt;
   final String body;
+  final int viewCount;
 
   const Post(
       {
         required this.id,
-        required this.fundId,
+        // required this.fundId,
         required this.fundName,
         required this.title,
         required this.writer,
         required this.createdAt,
-        required this.body
+        required this.body,
+        required this.viewCount
       }
   );
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
       id: json["id"] as int,
-      fundId: json["bulletinId"] as int,
-      fundName: json["fundName"] as String,
-      title: json["title"] as String,
-      writer: json["writer"] as String,
-      createdAt: DateTime.parse(json["createdAt"]),
-      body: json["body"] as String,
+      // fundId: json["bulletinId"] as int,
+      fundName: json["fundName"],
+      title: json["title"],
+      writer: json["writer"],
+      createdAt: DateTime(json['createdAt'][0], json['createdAt'][1], json['createdAt'][2], ),
+      body: json["body"],
+      viewCount: json["viewCount"] as int,
     );
   }
 
@@ -58,8 +61,7 @@ class Post {
                   const BackButton(),
                   if (isAdmin) ElevatedButton(
                     onPressed: () {
-                      Get.to(const PostEditScreen());
-                      // Get.to(PostEditScreen(post: this, isEditing: true));
+                      Get.to(PostEditScreen(post: this, isEditing: true));
                     },
                     child: const Text("수정하기"),
                   )
@@ -75,12 +77,25 @@ class Post {
     );
   }
 
-  DataRow toDataRow(bool isAdmin) {
+  DataRow toDataRow(bool needFundColumn, bool isAdmin, int index) {
     return DataRow(cells: [
-      DataCell(Text(id.toString())),
-      DataCell(TextButton(onPressed: () { Get.to(toPostScreen(isAdmin)); }, child: Text(title),)),
+      DataCell(Text(index.toString())),
+      if (needFundColumn) DataCell(Text(fundName ?? "")),
+      DataCell(TextButton(
+        style: TextButton.styleFrom(
+          // backgroundColor: const Color(0xff444444),
+          foregroundColor: const Color(0xff444444),
+          textStyle: const TextStyle(
+            color: Color(0xff444444),
+            decoration: TextDecoration.underline,
+          )
+        ),
+        onPressed: () { Get.to(PostViewScreen(post: this, isAdmin: isAdmin,)); },
+        child: Text(title),
+      )),
       DataCell(Text(writer)),
-      DataCell(Text(createdAt.toString())),
+      DataCell(Text(DateFormat('yyyy-MM-dd').format(createdAt))),
+      DataCell(Text(viewCount.toString()))
     ]);
   }
 
@@ -97,7 +112,7 @@ class Post {
               WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2),
                 IconButton(
                   onPressed: () {
-                    Get.to(const PostEditScreen());
+                    Get.to(PostEditScreen(isEditing: true, post: this,));
                   },
                   icon: const Icon(Remix.edit_line, color: Color(0xff333333), size: 14),
                 )
@@ -130,11 +145,19 @@ Future<List<Post>> fetchAllPosts() async {
       .map<Post>((json) => Post.fromJson(json)).toList();
 }
 
-Future<http.Response> makePost(int bulletinId, String title, String body) async {
+Future<http.Response> makePost(String? fundName, String title, String body) async {
   return await http.post(
     StringUtils().stringToUri('post'),
     headers: await StringUtils().header(),
-    body: jsonEncode({'bulletinId': bulletinId, 'title': title, 'body': body})
+    body: jsonEncode({'fundName': fundName, 'title': title, 'body': body})
+  );
+}
+
+Future<http.Response> editPost(int id, String? fundName, String title, String body) async {
+  return await http.put(
+      StringUtils().stringToUri('post'),
+      headers: await StringUtils().header(),
+      body: jsonEncode({'id': id, 'fundName': fundName, 'title': title, 'body': body})
   );
 }
 

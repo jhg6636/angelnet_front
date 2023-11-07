@@ -4,8 +4,6 @@ import 'dart:typed_data';
 
 import 'package:angelnet/screens/admin/manage_fund_screen.dart';
 import 'package:angelnet/screens/lp/fund_detail_screen.dart';
-import 'package:angelnet/utils/ColorUtils.dart';
-import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -572,4 +570,12 @@ Future<Fund> getFundByLpId(int lpId) async {
   print(response.body);
 
   return Fund.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+}
+
+Future<bool> isExistingFundName(String name) async {
+  var response = await http.get(
+      StringUtils().stringToUri('/check-fund-name', params: {'fundName': name}),
+      headers: await StringUtils().header()
+  );
+  return bool.parse(response.body);
 }

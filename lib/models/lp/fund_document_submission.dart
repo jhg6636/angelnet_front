@@ -7,9 +7,9 @@ import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
-import 'package:http/http.dart' as http;
 
 class FundDocumentSubmission {
 

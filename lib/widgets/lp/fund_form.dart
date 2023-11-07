@@ -2,12 +2,8 @@ import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/admin/edit_fund_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 
-import '../../models/fund/fund.dart';
 import '../../models/fund/fund_status.dart';
-import '../../models/fund/fund_type.dart';
 
 class MakeFundScreen extends StatefulWidget {
 
