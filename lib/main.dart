@@ -1,6 +1,7 @@
 
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
+import 'package:dartssh2/dartssh2.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -10,8 +11,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 
 const version = '1.1';
-// const serverAddress = 'api.angelnet.co.kr';
-const serverAddress = 'localhost:8081';
+const serverAddress = 'api.angelnet.co.kr';
+// const serverAddress = 'localhost:8081';
 const secureStorage = FlutterSecureStorage();
 var storage = {};
 
@@ -19,6 +20,14 @@ void main() async {
   await initializeDateFormatting();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  final sshClient = SSHClient(
+    await SSHSocket.connect('115.91.133.187', 22), username: 'reventures', onPasswordRequest: () => '1234',
+  );
+  final sftp = await sshClient.sftp();
+  final items = await sftp.listdir('/home/reventures');
+  for (final item in items) {
+    print(item.filename);
+  }
   // String? firebaseToken = await fcmSetting();
   // print(firebaseToken);
   runApp(const AngelnetApp());
