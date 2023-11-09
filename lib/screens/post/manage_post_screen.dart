@@ -263,7 +263,7 @@ class ManagePostScreenState extends State<ManagePostScreen> {
                               )
                           ),
                           onPressed: () {
-                            Get.to(const PostEditScreen(isEditing: true,));
+                            Get.to(const PostEditScreen(isEditing: false,));
                           },
                           child: Container(
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

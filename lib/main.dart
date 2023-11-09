@@ -1,7 +1,7 @@
 
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
-import 'package:dartssh2/dartssh2.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -20,14 +20,9 @@ void main() async {
   await initializeDateFormatting();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  final sshClient = SSHClient(
-    await SSHSocket.connect('115.91.133.187', 22), username: 'reventures', onPasswordRequest: () => '1234',
-  );
-  final sftp = await sshClient.sftp();
-  final items = await sftp.listdir('/home/reventures');
-  for (final item in items) {
-    print(item.filename);
-  }
+  Dio dio = Dio();
+  Response response = await dio.get('http://api.angelnet.co.kr/test.txt');
+  print(response.data);
   // String? firebaseToken = await fcmSetting();
   // print(firebaseToken);
   runApp(const AngelnetApp());

@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   http: ^0.13.5
-  intl: ^0.17.0
+  intl: ^0.18.1
   table_calendar: ^3.0.6
   flutter_secure_storage: ^8.0.0
   device_info_plus: ^9.0.2
@@ -62,7 +62,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   dotted_line: ^3.2.2
   html_editor_enhanced: ^2.5.0
-  dartssh2: ^2.8.2
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:
