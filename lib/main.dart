@@ -18,13 +18,6 @@ var storage = {};
 
 void main() async {
   await initializeDateFormatting();
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  Dio dio = Dio();
-  Response response = await dio.get('http://api.angelnet.co.kr/test.txt');
-  print(response.data);
-  // String? firebaseToken = await fcmSetting();
-  // print(firebaseToken);
   runApp(const AngelnetApp());
 }
 

@@ -17,7 +17,8 @@ class StringUtils {
   }
 
   Uri stringToUri(String apiName, {Map<String, dynamic>? params}) {
-    return Uri.http(serverAddress, apiName, params);
+    var api = (apiName[0] == '/')? apiName.substring(1) : apiName;
+    return Uri.http(serverAddress, "/api/$api", params);
     // return Uri.https(serverAddress, apiName, params);
   }
 
