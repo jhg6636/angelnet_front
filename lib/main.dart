@@ -1,4 +1,7 @@
 
+import 'dart:typed_data';
+
+import 'package:angelnet/models/file/file.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:dio/dio.dart';
@@ -18,6 +21,7 @@ var storage = {};
 
 void main() async {
   await initializeDateFormatting();
+  download(Uint8List(10));
   runApp(const AngelnetApp());
 }
 

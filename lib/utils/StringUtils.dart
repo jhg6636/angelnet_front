@@ -33,6 +33,15 @@ class StringUtils {
     };
   }
 
+  Future<Map<String, String>> fileHeader(String ext) async {
+    var token = storage[await getDeviceId()] ?? "";
+
+    return {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      HttpHeaders.contentTypeHeader: "multipart/form-data"
+    };
+  }
+
   Future<String> getDeviceId() async {
     var deviceIdentifier = 'unknown';
     var deviceInfo = DeviceInfoPlugin();
