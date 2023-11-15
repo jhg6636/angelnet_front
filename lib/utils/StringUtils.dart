@@ -33,7 +33,7 @@ class StringUtils {
     };
   }
 
-  Future<Map<String, String>> fileHeader(String ext) async {
+  Future<Map<String, String>> fileHeader() async {
     var token = storage[await getDeviceId()] ?? "";
 
     return {
