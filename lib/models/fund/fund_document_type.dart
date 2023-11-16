@@ -18,9 +18,9 @@ enum FundDocumentType {
     english: "EXITING",
     adminStatusColor: ColorUtils.step5Color,
   ),
-  ir(
-    korean: "회사소개서",
-    english: "IR",
+  information(
+    korean: "정보 공시",
+    english: "INFORMATION",
     adminStatusColor: Color(0xff333333),
   ),;
 
@@ -38,10 +38,26 @@ enum FundDocumentType {
         return FundDocumentType.running;
       case "EXITING":
         return FundDocumentType.exiting;
-      case "IR":
-        return FundDocumentType.ir;
+      case "INFORMATION":
+        return FundDocumentType.information;
       default:
         throw Exception();
     }
   }
+
+  factory FundDocumentType.fromKorean(String korean) {
+    switch (korean) {
+      case "결성":
+        return FundDocumentType.funding;
+      case "운용":
+        return FundDocumentType.running;
+      case "해산":
+        return FundDocumentType.exiting;
+      case "정보 공시":
+        return FundDocumentType.information;
+      default:
+        throw Exception();
+    }
+  }
+
 }

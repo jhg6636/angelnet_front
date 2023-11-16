@@ -1,27 +1,29 @@
-
 import 'dart:typed_data';
 
 import 'package:angelnet/models/file/file.dart';
+import 'package:angelnet/models/file/file_target.dart';
 import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
-import 'package:dio/dio.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'firebase_options.dart';
-
-const version = '1.1';
-const serverAddress = 'api.angelnet.co.kr';
-// const serverAddress = 'localhost:8081';
+const version = '1.2';
+// const serverAddress = 'api.angelnet.co.kr';
+const serverAddress = 'localhost:8081';
 const secureStorage = FlutterSecureStorage();
 var storage = {};
 
 void main() async {
   await initializeDateFormatting();
-  download(Uint8List(10));
+  upload(
+      Uint8List.fromList('hello'.codeUnits),
+      const File(
+          id: -1,
+          name: 'hello.txt',
+          targetId: 1,
+          targetType: FileTarget.fundDocument));
   runApp(const AngelnetApp());
 }
 
@@ -56,11 +58,10 @@ class AngelnetApp extends StatelessWidget {
     //   ),
     // );
     return GetMaterialApp(
-      title: '엔젤넷',
-      home: const HomeScreen(),
-      theme: ThemeData(
-        fontFamily: StringUtils.pretendard,
-      )
-    );
+        title: '엔젤넷',
+        home: const HomeScreen(),
+        theme: ThemeData(
+          fontFamily: StringUtils.pretendard,
+        ));
   }
 }

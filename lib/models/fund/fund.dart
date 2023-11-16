@@ -542,12 +542,6 @@ Future<http.Response> editFund(Fund fund) async {
   );
 }
 
-Future<http.Response> postFundDocument(Uint8List bytes, String ext) async {
-  return await http.post(StringUtils().stringToUri('admin/fund/document'),
-      headers: await StringUtils().header(),
-      body: jsonEncode({"file": bytes, "ext": ext}));
-}
-
 Future<http.Response> changeIsFunding(Fund fund, bool isFunding) async {
   return await http.put(StringUtils().stringToUri('admin/is-funding'),
       headers: await StringUtils().header(),

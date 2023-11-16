@@ -1,13 +1,21 @@
+import 'dart:typed_data';
+
+import 'package:angelnet/models/file/file.dart';
+import 'package:angelnet/models/file/file_target.dart';
 import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/models/fund/fund_document_type.dart';
 import 'package:angelnet/screens/admin/fund_detail_admin_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/ColorUtils.dart';
+import 'package:angelnet/utils/FileUtils.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
+
+import 'fund_document.dart';
 
 class MakeFundDocumentScreen extends StatefulWidget {
 
@@ -24,7 +32,8 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
   List<String> documentTypes = FundDocumentType.values.map((value) => value.korean).toList();
   String selectedDocumentType = "결성";
   final titleController = TextEditingController();
-  String? selectedFileName;
+  PlatformFile? selectedFile;
+  bool saveClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +153,10 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                         ),
                       ),
                     ),
+                    if (titleController.text.isEmpty) Container(
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 10),
+                      child: WidgetUtils.errorMessage("제목을 입력해 주세요."),
+                    ),
                     Row(
                       children: [
                         Container(
@@ -151,7 +164,7 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                           margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                           decoration: WidgetUtils.textFieldBoxDecoration,
                           padding: const EdgeInsets.all(15),
-                          child: (selectedFileName == null)? const Text("파일명",
+                          child: (selectedFile == null)? const Text("파일명",
                             style: TextStyle(
                               fontFamily: StringUtils.pretendard,
                               fontSize: 16,
@@ -159,7 +172,17 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                               color: Color(0xffaaaaaa),
                               fontWeight: FontWeight.w300,
                             )
-                          ) : Text(selectedFileName!, style: WidgetUtils.regularStyle,)
+                          ) : Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                child: const Icon(Remix.file_text_line, color: Color(0xff333333), size: 24,),
+                              ),
+                              Text(selectedFile!.name, style: WidgetUtils.regularStyle,)
+                            ],
+                          )
                         ),
                         FilledButton(
                           style: FilledButton.styleFrom(
@@ -168,11 +191,15 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                             fixedSize: const Size(120, 48),
                             shape: const RoundedRectangleBorder()
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             // todo File Picker
+                            var filePickResult = await FileUtils().pickAnyFile();
+                            setState(() {
+                              selectedFile = filePickResult?.files.firstOrNull;
+                            });
                           },
-                          child: const Text("파일찾기",
-                            style: TextStyle(
+                          child: Text(selectedFile == null? "파일찾기" : "파일변경",
+                            style: const TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               fontFamily: StringUtils.pretendard,
@@ -183,13 +210,33 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                         )
                       ],
                     ),
+                    if (saveClicked && selectedFile == null) Container(
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      child: WidgetUtils.errorMessage("파일을 업로드해 주세요."),
+                    ),
                     Container(
                       margin: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                       child: WidgetUtils().buttonBar("취소", "저장", () {
                           Get.back();
-                        }, () {
+                        }, () async {
                           // todo post api
-                          Get.to(FundDetailAdminScreen(fund: widget.fund));
+                          if (selectedFile == null) {
+                            setState(() {
+                              saveClicked = true;
+                            });
+                          } else {
+                            var fundDocumentId = await postFundDocument(widget.fund.id, titleController.text, FundDocumentType.fromKorean(selectedDocumentType));
+                            upload(
+                              selectedFile!.bytes ?? Uint8List(0),
+                              File(
+                                id: -1,
+                                targetId: fundDocumentId,
+                                targetType: FileTarget.fundDocument,
+                                name: selectedFile!.name,
+                              )
+                            );
+                            Get.to(FundDetailAdminScreen(fund: widget.fund));
+                          }
                         },
                         align: MainAxisAlignment.end
                       ),

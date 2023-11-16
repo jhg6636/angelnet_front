@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:angelnet/models/file/file_target.dart';
 import 'package:angelnet/models/lp/fund_document_status.dart';
 import 'package:angelnet/screens/lp/document_submit_screen.dart';
 import 'package:angelnet/utils/ColorUtils.dart';
@@ -11,26 +12,26 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
+import '../file/file.dart';
+
 class FundDocumentSubmission {
 
+  final int? id;
   final int documentId;
   final String userName;
   final String fundName;
   final String documentTitle;
   final FundDocumentStatus status;
-  final String templateUrl;
-  final String? url;
   final DateTime? submittedAt;
   final DateTime? reviewedAt;
 
   const FundDocumentSubmission({
+    required this.id,
     required this.documentId,
     required this.userName,
     required this.fundName,
     required this.documentTitle,
     required this.status,
-    required this.templateUrl,
-    required this.url,
     required this.submittedAt,
     required this.reviewedAt,
   });
@@ -55,8 +56,9 @@ class FundDocumentSubmission {
           alignment: Alignment.center,
           splashRadius: 18,
           tooltip: "양식 다운로드",
-          onPressed: () {
-            // todo 양식 다운로드
+          onPressed: () async {
+            var fileId = await getTemplateId(documentId);
+            download(fileId);
           },
           icon: const Icon(
             Remix.download_line,
@@ -67,8 +69,9 @@ class FundDocumentSubmission {
       )),
       DataCell(
         status.dataTableDocumentButtonWidget(
-          () {
-            // todo download action
+          () async {
+            var fileId = await getRecentFileId(documentId, FileTarget.fundDocumentSubmission);
+            download(fileId);
           },
           () {
             Get.to(DocumentSubmitScreen(documentId: documentId, documentTitle: documentTitle,));
@@ -90,12 +93,7 @@ class FundDocumentSubmission {
         Container(
           width: 30,
           margin: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("/assets/images/img.png"), // todo 확장자에 따라 변경
-              fit: BoxFit.fitWidth
-            )
-          ),
+          child: const Icon(Remix.file_text_line, color: Color(0xff333333), size: 24,),
         ),
         Text(documentTitle,
           style: const TextStyle(
@@ -129,8 +127,9 @@ class FundDocumentSubmission {
               alignment: Alignment.center,
               splashRadius: 18,
               tooltip: "다운로드",
-              onPressed: () {
-                // todo download api
+              onPressed: () async {
+                var fileId = await getRecentFileId(documentId, FileTarget.fundDocumentSubmission);
+                download(fileId);
               },
               icon: const Icon(
                 Remix.download_2_line,
@@ -227,8 +226,8 @@ class FundDocumentSubmission {
                                         backgroundColor: ColorUtils.green,
                                         foregroundColor: ColorUtils.green,
                                       ),
-                                      onPressed: () {
-                                        // todo 서류 승인 api
+                                      onPressed: () async {
+                                        await review(id!, true, null);
                                         Navigator.pop(context);
                                         setState;
                                       },
@@ -358,8 +357,8 @@ class FundDocumentSubmission {
                                               backgroundColor: ColorUtils.negativeColor,
                                               foregroundColor: ColorUtils.negativeColor,
                                             ),
-                                            onPressed: () {
-                                              // todo 서류 반려 api
+                                            onPressed: () async {
+                                              await review(id!, false, reasonController.text);
                                               Navigator.pop(context);
                                               setState;
                                             },
@@ -399,13 +398,12 @@ class FundDocumentSubmission {
 
   factory FundDocumentSubmission.fromJson(Map<String, dynamic> json) {
     return FundDocumentSubmission(
+      id: json['id'],
       documentId: json['documentId'],
       userName: json['userName'],
       fundName: json['fundName'],
       documentTitle: json['documentTitle'],
       status: FundDocumentStatus.fromEnglish(json['status']),
-      templateUrl: json['templateUrl'],
-      url: json['url'],
       submittedAt: (json['submittedAt'] != null)? DateTime(json['submittedAt'][0], json['submittedAt'][1], json['submittedAt'][2], json['submittedAt'][3], json['submittedAt'][4], json['submittedAt'][5])
         : null,
       reviewedAt: (json['reviewedAt'] != null)? DateTime(json['reviewedAt'][0], json['reviewedAt'][1], json['reviewedAt'][2], json['reviewedAt'][3], json['reviewedAt'][4], json['reviewedAt'][5])
@@ -415,22 +413,22 @@ class FundDocumentSubmission {
 
 }
 
-Future<String> downloadRecentFile(int documentId) async {
+Future<int> getRecentFileId(int documentId, FileTarget type) async {
   var response = await http.get(
-    StringUtils().stringToUri("/document", params: {"documentId": documentId.toString()}),
+    StringUtils().stringToUri("/document", params: {"documentId": documentId.toString(), "type": type.english}),
     headers: await StringUtils().header()
   );
 
-  return response.body;
+  return int.parse(response.body);
 }
 
-Future<String> downloadTemplate(int documentId) async {
+Future<int> getTemplateId(int documentId) async {
   var response = await http.get(
     StringUtils().stringToUri("/document/template", params: {"documentId": documentId.toString()}),
     headers: await StringUtils().header()
   );
 
-  return response.body;
+  return int.parse(response.body);
 }
 
 Future<List<FundDocumentSubmission>> getMyDocuments() async {
@@ -452,4 +450,20 @@ Future<List<FundDocumentSubmission>> getFundSubmissions(int fundId) async {
   );
 
   return jsonDecode(utf8.decode(response.bodyBytes)).map<FundDocumentSubmission>((json) => FundDocumentSubmission.fromJson(json)).toList();
+}
+
+Future<http.Response> submit(int fileId) async {
+  return await http.post(
+    StringUtils().stringToUri("/fund/document/submission"),
+    body: jsonEncode({"fileId": fileId}),
+    headers: await StringUtils().header()
+  );
+}
+
+Future<http.Response> review(int submissionId, bool isAccepted, String? reason) async {
+  return await http.post(
+    StringUtils().stringToUri("/fund/document/submission/review"),
+    body: jsonEncode({"submissionId": submissionId, "result": isAccepted, "reason": reason}),
+    headers: await StringUtils().header(),
+  );
 }

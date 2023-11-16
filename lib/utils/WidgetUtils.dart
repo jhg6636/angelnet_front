@@ -135,6 +135,13 @@ class WidgetUtils {
     fontFamily: StringUtils.pretendard,
     color: Colors.white
   );
+  static const headingStyle = TextStyle(
+      fontFamily: StringUtils.pretendard,
+      fontWeight: FontWeight.w500,
+      fontSize: 17,
+      letterSpacing: -0.17,
+      color: Color(0xff333333)
+  );
 
 
   static Widget fnb = Container(

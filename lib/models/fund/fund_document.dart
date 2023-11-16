@@ -47,15 +47,15 @@ class FundDocument {
             height: 28,
             color: type.adminStatusColor,
             alignment: Alignment.center,
-            child: Text(type.korean, style: WidgetUtils.statusBoxWhiteStyle,),
+            child: Center(child: Text(type.korean, style: WidgetUtils.statusBoxWhiteStyle,)),
           )
         ),
         DataCell(Text(title)),
-        DataCell((acceptedMembers == totalMembers)? Container(
+        DataCell((acceptedMembers == totalMembers && totalMembers > 0)? Container(
           width: 84,
           height: 28,
           color: ColorUtils.green,
-          child: const Text("완료", style: WidgetUtils.statusBoxWhiteStyle,),
+          child: const Center(child: Text("완료", style: WidgetUtils.statusBoxWhiteStyle,)),
         ) : Text("$acceptedMembers/$totalMembers")),
         DataCell((acceptedMembers == totalMembers)? const Text("-") :
           Container(
@@ -104,8 +104,8 @@ class FundDocument {
                   // todo 양식 다운로드 api
                 },
                 icon: const Icon(
-                  Remix.download_2_line,
-                  size: 14,
+                  Remix.download_line,
+                  size: 16,
                   color: Color(0xff333333),
                 ),
               ),
@@ -128,8 +128,8 @@ class FundDocument {
                   // todo 양식 업로드 api
                 },
                 icon: const Icon(
-                  Remix.upload_2_line,
-                  size: 14,
+                  Remix.upload_line,
+                  size: 16,
                   color: Color(0xff333333),
                 ),
               ),
@@ -137,7 +137,7 @@ class FundDocument {
           ],
         )),
         DataCell(
-          Container(
+          (type != FundDocumentType.information)? Container(
             width: 36,
             height: 36,
             alignment: Alignment.center,
@@ -155,11 +155,11 @@ class FundDocument {
               },
               icon: const Icon(
                 Remix.arrow_right_line,
-                size: 14,
+                size: 16,
                 color: Colors.white,
               ),
             ),
-          ),
+          ) : const Text("-"),
         ),
         DataCell(
           Container(
@@ -187,7 +187,7 @@ class FundDocument {
               },
               icon: const Icon(
                 Remix.close_line,
-                size: 14,
+                size: 18,
                 color: Colors.white,
               ),
             ),
@@ -207,4 +207,14 @@ Future<List<FundDocument>> getFundDocuments(int fundId) async {
   print(response.body);
 
   return jsonDecode(utf8.decode(response.bodyBytes)).map<FundDocument>((json) => FundDocument.fromJson(json)).toList();
+}
+
+Future<int> postFundDocument(int fundId, String title, FundDocumentType type) async {
+  var response = await http.post(
+    StringUtils().stringToUri('/fund/document'),
+    body: jsonEncode({"fundId": fundId.toString(), "title": title, "type": type.english}),
+    headers: await StringUtils().header(),
+  );
+
+  return int.parse(response.body);
 }

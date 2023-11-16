@@ -3,6 +3,7 @@ import 'package:angelnet/screens/lp/document_lp_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
@@ -20,7 +21,7 @@ class DocumentSubmitScreen extends StatefulWidget {
 }
 
 class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
-  String? pickedFile;
+  PlatformFile? pickedFile;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
           children: [
             const Text("서류제출", style: WidgetUtils.titleStyle,),
             Center(
-              child:             Container(
+              child: Container(
                 width: 662,
                 alignment: Alignment.center,
                 margin: const EdgeInsets.fromLTRB(0, 44, 0, 0),
@@ -77,8 +78,8 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                       ),
                       const SizedBox(height: 10,),
                       FutureBuilder(
-                          future: downloadTemplate(widget.documentId),
-                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                          future: getTemplateId(widget.documentId),
+                          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                             if (snapshot.hasError) {
                               StringUtils().printError(snapshot);
                               return WidgetUtils().fileRowWithIcon("", 20);
@@ -107,8 +108,8 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: FutureBuilder(
-                          future: downloadRecentFile(widget.documentId),
-                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                          future: getRecentFileId(widget.documentId),
+                          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                             if (snapshot.hasError) {
                               StringUtils().printError(snapshot);
                               return WidgetUtils().fileRowWithIcon("", 20);
@@ -180,7 +181,7 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                       ),
                       const SizedBox(height: 15),
                       WidgetUtils().buttonBar("취소", "저장", () => Get.back(),
-                              () {
+                          () {
                             // todo upload API
                             Get.to(const LpDocumentScreen());
                           },
