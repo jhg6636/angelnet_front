@@ -57,8 +57,8 @@ class FundDocumentSubmission {
           splashRadius: 18,
           tooltip: "양식 다운로드",
           onPressed: () async {
-            var fileId = await getTemplateId(documentId);
-            download(fileId);
+            var file = await getTemplateFileMetadata(documentId);
+            download(file.id);
           },
           icon: const Icon(
             Remix.download_line,
@@ -70,8 +70,8 @@ class FundDocumentSubmission {
       DataCell(
         status.dataTableDocumentButtonWidget(
           () async {
-            var fileId = await getRecentFileId(documentId, FileTarget.fundDocumentSubmission);
-            download(fileId);
+            var file = await getRecentFileMetadata(documentId, FileTarget.fundDocumentSubmission);
+            download(file.id);
           },
           () {
             Get.to(DocumentSubmitScreen(documentId: documentId, documentTitle: documentTitle,));
@@ -128,8 +128,8 @@ class FundDocumentSubmission {
               splashRadius: 18,
               tooltip: "다운로드",
               onPressed: () async {
-                var fileId = await getRecentFileId(documentId, FileTarget.fundDocumentSubmission);
-                download(fileId);
+                var file = await getRecentFileMetadata(documentId, FileTarget.fundDocumentSubmission);
+                download(file.id);
               },
               icon: const Icon(
                 Remix.download_2_line,
@@ -411,24 +411,6 @@ class FundDocumentSubmission {
     );
   }
 
-}
-
-Future<int> getRecentFileId(int documentId, FileTarget type) async {
-  var response = await http.get(
-    StringUtils().stringToUri("/document", params: {"documentId": documentId.toString(), "type": type.english}),
-    headers: await StringUtils().header()
-  );
-
-  return int.parse(response.body);
-}
-
-Future<int> getTemplateId(int documentId) async {
-  var response = await http.get(
-    StringUtils().stringToUri("/document/template", params: {"documentId": documentId.toString()}),
-    headers: await StringUtils().header()
-  );
-
-  return int.parse(response.body);
 }
 
 Future<List<FundDocumentSubmission>> getMyDocuments() async {

@@ -1,12 +1,18 @@
+import 'dart:typed_data';
+
+import 'package:angelnet/models/file/file_target.dart';
 import 'package:angelnet/models/lp/fund_document_submission.dart';
 import 'package:angelnet/screens/lp/document_lp_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
+import 'package:angelnet/utils/FileUtils.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
+
+import '../../models/file/file.dart';
 
 class DocumentSubmitScreen extends StatefulWidget {
 
@@ -78,8 +84,8 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                       ),
                       const SizedBox(height: 10,),
                       FutureBuilder(
-                          future: getTemplateId(widget.documentId),
-                          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                          future: getTemplateFileMetadata(widget.documentId),
+                          builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
                             if (snapshot.hasError) {
                               StringUtils().printError(snapshot);
                               return WidgetUtils().fileRowWithIcon("", 20);
@@ -98,7 +104,7 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                                         borderRadius: BorderRadius.circular(2),
                                         border: Border.all(color: const Color(0xffdddddd))
                                     ),
-                                    child: WidgetUtils().fileRowWithIcon(snapshot.data ?? "", 20),
+                                    child: WidgetUtils().fileRowWithIcon(snapshot.data!.name, 20),
                                   )
                                 ],
                               );
@@ -108,14 +114,14 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: FutureBuilder(
-                          future: getRecentFileId(widget.documentId),
-                          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                          future: getRecentFileMetadata(widget.documentId, FileTarget.fundDocumentSubmission),
+                          builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
                             if (snapshot.hasError) {
                               StringUtils().printError(snapshot);
                               return WidgetUtils().fileRowWithIcon("", 20);
                             } else if (!snapshot.hasData) {
                               return WidgetUtils().fileRowWithIcon("", 20);
-                            } else if (snapshot.data != "") {
+                            } else {
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -128,12 +134,10 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                                         borderRadius: BorderRadius.circular(2),
                                         border: Border.all(color: const Color(0xffdddddd))
                                     ),
-                                    child: WidgetUtils().fileRowWithIcon(snapshot.data ?? "", 20),
+                                    child: WidgetUtils().fileRowWithIcon(snapshot.data!.name, 20),
                                   )
                                 ],
                               );
-                            } else {
-                              return WidgetUtils().fileRowWithIcon("", 20);
                             }
                           },
                         ),
@@ -154,7 +158,7 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                               ),
                               child: pickedFile == null?
                               const Text("파일명", style: WidgetUtils.textInputHintStyle) :
-                              WidgetUtils().fileRowWithIcon(pickedFile!, 15)
+                              WidgetUtils().fileRowWithIcon(pickedFile!.name, 15)
                           ),
                           FilledButton(
                               style: FilledButton.styleFrom(
@@ -165,10 +169,13 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                                   shape: const RoundedRectangleBorder()
                               ),
                               onPressed: () {
-                                // todo File Picker open
+                                setState(() async {
+                                  var filePickResult = await FileUtils().pickAnyFile();
+                                  pickedFile = filePickResult?.files.firstOrNull;
+                                });
                               },
-                              child: const Text("파일찾기",
-                                style: TextStyle(
+                              child: Text((pickedFile == null)? "파일찾기" : "파일변경",
+                                style: const TextStyle(
                                   letterSpacing: -0.32,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
@@ -181,7 +188,8 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                       ),
                       const SizedBox(height: 15),
                       WidgetUtils().buttonBar("취소", "저장", () => Get.back(),
-                          () {
+                          () async {
+                            var response = uploadByteArray(pickedFile?.bytes ?? Uint8List(0), pickedFile?.name ?? "");
                             // todo upload API
                             Get.to(const LpDocumentScreen());
                           },

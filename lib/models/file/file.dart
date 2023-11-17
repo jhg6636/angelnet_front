@@ -117,3 +117,21 @@ Future<Uint8List> readByteArrayFromFile(html.File file) async {
 
   return completer.future;
 }
+
+Future<File> getRecentFileMetadata(int documentId, FileTarget type) async {
+  var response = await http.get(
+      StringUtils().stringToUri("/document", params: {"documentId": documentId.toString(), "type": type.english}),
+      headers: await StringUtils().header()
+  );
+
+  return File.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+}
+
+Future<File> getTemplateFileMetadata(int documentId) async {
+  var response = await http.get(
+      StringUtils().stringToUri("/document/template", params: {"documentId": documentId.toString()}),
+      headers: await StringUtils().header()
+  );
+
+  return File.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+}
