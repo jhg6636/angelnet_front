@@ -9,7 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-const version = '1.2';
+const version = '1.3';
 // const serverAddress = 'dev.angelnet.co.kr';
 const serverAddress = 'localhost:8081';
 const secureStorage = FlutterSecureStorage();
@@ -17,13 +17,6 @@ var storage = {};
 
 void main() async {
   await initializeDateFormatting();
-  upload(
-      Uint8List.fromList('hello'.codeUnits),
-      const File(
-          id: -1,
-          name: 'hello.txt',
-          targetId: 1,
-          targetType: FileTarget.fundDocument));
   runApp(const AngelnetApp());
 }
 

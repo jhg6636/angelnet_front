@@ -5,6 +5,7 @@ import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:angelnet/widgets/user/sign_up_process_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class TermsOfUseScreen extends StatefulWidget {
   const TermsOfUseScreen({super.key});
@@ -17,11 +18,10 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
   int id1 = 1;
   int id2 = 1;
   bool allChecked = false;
-  Future<String> text1 = StringUtils().loadText("lib/assets/texts/terms_of_use_1.txt");
-  Future<String> text2 = StringUtils().loadText("lib/assets/texts/terms_of_use_2.txt");
 
   @override
   Widget build(BuildContext context) {
+    Future<String> text = getTermsOfUseText();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -70,6 +70,7 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                   Container(
                     height: 314,
                     margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
+                    padding: WidgetUtils.smallPadding,
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: const Color(0xffdddddd),
@@ -77,16 +78,11 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                         borderRadius: const BorderRadius.all(Radius.circular(4.0))
                     ),
                     child: FutureBuilder<String>(
-                      future: text1,
+                      future: text,
                       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                         if (snapshot.hasData) {
-                          return Flexible(
-                            child: Padding(
-                                padding: WidgetUtils.smallPadding,
-                                child: SingleChildScrollView(
-                                  child: Text(snapshot.data ?? ""),
-                                )
-                            ),
+                          return SingleChildScrollView(
+                            child: Text(snapshot.data?.split("||")[0] ?? ""),
                           );
                         } else {
                           return const CircularProgressIndicator();
@@ -100,7 +96,7 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Radio(
-                          activeColor: Color(0xff505050),
+                          activeColor: const Color(0xff505050),
                           splashRadius: 1,
                           value: 2,
                           groupValue: id1,
@@ -114,8 +110,8 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                           },
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(6, 0, 22, 0),
-                          child: Text("동의",
+                          margin: const EdgeInsets.fromLTRB(6, 0, 22, 0),
+                          child: const Text("동의",
                             style: TextStyle(
                                 color: Color(0xff555555),
                                 fontWeight: FontWeight.w500,
@@ -126,7 +122,7 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                           ),
                         ),
                         Radio(
-                          activeColor: Color(0xff505050),
+                          activeColor: const Color(0xff505050),
                           splashRadius: 1,
                           value: 1,
                           groupValue: id1,
@@ -166,6 +162,7 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                   Container(
                     height: 314,
                     margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                    padding: WidgetUtils.smallPadding,
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: const Color(0xffdddddd),
@@ -173,16 +170,12 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                         borderRadius: const BorderRadius.all(Radius.circular(4.0))
                     ),
                     child: FutureBuilder<String>(
-                      future: text2,
+                      future: text,
                       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                         if (snapshot.hasData) {
-                          return Flexible(
-                            child: Padding(
-                                padding: WidgetUtils.smallPadding,
-                                child: SingleChildScrollView(
-                                  child: Text(snapshot.data ?? ""),
-                                )
-                            ),
+                          print("Data: ${snapshot.data!.length} bytes");
+                          return SingleChildScrollView(
+                            child: Text(snapshot.data?.split("||")[1] ?? ""),
                           );
                         } else {
                           return const CircularProgressIndicator();
@@ -196,7 +189,7 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Radio(
-                          activeColor: Color(0xff505050),
+                          activeColor: const Color(0xff505050),
                           splashRadius: 1,
                           value: 2,
                           groupValue: id2,
@@ -210,8 +203,8 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                           },
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(6, 0, 22, 0),
-                          child: Text("동의",
+                          margin: const EdgeInsets.fromLTRB(6, 0, 22, 0),
+                          child: const Text("동의",
                             style: TextStyle(
                                 color: Color(0xff555555),
                                 fontWeight: FontWeight.w500,
@@ -222,7 +215,7 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                           ),
                         ),
                         Radio(
-                          activeColor: Color(0xff505050),
+                          activeColor: const Color(0xff505050),
                           splashRadius: 1,
                           value: 1,
                           groupValue: id2,
@@ -234,8 +227,8 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                           },
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(6, 0, 0, 0),
-                          child: Text("동의하지 않음",
+                          margin: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                          child: const Text("동의하지 않음",
                             style: TextStyle(
                                 color: Color(0xff555555),
                                 fontWeight: FontWeight.w500,
@@ -250,16 +243,16 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                   ),
                   Container(
                     height: 94,
-                    margin: EdgeInsets.fromLTRB(0, 32, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 32, 0, 0),
                     decoration: BoxDecoration(
-                        color: Color(0xfff8f8fa),
+                        color: const Color(0xfff8f8fa),
                         borderRadius: BorderRadius.circular(4.0)
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Checkbox(
-                            activeColor: Color(0xff222222),
+                            activeColor: const Color(0xff222222),
                             value: allChecked,
                             onChanged: (val) {
                               setState(() {
@@ -300,13 +293,13 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                     child: ButtonBar(
                       alignment: MainAxisAlignment.center,
                       children: [
                         OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              fixedSize: Size(120, 50),
+                              fixedSize: const Size(120, 50),
                               side: const BorderSide(color: Color(0xff222222), width: 2.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.0)
@@ -327,8 +320,8 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                         ),
                         OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xff222222),
-                              fixedSize: Size(120, 50),
+                              backgroundColor: const Color(0xff222222),
+                              fixedSize: const Size(120, 50),
                               side: const BorderSide(color: Color(0xff222222), width: 2.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.0)
@@ -366,7 +359,7 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 75,
             ),
             WidgetUtils.fnb
@@ -374,6 +367,11 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
         )
       ),
     );
+  }
+
+  Future<String> getTermsOfUseText() async {
+    return (await http.get(StringUtils().stringToUri('/terms-of-use'), headers: StringUtils.noAuthHeader))
+        .body;
   }
 
 }

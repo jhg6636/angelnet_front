@@ -93,6 +93,9 @@ class StringUtils {
   }
 
   bool isValidName(String name) {
+    if (name.isEmpty) {
+      return false;
+    }
     return true;
   }
 
