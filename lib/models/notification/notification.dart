@@ -122,7 +122,6 @@ Future<http.Response> checkNotification(int notificationId) async {
   return await http.post(
     StringUtils().stringToUri('notification/check'),
     body: notificationId.toString(),
-    // body: jsonEncode({"notificationId": notificationId.toString()}),
     headers: await StringUtils().header()
   );
 }
