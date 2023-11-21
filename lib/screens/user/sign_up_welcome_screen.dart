@@ -17,16 +17,19 @@ class SignUpWelcomeScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           foregroundColor: Colors.white,
           shadowColor: Colors.transparent,
-          title: Container(
-            width: 154,
-            height: 52,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('lib/assets/images/logo.png'),
-                fit: BoxFit.contain,
+          title: InkWell(
+            onTap: () { Get.to(const HomeScreen()); },
+            child: Container(
+              width: 154,
+              height: 52,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('lib/assets/images/logo.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
+          )
         ),
         body: SingleChildScrollView(
           child: Container(

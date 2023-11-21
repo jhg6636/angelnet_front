@@ -146,7 +146,7 @@ class ScreenFrameV2State extends State<ScreenFrameV2> {
                     if (widget.isAdmin) {
                       Get.to(const ManageUserScreen());
                     } else {
-                      Get.to(LpMyPage(user: User.fromJson(await getMyInfo())));
+                      Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
                     }
                   },
                   child: Container(

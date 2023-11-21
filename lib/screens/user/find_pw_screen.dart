@@ -1,4 +1,5 @@
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/user/home_screen.dart';
 import 'package:angelnet/screens/user/reset_pw_screen.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
@@ -33,16 +34,19 @@ class FindPwScreenState extends State<FindPwScreen> {
           backgroundColor: Colors.white,
           foregroundColor: Colors.white,
           shadowColor: Colors.transparent,
-          title: Container(
-            width: 154,
-            height: 52,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('lib/assets/images/logo.png'),
-                fit: BoxFit.contain,
+          title: InkWell(
+            onTap: () { Get.to(const HomeScreen()); },
+            child: Container(
+              width: 154,
+              height: 52,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('lib/assets/images/logo.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
+          )
         ),
         body: Align(
             alignment: Alignment.topCenter,
