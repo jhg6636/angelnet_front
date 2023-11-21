@@ -10,33 +10,39 @@ import 'package:remixicon/remixicon.dart';
 class Notification {
 
   final int id;
+  final int receiverId;
   final String title;
   final String content;
   final DateTime sendAt;
   final DateTime? checkAt;
   final NotificationType type;
 
-  Notification({required this.id, required this.title, required this.content, required this.sendAt, this.checkAt, required this.type});
+  Notification({required this.id, required this.receiverId, required this.title, required this.content, required this.sendAt, this.checkAt, required this.type});
 
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
-      id: int.parse(json['id']),
+      id: json['id'],
+      receiverId: json['receiverId'],
       title: json['title'],
-      content: json['content'],
-      sendAt: DateTime.parse(json['sendAt']),
-      checkAt: DateTime.parse(json['checkAt']),
-      type: json['type']
+      content: json['body'],
+      sendAt: DateTime(json['sendAt'][0], json['sendAt'][1], json['sendAt'][2], json['sendAt'][3], json['sendAt'][4], json['sendAt'][5]),
+      checkAt: json['checkAt'] == null? null : DateTime(json['checkAt'][0], json['checkAt'][1], json['checkAt'][2], json['checkAt'][3], json['checkAt'][4], json['checkAt'][5]),
+      type: NotificationType.fromEnglish(json['type'])
     );
   }
 
-  Widget toWidget() {
+  Widget toWidget(Function()? setState) {
     return InkWell(
-      onTap: type.getAction(),
+      focusColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      onTap: setState,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 1200,
+            // width: 1200,
             margin: const EdgeInsets.fromLTRB(0, 0, 60, 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -85,12 +91,13 @@ class Notification {
           Container(
             width: 36,
             height: 36,
+            margin: const EdgeInsets.fromLTRB(0, 7, 0, 0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: (checkAt == null)? const Color(0xff1173f9) : const Color(0xffaaaaaa),
             ),
             child: const Center(
-              child: Icon(Remix.arrow_right_line, color: Colors.white, size: 16,),
+              child: Icon(Remix.arrow_right_line, color: Colors.white, size: 20,),
             ),
           )
         ],
@@ -105,6 +112,17 @@ Future<List<Notification>> fetchMyNotifications() async {
     StringUtils().stringToUri('notification/my'),
     headers: await StringUtils().header()
   );
+  print("notification/my");
+  print("Response Body: ${response.body}");
 
-  return jsonDecode(utf8.decode(response.bodyBytes)).map((json) => Notification.fromJson(json)).toList();
+  return jsonDecode(utf8.decode(response.bodyBytes)).map<Notification>((json) => Notification.fromJson(json)).toList();
+}
+
+Future<http.Response> checkNotification(int notificationId) async {
+  return await http.post(
+    StringUtils().stringToUri('notification/check'),
+    body: notificationId.toString(),
+    // body: jsonEncode({"notificationId": notificationId.toString()}),
+    headers: await StringUtils().header()
+  );
 }

@@ -272,8 +272,6 @@ Future<Map<String, dynamic>> getMyInfo() async {
   var response = await http.get(StringUtils().stringToUri("/my-info"),
       headers: await StringUtils().header());
 
-  print(response.body);
-
   return jsonDecode(utf8.decode(response.bodyBytes));
 }
 

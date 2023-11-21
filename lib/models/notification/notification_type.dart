@@ -49,8 +49,10 @@ enum NotificationType {
     }
   }
 
-  Function() getAction() {
-    return () {};
+  Function() getAction(Function()? setState) {
+    return () {
+      setState;
+    };
   }
 
 }
