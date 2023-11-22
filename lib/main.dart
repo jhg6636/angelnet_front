@@ -10,12 +10,13 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 const version = '1.4';
-const serverAddress = 'dev.angelnet.co.kr';
-// const serverAddress = 'localhost:8081';
+// const serverAddress = 'dev.angelnet.co.kr';
+const serverAddress = 'localhost:8081';
 const secureStorage = FlutterSecureStorage();
 var storage = {};
 
 void main() async {
+  print(StringUtils.shorten("지족고등학교", 4));
   await initializeDateFormatting();
   runApp(const AngelnetApp());
 }

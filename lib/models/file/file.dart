@@ -17,11 +17,12 @@ class File {
   const File({required this.id, required this.name, required this.targetId, required this.targetType});
 
   factory File.fromJson(Map<String, dynamic> json) {
+    print(json);
     return File(
-      id: int.parse(json['id']),
-      targetId: int.parse(json['targetId']),
+      id: json['id'],
+      targetId: json['targetId'],
       targetType: FileTarget.fromEnglish(json['targetType']),
-      name: json['name']
+      name: json['fileName']
     );
   }
 
@@ -71,9 +72,10 @@ Future<http.Response> postMetadata(File file) async {
   );
 }
 
-void download(int id) async {
+void download(int id, String title) async {
   var metadata = await getMetadata(id);
-  saveByteArrayAsFile(await downloadByteArray(id), metadata.name);
+  var ext = metadata.name.split(".").last;
+  saveByteArrayAsFile(await downloadByteArray(id), "$title.$ext");
 }
 
 void upload(Uint8List bytes, File file) async {
@@ -128,10 +130,13 @@ Future<File> getRecentFileMetadata(int documentId, FileTarget type) async {
 }
 
 Future<File> getTemplateFileMetadata(int documentId) async {
+  print(documentId);
   var response = await http.get(
       StringUtils().stringToUri("/document/template", params: {"documentId": documentId.toString()}),
       headers: await StringUtils().header()
   );
+
+  print(response.body);
 
   return File.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 }

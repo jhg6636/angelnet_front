@@ -58,7 +58,7 @@ class FundDocumentSubmission {
           tooltip: "양식 다운로드",
           onPressed: () async {
             var file = await getTemplateFileMetadata(documentId);
-            download(file.id);
+            download(file.id, documentTitle);
           },
           icon: const Icon(
             Remix.download_line,
@@ -71,7 +71,7 @@ class FundDocumentSubmission {
         status.dataTableDocumentButtonWidget(
           () async {
             var file = await getRecentFileMetadata(documentId, FileTarget.fundDocumentSubmission);
-            download(file.id);
+            download(file.id, documentTitle);
           },
           () {
             Get.to(DocumentSubmitScreen(documentId: documentId, documentTitle: documentTitle,));
@@ -129,7 +129,7 @@ class FundDocumentSubmission {
               tooltip: "다운로드",
               onPressed: () async {
                 var file = await getRecentFileMetadata(documentId, FileTarget.fundDocumentSubmission);
-                download(file.id);
+                download(file.id, documentTitle);
               },
               icon: const Icon(
                 Remix.download_2_line,
@@ -434,10 +434,10 @@ Future<List<FundDocumentSubmission>> getFundSubmissions(int fundId) async {
   return jsonDecode(utf8.decode(response.bodyBytes)).map<FundDocumentSubmission>((json) => FundDocumentSubmission.fromJson(json)).toList();
 }
 
-Future<http.Response> submit(int fileId) async {
+Future<http.Response> submit(int documentId) async {
   return await http.post(
     StringUtils().stringToUri("/fund/document/submission"),
-    body: jsonEncode({"fileId": fileId}),
+    body: documentId.toString(),
     headers: await StringUtils().header()
   );
 }

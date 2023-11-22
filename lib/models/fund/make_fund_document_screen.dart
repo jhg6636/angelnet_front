@@ -153,7 +153,7 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                         ),
                       ),
                     ),
-                    if (titleController.text.isEmpty) Container(
+                    if (titleController.text.isEmpty && saveClicked) Container(
                       margin: const EdgeInsets.fromLTRB(0, 8, 0, 10),
                       child: WidgetUtils.errorMessage("제목을 입력해 주세요."),
                     ),

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:angelnet/main.dart';
@@ -38,7 +39,7 @@ class StringUtils {
 
     return {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      HttpHeaders.contentTypeHeader: "multipart/form-data"
+      HttpHeaders.contentTypeHeader: "application/octet-stream"
     };
   }
 
@@ -151,7 +152,14 @@ class StringUtils {
   }
 
   static String shorten(String original, int length) {
-    return "${original.substring(0, length)}...";
+    if (original.isEmpty) return "";
+    if (original.length < length) return original;
+
+    var iter = Characters(original).iterator;
+    for (int i = 0; i < length; i++) {
+      if (!iter.moveNext()) break;
+    }
+    return "${iter.stringBefore}...";
   }
 
 }

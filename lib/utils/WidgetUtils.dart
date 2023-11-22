@@ -453,28 +453,36 @@ class WidgetUtils {
     border: Border.all(color: const Color(0xffdddddd)),
   );
 
-  Widget fileRowWithIcon(String url, int textSize) {
+  Widget fileRowWithIcon(String url, int textSize, Function() downloadAction, bool fromServer) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          width: 30,
-          height: 30,
-          margin: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('lib/assets/images/pdf.png'), // todo 확장자에 따라 변경
-                  fit: BoxFit.fill
-              )
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              width: 30,
+              height: 30,
+              margin: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+              child: const Icon(Remix.file_text_line, color: Color(0xff555555), size: 24,),
+            ),
+            Text((url.isEmpty)? "파일이 없습니다." : StringUtils.shorten(url, textSize),
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontFamily: StringUtils.pretendard,
+                letterSpacing: -0.16,
+                color: Color(0xff555555),
+              ),
+            )
+          ],
         ),
-        Text(StringUtils.shorten(url, textSize),
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            fontFamily: StringUtils.pretendard,
-            letterSpacing: -0.16,
-            color: Color(0xff555555),
-          ),
+        if (url.isNotEmpty && fromServer) IconButton(
+          onPressed: downloadAction,
+          splashColor: Colors.transparent,
+          splashRadius: 1,
+          padding: const EdgeInsets.all(0),
+          icon: const Icon(Remix.download_line, color: Color(0xff999999), size: 24,),
         )
       ],
     );
