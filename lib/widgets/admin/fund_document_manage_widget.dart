@@ -93,11 +93,15 @@ class FundDocumentManageWidgetState extends State<FundDocumentManageWidget> {
                         DataColumn(label: Text("삭제")),
                       ],
                       rows: snapshot.data!.indexed.map((e) =>
-                        e.$2.toDataRow(e.$1 + 1, context, () {
-                          setState(() {
-                            selectedFundDocumentId = e.$2.id;
-                          });
-                        })
+                        e.$2.toDataRow(
+                            e.$1 + 1,
+                            context,
+                            () {
+                              setState(() {
+                                selectedFundDocumentId = e.$2.id;
+                              });
+                            }
+                        )
                       ).toList()
                     );
                   }
@@ -108,7 +112,7 @@ class FundDocumentManageWidgetState extends State<FundDocumentManageWidget> {
         ),
       );
     } else {
-      Future<List<FundDocumentSubmission>> submissions = getFundSubmissions(widget.fund.id);
+      Future<List<FundDocumentSubmission>> submissions = getFundDocumentSubmissions(selectedFundDocumentId!);
       return Container(
         width: 1280,
         margin: const EdgeInsets.fromLTRB(0, 33, 0, 0),
@@ -125,7 +129,7 @@ class FundDocumentManageWidgetState extends State<FundDocumentManageWidget> {
                 builder: (BuildContext context, AsyncSnapshot<List<FundDocumentSubmission>> snapshot) {
                   if (snapshot.hasError || !snapshot.hasData) {
                     StringUtils().printError(snapshot);
-                    return const Text("조합원이 존재하지 않습니다.", style: WidgetUtils.dataTableDataStyle,);
+                    return const Text("조합 서류가 존재하지 않습니다.", style: WidgetUtils.dataTableDataStyle,);
                   } else {
                     return DataTable(
                       columns: const [
@@ -138,9 +142,7 @@ class FundDocumentManageWidgetState extends State<FundDocumentManageWidget> {
                         DataColumn(label: Text("최종 검토 시간")),
                       ],
                       rows: snapshot.data!.indexed.map((e) =>
-                        e.$2.toAdminDataRow(e.$1 + 1, context, () {
-                          setState(() {});
-                        })
+                        e.$2.toAdminDataRow(e.$1 + 1, context, setState)
                       ).toList(),
                     );
                   }

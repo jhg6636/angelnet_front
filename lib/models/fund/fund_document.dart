@@ -150,9 +150,7 @@ class FundDocument {
               alignment: Alignment.center,
               splashRadius: 18,
               tooltip: "제출서류 검토",
-              onPressed: () {
-                setState;
-              },
+              onPressed: setState,
               icon: const Icon(
                 Remix.arrow_right_line,
                 size: 16,

@@ -70,8 +70,9 @@ class FundDocumentSubmission {
       DataCell(
         status.dataTableDocumentButtonWidget(
           () async {
-            var file = await getRecentFileMetadata(documentId, FileTarget.fundDocumentSubmission);
-            download(file.id, documentTitle);
+            print(id);
+            var file = await getSubmissionFileMetadata(id ?? -1);
+            download(file.id, "${userName}_제출_$documentTitle");
           },
           () {
             Get.to(DocumentSubmitScreen(documentId: documentId, documentTitle: documentTitle,));
@@ -108,7 +109,7 @@ class FundDocumentSubmission {
     );
   }
 
-  DataRow toAdminDataRow(int index, BuildContext context, Function() setState) {
+  DataRow toAdminDataRow(int index, BuildContext context, Function(Function ()) setState) {
     return DataRow(
       cells: [
         DataCell(Text(index.toString())),
@@ -128,13 +129,13 @@ class FundDocumentSubmission {
               splashRadius: 18,
               tooltip: "다운로드",
               onPressed: () async {
-                var file = await getRecentFileMetadata(documentId, FileTarget.fundDocumentSubmission);
-                download(file.id, documentTitle);
+                var file = await getSubmissionFileMetadata(id ?? -1);
+                download(file.id, "${userName}_제출_$documentTitle");
               },
               icon: const Icon(
-                Remix.download_2_line,
-                size: 14,
-                color: Color(0xff333333),
+                Remix.download_line,
+                size: 18,
+                color: Color(0xff555555),
               ),
             ),
           )
@@ -147,20 +148,22 @@ class FundDocumentSubmission {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: (status == FundDocumentStatus.accepted)? ColorUtils.green : const Color(0xfff2f2f2),
+                color: (status == FundDocumentStatus.accepted || status == FundDocumentStatus.reviewing)?
+                  ColorUtils.green : const Color(0xfff2f2f2),
                 // border: Border.all(color: )
               ),
               child: IconButton(
                 alignment: Alignment.center,
                 splashRadius: 18,
                 tooltip: "승인",
-                onPressed: () {
+                onPressed: (status == FundDocumentStatus.notSubmitted)? null : () {
                   showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
                         content: Container(
                           width: 660,
+                          height: 300,
                           padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 50),
                           child: Column(
                             children: [
@@ -252,8 +255,9 @@ class FundDocumentSubmission {
                 },
                 icon: Icon(
                   Remix.check_line,
-                  size: 24,
-                  color: (status == FundDocumentStatus.accepted)? ColorUtils.green : const Color(0xff999999),
+                  size: 20,
+                  color: (status == FundDocumentStatus.accepted || status == FundDocumentStatus.reviewing)?
+                    Colors.white : const Color(0xff999999),
                 ),
               ),
             ),
@@ -264,14 +268,16 @@ class FundDocumentSubmission {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: (status == FundDocumentStatus.rejected)? ColorUtils.negativeColor : const Color(0xfff2f2f2),
+                color: (status == FundDocumentStatus.rejected || status == FundDocumentStatus.reviewing)?
+                  ColorUtils.negativeColor : const Color(0xfff2f2f2),
                 // border: Border.all(color: )
               ),
               child: IconButton(
+                padding: EdgeInsets.zero,
                 alignment: Alignment.center,
                 splashRadius: 18,
                 tooltip: "반려",
-                onPressed: () {
+                onPressed: (status == FundDocumentStatus.notSubmitted)? null : () {
                   showDialog(
                       context: context,
                       builder: (context) {
@@ -279,6 +285,7 @@ class FundDocumentSubmission {
                         return AlertDialog(
                             content: Container(
                               width: 660,
+                              height: 300,
                               padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 50),
                               child: Column(
                                   children: [
@@ -304,20 +311,28 @@ class FundDocumentSubmission {
                                               shape: BoxShape.circle
                                           ),
                                           alignment: Alignment.center,
-                                          child: const Icon(Remix.close_line, color: Colors.white, size: 24,),
+                                          child: const Icon(Remix.close_line, color: Colors.white, size: 30,),
                                         ),
                                       ],
                                     ),
                                     Container(
                                       width: 560,
                                       margin: const EdgeInsets.symmetric(vertical: 15),
-                                      padding: const EdgeInsets.all(15),
-                                      decoration: WidgetUtils.textFieldBoxDecoration,
                                       child: TextField(
                                         controller: reasonController,
                                         decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.all(15),
                                           hintText: "사유",
                                           hintStyle: WidgetUtils.textInputHintStyle,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(color: ColorUtils.negativeColor)
+                                          ),
+                                          disabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(color: ColorUtils.negativeColor)
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(color: ColorUtils.negativeColor)
+                                          ),
                                         ),
                                         style: WidgetUtils.regularStyle,
                                       ),
@@ -358,7 +373,8 @@ class FundDocumentSubmission {
                                               foregroundColor: ColorUtils.negativeColor,
                                             ),
                                             onPressed: () async {
-                                              await review(id!, false, reasonController.text);
+                                              var response = await review(id!, false, reasonController.text);
+                                              print(response.body);
                                               Navigator.pop(context);
                                               setState;
                                             },
@@ -381,10 +397,13 @@ class FundDocumentSubmission {
                       }
                   );
                 },
-                icon: const Icon(
-                  Remix.close_line,
-                  size: 14,
-                  color: Color(0xff333333),
+                icon: Center(
+                  child: Icon(
+                    Remix.close_line,
+                    size: 20,
+                    color: (status == FundDocumentStatus.reviewing || status == FundDocumentStatus.rejected)?
+                    Colors.white : const Color(0xff999999),
+                  )
                 ),
               ),
             )
@@ -425,11 +444,13 @@ Future<List<FundDocumentSubmission>> getMyDocuments() async {
   return jsonDecode(utf8.decode(response.bodyBytes)).map<FundDocumentSubmission>((json) => FundDocumentSubmission.fromJson(json)).toList();
 }
 
-Future<List<FundDocumentSubmission>> getFundSubmissions(int fundId) async {
+Future<List<FundDocumentSubmission>> getFundDocumentSubmissions(int documentId) async {
   var response = await http.get(
-    StringUtils().stringToUri("/fund/document/submission", params: {'fundId': fundId.toString()}),
+    StringUtils().stringToUri("/fund/document/submission", params: {'documentId': documentId.toString()}),
     headers: await StringUtils().header()
   );
+
+  print(response.body);
 
   return jsonDecode(utf8.decode(response.bodyBytes)).map<FundDocumentSubmission>((json) => FundDocumentSubmission.fromJson(json)).toList();
 }
