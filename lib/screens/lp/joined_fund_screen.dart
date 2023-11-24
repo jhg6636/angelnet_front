@@ -4,10 +4,13 @@ import 'package:angelnet/models/lp/lp_status.dart';
 import 'package:angelnet/screens/lp/fund_detail_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
+
+import '../../models/common/post.dart';
 
 
 class LpJoinedFundScreen extends StatefulWidget {
@@ -504,7 +507,10 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                         ],
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () async {
+                          var fund = await getFundByLpId(widget.lp.id);
+                          Get.to(FundDetailScreen(fund: fund));
+                        },
                         child: const Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -527,56 +533,33 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
               if (widget.lp.fundStatus.isRunning()) Container(
                   width: 1280,
                   margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
-                  child: DataTable(
-                    // todo 정렬
-                    // todo headingRow 아래 border 조정
-                    // todo 이미지 있을 시 표시 / 새 글 표시
-                    headingTextStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.pretendard,
-                      letterSpacing: -0.16,
-                      color: Color(0xff222222),
-                    ),
-                    dataTextStyle: const TextStyle(
-                        fontFamily: StringUtils.pretendard,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        letterSpacing: -0.16,
-                        color: Color(0xff757575)
-                    ),
-                    border: const TableBorder(
-                      top: BorderSide(color: Color(0xff333333), width: 2),
-                      bottom: BorderSide(color: Color(0xffe6e6e6)),
-                      horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
-                    ),
-                    columns: const [
-                      DataColumn(label: Center(child: Text("번호"))),
-                      DataColumn(label: Center(child: Text("제목"))),
-                      DataColumn(label: Center(child: Text("작성자"))),
-                      DataColumn(label: Center(child: Text("작성일"))),
-                      DataColumn(label: Center(child: Text("첨부파일"))),
-                    ],
-                    rows: const [
-                      DataRow(
-                          cells: [
-                            DataCell(Text("101")),
-                            DataCell(Text("홈페이지 이용과 관련하여 필수적인 공지사항을 안내드립니다.")),
-                            DataCell(Text("관리자")),
-                            DataCell(Text("2023-03-03")),
-                            DataCell(Text("DOC")),
-                          ]
-                      ),
-                      DataRow(
-                          cells: [
-                            DataCell(Text("101")),
-                            DataCell(Text("인기있는 게시글 입니다.")),
-                            DataCell(Text("최고관리자")),
-                            DataCell(Text("2023-03-03")),
-                            DataCell(Text("PDF")),
-                          ]
-                      )
-                    ],
+                  child: FutureBuilder(
+                    future: fetchPostsByLpId(widget.lp.id),
+                    builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+                      if (snapshot.hasError || !snapshot.hasData) {
+                        StringUtils().printError(snapshot);
+                        return const Text("조합에 등록된 공지사항이 없습니다.", style: WidgetUtils.dataTableDataStyle,);
+                      } else {
+                        return DataTable(
+                          headingTextStyle: WidgetUtils.dataTableHeadStyle,
+                          dataTextStyle: WidgetUtils.dataTableDataStyle,
+                          border: const TableBorder(
+                            top: BorderSide(color: Color(0xff333333), width: 2),
+                            bottom: BorderSide(color: Color(0xffe6e6e6)),
+                            horizontalInside: BorderSide(color: Color(0xffe6e6e6)),
+                          ),
+                          columns: const [
+                            DataColumn(label: Center(child: Text("번호"))),
+                            DataColumn(label: Center(child: Text("제목"))),
+                            DataColumn(label: Center(child: Text("작성자"))),
+                            DataColumn(label: Center(child: Text("작성일"))),
+                            DataColumn(label: Center(child: Text("조회수"))),
+                          ],
+                          rows: snapshot.data!.indexed
+                              .map((e) => e.$2.toDataRow(false, false, snapshot.data!.length - e.$1)).toList(),
+                        );
+                      }
+                    },
                   )
               ),
               Container(
@@ -745,8 +728,10 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                     fixedSize: const Size(120, 50),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
                   ),
-                  onPressed: () {},
-                  child: const Text("서류 등록",
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text("뒤로",
                     style: TextStyle(
                       fontFamily: StringUtils.pretendard,
                       fontSize: 17,

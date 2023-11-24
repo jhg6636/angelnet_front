@@ -204,10 +204,7 @@ class LpMyPageState extends State<LpMyPage> {
                 future: fetchMine(),
                 builder: (BuildContext context, AsyncSnapshot<List<LimitedPartner>> snapshot) {
                   if (snapshot.hasError) {
-                    print(snapshot.error);
-                    print('----');
-                    print(snapshot.stackTrace);
-                    print('----');
+                    StringUtils().printError(snapshot);
                     return Container(
                       margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),
                       alignment: Alignment.center,

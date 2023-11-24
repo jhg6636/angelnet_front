@@ -187,3 +187,12 @@ Future<List<Post>> fetchPostsInFund(int fundId) async {
 
   return jsonDecode(utf8.decode(response.bodyBytes)).map<Post>((json) => Post.fromJson(json)).toList();
 }
+
+Future<List<Post>> fetchPostsByLpId(int lpId) async {
+  var response = await http.get(
+    StringUtils().stringToUri('post/lp', params: {'lpId': lpId.toString()},),
+    headers: await StringUtils().header()
+  );
+
+  return jsonDecode(utf8.decode(response.bodyBytes)).map<Post>((json) => Post.fromJson(json)).toList();
+}

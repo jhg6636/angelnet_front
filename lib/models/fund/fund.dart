@@ -44,6 +44,8 @@ class Fund {
   String? ruleUrl;
   String? etcUrl;
   bool isFunding;
+  String? bankName;
+  String? accountNumber;
 
   Fund({
     required this.id,
@@ -73,6 +75,8 @@ class Fund {
     required this.ruleUrl,
     required this.etcUrl,
     required this.isFunding,
+    required this.bankName,
+    required this.accountNumber,
   });
 
   factory Fund.fromJson(Map<String, dynamic> json) {
@@ -105,6 +109,8 @@ class Fund {
       ruleUrl: null,
       etcUrl: null,
       isFunding: true,
+      bankName: null,
+      accountNumber: null,
     );
   }
 
