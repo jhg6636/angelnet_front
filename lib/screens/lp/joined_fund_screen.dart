@@ -1,4 +1,5 @@
 import 'package:angelnet/models/fund/fund.dart';
+import 'package:angelnet/models/lp/fund_document_submission.dart';
 import 'package:angelnet/models/lp/limited_partner.dart';
 import 'package:angelnet/models/lp/lp_status.dart';
 import 'package:angelnet/screens/lp/fund_detail_screen.dart';
@@ -448,7 +449,9 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                                 backgroundColor: const Color(0xff6c6f81),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -562,163 +565,79 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                     },
                   )
               ),
-              // Container(
-              //   margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     crossAxisAlignment: CrossAxisAlignment.end,
-              //     children: [
-              //       const Text("서류 제출",
-              //         style: TextStyle(
-              //           fontFamily: StringUtils.pretendard,
-              //           fontSize: 20,
-              //           fontWeight: FontWeight.w600,
-              //           letterSpacing: -0.2,
-              //           color: Color(0xff333333)
-              //         ),
-              //       ),
-              //       Container(
-              //         margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-              //         child: const Text("제출하신 서류는 조합 관리자 확인 후 승인됩니다. 승인 후에는 수정하실 수 없습니다.",
-              //           style: TextStyle(
-              //             fontWeight: FontWeight.w400,
-              //             fontSize: 15,
-              //             fontFamily: StringUtils.pretendard,
-              //             letterSpacing: -0.15,
-              //             color: Color(0xff555555)
-              //           ),
-              //         )
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // Container(
-              //   margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
-              //   child: const Divider(thickness: 2, color: Color(0xff555555),),
-              // ),
-              // Container(
-              //     margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
-              //     padding: const EdgeInsets.fromLTRB(19, 0, 636, 0),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: [
-              //         const Text("사업자등록증",
-              //           style: TextStyle(
-              //               fontFamily: StringUtils.pretendard,
-              //               fontSize: 17,
-              //               fontWeight: FontWeight.w500,
-              //               color: Color(0xff333333),
-              //               letterSpacing: -0.17
-              //           ),
-              //         ),
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.end,
-              //           children: [
-              //             Container(
-              //                 width: 263,
-              //                 height: 38,
-              //                 margin: const EdgeInsets.fromLTRB(0, 0, 6, 0),
-              //                 child: TextField(
-              //                   controller: fileNameController1,
-              //                   decoration: InputDecoration(
-              //                       enabled: false,
-              //                       border: OutlineInputBorder(
-              //                           borderSide: const BorderSide(color: Color(0xffdddddd)),
-              //                           borderRadius: BorderRadius.circular(2)
-              //                       )
-              //                   ),
-              //                 )
-              //             ),
-              //             FilledButton(
-              //                 style: FilledButton.styleFrom(
-              //                   backgroundColor: const Color(0xff6c6f81),
-              //                   foregroundColor: const Color(0xff6c6f81),
-              //                   fixedSize: const Size(90, 38),
-              //                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
-              //                 ),
-              //                 onPressed: () {},
-              //                 child: const Text("파일찾기",
-              //                   style: TextStyle(
-              //                     fontWeight: FontWeight.w500,
-              //                     fontSize: 16,
-              //                     fontFamily: StringUtils.pretendard,
-              //                     letterSpacing: -0.32,
-              //                     color: Colors.white,
-              //                   ),
-              //                 )
-              //             )
-              //           ],
-              //         ),
-              //       ],
-              //     )
-              // ),
-              // Container(
-              //   margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
-              //   child: const Divider(thickness: 1, color: Color(0xffdddddd),),
-              // ),
-              // Container(
-              //     margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
-              //     padding: const EdgeInsets.fromLTRB(19, 0, 636, 0),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: [
-              //         const Text("등기부등본",
-              //           style: TextStyle(
-              //               fontFamily: StringUtils.pretendard,
-              //               fontSize: 17,
-              //               fontWeight: FontWeight.w500,
-              //               color: Color(0xff333333),
-              //               letterSpacing: -0.17
-              //           ),
-              //         ),
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.end,
-              //           children: [
-              //             Container(
-              //                 width: 263,
-              //                 height: 38,
-              //                 margin: const EdgeInsets.fromLTRB(0, 0, 6, 0),
-              //                 child: TextField(
-              //                   controller: fileNameController1,
-              //                   decoration: InputDecoration(
-              //                       enabled: false,
-              //                       border: OutlineInputBorder(
-              //                           borderSide: const BorderSide(color: Color(0xffdddddd)),
-              //                           borderRadius: BorderRadius.circular(2)
-              //                       )
-              //                   ),
-              //                 )
-              //             ),
-              //             FilledButton(
-              //                 style: FilledButton.styleFrom(
-              //                     backgroundColor: const Color(0xff6c6f81),
-              //                     foregroundColor: const Color(0xff6c6f81),
-              //                     fixedSize: const Size(90, 38),
-              //                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
-              //                 ),
-              //                 onPressed: () {},
-              //                 child: const Text("파일찾기",
-              //                   style: TextStyle(
-              //                     fontWeight: FontWeight.w500,
-              //                     fontSize: 16,
-              //                     fontFamily: StringUtils.pretendard,
-              //                     letterSpacing: -0.32,
-              //                     color: Colors.white,
-              //                   ),
-              //                 )
-              //             )
-              //           ],
-              //         ),
-              //       ],
-              //     )
-              // ),
               Container(
-                margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
-                child: const Divider(thickness: 1, color: Color(0xffdddddd),),
+                margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text("서류 제출",
+                      style: TextStyle(
+                        fontFamily: StringUtils.pretendard,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.2,
+                        color: Color(0xff333333)
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                      child: const Text("양식 파일 다운로드 후 파일 업로드 부탁드립니다. 업로드 이후 관리자 승인까지 시간이 소요될 수 있습니다.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          fontFamily: StringUtils.pretendard,
+                          letterSpacing: -0.15,
+                          color: Color(0xff555555)
+                        ),
+                      )
+                    ),
+                  ],
+                ),
               ),
-              if (widget.lp.fundStatus.isRunning()) Container(
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                child: const Divider(thickness: 2, color: Color(0xff555555),),
+              ),
+              FutureBuilder(
+                future: getMyDocuments(),
+                builder: (BuildContext context, AsyncSnapshot<List<FundDocumentSubmission>> snapshot) {
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    StringUtils().printError(snapshot);
+                    return const Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("제출하실 서류가 아직 등록되지 않았습니다.", style: WidgetUtils.dataTableDataStyle,),
+                        Divider(color: Color(0xffdddddd))
+                      ],
+                    );
+                  } else {
+                    var data = snapshot.data?.where((element) => element.fundName == widget.lp.fundName).toList() ?? [];
+                    if (data.isEmpty) {
+                      return const Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text("제출하실 서류가 아직 등록되지 않았습니다.", style: WidgetUtils.dataTableDataStyle,),
+                          Divider(color: Color(0xffdddddd))
+                        ],
+                      );
+                    }
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: data.map((e) => Column(
+                        children: [
+                          e.toJoinedFundLpContainer(),
+                          const Divider(color: Color(0xffdddddd))
+                        ],
+                      )).toList(),
+                    );
+                  }
+                }
+              ),
+              Container(
                 alignment: Alignment.center,
                 margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                 child: FilledButton(

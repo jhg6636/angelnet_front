@@ -197,6 +197,53 @@ class FundDocument {
     );
   }
 
+  Widget toInformationDocumentContainer() {
+    return Container(
+        margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
+        padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(title,
+              style: const TextStyle(
+                  fontFamily: StringUtils.pretendard,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff333333),
+                  letterSpacing: -0.17
+              ),
+            ),
+            Row(
+              children: [
+                FilledButton(
+                    style: FilledButton.styleFrom(
+                        backgroundColor: const Color(0xff6c6f81),
+                        foregroundColor: const Color(0xff6c6f81),
+                        fixedSize: const Size(90, 38),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
+                    ),
+                    onPressed: () async {
+                      // todo download
+                    },
+                    child: const Text(
+                      "다운로드",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.32,
+                        color: Colors.white,
+                      ),
+                    )
+                ),
+              ],
+            ),
+          ],
+        )
+    );
+  }
+
 }
 
 Future<List<FundDocument>> getFundDocuments(int fundId) async {

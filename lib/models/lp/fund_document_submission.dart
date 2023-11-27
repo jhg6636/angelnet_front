@@ -415,6 +415,124 @@ class FundDocumentSubmission {
     );
   }
 
+  Widget toJoinedFundLpContainer() {
+    return Container(
+        margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
+        padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(documentTitle,
+              style: const TextStyle(
+                  fontFamily: StringUtils.pretendard,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff333333),
+                  letterSpacing: -0.17
+              ),
+            ),
+            Row(
+              children: [
+                if (status != FundDocumentStatus.accepted) Container(
+                  width: 22,
+                  height: 22,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xff002997),
+                  ),
+                  margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "1",
+                    style: TextStyle(
+                        fontFamily: StringUtils.pretendard,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: Colors.white),
+                  ),
+                ),
+                if (status != FundDocumentStatus.accepted) FilledButton(
+                  style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xff6c6f81),
+                      foregroundColor: const Color(0xff6c6f81),
+                      fixedSize: const Size(180, 38),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
+                  ),
+                  onPressed: () async {
+                    // todo 양식 파일 다운로드 api
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(Remix.download_2_line, size: 16, color: Colors.white,),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                        child: const Text(
+                          "양식 파일 다운로드",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.32,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                if (status != FundDocumentStatus.accepted) Container(
+                  width: 22,
+                  height: 22,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xff002997),
+                  ),
+                  margin: const EdgeInsets.fromLTRB(16, 0, 8, 0),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "2",
+                    style: TextStyle(
+                        fontFamily: StringUtils.pretendard,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: Colors.white),
+                  ),
+                ),
+                if (status != FundDocumentStatus.accepted) FilledButton(
+                    style: FilledButton.styleFrom(
+                        backgroundColor: const Color(0xff6c6f81),
+                        foregroundColor: const Color(0xff6c6f81),
+                        fixedSize: const Size(90, 38),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
+                    ),
+                    onPressed: () async {
+                      // todo file pick
+                    },
+                    child: Text(
+                      status == FundDocumentStatus.notSubmitted? "파일찾기" : "파일변경",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.32,
+                        color: Colors.white,
+                      ),
+                    )
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                  child: status.statusWidget(),
+                ),
+              ],
+            ),
+          ],
+        )
+    );
+  }
+
   factory FundDocumentSubmission.fromJson(Map<String, dynamic> json) {
     return FundDocumentSubmission(
       id: json['id'],

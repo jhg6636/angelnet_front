@@ -1,0 +1,7 @@
+enum LpDocumentType {
+
+  tax,
+  loc,
+  ;
+
+}

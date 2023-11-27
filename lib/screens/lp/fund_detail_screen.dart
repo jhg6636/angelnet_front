@@ -1,5 +1,7 @@
 import 'package:angelnet/models/common/post.dart';
 import 'package:angelnet/models/fund/fund.dart';
+import 'package:angelnet/models/fund/fund_document.dart';
+import 'package:angelnet/models/fund/fund_document_type.dart';
 import 'package:angelnet/models/fund/fund_status.dart';
 import 'package:angelnet/screens/lp/join_fund_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
@@ -726,28 +728,32 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                     ],
                   ),
                 ),
-              // todo 참조자료
-              // if (selectedMenu == '기본정보') const Divider(color: Color(0xffdddddd)),
-              // if (selectedMenu == '기본정보') Container(
-              //   margin: const EdgeInsets.fromLTRB(0, 41, 0, 8),
-              //   child: const Text("참조 자료", style: h1Style,)
-              // ),
-              // if (selectedMenu == '기본정보') const Divider(color: Color(0xff555555), thickness: 2,),
-              // if (selectedMenu == '기본정보') Container(
-              //   padding: const EdgeInsets.fromLTRB(19, 5, 0, 1),
-              //   child: const Row(
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     children: [
-              //       SizedBox(
-              //         width: 156,
-              //         child: Text("조합명", style: headColumnTextStyle),
-              //       ),
-              //       Text("리벤처스 테크 이노베이션 투자조합 6호", style: columnTextStyle,)
-              //     ],
-              //   ),
-              // ),
-              if (selectedMenu == '기본정보')
-                Container(
+              if (selectedMenu == '회사소개') Container(
+                margin: const EdgeInsets.fromLTRB(0, 41, 0, 8),
+                child: const Text("회사소개", style: WidgetUtils.h1Style,)
+              ),
+              if (selectedMenu == '회사소개') const Divider(color: Color(0xff555555), thickness: 2,),
+              if (selectedMenu == '회사소개') FutureBuilder(
+                future: getFundDocuments(widget.fund.id),
+                builder: (BuildContext context, AsyncSnapshot<List<FundDocument>> snapshot) {
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    StringUtils().printError(snapshot);
+                    return const Text("공개된 자료가 없습니다.", style: WidgetUtils.dataTableDataStyle,);
+                  } else {
+                    var data = snapshot.data?.where((element) => element.type == FundDocumentType.information).toList() ?? [];
+                    if (data.isEmpty) return const Text("공개된 자료가 없습니다.", style: WidgetUtils.dataTableDataStyle,);
+                    return Column(
+                      children: data.map((e) => Column(
+                        children: [
+                          e.toInformationDocumentContainer(),
+                          const Divider(color: Color(0xffdddddd),)
+                        ],
+                      )).toList(),
+                    );
+                  }
+                },
+              ),
+              if (selectedMenu == '기본정보') Container(
                   padding: const EdgeInsets.fromLTRB(50, 34, 50, 40),
                   margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                   decoration: const BoxDecoration(
@@ -959,63 +965,6 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                           ],
                         ),
                       ),
-                      // Row(
-                      //   children: [
-                      //     Container(
-                      //         width: 320,
-                      //         height: 42,
-                      //         decoration: BoxDecoration(
-                      //           borderRadius: BorderRadius.circular(2),
-                      //           color: const Color(0xfff2f2f2),
-                      //         ),
-                      //         child: Row(
-                      //           children: [
-                      //             Flexible(
-                      //                 flex: 29,
-                      //                 child: TextField(
-                      //                   controller: searchTextController,
-                      //                   textAlignVertical:
-                      //                       TextAlignVertical.bottom,
-                      //                   decoration: const InputDecoration(
-                      //                       border: OutlineInputBorder(
-                      //                           borderSide: BorderSide(
-                      //                               color: Colors.transparent)),
-                      //                       enabledBorder: OutlineInputBorder(
-                      //                           borderSide: BorderSide(
-                      //                               color: Colors.transparent)),
-                      //                       focusedBorder: OutlineInputBorder(
-                      //                           borderSide: BorderSide(
-                      //                               color: Colors.transparent)),
-                      //                       hintText: "검색어를 입력하세요",
-                      //                       hintStyle: TextStyle(
-                      //                           fontFamily:
-                      //                               StringUtils.pretendard,
-                      //                           fontSize: 16,
-                      //                           fontWeight: FontWeight.w400,
-                      //                           color: Color(0xff757575),
-                      //                           letterSpacing: -0.16)),
-                      //                 )),
-                      //             Flexible(
-                      //                 flex: 3,
-                      //                 child: InkWell(
-                      //                   onTap: () {},
-                      //                   child: Container(
-                      //                     margin: const EdgeInsets.fromLTRB(
-                      //                         0, 0, 9.69, 0),
-                      //                     width: 20.31,
-                      //                     height: 20.31,
-                      //                     decoration: const BoxDecoration(
-                      //                         image: DecorationImage(
-                      //                       image: AssetImage(
-                      //                           'lib/assets/images/search_icon.png'),
-                      //                       fit: BoxFit.fill,
-                      //                     )),
-                      //                   ),
-                      //                 ))
-                      //           ],
-                      //         ))
-                      //   ],
-                      // )
                     ],
                   ),
                 ),
