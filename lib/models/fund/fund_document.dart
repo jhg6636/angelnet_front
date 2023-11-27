@@ -51,13 +51,14 @@ class FundDocument {
           )
         ),
         DataCell(Text(title)),
-        DataCell((acceptedMembers == totalMembers && totalMembers > 0)? Container(
+        DataCell((type == FundDocumentType.information)? const Text("-") :
+        (acceptedMembers == totalMembers && totalMembers > 0)? Container(
           width: 84,
           height: 28,
           color: ColorUtils.green,
           child: const Center(child: Text("완료", style: WidgetUtils.statusBoxWhiteStyle,)),
         ) : Text("$acceptedMembers/$totalMembers")),
-        DataCell((acceptedMembers == totalMembers)? const Text("-") :
+        DataCell((acceptedMembers == totalMembers || type == FundDocumentType.information)? const Text("-") :
           Container(
             width: 36,
             height: 36,
@@ -72,9 +73,10 @@ class FundDocument {
               alignment: Alignment.center,
               splashRadius: 18,
               // tooltip: "오전 10시 알림이 발송됩니다.",
-              onPressed: () {
+              onPressed: () async {
                 // todo 알림 발송 예약
                 // 일단은 즉시 알림 발송
+                await sendDocumentSubmissionRemindNotification(id);
               },
               icon: const Icon(
                 Remix.notification_2_line,
@@ -215,4 +217,12 @@ Future<int> postFundDocument(int fundId, String title, FundDocumentType type) as
   );
 
   return int.parse(response.body);
+}
+
+Future<http.Response> sendDocumentSubmissionRemindNotification(int documentId) async {
+  return await http.post(
+    StringUtils().stringToUri("/notification/remind"),
+    body: documentId.toString(),
+    headers: await StringUtils().header()
+  );
 }

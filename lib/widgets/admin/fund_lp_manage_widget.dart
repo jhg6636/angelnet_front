@@ -136,11 +136,7 @@ class FundLpManageWidgetState extends State<FundLpManageWidget> {
                       rows: snapshot.data!.indexed.map((e) => e.$2.toFundLpDataRow(
                         e.$1 + 1,
                         context,
-                        () {
-                          setState(() {
-
-                          });
-                        }
+                        setState,
                       ))
                         .toList(),
                     );

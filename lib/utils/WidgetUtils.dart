@@ -1,5 +1,17 @@
+import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/screens/admin/manage_fund_screen.dart';
+import 'package:angelnet/screens/admin/manage_group_screen.dart';
+import 'package:angelnet/screens/admin/manage_user_screen.dart';
+import 'package:angelnet/screens/lp/all_portfolio_screen.dart';
+import 'package:angelnet/screens/lp/funding_fund_screen.dart';
+import 'package:angelnet/screens/lp/lp_mypage.dart';
+import 'package:angelnet/screens/notification/notification_screen.dart';
+import 'package:angelnet/screens/post/manage_post_screen.dart';
+import 'package:angelnet/screens/user/home_screen.dart';
+import 'package:angelnet/screens/user/terms_of_use_view_screen.dart';
 import 'package:angelnet/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 import 'StringUtils.dart';
@@ -26,7 +38,7 @@ class WidgetUtils {
     child: Text("무엇인가 잘못됨"),
   );
 
-  final appBar = AppBar(
+  final appBarLegacy = AppBar(
     title: const Text(
       "AngelNet", style: TextStyle(fontSize: 36.0, fontFamily: 'Sriracha'),),
     centerTitle: true,
@@ -154,13 +166,18 @@ class WidgetUtils {
       children: [
         Row(
           children: [
-            const Text("개인정보처리방침",
-              style: TextStyle(
+            TextButton(
+              onPressed: () {
+                Get.to(TermsOfUseViewScreen());
+              },
+              child: const Text("개인정보처리방침",
+                style: TextStyle(
                   color: Color(0xff1BADFB),
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   fontFamily: "Pretendard",
                   letterSpacing: -0.32
+                ),
               ),
             ),
             Container(
@@ -531,5 +548,327 @@ class WidgetUtils {
       ),
     );
   }
+
+  AppBar appBar(bool isAdmin) => AppBar(
+    toolbarHeight: 100,
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.white,
+    shadowColor: Colors.transparent,
+    title: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                InkWell(
+                  onTap: () async {
+                    if (isAdmin) {
+                      Get.to(const ManageUserScreen());
+                    } else {
+                      Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
+                    }
+                  },
+                  child: Container(
+                    width: 154,
+                    height: 52,
+                    margin: const EdgeInsets.fromLTRB(108, 0, 0, 0),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('lib/assets/images/logo.png'),
+                            fit: BoxFit.cover
+                        )
+                    ),
+                  ),
+                ),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(58, 0, 0, 0),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(isAdmin? const ManageUserScreen() : const FundingFundScreen());
+                      },
+                      child: Text(isAdmin? "회원관리" : "결성중인 조합",
+                        style: const TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                        ),
+                      ),
+                    )
+                ),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: TextButton(
+                        onPressed: () {
+                          Get.to(isAdmin? const ManageFundScreen() : const ManagePostScreen(isAdmin: false,));
+                        },
+                        child: Text(isAdmin? "조합현황" : "게시판",
+                          style: const TextStyle(
+                            color: Color(0xff333333),
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: StringUtils.pretendard,
+                          ),
+                        )
+                    )
+                ),
+                if (isAdmin) Container(
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(const ManageGroupScreen());
+                      },
+                      child: const Text("그룹관리",
+                        style: TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                        ),
+                      ),
+                    )
+                ),
+                if (isAdmin) Container(
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: TextButton(
+                        onPressed: () {
+                          Get.to(const ManagePostScreen(isAdmin: true,));
+                        },
+                        child: const Text("공지사항 관리",
+                          style: TextStyle(
+                            color: Color(0xff333333),
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: StringUtils.pretendard,
+                          ),
+                        )
+                    )
+                ),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(isAdmin? const NotificationScreen(isAdmin: true) : const AllPortfolioScreen());
+                      },
+                      child: Text(isAdmin? "알림" : "전체 포트폴리오",
+                        style: const TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: StringUtils.pretendard,
+                        ),
+                      ),
+                    )
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (isAdmin) Container(
+                  width: 58,
+                  height: 26,
+                  margin: const EdgeInsets.fromLTRB(0, 0, 9, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xffdddddd))
+                  ),
+                  child: const Text("관리자",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: StringUtils.pretendard,
+                        letterSpacing: -0.15,
+                        color: Color(0xff767676)
+                    ),
+                  ),
+                ),
+                DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    focusNode: FocusNode(skipTraversal: true),
+                    focusColor: Colors.white,
+                    dropdownColor: Colors.white,
+                    onChanged: (value) {  },
+                    items: [
+                      DropdownMenuItem(
+                        value: "Info",
+                        child: FutureBuilder(
+                          future: getMyInfo(),
+                          builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                            if (snapshot.hasError) {
+                              print("error");
+                              print(snapshot.error);
+                              print(snapshot.stackTrace);
+                              return const CircularProgressIndicator();
+                            } else if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: const Color(0xff0361f9),
+                                    radius: 15.0,
+                                    child: Text(
+                                      snapshot.data!["name"].toString()[0],
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                          fontFamily: StringUtils.pretendard,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: -0.4
+                                      ),
+                                    ),
+                                  ),
+                                  Text("${snapshot.data!["name"]} 님",
+                                      style: const TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: StringUtils.pretendard,
+                                        letterSpacing: -0.4,
+                                        color: Color(0xff555555),
+                                      )
+                                  ),
+                                ],
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      if (!isAdmin) DropdownMenuItem(
+                        onTap: () async {
+                          Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
+                        },
+                        value: "MyPage",
+                        child: TextButton(
+                            onPressed: () async {
+                              Get.to(LpMyPage(user: User.fromMyInfoJson(await getMyInfo())));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const Text("마이페이지",
+                                  style: TextStyle(
+                                      fontFamily: StringUtils.pretendard,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15,
+                                      letterSpacing: -0.3,
+                                      color: Color(0xff0361F9)
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: const Icon(Remix.user_line, color: Color(0xff0361f9),),
+                                )
+                              ],
+                            )
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        onTap: () async {
+                          // todo logout
+                          Get.to(const HomeScreen());
+                        },
+                        value: "LogOut",
+                        child: TextButton(
+                            onPressed: () async {
+                              // todo logout
+                              Get.to(const HomeScreen());
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const Text("로그아웃",
+                                  style: TextStyle(
+                                      fontFamily: StringUtils.pretendard,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15,
+                                      letterSpacing: -0.3,
+                                      color: Color(0xff0361F9)
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: const Icon(Remix.logout_box_line, color: Color(0xff0361f9),),
+                                )
+                              ],
+                            )
+                        ),
+                      )
+                    ],
+                    hint: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        FutureBuilder(
+                          future: getMyInfo(),
+                          builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                            if (snapshot.hasError) {
+                              return Text(snapshot.error.toString());
+                            } else if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              return Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(snapshot.data!['name'],
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(
+                                    color: Color(0xff000000),
+                                    fontSize: 16,
+                                    letterSpacing: -0.16,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: StringUtils.pretendard,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        // Container(
+                        //     margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                        //     // child: const Icon(Icons.arrow_drop_down, color: Color(0xff000000)),
+                        //     child: Transform(
+                        //         transform: Matrix4.diagonal3Values(1.5, 1.0, 1.0),
+                        //         child: const Text("▾",
+                        //           style: TextStyle(color: Colors.black, fontSize: 20),
+                        //         )
+                        //     )
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    Get.to(NotificationScreen(isAdmin: isAdmin));
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(37, 0, 80, 0),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Badge(
+                      backgroundColor: Colors.transparent,
+                      offset: Offset(9, -9),
+                      label: Icon(Icons.circle, color: Color(0xff0361f9), size: 6), // todo 알림 없으면 null
+                      child: Icon(Remix.notification_2_line, size: 24, color: Color(0xff333333),),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+        const Divider(color: Color(0xffdddddd),),
+      ],
+    ),
+  );
 
 }

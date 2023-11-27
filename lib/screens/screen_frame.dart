@@ -26,7 +26,7 @@ class ScreenFrameState extends State<ScreenFrame> {
     Widget drawer = widget.isAdmin ? const AdminLeftSideDrawer() : const LeftSideDrawer();
     return Scaffold(
       appBar: (widget.isAdmin) ?
-        WidgetUtils().appBar
+        WidgetUtils().appBarLegacy
         : AppBar(
           centerTitle: true,
           title: Row(

@@ -373,9 +373,9 @@ class TermsOfUseScreenState extends State<TermsOfUseScreen> {
     );
   }
 
-  Future<String> getTermsOfUseText() async {
-    return (await http.get(StringUtils().stringToUri('/terms-of-use'), headers: StringUtils.noAuthHeader))
-        .body;
-  }
+}
 
+Future<String> getTermsOfUseText() async {
+  return (await http.get(StringUtils().stringToUri('/terms-of-use'), headers: StringUtils.noAuthHeader))
+      .body;
 }

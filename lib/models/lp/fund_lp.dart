@@ -45,7 +45,7 @@ class FundLp {
       status: LpStatus.fromEnglish(json['status']),
       locUrl: json['locUrl'],
       taxUrl: json['taxUrl'],
-      depositAt: json['depositAt']
+      depositAt: (json['depositAt'] == null)? null : DateTime(json['depositAt'][0], json['depositAt'][1], json['depositAt'][2], json['depositAt'][3], json['depositAt'][4], json['depositAt'][5])
     );
   }
 
@@ -88,7 +88,9 @@ class FundLp {
       DataCell(
         taxUrl == null?
           WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
-            onPressed: () {  },
+            onPressed: () async {
+              await uploadLpDocument(id, "TAX");
+            },
             splashRadius: 4.0,
             tooltip: "업로드",
             icon: const Icon(Remix.upload_line, color: Color(0xff222222), size: 16,),
@@ -120,15 +122,21 @@ class FundLp {
           height: 28,
           alignment: Alignment.center,
           color: const Color(0xfff4f4f4),
-          child: const Text("확인",
-            style: TextStyle(
-              color: Color(0xff999999),
-              fontSize: 15,
-              fontFamily: StringUtils.pretendard,
-              fontWeight: FontWeight.w400,
-              letterSpacing: -0.45
+          child: TextButton(
+            onPressed: () async {
+              checkDeposit(id);
+              setState;
+            },
+            child: const Text("확인",
+              style: TextStyle(
+                color: Color(0xff999999),
+                fontSize: 15,
+                fontFamily: StringUtils.pretendard,
+                fontWeight: FontWeight.w400,
+                letterSpacing: -0.45
+              ),
             ),
-          ),
+          )
         )
       ),
       DataCell(WidgetUtils.circleButtonFrame(const Color(0xfff5a9a9), IconButton(
@@ -157,4 +165,25 @@ Future<List<FundLp>> fetchFundLps(int fundId) async {
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
   return responseBody.map<FundLp>((json) => FundLp.fromJson(json)).toList();
+}
+
+Future<DateTime> checkDeposit(int lpId) async {
+  var response = await http.post(
+    StringUtils().stringToUri("/lp/deposit"),
+    body: lpId.toString(),
+    headers: await StringUtils().header(),
+  );
+  var dateTimeList = jsonDecode(utf8.decode(response.bodyBytes));
+
+  return DateTime(dateTimeList[0], dateTimeList[1], dateTimeList[2], dateTimeList[3], dateTimeList[4], dateTimeList[5]);
+}
+
+Future<int> uploadLpDocument(int lpId, String type) async {
+  var response = await http.post(
+    StringUtils().stringToUri("/lp/document"),
+    body: jsonEncode({"lpId": lpId, "type": type}),
+    headers: await StringUtils().header()
+  );
+
+  return int.parse(response.body);
 }
