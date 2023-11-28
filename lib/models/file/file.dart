@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html' as html;
+import 'package:angelnet/models/lp/lp_document_type.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
@@ -144,6 +145,15 @@ Future<File> getTemplateFileMetadata(int documentId) async {
 Future<File> getSubmissionFileMetadata(int submissionId) async {
   var response = await http.get(
     StringUtils().stringToUri("/fund/document/submission/file", params: {"submissionId": submissionId.toString()}),
+    headers: await StringUtils().header()
+  );
+
+  return File.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+}
+
+Future<File> getLpDocumentFileMetadata(int lpId, LpDocumentType type) async {
+  var response = await http.get(
+    StringUtils().stringToUri("/lp/document", params: {"lpId": lpId.toString(), "type": type.english}),
     headers: await StringUtils().header()
   );
 

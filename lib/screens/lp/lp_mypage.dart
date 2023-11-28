@@ -384,7 +384,7 @@ class LpMyPageState extends State<LpMyPage> {
   }
 }
 
-DataRow toMyPageRow(int index, Fund fund, LimitedPartner lp) {
+DataRow toMyPageRow(int index, Fund fund) {
   return DataRow(cells: [
     DataCell(Text(index.toString())),
     DataCell(Text(fund.name)),

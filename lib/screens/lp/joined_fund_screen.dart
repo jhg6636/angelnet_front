@@ -1,6 +1,9 @@
+import 'package:angelnet/models/file/file.dart';
 import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/models/lp/fund_document_submission.dart';
+import 'package:angelnet/models/lp/fund_lp.dart';
 import 'package:angelnet/models/lp/limited_partner.dart';
+import 'package:angelnet/models/lp/lp_document_type.dart';
 import 'package:angelnet/models/lp/lp_status.dart';
 import 'package:angelnet/screens/lp/fund_detail_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
@@ -26,11 +29,6 @@ class LpJoinedFundScreen extends StatefulWidget {
 }
 
 class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
-
-  final fileNameController1 = TextEditingController();
-  final fileNameController2 = TextEditingController();
-  final fileNameController3 = TextEditingController();
-  bool detailPageClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -395,32 +393,44 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                       ),
                       Container(
                         margin: const EdgeInsets.fromLTRB(98, 0, 0, 0),
-                        child: FilledButton(
-                            style: FilledButton.styleFrom(
-                                fixedSize: const Size(164, 38),
-                                foregroundColor: const Color(0xff6c6f81),
-                                backgroundColor: const Color(0xff6c6f81),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
-                            ),
-                            onPressed: () {},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Remix.download_2_line, size: 16, color: Colors.white,),
-                                Container(
-                                  margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-                                  child: const Text("출자증서 다운로드",
-                                    style: TextStyle(
-                                        fontFamily: StringUtils.pretendard,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: -0.32,
-                                        color: Colors.white
-                                    ),
+                        child: FutureBuilder(
+                          future: getLpDocumentFileMetadata(widget.lp.id, LpDocumentType.loc),
+                          builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+                            if (snapshot.hasError || !snapshot.hasData) {
+                              StringUtils().printError(snapshot);
+                              return const Text("출자증서가 업로드되지 않았습니다.", style: WidgetUtils.dataTableDataStyle,);
+                            } else {
+                              return FilledButton(
+                                  style: FilledButton.styleFrom(
+                                      fixedSize: const Size(164, 38),
+                                      foregroundColor: const Color(0xff6c6f81),
+                                      backgroundColor: const Color(0xff6c6f81),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
                                   ),
-                                )
-                              ],
-                            )
+                                  onPressed: () async {
+                                    download(snapshot.data?.id ?? -1, "${widget.lp.userName}_${widget.lp.fundName}_출자증서");
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Remix.download_2_line, size: 16, color: Colors.white,),
+                                      Container(
+                                        margin: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                                        child: const Text("출자증서 다운로드",
+                                          style: TextStyle(
+                                              fontFamily: StringUtils.pretendard,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              letterSpacing: -0.32,
+                                              color: Colors.white
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                              );
+                            }
+                          },
                         ),
                       )
                     ],

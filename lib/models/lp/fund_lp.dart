@@ -1,9 +1,15 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:angelnet/models/file/file.dart';
+import 'package:angelnet/models/file/file_target.dart';
+import 'package:angelnet/models/lp/lp_document_type.dart';
 import 'package:angelnet/models/lp/lp_status.dart';
+import 'package:angelnet/utils/FileUtils.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/custom_alert_widget.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -17,8 +23,6 @@ class FundLp {
   final int cost;
   final int shares;
   final LpStatus status;
-  final String? locUrl;
-  final String? taxUrl;
   final DateTime? depositAt;
 
   const FundLp({
@@ -29,8 +33,6 @@ class FundLp {
     required this.cost,
     required this.shares,
     required this.status,
-    required this.locUrl,
-    required this.taxUrl,
     required this.depositAt
   });
 
@@ -43,8 +45,6 @@ class FundLp {
       cost: json['cost'],
       shares: json['shares'],
       status: LpStatus.fromEnglish(json['status']),
-      locUrl: json['locUrl'],
-      taxUrl: json['taxUrl'],
       depositAt: (json['depositAt'] == null)? null : DateTime(json['depositAt'][0], json['depositAt'][1], json['depositAt'][2], json['depositAt'][3], json['depositAt'][4], json['depositAt'][5])
     );
   }
@@ -57,18 +57,15 @@ class FundLp {
       DataCell(Text(phone)),
       DataCell(Text("${StringUtils().currencyFormat(cost)}원 ($shares좌)")),
       DataCell(status.toFundLpWidget()),
-      DataCell(locUrl == null?
-        WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
-          onPressed: () {  },
-          splashRadius: 4.0,
-          tooltip: "업로드",
-          icon: const Icon(Remix.upload_line, color: Color(0xff222222), size: 16,),
-        )) :
+      DataCell(
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                var file = await getLpDocumentFileMetadata(id, LpDocumentType.loc);
+                download(file.id, "${name}_출자증서");
+              },
               splashRadius: 4.0,
               tooltip: "다운로드",
               icon: const Icon(Remix.download_line, color: Color(0xff222222), size: 16,))
@@ -76,30 +73,34 @@ class FundLp {
             Container(
               margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
               child: WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    var pickedFile = await FileUtils().pickAnyFile();
+                    var lpDocumentId = await uploadLpDocument(id, LpDocumentType.loc);
+                    File file = File(
+                      id: -1,
+                      name: "${name}_출자증서.${pickedFile?.files.first.extension ?? ""}",
+                      targetId: lpDocumentId,
+                      targetType: FileTarget.lpDocument
+                    );
+                    upload(pickedFile?.files.first.bytes ?? Uint8List(0), file);
+                  },
                   splashRadius: 4.0,
-                  tooltip: "수정 (재업로드)",
-                  icon: const Icon(Remix.edit_2_line, color: Color(0xff222222), size: 14,))
+                  tooltip: "업로드 / 파일 수정",
+                  icon: const Icon(Remix.upload_line, color: Color(0xff222222), size: 14,))
               ),
             )
           ],
         )
       ),
       DataCell(
-        taxUrl == null?
-          WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
-            onPressed: () async {
-              await uploadLpDocument(id, "TAX");
-            },
-            splashRadius: 4.0,
-            tooltip: "업로드",
-            icon: const Icon(Remix.upload_line, color: Color(0xff222222), size: 16,),
-          )) :
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    var file = await getLpDocumentFileMetadata(id, LpDocumentType.loc);
+                    download(file.id, "${name}_소득공제");
+                  },
                   splashRadius: 4.0,
                   tooltip: "다운로드",
                   icon: const Icon(Remix.download_line, color: Color(0xff222222), size: 16,))
@@ -107,10 +108,20 @@ class FundLp {
               Container(
                 margin: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                 child: WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      var pickedFile = await FileUtils().pickAnyFile();
+                      var lpDocumentId = await uploadLpDocument(id, LpDocumentType.loc);
+                      File file = File(
+                          id: -1,
+                          name: "${name}_출자증서.${pickedFile?.files.first.extension ?? ""}",
+                          targetId: lpDocumentId,
+                          targetType: FileTarget.lpDocument
+                      );
+                      upload(pickedFile?.files.first.bytes ?? Uint8List(0), file);
+                    },
                     splashRadius: 4.0,
-                    tooltip: "수정 (재업로드)",
-                    icon: const Icon(Remix.edit_2_line, color: Color(0xff222222), size: 14,))
+                    tooltip: "업로드 / 파일 수정 (파일이 2개 이상일 경우 압축 파일로 올려 주세요)",
+                    icon: const Icon(Remix.upload_line, color: Color(0xff222222), size: 14,))
                 ),
               )
             ],
@@ -178,10 +189,10 @@ Future<DateTime> checkDeposit(int lpId) async {
   return DateTime(dateTimeList[0], dateTimeList[1], dateTimeList[2], dateTimeList[3], dateTimeList[4], dateTimeList[5]);
 }
 
-Future<int> uploadLpDocument(int lpId, String type) async {
+Future<int> uploadLpDocument(int lpId, LpDocumentType type) async {
   var response = await http.post(
     StringUtils().stringToUri("/lp/document"),
-    body: jsonEncode({"lpId": lpId, "type": type}),
+    body: jsonEncode({"lpId": lpId, "type": type.english}),
     headers: await StringUtils().header()
   );
 

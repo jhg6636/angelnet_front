@@ -14,6 +14,7 @@ import 'lp_status.dart';
 class LimitedPartner {
 
   final int id;
+  final String userName;
   final int cost;
   final int stockCount;
   final DateTime startAt;
@@ -25,6 +26,7 @@ class LimitedPartner {
   const LimitedPartner({
     required this.id,
     required this.cost,
+    required this.userName,
     required this.stockCount,
     required this.startAt,
     required this.fundName,
@@ -37,6 +39,7 @@ class LimitedPartner {
     return LimitedPartner(
         id: json['id'] as int,
         cost: json['cost'] as int,
+        userName: json['userName'],
         stockCount: json['stockCount'] as int,
         startAt: DateTime(json['startAt'][0], json['startAt'][1], json['startAt'][2]),
         fundName: json['fundName'],
