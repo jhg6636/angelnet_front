@@ -110,10 +110,10 @@ class FundLp {
                 child: WidgetUtils.circleButtonFrame(const Color(0xfff2f2f2), IconButton(
                     onPressed: () async {
                       var pickedFile = await FileUtils().pickAnyFile();
-                      var lpDocumentId = await uploadLpDocument(id, LpDocumentType.loc);
+                      var lpDocumentId = await uploadLpDocument(id, LpDocumentType.tax);
                       File file = File(
                           id: -1,
-                          name: "${name}_출자증서.${pickedFile?.files.first.extension ?? ""}",
+                          name: "${name}_소득공제.${pickedFile?.files.first.extension ?? ""}",
                           targetId: lpDocumentId,
                           targetType: FileTarget.lpDocument
                       );

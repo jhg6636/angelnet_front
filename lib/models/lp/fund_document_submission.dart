@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:angelnet/models/file/file_target.dart';
+import 'package:angelnet/models/fund/fund_document_type.dart';
 import 'package:angelnet/models/lp/fund_document_status.dart';
 import 'package:angelnet/screens/lp/document_submit_screen.dart';
 import 'package:angelnet/utils/ColorUtils.dart';
@@ -550,9 +551,9 @@ class FundDocumentSubmission {
 
 }
 
-Future<List<FundDocumentSubmission>> getMyDocuments() async {
+Future<List<FundDocumentSubmission>> getMyDocuments(FundDocumentType? type) async {
   var response = await http.get(
-    StringUtils().stringToUri("/my-document"),
+    StringUtils().stringToUri("/my-document", params: (type == null)? null : {"type": type.english}),
     headers: await StringUtils().header()
   );
 

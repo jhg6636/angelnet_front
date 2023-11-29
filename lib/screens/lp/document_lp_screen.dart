@@ -23,7 +23,7 @@ class LpDocumentScreenState extends State<LpDocumentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var myDocuments = getMyDocuments();
+    var myDocuments = getMyDocuments(null);
     return ScreenFrameV2(
       main: Container(
         padding: const EdgeInsets.symmetric(horizontal: 320),
