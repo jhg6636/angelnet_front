@@ -1,3 +1,6 @@
+import 'package:angelnet/screens/lp/document_lp_screen.dart';
+import 'package:get/get.dart';
+
 enum NotificationType {
 
   signUp(english: "SIGN_UP"),
@@ -50,9 +53,13 @@ enum NotificationType {
   }
 
   Function() getAction(Function()? setState) {
-    return () {
-      setState;
-    };
+    switch (this) {
+      case NotificationType.requestRemind:
+      case NotificationType.documentSubmissionRequest:
+        return () { Get.to(const LpDocumentScreen()); };
+      default:
+        return setState ?? () {};
+    }
   }
 
 }

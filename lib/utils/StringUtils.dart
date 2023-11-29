@@ -135,13 +135,15 @@ class StringUtils {
   }
 
   void printError(AsyncSnapshot<dynamic> snapshot) {
-    print('====');
-    print(snapshot.error);
-    print('----');
-    print(snapshot.stackTrace);
+    if (snapshot.hasError) {
+      print('====');
+      print(snapshot.error);
+      print('----');
+      print(snapshot.stackTrace);
+    }
   }
 
-  String apiListDataFormat(List<dynamic> list) {
+  static String apiListDataFormat(List<dynamic> list) {
     if (list.isEmpty) {
       return "";
     }

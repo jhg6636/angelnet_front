@@ -43,7 +43,7 @@ class Notification {
         children: [
           Container(
             // width: 1200,
-            margin: const EdgeInsets.fromLTRB(0, 0, 60, 0),
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -163,7 +163,6 @@ class Fund {
                         builder: (context) {
                           return CustomAlertWidget().deleteWidget(context, () async {
                             var response = await deleteFund(id);
-                            print(response.body);
                             Navigator.pop(context);
                             Get.to(const ManageFundScreen());
                             // todo setState 혹은 새로고침 버튼 만들어야 함
@@ -469,9 +468,6 @@ Future<List<Fund>> fetchMyFunds() async {
       headers: await StringUtils().header());
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
-
-  print(responseBody);
-
   var result = responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
   return result;
 }
@@ -483,7 +479,6 @@ Future<List<Fund>> fetchAllFunds() async {
   );
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
-  print(responseBody);
 
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }
@@ -495,9 +490,6 @@ Future<List<Fund>> searchFunds() async {
   );
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
-  print(response.statusCode);
-  // print(response.body);
-  print(responseBody);
 
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }
@@ -531,7 +523,6 @@ Future<http.Response> uncheckDeposit(int lpId) async {
 }
 
 Future<http.Response> makeFund(Fund fund) async {
-  print(fund.toPostRequest());
   return await http.post(
     StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
@@ -540,7 +531,6 @@ Future<http.Response> makeFund(Fund fund) async {
 }
 
 Future<http.Response> editFund(Fund fund) async {
-  print(fund.toPutRequest());
   return await http.put(
     StringUtils().stringToUri('admin/fund'),
     headers: await StringUtils().header(),
@@ -566,8 +556,6 @@ Future<Fund> getFundByLpId(int lpId) async {
     StringUtils().stringToUri('/fund', params: {"lpId": lpId.toString()}),
     headers: await StringUtils().header()
   );
-
-  print(response.body);
 
   return Fund.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 }

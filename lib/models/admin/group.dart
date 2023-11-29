@@ -116,13 +116,10 @@ Future<List<Group>> fetchAllGroups() async {
 
 
 Future<List<User>> fetchUsersInGroup(int groupId) async {
-  print(groupId);
   var response = await http.get(
       StringUtils().stringToUri("/admin/group/member", params: {"groupId": groupId.toString()}),
       headers: await StringUtils().header(),
   );
-
-  print(response.body);
 
   return jsonDecode(utf8.decode(response.bodyBytes))
       .map<User>((json) => User.fromJson(json)).toList();
@@ -138,7 +135,7 @@ Future<http.Response> addGroupMember(List<int> userIds, int groupId) async {
 
 Future<http.Response> deleteGroupMember(List<int> userIds, int groupId) async {
   return await http.delete(
-    StringUtils().stringToUri('admin/group/member', params: {'userIds': StringUtils().apiListDataFormat(userIds), 'groupId': groupId.toString()}),
+    StringUtils().stringToUri('admin/group/member', params: {'userIds': StringUtils.apiListDataFormat(userIds), 'groupId': groupId.toString()}),
     headers: await StringUtils().header(),
   );
 }
@@ -153,18 +150,33 @@ Future<http.Response> makeGroup(String name) async {
 
 Future<http.Response> deleteGroup(int groupId) async {
   return await http.delete(
-    StringUtils().stringToUri('admin/group', params: {'groupId': groupId}),
+    StringUtils().stringToUri('admin/group', params: {'groupId': groupId.toString()}),
     headers: await StringUtils().header(),
   );
 }
 
 Future<List<Fund>> fetchFundsInGroup(int groupId) async {
   var response = await http.get(
-    StringUtils().stringToUri('admin/group/fund', params: {'groupId': groupId}),
+    StringUtils().stringToUri('admin/group/fund', params: {'groupId': groupId.toString()}),
     headers: await StringUtils().header(),
   );
-  print('here');
-  print(response.body);
 
   return jsonDecode(utf8.decode(response.bodyBytes)).map<Fund>((json) => Fund.fromJson(json)).toList();
+}
+
+Future<http.Response> postFundsInGroup(int groupId, List<int> fundIds) async {
+  return await http.post(
+    StringUtils().stringToUri('admin/group/fund'),
+    body: jsonEncode({'groupId': groupId, 'fundIds': fundIds}),
+    headers: await StringUtils().header()
+  );
+}
+
+Future<http.Response> deleteFundsFromGroup(int groupId, List<int> fundIds) async {
+  var response = await http.delete(
+    StringUtils().stringToUri('admin/group/fund', params: {'groupId': groupId.toString(), 'fundIds': StringUtils.apiListDataFormat(fundIds)}),
+    headers: await StringUtils().header()
+  );
+  print(response.body);
+  return response;
 }

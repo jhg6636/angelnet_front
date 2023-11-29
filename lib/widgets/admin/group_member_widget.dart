@@ -40,7 +40,6 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
   @override
   Widget build(BuildContext context) {
     var members = fetchUsersInGroup(widget.group.id);
-    print(selectedUserIds);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +258,6 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
                   )
                 );
               } else {
-                print(selectedUserIds);
                 return groupMemberTable(members.indexed.map((e) => toGroupMemberDataRow(
                     context, members.length - e.$1, e.$2
                 )).toList());
@@ -274,7 +272,6 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
             "저장",
             () {
               setState(() {
-                print(selectedUserIds);
                 isEditing = false;
               });
             },
@@ -295,7 +292,6 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
 
               await addGroupMember(addingUsers, widget.group.id);
               var deleteResponse = await deleteGroupMember(removingUsers, widget.group.id); // todo delete 버그 있는듯?
-              print(deleteResponse.body);
 
               setState(() {
                 // print(selectedUserIds);

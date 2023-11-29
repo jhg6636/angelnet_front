@@ -158,7 +158,7 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
                 setState(() {
                   isAdding = true;
                 });
-              }, // todo 그룹 생성 팝업
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -224,7 +224,12 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
                   }
                 }
 
-                // todo post & delete api
+                var response1 = await postFundsInGroup(widget.group.id, addingFunds);
+                var response2 = await deleteFundsFromGroup(widget.group.id, removingFunds);
+
+                print('--responses--');
+                print(response1.body);
+                print(response2.body);
 
                 setState(() {
                   print("-----addingFunds-----");
@@ -242,15 +247,18 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
 
   DataRow toGroupFundDataRow(int index, Fund fund) {
     return DataRow(
+        color: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+          return Colors.white;
+        }),
         selected: selectedFundIds.contains(fund.id),
         onSelectChanged: (selected) {
           setState(() {
             if (selected == true) {
               if (!selectedFundIds.contains(fund.id)) {
                 selectedFundIds.add(fund.id);
-              } else {
-                selectedFundIds.remove(fund.id);
               }
+            } else {
+              selectedFundIds.remove(fund.id);
             }
           });
         },

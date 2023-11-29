@@ -84,6 +84,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: snapshot.data!.map((noti) =>
                             noti.toWidget(() {
+                              noti.type.getAction(() => null);
                               setState(() async {
                                 var response = await notification.checkNotification(noti.id);
                                 print("notification/check");
