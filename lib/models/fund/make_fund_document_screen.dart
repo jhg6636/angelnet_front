@@ -192,7 +192,6 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                             shape: const RoundedRectangleBorder()
                           ),
                           onPressed: () async {
-                            // todo File Picker
                             var filePickResult = await FileUtils().pickAnyFile();
                             setState(() {
                               selectedFile = filePickResult?.files.firstOrNull;
@@ -219,7 +218,6 @@ class MakeFundDocumentScreenState extends State<MakeFundDocumentScreen> {
                       child: WidgetUtils().buttonBar("취소", "저장", () {
                           Get.back();
                         }, () async {
-                          // todo post api
                           if (selectedFile == null) {
                             setState(() {
                               saveClicked = true;

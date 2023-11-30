@@ -386,6 +386,38 @@ class Fund {
                   child: Row(
                     children: [
                       const Text(
+                        "투자종목",
+                        style: TextStyle(
+                          fontFamily: StringUtils.pretendard,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          letterSpacing: -0.15,
+                          color: Color(0xff333333),
+                        ),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: const Text(
+                            "|",
+                            style: TextStyle(
+                                fontSize: 12, color: Color(0xffdddddd)),
+                          )),
+                      Text(
+                        startupName,
+                        style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: StringUtils.pretendard,
+                            letterSpacing: -0.15,
+                            color: Color(0xff757575)),
+                      ),
+                    ],
+                  )),
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                  child: Row(
+                    children: [
+                      const Text(
                         "주요제품",
                         style: TextStyle(
                           fontFamily: StringUtils.pretendard,
@@ -483,7 +515,7 @@ Future<List<Fund>> fetchAllFunds() async {
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }
 
-Future<List<Fund>> searchFunds() async {
+Future<List<Fund>> fetchAllVisibleFunds() async {
   var response = await http.get(
     StringUtils().stringToUri('/lp/fund'),
     headers: await StringUtils().header(),

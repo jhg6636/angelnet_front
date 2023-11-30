@@ -117,7 +117,6 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                                   width: 12,
                                 ),
                                 CupertinoSwitch(
-                                  // todo 사이즈 조절
                                   value: showOnPortfolio,
                                   onChanged: (value) {
                                     setState(() {

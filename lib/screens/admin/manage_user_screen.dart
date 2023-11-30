@@ -317,7 +317,6 @@ class ManageUserScreenState extends State<ManageUserScreen> {
 
 }
 
-// todo lastLogin 필요, 멤버 상세 페이지 연결 필요
 DataTable adminUserTable(List<User> users, BuildContext context) {
   return DataTable(
       headingTextStyle: const TextStyle(

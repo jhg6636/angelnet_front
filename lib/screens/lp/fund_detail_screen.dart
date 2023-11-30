@@ -89,8 +89,7 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                                   const EdgeInsets.symmetric(horizontal: 17),
                               height: 37,
                               decoration: BoxDecoration(
-                                  color: const Color(0xff1badfb),
-                                  // todo status별로 색깔
+                                  color: widget.fund.status.bigWidgetColor,
                                   borderRadius: BorderRadius.circular(19)),
                               child: Text(
                                 widget.fund.status.fullName,
@@ -635,23 +634,23 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                 ),
               if (selectedMenu == '기본정보')
                 const Divider(color: Color(0xffdddddd)),
-              if (selectedMenu == '기본정보')
-                Container(
-                  padding: const EdgeInsets.fromLTRB(19, 9, 0, 9),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 156,
-                        child: Text("발행가격(인수가격)", style: headColumnTextStyle),
-                      ),
-                      Text(
-                        "주당 0원", // todo 주당 가격 입력 가능하게
-                        style: columnTextStyle,
-                      )
-                    ],
-                  ),
-                ),
+              // if (selectedMenu == '기본정보')
+              //   Container(
+              //     padding: const EdgeInsets.fromLTRB(19, 9, 0, 9),
+              //     child: const Row(
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       children: [
+              //         SizedBox(
+              //           width: 156,
+              //           child: Text("발행가격(인수가격)", style: headColumnTextStyle),
+              //         ),
+              //         Text(
+              //           "주당 0원", // todo 주당 가격 입력 가능하게
+              //           style: columnTextStyle,
+              //         )
+              //       ],
+              //     ),
+              //   ),
               if (selectedMenu == '기본정보')
                 const Divider(color: Color(0xffdddddd)),
               if (selectedMenu == '기본정보')
@@ -918,7 +917,6 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                     ],
                   ),
                 ),
-              // if (selectedMenu == '회사소개') todo IR자료, 고유번호증 등 회사소개 자료 업로드 공간
               if (selectedMenu == '공지사항')
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 17, 0, 0),

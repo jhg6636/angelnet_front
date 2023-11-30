@@ -8,6 +8,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 
 class JoinFundScreen extends StatefulWidget {
@@ -49,6 +50,7 @@ class JoinFundScreenState extends State<JoinFundScreen> {
   @override
   Widget build(BuildContext context) {
     stockCountsController.text = stockCounts.toString();
+    stockCountsController.selection = TextSelection.collapsed(offset: stockCounts.toString().length);
     return ScreenFrameV2(
       main: Container(
         padding: const EdgeInsets.symmetric(horizontal: 320),
@@ -263,7 +265,17 @@ class JoinFundScreenState extends State<JoinFundScreen> {
                                         // print(stockCountsController.text);
                                         stockCounts = int.parse(value);
                                         // stockCounts = int.parse(stockCountsController.text);
-                                        if (stockCounts < widget.fund.minimumShare) {
+                                        if (stockCounts < widget.fund.minimumShare || value.isEmpty) {
+                                          stockCounts = widget.fund.minimumShare;
+                                        }
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (stockCounts >= widget.fund.minimumShare) {
+                                          stockCounts = int.parse(value);
+                                        }
+                                        if (value.isEmpty) {
                                           stockCounts = widget.fund.minimumShare;
                                         }
                                       });

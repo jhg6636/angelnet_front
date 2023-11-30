@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:angelnet/models/file/file.dart';
+import 'package:angelnet/models/file/file_target.dart';
 import 'package:angelnet/models/fund/fund_document_type.dart';
 import 'package:angelnet/utils/ColorUtils.dart';
+import 'package:angelnet/utils/FileUtils.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:angelnet/widgets/core/custom_alert_widget.dart';
@@ -102,8 +105,9 @@ class FundDocument {
                 alignment: Alignment.center,
                 splashRadius: 18,
                 tooltip: "양식 다운로드",
-                onPressed: () {
-                  // todo 양식 다운로드 api
+                onPressed: () async {
+                  var file = await getTemplateFileMetadata(id);
+                  download(file.id, title);
                 },
                 icon: const Icon(
                   Remix.download_line,
@@ -126,8 +130,9 @@ class FundDocument {
                 alignment: Alignment.center,
                 splashRadius: 18,
                 tooltip: "양식 업로드",
-                onPressed: () {
+                onPressed: () async {
                   // todo 양식 업로드 api
+
                 },
                 icon: const Icon(
                   Remix.upload_line,
@@ -224,7 +229,8 @@ class FundDocument {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
                     ),
                     onPressed: () async {
-                      // todo download
+                      var file = await getRecentFileMetadata(id, FileTarget.fundDocument);
+                      download(file.id, title);
                     },
                     child: const Text(
                       "다운로드",

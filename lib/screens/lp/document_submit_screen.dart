@@ -244,7 +244,6 @@ class DocumentSubmitScreenState extends State<DocumentSubmitScreen> {
                               targetId: int.parse(submissionResponse.body),
                             ),
                           );
-                          // todo upload API
                           Get.to(const LpDocumentScreen());
                         }, align: MainAxisAlignment.end)
                       ],

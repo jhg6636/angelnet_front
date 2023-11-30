@@ -60,7 +60,6 @@ class ManageBulletinScreenState extends State<ManageBulletinScreen> {
                               ),
                             ),
                             ButtonBar(
-                              // todo ButtonBar 추상화
                               children: [
                                 TextButton(
                                   onPressed: () {

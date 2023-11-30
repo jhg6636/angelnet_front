@@ -1,3 +1,4 @@
+import 'package:angelnet/models/fund/fund_status.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
@@ -21,7 +22,7 @@ class FundingFundScreenState extends State<FundingFundScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Fund>> funds = searchFunds();
+    Future<List<Fund>> funds = fetchAllVisibleFunds();
     return ScreenFrameV2(
       main: Container(
         padding: const EdgeInsets.symmetric(horizontal: 320),
@@ -435,39 +436,6 @@ class FundingFundScreenState extends State<FundingFundScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Container(
-                        //   margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                        //   child: const Text("페이지",
-                        //     style: TextStyle(
-                        //       fontWeight: FontWeight.w400,
-                        //       fontSize: 16,
-                        //       fontFamily: StringUtils.pretendard,
-                        //       letterSpacing: -0.16,
-                        //       color: Color(0xff333333),
-                        //     ),
-                        //   ),
-                        // ),
-                        // const Text("1",
-                        //   style: TextStyle(
-                        //     fontFamily: StringUtils.pretendard,
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.bold,
-                        //     letterSpacing: -0.16,
-                        //     color: Color(0xff333333),
-                        //   ),
-                        // ),
-                        // Container(
-                        //   margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        //   child: const Text("/6",
-                        //     style: TextStyle(
-                        //       fontWeight: FontWeight.w400,
-                        //       fontSize: 16,
-                        //       fontFamily: StringUtils.pretendard,
-                        //       letterSpacing: -0.16,
-                        //       color: Color(0xff333333),
-                        //     ),
-                        //   )
-                        // ),
                         const Text("총 ",
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
@@ -501,7 +469,10 @@ class FundingFundScreenState extends State<FundingFundScreen> {
                                 ),
                               );
                             } else {
-                              return Text((snapshot.data?.length ?? 0).toString(),
+                              return Text(
+                                (snapshot.data?.where((fund) =>
+                                  fund.status == FundStatus.reviewing || fund.status == FundStatus.accepting
+                                ).length ?? 0).toString(),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -525,81 +496,81 @@ class FundingFundScreenState extends State<FundingFundScreen> {
                       ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        color: const Color(0xfff2f2f2),
-                        height: 42,
-                        margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: DropdownButtonHideUnderline(child: DropdownButton<String>(
-                          padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            fontFamily: StringUtils.pretendard,
-                            letterSpacing: -0.16,
-                            color: Color(0xff333333),
-                          ),
-                          value: selectedSearchOption,
-                          items: searchOptions
-                              .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(value: value, child: Text(value)))
-                              .toList(),
-                          onChanged: (String? value) => setState(() {
-                            selectedSearchOption = value ?? "전체";
-                          }),
-                        ))
-                      ),
-                      Container(
-                        width: 320,
-                        height: 42,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2),
-                          color: const Color(0xfff2f2f2),
-                        ),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              flex: 29,
-                              child: TextField(
-                                controller: searchTextController,
-                                textAlignVertical: TextAlignVertical.bottom,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                                  hintText: "검색어를 입력하세요",
-                                  hintStyle: TextStyle(
-                                    fontFamily: StringUtils.pretendard,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff757575),
-                                    letterSpacing: -0.16
-                                  )
-                                ),
-                              )
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  margin: const EdgeInsets.fromLTRB(0, 0, 9.69, 0),
-                                  width: 20.31,
-                                  height: 20.31,
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage('lib/assets/images/search_icon.png'),
-                                        fit: BoxFit.fill,
-                                      )
-                                  ),
-                                ),
-                              )
-                            )
-                          ],
-                        )
-                      )
-                    ],
-                  )
+                  // Row(
+                  //   children: [
+                  //     Container(
+                  //       color: const Color(0xfff2f2f2),
+                  //       height: 42,
+                  //       margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  //       child: DropdownButtonHideUnderline(child: DropdownButton<String>(
+                  //         padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                  //         style: const TextStyle(
+                  //           fontWeight: FontWeight.w400,
+                  //           fontSize: 16,
+                  //           fontFamily: StringUtils.pretendard,
+                  //           letterSpacing: -0.16,
+                  //           color: Color(0xff333333),
+                  //         ),
+                  //         value: selectedSearchOption,
+                  //         items: searchOptions
+                  //             .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(value: value, child: Text(value)))
+                  //             .toList(),
+                  //         onChanged: (String? value) => setState(() {
+                  //           selectedSearchOption = value ?? "전체";
+                  //         }),
+                  //       ))
+                  //     ),
+                  //     // Container(
+                  //     //   width: 320,
+                  //     //   height: 42,
+                  //     //   decoration: BoxDecoration(
+                  //     //     borderRadius: BorderRadius.circular(2),
+                  //     //     color: const Color(0xfff2f2f2),
+                  //     //   ),
+                  //     //   child: Row(
+                  //     //     children: [
+                  //     //       Flexible(
+                  //     //         flex: 29,
+                  //     //         child: TextField(
+                  //     //           controller: searchTextController,
+                  //     //           textAlignVertical: TextAlignVertical.bottom,
+                  //     //           decoration: const InputDecoration(
+                  //     //             border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                  //     //             enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                  //     //             focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                  //     //             hintText: "검색어를 입력하세요",
+                  //     //             hintStyle: TextStyle(
+                  //     //               fontFamily: StringUtils.pretendard,
+                  //     //               fontSize: 16,
+                  //     //               fontWeight: FontWeight.w400,
+                  //     //               color: Color(0xff757575),
+                  //     //               letterSpacing: -0.16
+                  //     //             )
+                  //     //           ),
+                  //     //         )
+                  //     //       ),
+                  //     //       Flexible(
+                  //     //         flex: 3,
+                  //     //         child: InkWell(
+                  //     //           onTap: () {},
+                  //     //           child: Container(
+                  //     //             margin: const EdgeInsets.fromLTRB(0, 0, 9.69, 0),
+                  //     //             width: 20.31,
+                  //     //             height: 20.31,
+                  //     //             decoration: const BoxDecoration(
+                  //     //                 image: DecorationImage(
+                  //     //                   image: AssetImage('lib/assets/images/search_icon.png'),
+                  //     //                   fit: BoxFit.fill,
+                  //     //                 )
+                  //     //             ),
+                  //     //           ),
+                  //     //         )
+                  //     //       )
+                  //     //     ],
+                  //     //   )
+                  //     // )
+                  //   ],
+                  // )
                 ],
               ),
             ),
@@ -625,22 +596,17 @@ class FundingFundScreenState extends State<FundingFundScreen> {
                 } else {
                   var containers = <Widget>[];
                   for (var fund in snapshot.data!) {
-                    containers.add(fund.fundingFundContainer());
-                    containers.add(
-                      const Divider(color: Color(0xffe6e6e6),),
-                    );
+                    if (fund.status == FundStatus.reviewing || fund.status == FundStatus.accepting) {
+                      containers.add(fund.fundingFundContainer());
+                      containers.add(
+                        const Divider(color: Color(0xffe6e6e6),),
+                      );
+                    }
                   }
                   return Column(children: containers);
                 }
               }
             ),
-            // Align(
-            //   alignment: Alignment.center,
-            //   child: Container(
-            //     margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-            //     child: pagination(54),
-            //   )
-            // )
           ],
         ),
       ),

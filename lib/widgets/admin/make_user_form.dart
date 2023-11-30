@@ -31,8 +31,6 @@ class MakeUserForm extends StatefulWidget {
 
 class MakeUserFormState extends State<MakeUserForm> {
 
-  // TODO: 주소, 근무처, 명함첨부
-
   TextEditingController _nameController = TextEditingController();
   TextEditingController _stringIdController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -591,7 +589,6 @@ class MakeUserFormState extends State<MakeUserForm> {
                     ),
                   ),
                 ),
-                // todo 드롭다운메뉴
               ],
             ),
             const Divider(color: Color(0xffdddddd),),

@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:angelnet/models/file/file_target.dart';
 import 'package:angelnet/models/fund/fund_document_type.dart';
 import 'package:angelnet/models/lp/fund_document_status.dart';
 import 'package:angelnet/screens/lp/document_submit_screen.dart';
 import 'package:angelnet/utils/ColorUtils.dart';
+import 'package:angelnet/utils/FileUtils.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class FundDocumentSubmission {
 
   final int? id;
   final int documentId;
+  final int lpId;
   final String userName;
   final String fundName;
   final String documentTitle;
@@ -29,6 +32,7 @@ class FundDocumentSubmission {
   const FundDocumentSubmission({
     required this.id,
     required this.documentId,
+    required this.lpId,
     required this.userName,
     required this.fundName,
     required this.documentTitle,
@@ -418,7 +422,6 @@ class FundDocumentSubmission {
 
   Widget toJoinedFundLpContainer() {
     return Container(
-        margin: const EdgeInsets.fromLTRB(0, 3, 0, 0),
         padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -461,7 +464,8 @@ class FundDocumentSubmission {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
                   ),
                   onPressed: () async {
-                    // todo 양식 파일 다운로드 api
+                    var file = await getTemplateFileMetadata(documentId);
+                    download(file.id, documentTitle);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -510,7 +514,17 @@ class FundDocumentSubmission {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))
                     ),
                     onPressed: () async {
-                      // todo file pick
+                      var pickedFile = await FileUtils().pickAnyFile();
+                      var response = await submit(documentId);
+                      upload(
+                        pickedFile?.files.first.bytes ?? Uint8List(0),
+                        File(
+                          id: -1,
+                          name: "${userName}_제출_$documentTitle.${pickedFile?.files.first.extension ?? ""}",
+                          targetId: int.parse(response.body),
+                          targetType: FileTarget.fundDocumentSubmission
+                        )
+                      );
                     },
                     child: Text(
                       status == FundDocumentStatus.notSubmitted? "파일찾기" : "파일변경",
@@ -538,6 +552,7 @@ class FundDocumentSubmission {
     return FundDocumentSubmission(
       id: json['id'],
       documentId: json['documentId'],
+      lpId: json['lpId'],
       userName: json['userName'],
       fundName: json['fundName'],
       documentTitle: json['documentTitle'],

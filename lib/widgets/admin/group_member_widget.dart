@@ -291,7 +291,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
               }
 
               await addGroupMember(addingUsers, widget.group.id);
-              var deleteResponse = await deleteGroupMember(removingUsers, widget.group.id); // todo delete 버그 있는듯?
+              var deleteResponse = await deleteGroupMember(removingUsers, widget.group.id);
 
               setState(() {
                 // print(selectedUserIds);

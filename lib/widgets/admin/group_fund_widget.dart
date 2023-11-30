@@ -186,7 +186,7 @@ class GroupFundWidgetState extends State<GroupFundWidget> {
           width: 1280,
           margin: const EdgeInsets.fromLTRB(0, 16, 0, 31),
           child: FutureBuilder(
-              future: (isAdding)? searchFunds() : fetchFundsInGroup(widget.group.id),
+              future: (isAdding)? fetchFunds() : fetchFundsInGroup(widget.group.id),
               builder: (BuildContext context, AsyncSnapshot<List<Fund>> snapshot) {
                 if (snapshot.hasError || !snapshot.hasData) {
                   StringUtils().printError(snapshot);
