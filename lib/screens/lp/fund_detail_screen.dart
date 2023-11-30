@@ -626,7 +626,7 @@ class FundDetailScreenState extends State<FundDetailScreen> {
                         child: Text("투자밸류", style: headColumnTextStyle),
                       ),
                       Text(
-                        StringUtils().currencyFormat(widget.fund.value), // todo PRE, POST 지정하게
+                        "${widget.fund.valueType} ${StringUtils().currencyFormat(widget.fund.value)}원",
                         style: columnTextStyle,
                       )
                     ],
@@ -651,8 +651,8 @@ class FundDetailScreenState extends State<FundDetailScreen> {
               //       ],
               //     ),
               //   ),
-              if (selectedMenu == '기본정보')
-                const Divider(color: Color(0xffdddddd)),
+              // if (selectedMenu == '기본정보')
+              //   const Divider(color: Color(0xffdddddd)),
               if (selectedMenu == '기본정보')
                 Container(
                   padding: const EdgeInsets.fromLTRB(19, 9, 0, 9),

@@ -36,6 +36,7 @@ class Fund {
   FundStatus status;
   DateTime payAt;
   int value;
+  String valueType;
   String? recommender;
   String? groupName;
   String? memo;
@@ -67,6 +68,7 @@ class Fund {
     required this.status,
     required this.payAt,
     required this.value,
+    required this.valueType,
     required this.recommender,
     required this.groupName,
     required this.memo,
@@ -101,6 +103,7 @@ class Fund {
       minimumShare: json['minimumShare'] as int,
       totalShare: json['totalShare'] as int,
       value: json['value'] as int,
+      valueType: json['valueType'],
       recommender: json['recommender'] as String?,
       groupName: json['groupName'] as String?,
       memo: json['memo'] as String?,
@@ -239,6 +242,7 @@ class Fund {
       'startAt': DateFormat('yyyy-MM-dd').format(startAt),
       'payAt': DateFormat('yyyy-MM-dd').format(payAt),
       'value': value,
+      'valueType': valueType,
       'recommender': recommender,
       'groupName': groupName,
       'memo': memo,
@@ -262,6 +266,7 @@ class Fund {
       'startAt': DateFormat('yyyy-MM-dd').format(startAt),
       'payAt': DateFormat('yyyy-MM-dd').format(payAt),
       'value': value,
+      'valueType': valueType,
       'recommender': recommender,
       'groupName': groupName,
       'memo': memo,

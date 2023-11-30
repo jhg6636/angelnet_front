@@ -51,7 +51,7 @@ class FundFormWidgetState extends State<FundFormWidget> {
       color: Color(0xff555555));
 
   final valueTypes = ["PRE", "POST"];
-  var selectedValueType = "PRE";
+  var selectedValueType = 'PRE';
   final fundTypeList = FundType.values.map((value) => value.korean);
   late var selectedFundType = widget.fund?.type.korean ?? fundTypeList.first;
   final fundNameController = TextEditingController();
@@ -91,7 +91,7 @@ class FundFormWidgetState extends State<FundFormWidget> {
           .format(widget.fund?.startAt ?? DateTime.now());
       payDateController.text =
           DateFormat("yyyy-MM-dd").format(widget.fund?.payAt ?? DateTime.now());
-
+      selectedValueType = widget.fund!.valueType;
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -653,99 +653,6 @@ class FundFormWidgetState extends State<FundFormWidget> {
                 ),
               ),
             ),
-        //     Container(
-        //       width: 800,
-        //       margin: const EdgeInsets.fromLTRB(94, 0, 4, 0),
-        //       padding: const EdgeInsets.fromLTRB(16, 8, 16, 10),
-        //       decoration: BoxDecoration(
-        //           border: Border.all(color: const Color(0xffdddddd)),
-        //           borderRadius: BorderRadius.circular(2)),
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.start,
-        //         crossAxisAlignment: CrossAxisAlignment.end,
-        //         children: [
-        //           Container(
-        //             width: 24,
-        //             height: 20,
-        //             margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-        //             decoration: const BoxDecoration(
-        //                 image: DecorationImage(
-        //                     image: AssetImage('lib/assets/images/img.png'),
-        //                     fit: BoxFit.fill)),
-        //           ),
-        //           Container(
-        //             margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-        //             child: const Text(
-        //               "홈페이지 이용과 관련하여 필수적인 공지사항.png",
-        //               style: TextStyle(
-        //                 fontFamily: StringUtils.pretendard,
-        //                 fontWeight: FontWeight.w400,
-        //                 fontSize: 16,
-        //                 letterSpacing: -0.16,
-        //                 color: Color(0xff333333),
-        //               ),
-        //             ),
-        //           ),
-        //           const Text(
-        //             "(123.4KB)",
-        //             style: TextStyle(
-        //                 fontSize: 14,
-        //                 fontWeight: FontWeight.w400,
-        //                 fontFamily: StringUtils.pretendard,
-        //                 letterSpacing: -0.14,
-        //                 color: Color(0xff999999)),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //     FilledButton(
-        //         style: FilledButton.styleFrom(
-        //             backgroundColor: const Color(0xff6c6f81),
-        //             foregroundColor: const Color(0xff6c6f81),
-        //             shape: RoundedRectangleBorder(
-        //                 borderRadius: BorderRadius.circular(2)),
-        //             fixedSize: const Size(90, 38)),
-        //         onPressed: () {},
-        //         child: const Text(
-        //           "파일찾기",
-        //           style: TextStyle(
-        //               fontFamily: StringUtils.pretendard,
-        //               fontWeight: FontWeight.w500,
-        //               fontSize: 16,
-        //               letterSpacing: -0.32,
-        //               color: Colors.white),
-        //         )),
-        //     InkWell(
-        //       onTap: () {},
-        //       child: Container(
-        //         width: 38,
-        //         height: 38,
-        //         margin: const EdgeInsets.fromLTRB(4, 0, 1, 0),
-        //         decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(2),
-        //             border: Border.all(color: const Color(0xffcccccc))),
-        //         child: const Icon(
-        //           Remix.add_line,
-        //           color: Color(0xff555555),
-        //           size: 18,
-        //         ),
-        //       ),
-        //     ),
-        //     InkWell(
-        //       onTap: () {},
-        //       child: Container(
-        //         width: 38,
-        //         height: 38,
-        //         decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(2),
-        //             border: Border.all(color: const Color(0xffcccccc))),
-        //         child: const Icon(
-        //           Remix.subtract_line,
-        //           color: Color(0xff555555),
-        //           size: 18,
-        //         ),
-        //       ),
-        //     )
           ],
         ),
         const Divider(
@@ -786,87 +693,6 @@ class FundFormWidgetState extends State<FundFormWidget> {
             ),
           ],
         ),
-        // Container(
-        //   margin: const EdgeInsets.fromLTRB(0, 41, 0, 8),
-        //   child: const Text(
-        //     "회사소개서",
-        //     style: WidgetUtils.h1Style,
-        //   ),
-        // ),
-        // const Divider(
-        //   color: Color(0xff555555),
-        //   thickness: 2,
-        // ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: [
-        //     Container(
-        //       margin: const EdgeInsets.fromLTRB(19, 0, 0, 0),
-        //       child: const Text(
-        //         "회사소개서",
-        //         style: headingTextStyle,
-        //       ),
-        //     ),
-        //     Container(
-        //       width: 800,
-        //       height: 38,
-        //       margin: const EdgeInsets.fromLTRB(83, 0, 4, 0),
-        //       padding: const EdgeInsets.fromLTRB(16, 8, 16, 10),
-        //       decoration: BoxDecoration(
-        //           border: Border.all(color: const Color(0xffdddddd)),
-        //           borderRadius: BorderRadius.circular(2)),
-        //     ),
-        //     FilledButton(
-        //         style: FilledButton.styleFrom(
-        //             backgroundColor: const Color(0xff6c6f81),
-        //             foregroundColor: const Color(0xff6c6f81),
-        //             shape: RoundedRectangleBorder(
-        //                 borderRadius: BorderRadius.circular(2)),
-        //             fixedSize: const Size(90, 38)),
-        //         onPressed: () {},
-        //         child: const Text(
-        //           "파일찾기",
-        //           style: TextStyle(
-        //               fontFamily: StringUtils.pretendard,
-        //               fontWeight: FontWeight.w500,
-        //               fontSize: 16,
-        //               letterSpacing: -0.32,
-        //               color: Colors.white),
-        //         )),
-        //     InkWell(
-        //       onTap: () {},
-        //       child: Container(
-        //         width: 38,
-        //         height: 38,
-        //         margin: const EdgeInsets.fromLTRB(4, 0, 1, 0),
-        //         decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(2),
-        //             border: Border.all(color: const Color(0xffcccccc))),
-        //         child: const Icon(
-        //           Remix.add_line,
-        //           color: Color(0xff555555),
-        //           size: 18,
-        //         ),
-        //       ),
-        //     ),
-        //     InkWell(
-        //       onTap: () {},
-        //       child: Container(
-        //         width: 38,
-        //         height: 38,
-        //         decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(2),
-        //             border: Border.all(color: const Color(0xffcccccc))),
-        //         child: const Icon(
-        //           Remix.subtract_line,
-        //           color: Color(0xff555555),
-        //           size: 18,
-        //         ),
-        //       ),
-        //     )
-        //   ],
-        // ),
         const Divider(
           color: Color(0xffdddddd),
         ),
@@ -1000,6 +826,7 @@ class FundFormWidgetState extends State<FundFormWidget> {
                         payAt: DateTime.parse(payDateController.text),
                         value: StringUtils()
                             .fromCurrencyFormat(valueController.text),
+                        valueType: selectedValueType,
                         recommender: null,
                         groupName: null,
                         memo: memoController.text,
@@ -1050,6 +877,7 @@ class FundFormWidgetState extends State<FundFormWidget> {
                         payAt: DateTime.parse(payDateController.text),
                         value: StringUtils()
                             .fromCurrencyFormat(valueController.text),
+                        valueType: selectedValueType,
                         recommender: null,
                         groupName: null,
                         memo: memoController.text,
