@@ -516,6 +516,7 @@ Future<List<Fund>> fetchAllFunds() async {
   );
 
   var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+  print(response.body);
 
   return responseBody.map<Fund>((json) => Fund.fromJson(json)).toList();
 }

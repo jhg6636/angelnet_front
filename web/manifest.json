@@ -1,11 +1,11 @@
 {
-  "name": "backoffice_front",
-  "short_name": "backoffice_front",
+  "name": "angelnet_front",
+  "short_name": "angelnet_front",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#0175C2",
   "theme_color": "#0175C2",
-  "description": "reventures backoffice frontend project",
+  "description": "angelnet frontend project",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
   "icons": [

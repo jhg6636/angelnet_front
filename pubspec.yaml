@@ -63,6 +63,7 @@ dependencies:
   dotted_line: ^3.2.2
   html_editor_enhanced: ^2.5.0
   dio: ^4.0.0
+  reorderables: ^0.6.0
 
 dev_dependencies:
   flutter_test:

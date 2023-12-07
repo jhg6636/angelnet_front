@@ -18,7 +18,7 @@
 
     <meta charset="UTF-8">
     <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-    <meta content="reventures backoffice frontend project" name="description">
+    <meta content="reventures angelnet frontend project" name="description">
 
     <!-- iOS meta tags & icons -->
     <meta content="yes" name="apple-mobile-web-app-capable">
@@ -57,7 +57,7 @@
                 serviceWorkerVersion: serviceWorkerVersion,
             },
             onEntrypointLoaded: function (engineInitializer) {
-                engineInitializer.initializeEngine().then(function (appRunner) {
+                engineInitializer.initializeEngine({ renderer: "html" }).then(function (appRunner) {
                     appRunner.runApp();
                 });
             }

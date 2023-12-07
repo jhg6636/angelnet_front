@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:angelnet/models/common/user_level.dart';
+import 'package:angelnet/models/common/user_type.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/widgets/admin/make_user_form.dart';
 import 'package:angelnet/widgets/core/custom_alert_widget.dart';
@@ -19,7 +19,7 @@ class User {
   int id;
   String stringId;
   String name;
-  UserLevel userLevel;
+  UserType userLevel;
   String? workplace;
   String phone;
   String email;
@@ -45,7 +45,7 @@ class User {
       id: json['id'],
       stringId: json['stringId'],
       name: json['name'],
-      userLevel: UserLevel.fromEnglish(json['level']),
+      userLevel: UserType.fromEnglish(json['level']),
       workplace: json['workplace'],
       phone: json['phone'],
       email: json['email'],
@@ -67,7 +67,7 @@ class User {
       id: json['id'],
       stringId: json['stringId'],
       name: json['name'],
-      userLevel: UserLevel.fromEnglish(json['level']),
+      userLevel: UserType.fromEnglish(json['level']),
       workplace: json['workplace'],
       phone: json['phone'],
       email: json['email'],
@@ -362,7 +362,7 @@ Future<http.Response> editUserApi(
   String email,
   String recommender,
   String workplace,
-  UserLevel userLevel,
+  UserType userLevel,
 ) async {
   var body = jsonEncode({
     'stringId': stringId,

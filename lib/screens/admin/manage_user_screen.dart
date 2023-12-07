@@ -1,4 +1,5 @@
 import 'package:angelnet/screens/screen_frame_v2.dart';
+import 'package:angelnet/screens/user/edit_user_level_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
@@ -207,40 +208,42 @@ class ManageUserScreenState extends State<ManageUserScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // Container(
-                    //   width: 128,
-                    //   margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    //   child: OutlinedButton(
-                    //     style: OutlinedButton.styleFrom(
-                    //       shape: RoundedRectangleBorder(
-                    //         side: const BorderSide(color: Color(0xffcccccc)),
-                    //         borderRadius: BorderRadius.circular(50)
-                    //       )
-                    //     ),
-                    //     onPressed: () {},
-                    //     child: Container(
-                    //       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    //       child: Row(
-                    //         crossAxisAlignment: CrossAxisAlignment.center,
-                    //         children: [
-                    //           Container(
-                    //             margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                    //             child: const Icon(Remix.download_line, size: 16, color: Color(0xff333333),),
-                    //           ),
-                    //           const Text("엑셀 다운로드",
-                    //             style: TextStyle(
-                    //               fontFamily: StringUtils.pretendard,
-                    //               fontWeight: FontWeight.w500,
-                    //               fontSize: 14,
-                    //               letterSpacing: -0.14,
-                    //               color: Color(0xff333333)
-                    //             ),
-                    //           )
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    Container(
+                      width: 128,
+                      margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: Color(0xffcccccc)),
+                            borderRadius: BorderRadius.circular(50)
+                          )
+                        ),
+                        onPressed: () {
+                          Get.to(const EditUserLevelScreen());
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                                child: const Icon(Remix.shield_user_line, size: 16, color: Color(0xff333333),),
+                              ),
+                              const Text("회원등급 관리",
+                                style: TextStyle(
+                                  fontFamily: StringUtils.pretendard,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  letterSpacing: -0.14,
+                                  color: Color(0xff333333)
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(

@@ -69,24 +69,24 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                           borderRadius: BorderRadius.circular(19)),
                       child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          fontFamily: StringUtils.pretendard,
-                          color: Colors.white,
-                        ),
-                        value: selectedStatus,
-                        items: statuses
-                            .map<DropdownMenuItem<String>>((value) =>
-                                DropdownMenuItem(
-                                    value: value, child: Text(value)))
-                            .toList(),
-                        onChanged: (String? value) => setState(() {
-                          selectedStatus = value ?? "조합검토기간";
-                        }),
-                        iconEnabledColor: Colors.white,
-                        iconDisabledColor: Colors.grey,
-                        dropdownColor: const Color(0xff0361f9),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              fontFamily: StringUtils.pretendard,
+                              color: Colors.white,
+                            ),
+                            value: selectedStatus,
+                            items: statuses
+                              .map<DropdownMenuItem<String>>((value) =>
+                                  DropdownMenuItem(
+                                      value: value, child: Text(value)))
+                              .toList(),
+                            onChanged: (String? value) => setState(() {
+                              selectedStatus = value ?? "조합검토기간";
+                            }),
+                            iconEnabledColor: Colors.white,
+                            iconDisabledColor: Colors.grey,
+                            dropdownColor: const Color(0xff0361f9),
                       )),
                     ),
                     Container(

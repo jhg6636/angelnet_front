@@ -128,7 +128,18 @@ class FundLp {
           )
       ),
       DataCell(
-        depositAt != null? Text(DateFormat('yyyy-MM-dd hh:mm').format(depositAt!)) : Container(
+        depositAt != null? Container(
+            width: 84,
+            height: 28,
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () async {
+                unCheckDeposit(id);
+                setState;
+              },
+              child: Text(DateFormat('yyyy-MM-dd hh:mm').format(depositAt!), style: WidgetUtils.dataTableDataStyle,)
+            )
+          ) : Container(
           width: 84,
           height: 28,
           alignment: Alignment.center,
@@ -187,6 +198,14 @@ Future<DateTime> checkDeposit(int lpId) async {
   var dateTimeList = jsonDecode(utf8.decode(response.bodyBytes));
 
   return DateTime(dateTimeList[0], dateTimeList[1], dateTimeList[2], dateTimeList[3], dateTimeList[4], dateTimeList[5]);
+}
+
+Future<http.Response> unCheckDeposit(int lpId) async {
+  return await http.put(
+    StringUtils().stringToUri("lp/deposit"),
+    body: lpId.toString(),
+    headers: await StringUtils().header()
+  );
 }
 
 Future<int> uploadLpDocument(int lpId, LpDocumentType type) async {

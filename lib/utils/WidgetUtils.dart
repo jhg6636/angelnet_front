@@ -465,6 +465,39 @@ class WidgetUtils {
     );
   }
 
+  static Widget buttonFrame(IconData icon, String text, Function() onPressed) {
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+              side: const BorderSide(color: Color(0xffcccccc)),
+              borderRadius: BorderRadius.circular(50)
+          )
+      ),
+      onPressed: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+              child: Icon(icon, size: 16, color: const Color(0xff333333),),
+            ),
+            Text(text,
+              style: const TextStyle(
+                  fontFamily: StringUtils.pretendard,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  letterSpacing: -0.14,
+                  color: Color(0xff333333)
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   static BoxDecoration textFieldBoxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(2),
     border: Border.all(color: const Color(0xffdddddd)),

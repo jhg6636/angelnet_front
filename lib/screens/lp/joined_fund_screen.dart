@@ -1,11 +1,10 @@
 import 'package:angelnet/models/file/file.dart';
 import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/models/fund/fund_document_type.dart';
+import 'package:angelnet/models/fund/fund_status.dart';
 import 'package:angelnet/models/lp/fund_document_submission.dart';
-import 'package:angelnet/models/lp/fund_lp.dart';
 import 'package:angelnet/models/lp/limited_partner.dart';
 import 'package:angelnet/models/lp/lp_document_type.dart';
-import 'package:angelnet/models/lp/lp_status.dart';
 import 'package:angelnet/screens/lp/fund_detail_screen.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
 import 'package:angelnet/utils/StringUtils.dart';
@@ -137,7 +136,7 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
               ),
               if (!widget.lp.fundStatus.isRunning()) Container(
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                child: lpStatusWidget(widget.lp.status),
+                child: fundStatusWidget(widget.lp.fundStatus),
               ),
               if (!widget.lp.fundStatus.isRunning()) Container(
                 height: 83,
@@ -160,7 +159,7 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
                           ),
                           child: const Icon(Remix.check_fill, size: 18, color: Colors.white,),
                         ),
-                        Text(widget.lp.status.joinedFundComment,
+                        Text(widget.lp.fundStatus.joinedFundComment,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 19,
@@ -691,14 +690,12 @@ class LpJoinedFundScreenState extends State<LpJoinedFundScreen> {
   }
 }
 
-Row lpStatusWidget(LpStatus status) {
+Row fundStatusWidget(FundStatus status) {
   var containers = <Widget>[];
-  for (var thisStatus in LpStatus.values) {
-    if (thisStatus == LpStatus.waiting) {
-      continue;
-    }
+  for (var thisStatus in FundStatus.values) {
+    if (thisStatus.index == 0 || thisStatus.index > 5) continue;
     containers.add((status == thisStatus) ? thisStatus.toEnabledWidget() : thisStatus.toDisabledWidget());
-    if (thisStatus.index != 5) {
+    if (thisStatus.index < 5) {
       containers.add(Container(
           margin: const EdgeInsets.fromLTRB(13, 0, 12, 0),
           child: const Text("▶", style: TextStyle(fontSize: 14, color: Color(0xff33363b)),)

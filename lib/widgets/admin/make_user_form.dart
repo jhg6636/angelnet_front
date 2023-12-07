@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../models/common/user_level.dart';
+import '../../models/common/user_type.dart';
 import '../../screens/user/reset_pw_screen.dart';
 import '../../utils/StringUtils.dart';
 import '../core/custom_alert_widget.dart';
@@ -41,8 +41,8 @@ class MakeUserFormState extends State<MakeUserForm> {
   TextEditingController _recommenderController = TextEditingController();
   TextEditingController _workspaceController = TextEditingController();
 
-  final _userLevelList = ['LP', 'STARTUP', 'ADMIN'];
-  var _userLevel = UserLevel.lp;
+  var _userType = UserType.lp;
+  var _userLevel = "VIP";
   bool? notDuplicated;
 
   @override
@@ -913,7 +913,7 @@ class MakeUserFormState extends State<MakeUserForm> {
             const Divider(color: Color(0xffdddddd),),
             if (widget.isAdmin) Container(
               margin: const EdgeInsets.fromLTRB(0, 41, 0, 8),
-              child: const Text("회원 등급", style: WidgetUtils.h1Style,),
+              child: const Text("회원 타입", style: WidgetUtils.h1Style,),
             ),
             if (widget.isAdmin) const Divider(thickness: 2, color: Color(0xff555555),),
             if (widget.isAdmin) Container(
@@ -926,11 +926,11 @@ class MakeUserFormState extends State<MakeUserForm> {
                   Radio(
                     activeColor: const Color(0xff505050),
                     splashRadius: 1,
-                    value: UserLevel.lp,
-                    groupValue: _userLevel,
+                    value: UserType.lp,
+                    groupValue: _userType,
                     onChanged: (value) {
                       setState(() {
-                        _userLevel = UserLevel.lp;
+                        _userType = UserType.lp;
                       });
                     },
                   ),
@@ -949,11 +949,11 @@ class MakeUserFormState extends State<MakeUserForm> {
                   Radio(
                     activeColor: const Color(0xff505050),
                     splashRadius: 1,
-                    value: UserLevel.admin,
-                    groupValue: _userLevel,
+                    value: UserType.admin,
+                    groupValue: _userType,
                     onChanged: (value) {
                       setState(() {
-                        _userLevel = UserLevel.admin;
+                        _userType = UserType.admin;
                       });
                     },
                   ),
@@ -971,6 +971,30 @@ class MakeUserFormState extends State<MakeUserForm> {
                   )
                 ],
               ),
+            ),
+            if (widget.isAdmin) const Divider(color: Color(0xffdddddd),),
+            if (widget.isAdmin) Container(
+              margin: const EdgeInsets.fromLTRB(0, 41, 0, 8),
+              child: const Text("회원 등급", style: WidgetUtils.h1Style,),
+            ),
+            if (widget.isAdmin) const Divider(thickness: 2, color: Color(0xff555555),),
+            if (widget.isAdmin) Container(
+              margin: const EdgeInsets.fromLTRB(0, 9, 0, 11),
+              padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _userLevel,
+                  items: const [
+                    DropdownMenuItem(value: "VIP", child: Text("VIP")),
+                    DropdownMenuItem(value: "최우수", child: Text("최우수")),
+                    DropdownMenuItem(value: "우수", child: Text("우수")),
+                    DropdownMenuItem(value: "일반", child: Text("일반")),
+                  ],
+                  onChanged: (String? value) { setState(() {
+                    _userLevel = value ?? "일반";
+                  }); },
+                ),
+              )
             ),
             if (widget.isAdmin) const Divider(color: Color(0xffdddddd),),
             Container(
@@ -1022,7 +1046,7 @@ class MakeUserFormState extends State<MakeUserForm> {
                               "${_emailFrontController.text}@${_emailBackController.text}",
                               _recommenderController.text,
                               _workspaceController.text,
-                              _userLevel
+                              _userType
                             );
                             if (response.statusCode != 200) {
                               print(jsonDecode(utf8.decode(response.bodyBytes)));

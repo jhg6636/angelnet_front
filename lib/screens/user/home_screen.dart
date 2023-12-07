@@ -311,10 +311,10 @@ class HomeScreenState extends State<HomeScreen> {
                             width: 640,
                             child: loginBlock
                         ),
-                        SizedBox(
-                            width: 640,
-                            child: idSaveCheckbox
-                        ),
+                        // SizedBox(
+                        //     width: 640,
+                        //     child: idSaveCheckbox
+                        // ),
                         Container(
                             width: 640,
                             margin: const EdgeInsets.fromLTRB(0, 32, 0, 0),
