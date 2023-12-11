@@ -196,8 +196,8 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                     child: DataTable(
                         columns: const [
                           DataColumn(label: Text("순위")),
-                          DataColumn(label: Text("조정")),
                           DataColumn(label: Text("등급명")),
+                          DataColumn(label: Text("저장")),
                           DataColumn(label: Text("삭제")),
                         ],
                         rows: snapshot
@@ -360,6 +360,7 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                     child: DataTable(
                         columns: const [
                           DataColumn(label: Text("등급명")),
+                          DataColumn(label: Text("저장")),
                           DataColumn(label: Text("삭제")),
                         ],
                         rows: snapshot

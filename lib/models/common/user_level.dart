@@ -25,37 +25,31 @@ class UserLevel {
   }
 
   DataRow generalLevelDataRow() {
+    final priorityController = TextEditingController(text: priority.toString());
+    final nameController = TextEditingController(text: name);
     return DataRow(
       cells: [
-        DataCell(Text(priority.toString())),
-        DataCell(Row(
-          children: [
-            WidgetUtils.circleButtonFrame(
-                const Color(0xffdddddd),
-                IconButton(
-                    padding: EdgeInsets.zero,
-                    splashRadius: 2.0,
-                    onPressed: () {},
-                    icon: const Icon(Remix.arrow_up_line, color: Color(0xff555555), size: 24,)
-                )
-            ),
-            const SizedBox(width: 8,),
-            WidgetUtils.circleButtonFrame(
-                const Color(0xffdddddd),
-                IconButton(
-                    padding: EdgeInsets.zero,
-                    splashRadius: 2.0,
-                    onPressed: () {},
-                    icon: const Icon(Remix.arrow_down_line, color: Color(0xff555555), size: 24,)
-                )
-            ),
-          ],
-        )),
+        DataCell(
+          TextField(
+            controller: priorityController,
+            decoration: const InputDecoration(),
+          )
+        ),
         DataCell(
             TextField(
-              controller: TextEditingController(text: name),
+              controller: nameController,
               decoration: const InputDecoration(),
             )
+        ),
+        DataCell(
+          WidgetUtils.circleButtonFrame(const Color(0xff333333), IconButton(
+              padding: EdgeInsets.zero,
+              splashRadius: 2.0,
+              onPressed: () {
+                // todo post api
+              },
+              icon: const Icon(Remix.save_line, color: Colors.white, size: 24,)
+          ))
         ),
         DataCell(
             WidgetUtils.circleButtonFrame(
@@ -73,9 +67,25 @@ class UserLevel {
   }
 
   DataRow specialLevelDataRow() {
+    final nameController = TextEditingController(text: name);
     return DataRow(
       cells: [
-        DataCell(Text(name)),
+        DataCell(
+          TextField(
+            controller: nameController,
+            decoration: const InputDecoration(),
+          )
+        ),
+        DataCell(
+            WidgetUtils.circleButtonFrame(const Color(0xff333333), IconButton(
+                padding: EdgeInsets.zero,
+                splashRadius: 2.0,
+                onPressed: () {
+                  // todo post api
+                },
+                icon: const Icon(Remix.save_line, color: Colors.white, size: 24,)
+            ))
+        ),
         DataCell(WidgetUtils.circleButtonFrame(
             ColorUtils.negativeColor,
             IconButton(
