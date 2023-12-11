@@ -351,61 +351,8 @@ class FundDetailAdminScreenState extends State<FundDetailAdminScreen> {
                                           color: Color(0xff282728),
                                           letterSpacing: -0.17)),
                                 )),
-                      )),
-
-                  // Flexible(
-                  //     flex: 1,
-                  //     child: InkWell(
-                  //       onTap: () {
-                  //         setState(() {
-                  //           selectedMenu = '진행정보 관리';
-                  //         });
-                  //       },
-                  //       child: (selectedMenu == '진행정보 관리')? ClipPath(
-                  //           clipper: CustomBorderClipper(),
-                  //           child: Container(
-                  //               height: 62,
-                  //               decoration: const BoxDecoration(
-                  //                   color: Colors.white,
-                  //                   border: Border(
-                  //                     top: BorderSide(color: Color(0xff1173f9), width: 2),
-                  //                     left: BorderSide(color: Color(0xff1173f9), width: 2),
-                  //                     right: BorderSide(color: Color(0xff1173f9), width: 2),
-                  //                   )
-                  //               ),
-                  //               child: const Center(
-                  //                 child: Text("진행정보 관리",
-                  //                   style: TextStyle(
-                  //                       fontFamily: StringUtils.pretendard,
-                  //                       fontSize: 17,
-                  //                       fontWeight: FontWeight.w600,
-                  //                       color: Color(0xff1173f9),
-                  //                       letterSpacing: -0.17
-                  //                   ),
-                  //                 ),
-                  //               )
-                  //           )
-                  //       ) :
-                  //       Container(
-                  //           height: 62,
-                  //           decoration: const BoxDecoration(
-                  //               color: Color(0xfff9f9f9),
-                  //               border: Border(bottom: BorderSide(color: Color(0xff1173f9), width: 2))
-                  //           ),
-                  //           child: const Center(
-                  //             child: Text("진행정보 관리",
-                  //               style: TextStyle(
-                  //                   fontFamily: StringUtils.pretendard,
-                  //                   fontSize: 17,
-                  //                   fontWeight: FontWeight.w400,
-                  //                   color: Color(0xff282728),
-                  //                   letterSpacing: -0.17
-                  //               ),
-                  //             ),
-                  //           )
-                  //       ),
-                  //     )
-                  // ),
+                      )
+                  ),
                   Flexible(
                       flex: 1,
                       child: InkWell(

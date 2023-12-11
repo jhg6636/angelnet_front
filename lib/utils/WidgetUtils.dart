@@ -459,9 +459,8 @@ class WidgetUtils {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: color,
-        // border: Border.all(color: )
       ),
-      child: button
+      child: Center(child: button,)
     );
   }
 
@@ -648,22 +647,22 @@ class WidgetUtils {
                         )
                     )
                 ),
-                if (isAdmin) Container(
-                    margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                    child: TextButton(
-                      onPressed: () {
-                        Get.to(const ManageGroupScreen());
-                      },
-                      child: const Text("그룹관리",
-                        style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: StringUtils.pretendard,
-                        ),
-                      ),
-                    )
-                ),
+                // if (isAdmin) Container(
+                //     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                //     child: TextButton(
+                //       onPressed: () {
+                //         Get.to(const ManageGroupScreen());
+                //       },
+                //       child: const Text("그룹관리",
+                //         style: TextStyle(
+                //           color: Color(0xff333333),
+                //           fontSize: 19,
+                //           fontWeight: FontWeight.bold,
+                //           fontFamily: StringUtils.pretendard,
+                //         ),
+                //       ),
+                //     )
+                // ),
                 if (isAdmin) Container(
                     margin: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: TextButton(
@@ -903,5 +902,26 @@ class WidgetUtils {
       ],
     ),
   );
+
+  static Widget actionButton(String text, Function() onPressed) {
+    return FilledButton(
+        style: FilledButton.styleFrom(
+            foregroundColor: ColorUtils.actionColor,
+            backgroundColor: ColorUtils.actionColor,
+            fixedSize: const Size(120, 48),
+            shape: const RoundedRectangleBorder()
+        ),
+        onPressed: onPressed,
+        child: Text(text,
+          style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              fontFamily: StringUtils.pretendard,
+              letterSpacing: -0.32,
+              color: Colors.white
+          ),
+        )
+    );
+  }
 
 }

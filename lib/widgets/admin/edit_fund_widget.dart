@@ -2,6 +2,7 @@ import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/models/fund/fund_status.dart';
 import 'package:angelnet/models/fund/fund_type.dart';
 import 'package:angelnet/screens/admin/manage_fund_screen.dart';
+import 'package:angelnet/screens/lp/edit_fund_visibility_screen.dart';
 import 'package:angelnet/utils/CustomInputFormatters.dart';
 import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
@@ -97,9 +98,16 @@ class FundFormWidgetState extends State<FundFormWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "기본정보",
-          style: WidgetUtils.h1Style,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text(
+              "기본정보",
+              style: WidgetUtils.h1Style,
+            ),
+            if (widget.fund != null) WidgetUtils.actionButton("등급설정", () => Get.to(EditFundVisibilityScreen(fund: widget.fund!)))
+          ],
         ),
         Container(
           margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
