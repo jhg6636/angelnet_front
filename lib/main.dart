@@ -10,9 +10,9 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-const version = '1.9';
-// const serverAddress = 'dev.angelnet.co.kr';
-const serverAddress = 'localhost:8081';
+const version = '1.10';
+const serverAddress = 'dev.angelnet.co.kr';
+// const serverAddress = 'localhost:8081';
 const secureStorage = FlutterSecureStorage();
 var storage = {};
 

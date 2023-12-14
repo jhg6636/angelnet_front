@@ -167,6 +167,7 @@ class EditFundVisibilityScreenState extends State<EditFundVisibilityScreen> {
                             () => Get.back(),
                             () {
                               // todo post API
+                              setFundUserLevel(widget.fund.id, selectedLevel!.id, strategy);
                               Get.back();
                             },
                       align: MainAxisAlignment.end

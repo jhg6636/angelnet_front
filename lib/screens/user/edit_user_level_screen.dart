@@ -20,13 +20,6 @@ class EditUserLevelScreen extends StatefulWidget {
 
 class EditUserLevelScreenState extends State<EditUserLevelScreen> {
 
-  var generalLevels = [];
-  var specialLevels = [];
-
-  var newLevels = [];
-  var changingLevels = [];
-  var deletingLevels = [];
-
   @override
   Widget build(BuildContext context) {
     return ScreenFrameV2(
@@ -168,7 +161,9 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                                       },
                                       () async {
                                         Navigator.pop(context);
-                                        makeUserLevel(levelController.text, false);
+                                        var response = await makeUserLevel(levelController.text, false);
+                                        print(response.body);
+                                        print(response.statusCode);
                                         setState(() {});
                                       },
                                       align: MainAxisAlignment.end),
@@ -190,7 +185,6 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                 if (snapshot.hasError || !snapshot.hasData) {
                   return const Center(child: Text("등급이 없습니다.", style: WidgetUtils.dataTableDataStyle,));
                 } else {
-                  generalLevels.addAll(snapshot.data ?? []);
                   return SizedBox(
                     width: 1080,
                     child: DataTable(

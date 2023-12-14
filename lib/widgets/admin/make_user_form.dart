@@ -989,8 +989,12 @@ class MakeUserFormState extends State<MakeUserForm> {
                     StringUtils().printError(snapshot);
                     return const Text("에러발생", style: WidgetUtils.dataTableDataStyle);
                   } else {
-                    print(widget.user!.userLevelId);
-                    _userLevel ??= snapshot.data!.firstWhere((element) => element.id == widget.user!.userLevelId);
+                    if (widget.user == null) {
+                      _userLevel = snapshot.data!.last;
+                    } else {
+                      print(widget.user!.userLevelId);
+                      _userLevel ??= snapshot.data!.firstWhere((element) => element.id == widget.user!.userLevelId);
+                    }
                     return DropdownButtonHideUnderline(
                       child: DropdownButton<UserLevel>(
                         value: _userLevel,
