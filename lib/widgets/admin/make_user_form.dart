@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:angelnet/models/common/user.dart';
+import 'package:angelnet/models/common/user_level.dart';
 import 'package:angelnet/screens/admin/manage_user_screen.dart';
 import 'package:angelnet/screens/lp/lp_mypage.dart';
 import 'package:angelnet/screens/user/sign_up_welcome_screen.dart';
@@ -42,7 +43,7 @@ class MakeUserFormState extends State<MakeUserForm> {
   TextEditingController _workspaceController = TextEditingController();
 
   var _userType = UserType.lp;
-  var _userLevel = "VIP";
+  UserLevel? _userLevel;
   bool? notDuplicated;
 
   @override
@@ -981,19 +982,34 @@ class MakeUserFormState extends State<MakeUserForm> {
             if (widget.isAdmin) Container(
               margin: const EdgeInsets.fromLTRB(0, 9, 0, 11),
               padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: _userLevel,
-                  items: const [
-                    DropdownMenuItem(value: "VIP", child: Text("VIP")),
-                    DropdownMenuItem(value: "최우수", child: Text("최우수")),
-                    DropdownMenuItem(value: "우수", child: Text("우수")),
-                    DropdownMenuItem(value: "일반", child: Text("일반")),
-                  ],
-                  onChanged: (String? value) { setState(() {
-                    _userLevel = value ?? "일반";
-                  }); },
-                ),
+              child: FutureBuilder(
+                future: getAllUserLevels(),
+                builder: (BuildContext context, AsyncSnapshot<List<UserLevel>> snapshot) {
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    StringUtils().printError(snapshot);
+                    return const Text("에러발생", style: WidgetUtils.dataTableDataStyle);
+                  } else {
+                    print(widget.user!.userLevelId);
+                    _userLevel ??= snapshot.data!.firstWhere((element) => element.id == widget.user!.userLevelId);
+                    return DropdownButtonHideUnderline(
+                      child: DropdownButton<UserLevel>(
+                        value: _userLevel,
+                        items: snapshot
+                            .data!
+                            .map((userLevel) => DropdownMenuItem(
+                              value: userLevel,
+                              child: Text(userLevel.name)
+                            ))
+                            .toList(),
+                        onChanged: (UserLevel? value) async {
+                          _userLevel = value;
+                          var response = await changeUserLevel(widget.user!.id, _userLevel!.id);
+                          setState(() {});
+                        },
+                      ),
+                    );
+                  }
+                },
               )
             ),
             if (widget.isAdmin) const Divider(color: Color(0xffdddddd),),

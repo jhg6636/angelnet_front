@@ -166,11 +166,10 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                                       () {
                                         Navigator.pop(context);
                                       },
-                                      () {
+                                      () async {
                                         Navigator.pop(context);
-                                        setState(() {
-                                          generalLevels.add(levelController.text);
-                                        });
+                                        makeUserLevel(levelController.text, false);
+                                        setState(() {});
                                       },
                                       align: MainAxisAlignment.end),
                                 ],
@@ -191,6 +190,7 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                 if (snapshot.hasError || !snapshot.hasData) {
                   return const Center(child: Text("등급이 없습니다.", style: WidgetUtils.dataTableDataStyle,));
                 } else {
+                  generalLevels.addAll(snapshot.data ?? []);
                   return SizedBox(
                     width: 1080,
                     child: DataTable(
@@ -203,7 +203,7 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                         rows: snapshot
                             .data!
                             .where((userLevel) => userLevel.priority > -1)
-                            .map((userLevel) => userLevel.generalLevelDataRow())
+                            .map((userLevel) => userLevel.generalLevelDataRow(context, setState))
                             .toList(),
                     ),
                   );
@@ -326,14 +326,13 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                                       WidgetUtils().buttonBar(
                                           "취소",
                                           "저장",
-                                              () {
+                                          () {
                                             Navigator.pop(context);
                                           },
-                                              () {
+                                          () async {
                                             Navigator.pop(context);
-                                            setState(() {
-                                              specialLevels.add(levelController.text);
-                                            });
+                                            makeUserLevel(levelController.text, true);
+                                            setState(() {});
                                           },
                                           align: MainAxisAlignment.end
                                       ),
@@ -366,7 +365,7 @@ class EditUserLevelScreenState extends State<EditUserLevelScreen> {
                         rows: snapshot
                             .data!
                             .where((userLevel) => userLevel.priority == -1)
-                            .map((userLevel) => userLevel.specialLevelDataRow())
+                            .map((userLevel) => userLevel.specialLevelDataRow(context, setState))
                             .toList()
                     ),
                   );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:angelnet/utils/StringUtils.dart';
+import 'package:angelnet/widgets/core/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:remixicon/remixicon.dart';
@@ -24,9 +25,9 @@ class UserLevel {
     );
   }
 
-  DataRow generalLevelDataRow() {
-    final priorityController = TextEditingController(text: priority.toString());
-    final nameController = TextEditingController(text: name);
+  DataRow generalLevelDataRow(BuildContext context, Function(Function ()) setState) {
+    var priorityController = TextEditingController(text: priority.toString());
+    var nameController = TextEditingController(text: name);
     return DataRow(
       cells: [
         DataCell(
@@ -45,8 +46,15 @@ class UserLevel {
           WidgetUtils.circleButtonFrame(const Color(0xff333333), IconButton(
               padding: EdgeInsets.zero,
               splashRadius: 2.0,
-              onPressed: () {
+              onPressed: () async {
                 // todo post api
+                var response = await modifyUserLevel(UserLevel(id: id, name: nameController.text, priority: int.parse(priorityController.text)));
+                print('here');
+                print(response.statusCode);
+                showDialog(context: context, builder: (BuildContext context) {
+                  return CustomAlertWidget().informationWidget(context, "저장되었습니다.", "");
+                });
+                setState;
               },
               icon: const Icon(Remix.save_line, color: Colors.white, size: 24,)
           ))
@@ -66,7 +74,7 @@ class UserLevel {
     );
   }
 
-  DataRow specialLevelDataRow() {
+  DataRow specialLevelDataRow(BuildContext context, Function(Function()) setState) {
     final nameController = TextEditingController(text: name);
     return DataRow(
       cells: [
@@ -80,8 +88,13 @@ class UserLevel {
             WidgetUtils.circleButtonFrame(const Color(0xff333333), IconButton(
                 padding: EdgeInsets.zero,
                 splashRadius: 2.0,
-                onPressed: () {
+                onPressed: () async {
                   // todo post api
+                  await modifyUserLevel(UserLevel(id: id, name: nameController.text, priority: -1));
+                  showDialog(context: context, builder: (BuildContext context) {
+                    return WidgetUtils.okMessage("저장되었습니다.");
+                  });
+                  setState;
                 },
                 icon: const Icon(Remix.save_line, color: Colors.white, size: 24,)
             ))
@@ -99,6 +112,15 @@ class UserLevel {
     );
   }
 
+  @override
+  bool operator ==(dynamic other) {
+    return other is UserLevel && other.id == id;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
+
 }
 
 Future<List<UserLevel>> getAllUserLevels() async {
@@ -107,7 +129,10 @@ Future<List<UserLevel>> getAllUserLevels() async {
     headers: await StringUtils().header()
   );
 
-  return jsonDecode(utf8.decode(response.bodyBytes)).map((json) => UserLevel.fromJson(json));
+  print(response.body);
+
+  return (jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>)
+      .map<UserLevel>((json) => UserLevel.fromJson(json)).toList();
 }
 
 Future<http.Response> makeUserLevel(String name, bool isSpecial) async {
@@ -119,6 +144,7 @@ Future<http.Response> makeUserLevel(String name, bool isSpecial) async {
 }
 
 Future<http.Response> modifyUserLevel(UserLevel userLevel) async {
+  print(userLevel.name);
   return await http.put(
     StringUtils().stringToUri('/level'),
     body: jsonEncode({'id': userLevel.id, 'name': userLevel.name, 'priority': userLevel.priority}),

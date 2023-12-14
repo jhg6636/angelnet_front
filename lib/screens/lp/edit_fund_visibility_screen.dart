@@ -1,5 +1,7 @@
+import 'package:angelnet/models/common/user_level.dart';
 import 'package:angelnet/models/fund/fund.dart';
 import 'package:angelnet/screens/screen_frame_v2.dart';
+import 'package:angelnet/utils/StringUtils.dart';
 import 'package:angelnet/utils/WidgetUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,7 @@ class EditFundVisibilityScreen extends StatefulWidget {
 
 class EditFundVisibilityScreenState extends State<EditFundVisibilityScreen> {
 
-  var selectedLevel = "VIP";
+  UserLevel? selectedLevel;
   var strategy = "UPPER";
 
   @override
@@ -72,41 +74,53 @@ class EditFundVisibilityScreenState extends State<EditFundVisibilityScreen> {
                         )
                       ],
                     ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 32),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text("회원등급", style: WidgetUtils.regularStyle,),
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                            decoration: BoxDecoration(
-                              color: const Color(0xfff4f4f4),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  value: selectedLevel,
-                                  dropdownColor: const Color(0xfff4f4f4),
-                                  focusColor: const Color(0xfff4f4f4),
-                                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                                  items: const [
-                                    DropdownMenuItem(value: "VIP", child: Text("VIP")),
-                                    DropdownMenuItem(value: "최우수", child: Text("최우수")),
-                                    DropdownMenuItem(value: "우수", child: Text("우수")),
-                                    DropdownMenuItem(value: "일반", child: Text("일반")),
-                                  ],
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      selectedLevel = value ?? "VIP";
-                                    });
-                                  },
+                    FutureBuilder(
+                      future: getAllUserLevels(),
+                      builder: (BuildContext context, AsyncSnapshot<List<UserLevel>> snapshot) {
+                        if (snapshot.hasError || !snapshot.hasData) {
+                          StringUtils().printError(snapshot);
+                          return const Text("에러발생", style: WidgetUtils.regularStyle,);
+                        } else {
+                          selectedLevel ??= snapshot.data!.first;
+                          print(snapshot.data);
+                          print(snapshot.data!.map((userLevel) =>
+                              DropdownMenuItem(value: userLevel, child: Text(userLevel.name))
+                          ).toList());
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 32),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Text("회원등급", style: WidgetUtils.regularStyle,),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xfff4f4f4),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<UserLevel>(
+                                        value: selectedLevel,
+                                        dropdownColor: const Color(0xfff4f4f4),
+                                        focusColor: const Color(0xfff4f4f4),
+                                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                                        items: snapshot.data!.map((userLevel) =>
+                                          DropdownMenuItem(value: userLevel, child: Text(userLevel.name))
+                                        ).toList(),
+                                        onChanged: (UserLevel? value) {
+                                          setState(() {
+                                            selectedLevel = value ?? snapshot.data!.first;
+                                          });
+                                        },
+                                      )
+                                  ),
                                 )
+                              ],
                             ),
-                          )
-                        ],
-                      ),
+                          );
+                        }
+                      }
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

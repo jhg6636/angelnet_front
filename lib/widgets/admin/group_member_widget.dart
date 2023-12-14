@@ -353,7 +353,7 @@ class GroupMemberWidgetState extends State<GroupMemberWidget> {
         },
         cells: [
           DataCell(Text(index.toString())),
-          DataCell(Text(user.userLevel.korean)),
+          DataCell(Text(user.userType.korean)),
           DataCell(Text(user.name)),
           DataCell(Text(user.stringId)),
           DataCell(Text(user.phone)),

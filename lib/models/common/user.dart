@@ -19,25 +19,27 @@ class User {
   int id;
   String stringId;
   String name;
-  UserType userLevel;
+  UserType userType;
   String? workplace;
   String phone;
   String email;
   String? recommender;
   DateTime createdAt;
   DateTime lastLoginAt;
+  int userLevelId;
 
   User({
     required this.id,
     required this.stringId,
     required this.name,
-    required this.userLevel,
+    required this.userType,
     required this.workplace,
     required this.phone,
     required this.email,
     required this.recommender,
     required this.createdAt,
     required this.lastLoginAt,
+    required this.userLevelId,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -45,7 +47,7 @@ class User {
       id: json['id'],
       stringId: json['stringId'],
       name: json['name'],
-      userLevel: UserType.fromEnglish(json['level']),
+      userType: UserType.fromEnglish(json['type']),
       workplace: json['workplace'],
       phone: json['phone'],
       email: json['email'],
@@ -59,6 +61,7 @@ class User {
           json['lastLoginAt'][3],
           json['lastLoginAt'][4],
           json['lastLoginAt'][5]),
+      userLevelId: json['userLevelId'] ?? -1
     );
   }
 
@@ -67,7 +70,7 @@ class User {
       id: json['id'],
       stringId: json['stringId'],
       name: json['name'],
-      userLevel: UserType.fromEnglish(json['level']),
+      userType: UserType.fromEnglish(json['level']),
       workplace: json['workplace'],
       phone: json['phone'],
       email: json['email'],
@@ -75,6 +78,7 @@ class User {
       createdAt: DateTime.now(),
       // garbage
       lastLoginAt: DateTime.now(), // garbage
+      userLevelId: -1 //garbage
     );
   }
 
@@ -144,7 +148,7 @@ class User {
         ],
       )),
       DataCell(Text((index + 1).toString())),
-      DataCell(Text(userLevel.korean)),
+      DataCell(Text(userType.korean)),
       DataCell(Text(name)),
       DataCell(Text(stringId)),
       DataCell(Text(phone)),
@@ -170,7 +174,7 @@ class User {
       },
       cells: [
         DataCell(Text(index.toString())),
-        DataCell(Text(userLevel.korean)),
+        DataCell(Text(userType.korean)),
         DataCell(Text(name)),
         DataCell(Text(stringId)),
         DataCell(Text(phone)),
